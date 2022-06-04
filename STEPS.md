@@ -1,0 +1,16 @@
+### 1️⃣ 2022-06-04 02:02
+
+```shell
+cd pro/react/money/
+mkdir ypbooking-admin2
+cd !$
+git clone https://OchenashK@bitbucket.org/ceotravelvee/admin2.git .
+
+yarn create react-app . --template typescript
+```
+
+### 2️⃣ add packages:
+
+```shell
+yarn add react-router-dom react-redux @reduxjs/toolkit sass
+```
