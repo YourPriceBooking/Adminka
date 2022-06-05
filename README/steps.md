@@ -13,4 +13,5 @@ yarn create react-app . --template typescript
 
 ```shell
 yarn add react-router-dom react-redux @reduxjs/toolkit sass
+yarn add styled-components @types/styled-components
 ```

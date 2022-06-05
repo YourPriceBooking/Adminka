@@ -1,35 +1,29 @@
-import { lazy, Suspense } from 'react';
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
-import { selectAuth } from 'store/store';
+import { lazy } from 'react';
+import { Navigate, Outlet, Routes, Route } from 'react-router-dom';
+import { selectIsLoggedIn } from 'redux/slices';
+import { Layout } from 'components/Layout';
+import { useAppSelector } from 'hooks/redux/hooks';
 
-import { useSelector } from 'react-redux';
-import { AppBar } from 'components/shared/AppBar';
-
-const Countries = lazy(() => import('components/Countries'));
-
-export const Layout = () => {
-  return (
-    <>
-      <AppBar />
-      <Suspense>{<Outlet />}</Suspense>
-    </>
-  );
-};
+const AddCountries = lazy(() => import('components/pages/AddCountries'));
+const HomePage = lazy(() => import('pages/HomePage'));
 
 export const PrivateRoute = () => {
-  const auth = useSelector(selectAuth);
+  const auth = useAppSelector(selectIsLoggedIn);
   return !auth ? <Navigate to="/" /> : <Outlet />;
 };
 
 export const RouterConfig = () => (
   <Routes>
     <Route path="/" element={<Layout />}>
+      <Route index element={<HomePage />} />
       {/* <Route index element={<Login />} /> */}
 
       <Route element={<PrivateRoute />}>
-        <Route path="countries" element={<Countries />} />
+        <Route path="/countries" element={<AddCountries />} />
         {/* <Route path="menu" element={<Menu />} /> */}
       </Route>
     </Route>
+
+    <Route path="*" element={<Navigate to="/" replace />} />
   </Routes>
 );

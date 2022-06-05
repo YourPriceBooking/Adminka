@@ -1,9 +1,9 @@
 import { createRoot } from 'react-dom/client';
 import { StrictMode } from 'react';
 import { Provider } from 'react-redux';
-import { store } from 'store/store';
+import { store } from 'redux/store';
 import { BrowserRouter } from 'react-router-dom';
-import './theme/index.css';
+import './styles/index.css';
 import App from 'App';
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
