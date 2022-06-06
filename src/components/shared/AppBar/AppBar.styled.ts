@@ -2,23 +2,31 @@ import styled from 'styled-components';
 
 export const AppBarStyled = styled.header`
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   gap: 30px;
-  padding: 20px 30px;
+  padding: 0 30px;
 
-  min-height: 20vh;
+  min-height: 50px;
   font-size: calc(10px + 2vmin);
   color: white;
   background-color: ${({ theme }) => theme.colors.bg}; ;
 `;
 
-export const NavBar = styled.nav``;
+export const AppLogo = styled.img`
+  height: 50px;
+  width: 50px;
 
-export const NavList = styled.ul`
-  display: flex;
-  gap: 30px;
-  list-style: none;
-  padding: 0;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: spin infinite 20s linear;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
 `;
