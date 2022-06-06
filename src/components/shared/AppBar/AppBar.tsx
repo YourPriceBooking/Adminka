@@ -1,4 +1,4 @@
-import logo from 'assets/icons/logo.svg';
+import iconLogo from 'assets/icons/iconLogo.svg';
 import { AppBarStyled, AppLogo } from './AppBar.styled';
 import { NavBar } from './NavBar/NavBar';
 import { ThemeSwitch } from 'components/shared/ThemeSwitch';
@@ -6,7 +6,7 @@ import { ThemeSwitch } from 'components/shared/ThemeSwitch';
 export const AppBar = () => {
   return (
     <AppBarStyled>
-      <AppLogo src={logo} alt="logo" />
+      <AppLogo src={iconLogo} alt="logo" />
 
       <NavBar />
 
