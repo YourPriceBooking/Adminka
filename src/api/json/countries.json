@@ -1,0 +1,29 @@
+{
+  "status": "success",
+  "code": 200,
+  "data": {
+    "result": [
+      {
+        "_id": "6296040304383c63199e79e2",
+        "country": "ruuuu",
+        "langCode": "UU",
+        "createdAt": "2022-05-31T12:03:15.660Z",
+        "updatedAt": "2022-05-31T12:03:15.660Z"
+      },
+      {
+        "_id": "62960433ae648c191a362663",
+        "country": "JJJJJJ",
+        "langCode": "PP",
+        "createdAt": "2022-05-31T12:04:03.767Z",
+        "updatedAt": "2022-05-31T12:31:28.931Z"
+      },
+      {
+        "_id": "629b96f52a9ed1c074725d52",
+        "country": "iiiip",
+        "langCode": "PL",
+        "createdAt": "2022-06-04T17:31:33.952Z",
+        "updatedAt": "2022-06-04T17:31:33.952Z"
+      }
+    ]
+  }
+}

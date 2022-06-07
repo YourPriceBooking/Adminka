@@ -14,7 +14,14 @@ import {
   TextMediumAccent,
 } from './Home.styled';
 
-const HomeNavList = () => {
+interface HomeNavListInterface {
+  users: number;
+  hoteliers: number;
+  agents: number;
+  objects: number;
+}
+
+const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface) => {
   const location = useLocation();
 
   return (
@@ -37,8 +44,9 @@ const HomeNavList = () => {
 
       <HomeNavItem>
         <Link to="/countries" state={location}>
-          <p>Списки локаций</p>
-
+          <p>Языки</p> {/* Languages Мови */}
+          <p>Страны</p> {/* Countries Країни */}
+          <p>Списки локаций</p> {/* Locations */}
           <TextAccent>1 2 3</TextAccent>
         </Link>
       </HomeNavItem>
@@ -51,14 +59,28 @@ const HomeNavList = () => {
             <StatsListItem>
               <TextMedium>
                 <span>Юзеры: </span>
-                <TextMediumAccent as="span">103</TextMediumAccent>
+                <TextMediumAccent as="span">{users}</TextMediumAccent>
               </TextMedium>
             </StatsListItem>
 
             <StatsListItem>
               <TextMedium>
                 <span>Отельеры: </span>
-                <TextMediumAccent as="span">75</TextMediumAccent>
+                <TextMediumAccent as="span">{hoteliers}</TextMediumAccent>
+              </TextMedium>
+            </StatsListItem>
+
+            <StatsListItem>
+              <TextMedium>
+                <span>Агенты: </span>
+                <TextMediumAccent as="span">{agents}</TextMediumAccent>
+              </TextMedium>
+            </StatsListItem>
+
+            <StatsListItem>
+              <TextMedium>
+                <span>Объекты: </span>
+                <TextMediumAccent as="span">{objects}</TextMediumAccent>
               </TextMedium>
             </StatsListItem>
           </StatsList>
@@ -78,7 +100,7 @@ export default function Home() {
   return (
     <HomeStyled>
       <Container>
-        <HomeNavList />
+        <HomeNavList users={10000} hoteliers={100} agents={2000} objects={3500} />
       </Container>
     </HomeStyled>
   );

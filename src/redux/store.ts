@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { baseApi } from './apis';
 import { authReducer, countriesReducer, langReducer, themeReducer } from './slices';
 
 export const store = configureStore({
@@ -7,7 +8,10 @@ export const store = configureStore({
     lang: langReducer,
     theme: themeReducer,
     countries: countriesReducer,
+    [baseApi.reducerPath]: baseApi.reducer,
   },
+
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(baseApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

@@ -1,0 +1,29 @@
+{
+  "status": "success",
+  "code": 200,
+  "data": {
+    "result": [
+      {
+        "_id": "6295c6021ae198a10eee3731",
+        "lang": "English",
+        "code": "EN",
+        "createdAt": "2022-05-31T07:38:42.273Z",
+        "updatedAt": "2022-05-31T07:38:42.273Z"
+      },
+      {
+        "_id": "6295c6251ae198a10eee3733",
+        "lang": "Українська",
+        "code": "UA",
+        "createdAt": "2022-05-31T07:39:17.046Z",
+        "updatedAt": "2022-05-31T07:39:17.046Z"
+      },
+      {
+        "_id": "6295c6651ae198a10eee3735",
+        "lang": "Polski",
+        "code": "PL",
+        "createdAt": "2022-05-31T07:40:21.301Z",
+        "updatedAt": "2022-05-31T11:46:48.150Z"
+      }
+    ]
+  }
+}
