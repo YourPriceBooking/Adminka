@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Container } from 'components/shared/Container';
 // import {
 //   selectLanguageList,
 //   generateLanguage,
@@ -109,17 +110,19 @@ export default function SelectLang() {
 
   return (
     <>
-      <div className={slang.lang_container} onClick={codeTouch}>
-        <p className={slang.block_lang_p}>{language2.landTex}</p>
-        <p className={slang.block_lang_p2}>{language2.language}</p>
-        {/* <input
+      <Container>
+        <h1>Language Page</h1>
+        <div className={slang.lang_container} onClick={codeTouch}>
+          <p className={slang.block_lang_p}>{language2.landTex}</p>
+          <p className={slang.block_lang_p2}>{language2.language}</p>
+          {/* <input
           type="text"
           name="language"
           className={slang.lang_block_input1}
           value={language2.landTex}
         /> */}
 
-        {/* <select1
+          {/* <select1
           className={slang.lang_block_select}
           onChange={(e) => {
             e.preventDefault()
@@ -138,66 +141,67 @@ export default function SelectLang() {
             )
           })}
         </select> */}
-      </div>
+        </div>
 
-      {touch && (
-        <div className={slang.modal__backdrop}>
-          <div className={slang.container_add_lang}>
-            <div className={slang.block_lang}>
-              <ul className={slang.block_lang_ul}>
-                {language1.map((item, index) => (
-                  <li
-                    className={slang.block_lang_li}
-                    value={item.language}
-                    key={index}
-                    onClick={e => selectLang(e, item)}
-                  >
-                    {item.landTex}
-                    <p className={slang.block_lang_li_p}>{item.language}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className={slang.block_add_lang_text}>
-              <h5 className={slang.text_add_lang1}>
-                You can add a language, enter the name of the language in the original language and
-                its international designation
-              </h5>
-              <input
-                type="text"
-                name="landTex"
-                className={slang.lang_block_input2}
-                onChange={onChange2}
-                maxLength={20}
-                value={language3.landTex}
-              />
-              <h5 className={slang.text_add_lang2}>
-                name of the language in the original language
-              </h5>
-              <input
-                type="text"
-                name="language"
-                className={slang.lang_block_input3}
-                onChange={onChange2}
-                maxLength={5}
-                value={language3.language}
-              />
-              <h5 className={slang.text_add_lang3}>international designation</h5>
-              <button
-                disabled={language3[0].landTex && language3[0].language !== '' ? false : true}
-                className={
-                  language3[0].landTex && language3[0].language !== ''
-                    ? slang.language_btn_style_open
-                    : slang.language_btn_style_disable
-                }
-                onClick={codeClose}
-              >
-                Add language
-              </button>
+        {touch && (
+          <div className={slang.modal__backdrop}>
+            <div className={slang.container_add_lang}>
+              <div className={slang.block_lang}>
+                <ul className={slang.block_lang_ul}>
+                  {language1.map((item, index) => (
+                    <li
+                      className={slang.block_lang_li}
+                      value={item.language}
+                      key={index}
+                      onClick={e => selectLang(e, item)}
+                    >
+                      {item.landTex}
+                      <p className={slang.block_lang_li_p}>{item.language}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className={slang.block_add_lang_text}>
+                <h5 className={slang.text_add_lang1}>
+                  You can add a language, enter the name of the language in the original language
+                  and its international designation
+                </h5>
+                <input
+                  type="text"
+                  name="landTex"
+                  className={slang.lang_block_input2}
+                  onChange={onChange2}
+                  maxLength={20}
+                  value={language3.landTex}
+                />
+                <h5 className={slang.text_add_lang2}>
+                  name of the language in the original language
+                </h5>
+                <input
+                  type="text"
+                  name="language"
+                  className={slang.lang_block_input3}
+                  onChange={onChange2}
+                  maxLength={5}
+                  value={language3.language}
+                />
+                <h5 className={slang.text_add_lang3}>international designation</h5>
+                <button
+                  disabled={language3[0].landTex && language3[0].language !== '' ? false : true}
+                  className={
+                    language3[0].landTex && language3[0].language !== ''
+                      ? slang.language_btn_style_open
+                      : slang.language_btn_style_disable
+                  }
+                  onClick={codeClose}
+                >
+                  Add language
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </Container>
     </>
   );
 }
