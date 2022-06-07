@@ -5,6 +5,7 @@ import { Layout } from 'components/Layout';
 import { useAppSelector } from 'hooks/redux/hooks';
 
 const AddCountries = lazy(() => import('components/pages/AddCountries'));
+const AddLanguage = lazy(() => import('components/pages/SelectLang'));
 const HomePage = lazy(() => import('pages/HomePage'));
 
 export const PrivateRoute = () => {
@@ -20,6 +21,7 @@ export const RouterConfig = () => (
 
       <Route element={<PrivateRoute />}>
         <Route path="/countries" element={<AddCountries />} />
+        <Route path="/language" element={<AddLanguage />} />
         {/* <Route path="menu" element={<Menu />} /> */}
       </Route>
     </Route>

@@ -1,97 +1,111 @@
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-  selectLanguageList,
-  generateLanguage,
-  selectLocationObj
-} from '../../Location/LocationSlicer'
-import { selectLanguage, generate } from '../ListSlicer'
-import slang from './SelectLang.module.scss'
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+// import {
+//   selectLanguageList,
+//   generateLanguage,
+//   selectLocationObj,
+// } from '../../Location/LocationSlicer';
+// import { selectLanguage, generate } from '../ListSlicer'
+import slang from './SelectLang.module.scss';
 
-export const SelectLang = () => {
-  const dispatch = useDispatch()
-  const mainObj = useSelector(selectLocationObj)
-  const allLanguage = useSelector(selectLanguageList)
-  const activeLang = useSelector(selectLanguage)
+export default function SelectLang() {
+  const dispatch = useDispatch();
+  // const mainObj = useSelector(selectLocationObj);
+  // const allLanguage = useSelector(selectLanguageList);
+  // const activeLang = useSelector(selectLanguage);
 
-  const initialLang = ['English', 'Polska', 'Українска', 'Руска']
-  const testActiveLang = [{ landTex: 'English', language: 'en' }]
+  // const initialLang = ['English', 'Polska', 'Українска', 'Руска'];
+  const testActiveLang = [{ landTex: 'English', language: 'en' }];
   const initialArrLang = [
     {
       selected: false,
       landTex: '',
       language: '',
       id: '',
-      countries: []
-    }
-  ]
-  const [language1, setLanguage1] = useState([])
-  const [language2, setLanguage2] = useState(...testActiveLang)
-  const [language3, setLanguage3] = useState(initialArrLang)
-  const [touch, setTouch] = useState(false)
+      countries: [],
+    },
+  ];
+  const initiallang1 = [
+    {
+      selected: true,
+      landTex: 'Enlish',
+      language: 'En',
+      id: '',
+      countries: [],
+    },
+    {
+      selected: false,
+      landTex: 'Ukraine',
+      language: 'ua',
+      id: '',
+      countries: [],
+    },
+  ];
 
-  useEffect(() => {
-    dispatch(generateLanguage())
-  }, [dispatch])
+  const [language1, setLanguage1] = useState(initiallang1);
+  const [language2, setLanguage2] = useState(...testActiveLang);
+  const [language3, setLanguage3] = useState(initialArrLang);
+  const [touch, setTouch] = useState(false);
 
-  language1.map((el, i) => {
-    if (el.landTex == 'l') {
-      el.landTex = initialLang[i]
-    }
-  })
-  useEffect(() => {
-    setLanguage1(
-      allLanguage.map((item) => {
-        if (item.language === activeLang) {
-          return {
-            selected: true,
-            landTex: 'l',
-            ...item
-          }
-        }
+  // useEffect(() => {
+  //   dispatch(generateLanguage());
+  // }, [dispatch]);
 
-        return {
-          selected: false,
-          landTex: 'l',
-          ...item
-        }
-      })
-    )
-  }, [allLanguage, activeLang])
+  // language1.map((el, i) => {
+  //   if (el.landTex == 'l') {
+  //     el.landTex = initialLang[i];
+  //   }
+  // });
+  // useEffect(() => {
+  //   setLanguage1(
+  //     allLanguage.map(item => {
+  //       if (item.language === activeLang) {
+  //         return {
+  //           selected: true,
+  //           landTex: 'l',
+  //           ...item,
+  //         };
+  //       }
 
-  const choooseLang = (lang) => {
-    const activeLang = mainObj.filter((item) => item.language === lang)
-    dispatch(
-      generate({ ...activeLang[0], countryid: activeLang[0].countries[0].id })
-    )
-  }
+  //       return {
+  //         selected: false,
+  //         landTex: 'l',
+  //         ...item,
+  //       };
+  //     })
+  //   );
+  // }, [allLanguage, activeLang]);
+
+  // const choooseLang = lang => {
+  //   const activeLang = mainObj.filter(item => item.language === lang);
+  //   dispatch(generate({ ...activeLang[0], countryid: activeLang[0].countries[0].id }));
+  // };
 
   const selectLang = (el, item) => {
-    el.preventDefault()
-    setLanguage2(item)
-    setTouch(false)
-  }
+    el.preventDefault();
+    setLanguage2(item);
+    setTouch(false);
+  };
 
-  const onChange2 = (ev) => {
+  const onChange2 = ev => {
     setLanguage3([
       {
         ...language3[0],
-        [ev.target.name]: ev.target.value
-      }
-    ])
-  }
+        [ev.target.name]: ev.target.value,
+      },
+    ]);
+  };
 
   const codeTouch = () => {
-    setTouch(true)
-  }
+    setTouch(true);
+  };
   const codeClose = () => {
-    setLanguage1([...language1, ...language3])
-    setTouch(false)
-    setLanguage3(initialArrLang)
-  }
-  console.log(language1, '11111111')
-  console.log(language2, 'lang22')
-  console.log(allLanguage, ' alll')
+    setLanguage1([...language1, ...language3]);
+    setTouch(false);
+    setLanguage3(initialArrLang);
+  };
+  // console.log(language1, '11111111');
+  // console.log(language2, 'lang22');
 
   return (
     <>
@@ -136,7 +150,7 @@ export const SelectLang = () => {
                     className={slang.block_lang_li}
                     value={item.language}
                     key={index}
-                    onClick={(e) => selectLang(e, item)}
+                    onClick={e => selectLang(e, item)}
                   >
                     {item.landTex}
                     <p className={slang.block_lang_li_p}>{item.language}</p>
@@ -146,8 +160,8 @@ export const SelectLang = () => {
             </div>
             <div className={slang.block_add_lang_text}>
               <h5 className={slang.text_add_lang1}>
-                You can add a language, enter the name of the language in the
-                original language and its international designation
+                You can add a language, enter the name of the language in the original language and
+                its international designation
               </h5>
               <input
                 type="text"
@@ -168,15 +182,9 @@ export const SelectLang = () => {
                 maxLength={5}
                 value={language3.language}
               />
-              <h5 className={slang.text_add_lang3}>
-                international designation
-              </h5>
+              <h5 className={slang.text_add_lang3}>international designation</h5>
               <button
-                disabled={
-                  language3[0].landTex && language3[0].language !== ''
-                    ? false
-                    : true
-                }
+                disabled={language3[0].landTex && language3[0].language !== '' ? false : true}
                 className={
                   language3[0].landTex && language3[0].language !== ''
                     ? slang.language_btn_style_open
@@ -191,5 +199,5 @@ export const SelectLang = () => {
         </div>
       )}
     </>
-  )
+  );
 }

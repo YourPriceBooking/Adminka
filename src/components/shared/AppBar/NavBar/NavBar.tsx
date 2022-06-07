@@ -18,6 +18,11 @@ export const NavBar = () => {
             Countries
           </NavLinkStyled>
         </li>
+        <li>
+          <NavLinkStyled to="/language" state={location}>
+            Language
+          </NavLinkStyled>
+        </li>
 
         {/* <li>
           <NavLinkStyled to="/menu" state={location}>
