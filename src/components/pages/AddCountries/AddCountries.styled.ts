@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { slideInLeft, slideOutLeft } from 'App.styled';
 
 export const AddCountriesStyled = styled.section`

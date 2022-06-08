@@ -4,14 +4,14 @@ import {
   Expandable,
   ShowEditorButton,
 } from './AddCountries.styled';
-import { Container } from 'components/shared/Container';
+
 import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 import { useAppSelector } from 'hooks/redux/hooks';
 import { selectActiveCountryName, selectActiveLang } from 'redux/slices';
 
 import iconEdit from 'assets/icons/iconEdit.svg';
 
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import { useAddCountryMutation, useEditCountryMutation, useGetCountriesQuery } from 'redux/apis';
 import { CountriesResponse, Country } from 'types/apis';
 
@@ -20,11 +20,10 @@ export const EditCountryInput = styled.input`
   padding: 4px 8px;
 `;
 
-let renderCount = 0;
 
 const Item = ({ _id, country, langCode }: Country) => {
   const [editCountry, { data: editedCountry }] = useEditCountryMutation();
-  console.log({ editedCountry, renderCount: (renderCount += 1) });
+  console.log({ editedCountry   });
 
   const [inputDisabled, setInputDisabled] = useState(true);
   const [localValue, setLocalValue] = useState(country);
@@ -145,24 +144,22 @@ export default function AddCountries() {
 
   return (
     <AddCountriesStyled>
-      <Container>
-        <CountryEditorWrapper>
-          <ShowEditorButton type="button" onClick={toggleEditor}>
-            {activeCountryName}
-          </ShowEditorButton>
+      <CountryEditorWrapper>
+        <ShowEditorButton type="button" onClick={toggleEditor}>
+          {activeCountryName}
+        </ShowEditorButton>
 
-          {showEditor && (
-            <Expand
-              showEditor={showEditor}
-              countries={countries}
-              isEng={isEng}
-              add={add}
-              delay={250}
-            />
-          )}
-        </CountryEditorWrapper>
-        Hello, Salut!
-      </Container>
+        {showEditor && (
+          <Expand
+            showEditor={showEditor}
+            countries={countries}
+            isEng={isEng}
+            add={add}
+            delay={250}
+          />
+        )}
+      </CountryEditorWrapper>
+      Hello, Salut!
     </AddCountriesStyled>
   );
 }

@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 export const ContainerStyled = styled.div`
   max-width: ${({ theme }) => theme.breakpoints.mobile};
