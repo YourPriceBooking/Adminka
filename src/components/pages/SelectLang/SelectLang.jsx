@@ -110,8 +110,8 @@ export default function SelectLang() {
 
   return (
     <>
-      <Container>
-        <h1>Language Page</h1>
+
+
         <div className={slang.lang_container} onClick={codeTouch}>
           <p className={slang.block_lang_p}>{language2.landTex}</p>
           <p className={slang.block_lang_p2}>{language2.language}</p>
@@ -201,7 +201,7 @@ export default function SelectLang() {
             </div>
           </div>
         )}
-      </Container>
+
     </>
   );
 }

@@ -15,7 +15,7 @@ export default function LoginPage() {
 
   const onLogin = () => {
     appDispatch(login());
-    nav('/home', { replace: true });
+    nav('/menu', { replace: true });
   };
 
   return (

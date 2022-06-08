@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom';
+import { routes } from 'routes/AppRouter';
 import { NavBarStyled, NavLinkStyled, NavListStyled } from './NavBar.styled';
 
 export const NavBar = () => {
@@ -7,17 +8,13 @@ export const NavBar = () => {
   return (
     <NavBarStyled>
       <NavListStyled>
-        <li>
-          <NavLinkStyled to="/" state={location}>
-            Login
-          </NavLinkStyled>
-        </li>
-
-        <li>
-          <NavLinkStyled to="/country/:id" state={location}>
-            Countries
-          </NavLinkStyled>
-        </li>
+        {Object.entries(routes).map(([key, { path, name }]) => (
+          <li key={key}>
+            <NavLinkStyled to={path} state={location}>
+              {name}
+            </NavLinkStyled>
+          </li>
+        ))}
       </NavListStyled>
     </NavBarStyled>
   );

@@ -15,7 +15,7 @@ import {
   shadows,
   transition,
 } from 'styles/theme/theme';
-import { DefaultTheme } from 'styled-components';
+import { DefaultTheme } from 'styled-components/macro';
 
 export const partOfTheme = {};
 
