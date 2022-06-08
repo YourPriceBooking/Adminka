@@ -19,8 +19,8 @@ declare module 'styled-components' {
       white: string;
       black: string;
       active: string;
+      main: string;
       secondary: string;
-      linkBorder: string;
       title: string;
       textAccent: string;
       textPrimary: string;
@@ -33,7 +33,7 @@ declare module 'styled-components' {
 
       bg: {
         body: string;
-        bgSection: string;
+        section: string;
         buttonEdit: string;
       };
 
@@ -63,6 +63,20 @@ declare module 'styled-components' {
         buttonSaveCountryActive: string;
 
         blackTransparentQuarter: string;
+      };
+
+      border: {
+        input: string;
+        bgBlockLink: string;
+        buttonCopy: string;
+        list: string;
+      };
+
+      borderTransparent: {
+        bgSection: string;
+        inputHover: string;
+        inputFocus: string;
+        bgBlock: string;
       };
     };
 
@@ -97,12 +111,30 @@ export const fonts = {
   segoe: "'Segoe UI', sans-serif",
 };
 
-export const light = {
+const permanent = {
   white: '#ffffff',
   black: '#000000',
+};
+
+const currentlyNotAssigned = {
   active: '#2196f3',
   secondary: '#282c34',
-  linkBorder: '#787878',
+  title: '#0090ff',
+  textAccent: '#006bbe',
+  textPrimary: '#656565',
+  textSecond: '#ff6000',
+  textThird: '#4c4c4c',
+  textFourth: '#a5a5a5',
+  countdown: '#ff001f',
+  editFirstTime: '#ff931e',
+  editSecondTime: '#9b9b9b',
+};
+
+export const light = {
+  ...permanent,
+  ...currentlyNotAssigned,
+  main: '#212121',
+  secondary: '#282c34',
   title: '#0090ff',
   textAccent: '#006bbe',
   textPrimary: '#656565',
@@ -128,22 +160,26 @@ export const borderTransparent = {
   bgBlock: `rgba(${border.input}, 0.5)`,
 };
 
-export const bg = {
-  body: '#C1D5E4',
-  bgSection: '#f4f4f4',
+const bgNotAssigned = {
+  section: '#f4f4f4',
   buttonEdit: '#dedede',
 };
 
-export const bgTransparent = {
+export const bgLight = {
+  body: '#C1D5E4',
+  ...bgNotAssigned,
+};
+
+const bgTransparentNotAssigned = {
   buttonHover: 'rgba(255, 96, 0, 0.9)',
   buttonActive: 'rgba(255, 96, 0, 0.75)',
   buttonCopyHover: 'rgba(106, 255, 121, 0.32)',
   buttonCopyActive: 'rgba(106, 255, 121, 0.8)',
-  bgInput: 'rgba(bg-section, 0.5)',
-  bgFormAddCountry: 'rgba(#c1d5e4, 0.33)',
 
-  buttonEditHover: `rgba(${bg.buttonEdit}, 0.6)`,
-  buttonEditActive: `rgba(${bg.buttonEdit}, 0.9)`,
+  bgFormAddCountry: `rgba(${bgLight.body}, 0.33)`,
+
+  buttonEditHover: `rgba(${bgLight.buttonEdit}, 0.6)`,
+  buttonEditActive: `rgba(${bgLight.buttonEdit}, 0.9)`,
 
   bgAgentSettingsHeader: `rgba(${light.textAccent}, 0.05)`,
   buttonSaveDisabled: `rgba(${light.textAccent}, 0.39)`,
@@ -162,21 +198,25 @@ export const bgTransparent = {
   blackTransparentQuarter: `rgba(${light.black}, 0.25)`,
 };
 
+export const bgTransparentLight = {
+  ...bgTransparentNotAssigned,
+  bgInput: `rgba(${bgLight.section}, 0.5)`,
+};
+
 export const dark = {
-  white: '#ffffff',
-  black: '#000000',
-  active: '#2196f3',
-  secondary: '#282c34',
-  linkBorder: '#787878',
-  title: '#0090ff',
-  textAccent: '#006bbe',
-  textPrimary: '#656565',
-  textSecond: '#ff6000',
-  textThird: '#4c4c4c',
-  textFourth: '#a5a5a5',
-  countdown: '#ff001f',
-  editFirstTime: '#ff931e',
-  editSecondTime: '#9b9b9b',
+  ...permanent,
+  ...currentlyNotAssigned,
+  main: bgLight.body,
+};
+
+export const bgDark = {
+  body: '#282828',
+  ...bgNotAssigned,
+};
+
+export const bgTransparentDark = {
+  ...bgTransparentNotAssigned,
+  bgInput: `rgba(${bgDark.section}, 0.5)`,
 };
 
 const quarterBlack = 'rgba(0, 0, 0, 0.25)';

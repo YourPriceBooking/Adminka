@@ -43,7 +43,7 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
       </HomeNavItem>
 
       <HomeNavItem>
-        <Link to="/countries" state={location}>
+        <Link to="/country/:id" state={location}>
           <p>Языки</p> {/* Languages Мови */}
           <p>Страны</p> {/* Countries Країни */}
           <p>Списки локаций</p> {/* Locations */}

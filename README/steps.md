@@ -15,3 +15,9 @@ yarn create react-app . --template typescript
 yarn add react-router-dom react-redux @reduxjs/toolkit sass
 yarn add styled-components @types/styled-components
 ```
+
+### 3️⃣ 2022-06-07 18:57
+
+```shell
+yarn add react-transition-group @types/react-transition-group
+```

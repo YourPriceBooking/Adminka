@@ -1,14 +1,19 @@
-import { AddCountriesStyled, ShowEditorButton } from './AddCountries.styled';
+import {
+  AddCountriesStyled,
+  CountryEditorWrapper,
+  Expandable,
+  ShowEditorButton,
+} from './AddCountries.styled';
 import { Container } from 'components/shared/Container';
-import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
 import { useAppSelector } from 'hooks/redux/hooks';
-import { selectActiveCountryName } from 'redux/slices';
+import { selectActiveCountryName, selectActiveLang } from 'redux/slices';
 
 import iconEdit from 'assets/icons/iconEdit.svg';
 
 import styled from 'styled-components';
 import { useAddCountryMutation, useEditCountryMutation, useGetCountriesQuery } from 'redux/apis';
-import { Country } from 'types/apis';
+import { CountriesResponse, Country } from 'types/apis';
 
 export const EditCountryInput = styled.input`
   font-size: 20px;
@@ -69,12 +74,53 @@ const Item = ({ _id, country, langCode }: Country) => {
   );
 };
 
+interface ExpandInterface {
+  showEditor: boolean;
+  countries: CountriesResponse;
+  isEng: boolean;
+  add: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+  delay: number;
+}
+
+const Expand = ({ showEditor, countries, isEng, add, delay }: ExpandInterface) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => {
+      setMounted(false);
+    };
+  }, [delay]);
+
+  return (
+    <Expandable showEditor={showEditor} className={mounted ? '' : 'isHidden'}>
+      <ul>
+        {countries?.map((country: Country) => (
+          <Item key={country._id} {...country} />
+        ))}
+      </ul>
+
+      {isEng && (
+        <form onSubmit={add}>
+          <input name="newCountryName" type="text" />
+          <input name="newCountryLangCode" type="text" />
+          <button type="submit">Add country</button>
+        </form>
+      )}
+    </Expandable>
+  );
+};
+
 export default function AddCountries() {
   const { data: countries } = useGetCountriesQuery();
   const [addCountry] = useAddCountryMutation();
   // const { data: languages } = useGetLanguagesQuery();
+  // console.log("AddCountries ~ languages", languages)
   const activeCountryName = useAppSelector(selectActiveCountryName);
   const [showEditor, setShowEditor] = useState(false);
+
+  const activeLang = useAppSelector(selectActiveLang);
+  const isEng = activeLang === 'eng';
 
   const add = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
@@ -100,29 +146,22 @@ export default function AddCountries() {
   return (
     <AddCountriesStyled>
       <Container>
-        <div>
-          <h1>Countries Page</h1>
-
+        <CountryEditorWrapper>
           <ShowEditorButton type="button" onClick={toggleEditor}>
             {activeCountryName}
           </ShowEditorButton>
 
           {showEditor && (
-            <div>
-              <ul>
-                {countries?.map(country => (
-                  <Item key={country._id} {...country} />
-                ))}
-              </ul>
-
-              <form onSubmit={add} onReset={e => e}>
-                <input name="newCountryName" type="text" />
-                <input name="newCountryLangCode" type="text" />
-                <button type="submit">Add country</button>
-              </form>
-            </div>
+            <Expand
+              showEditor={showEditor}
+              countries={countries}
+              isEng={isEng}
+              add={add}
+              delay={250}
+            />
           )}
-        </div>
+        </CountryEditorWrapper>
+        Hello, Salut!
       </Container>
     </AddCountriesStyled>
   );

@@ -1,10 +1,16 @@
 import styled from 'styled-components';
 import { Link as RouterLink } from 'react-router-dom';
+import { slideInLeft, slideOutLeft } from 'App.styled';
 
 export const HomeStyled = styled.section`
-  min-height: 100vh;
   padding: 74px 0;
-  background-color: #c1d5e4;
+
+  &.page-fade-enter {
+    animation: ${slideInLeft} 0.2s forwards;
+  }
+  &.page-fade-exit {
+    animation: ${slideOutLeft} 0.2s forwards;
+  }
 `;
 
 export const HomeNavListStyled = styled.ul`
@@ -15,7 +21,7 @@ export const HomeNavListStyled = styled.ul`
 
   > li {
     > a {
-      gap: 16px;
+      gap: 20px;
     }
 
     padding: 120px 28px 0;
@@ -33,12 +39,12 @@ export const HomeNavListStyled = styled.ul`
     }
   }
 
-  > li:nth-of-type(4) {
-    padding: 70px 28px 0;
+  > li:nth-of-type(3) {
+    padding: 50px 28px 0;
   }
 
-  > li:nth-of-type(3) {
-    padding: 28px 28px 0;
+  > li:nth-of-type(4) {
+    padding: 80px 28px 0;
   }
 
   > li:nth-of-type(5) {
@@ -54,7 +60,7 @@ export const HomeNavItem = styled.li`
   height: 290px;
 
   background-color: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.linkBorder};
+  border: 1px solid ${({ theme }) => theme.colors.border.list};
   border-radius: 9px;
   box-shadow: 0px 0px 9px 2px ${({ theme }) => theme.shadows.quarterBlack};
 `;
@@ -105,7 +111,7 @@ export const TextNormal = styled(TextSmall)`
 export const StatsList = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 `;
 
 export const StatsListItem = styled.li``;

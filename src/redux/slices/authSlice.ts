@@ -4,7 +4,7 @@ import type { RootState } from 'redux/store';
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-    isLoggedIn: true,
+    isLoggedIn: false,
   },
   reducers: {
     login(state) {

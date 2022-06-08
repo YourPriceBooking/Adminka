@@ -6,7 +6,7 @@ export interface Country {
   updatedAt: string;
 }
 
-export type CountriesResponse = Country[];
+export type CountriesResponse = Country[] | undefined;
 
 export interface AddCountry {
   country: string;

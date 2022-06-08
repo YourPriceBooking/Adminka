@@ -10,7 +10,7 @@ export const NavListStyled = styled.ul`
 
 export const NavLinkStyled = styled(NavLink)`
   position: relative;
-  color: #212121;
+  color: ${({ theme }) => theme.colors.main};
 
   &.active {
     color: ${({ theme }) => theme.colors.active};

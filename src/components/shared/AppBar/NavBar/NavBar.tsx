@@ -9,21 +9,15 @@ export const NavBar = () => {
       <NavListStyled>
         <li>
           <NavLinkStyled to="/" state={location}>
-            Home
+            Login
           </NavLinkStyled>
         </li>
 
         <li>
-          <NavLinkStyled to="/countries" state={location}>
+          <NavLinkStyled to="/country/:id" state={location}>
             Countries
           </NavLinkStyled>
         </li>
-
-        {/* <li>
-          <NavLinkStyled to="/menu" state={location}>
-            Menu
-          </NavLinkStyled>
-        </li> */}
       </NavListStyled>
     </NavBarStyled>
   );
