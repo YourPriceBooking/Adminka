@@ -19,8 +19,8 @@ const countriesSlice = createSlice({
   },
 
   reducers: {
-    setActiveCountry(state, { payload }: PayloadAction<string>) {
-      state.activeCountry.id = payload;
+    setActiveCountry(state, { payload }: PayloadAction<CountryInterface>) {
+      state.activeCountry = payload;
     },
 
     addCountry: {

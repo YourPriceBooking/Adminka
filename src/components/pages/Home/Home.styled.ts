@@ -1,10 +1,16 @@
 import styled from 'styled-components';
 import { Link as RouterLink } from 'react-router-dom';
+import { slideInLeft, slideOutLeft } from 'App.styled';
 
 export const HomeStyled = styled.section`
-  min-height: 100vh;
   padding: 74px 0;
-  background-color: #c1d5e4;
+
+  &.page-fade-enter {
+    animation: ${slideInLeft} 0.2s forwards;
+  }
+  &.page-fade-exit {
+    animation: ${slideOutLeft} 0.2s forwards;
+  }
 `;
 
 export const HomeNavListStyled = styled.ul`
@@ -12,6 +18,38 @@ export const HomeNavListStyled = styled.ul`
   flex-wrap: wrap;
   justify-content: center;
   gap: 72px;
+
+  > li {
+    > a {
+      gap: 20px;
+    }
+
+    padding: 120px 28px 0;
+  }
+
+  > li:nth-of-type(1) {
+    > a {
+      gap: 40px;
+    }
+  }
+
+  > li:nth-of-type(2) {
+    > a {
+      gap: 40px;
+    }
+  }
+
+  > li:nth-of-type(3) {
+    padding: 50px 28px 0;
+  }
+
+  > li:nth-of-type(4) {
+    padding: 80px 28px 0;
+  }
+
+  > li:nth-of-type(5) {
+    padding: 108px 28px 0;
+  }
 `;
 
 export const HomeNavItem = styled.li`
@@ -22,7 +60,7 @@ export const HomeNavItem = styled.li`
   height: 290px;
 
   background-color: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.linkBorder};
+  border: 1px solid ${({ theme }) => theme.colors.border.list};
   border-radius: 9px;
   box-shadow: 0px 0px 9px 2px ${({ theme }) => theme.shadows.quarterBlack};
 `;
@@ -30,10 +68,7 @@ export const HomeNavItem = styled.li`
 export const Link = styled(RouterLink)`
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  gap: 30px;
   flex-grow: 1;
-  padding: 120px 28px 0;
 
   font-family: ${({ theme }) => theme.fonts.roboto};
   font-size: 27px;
@@ -46,7 +81,7 @@ export const Link = styled(RouterLink)`
 
   :hover,
   :focus {
-    color: ${({ theme }) => theme.colors.accent};
+    color: ${({ theme }) => theme.colors.textSecond};
   }
 `;
 
@@ -55,7 +90,7 @@ export const TextAccent = styled.p`
   font-size: 50px;
   font-weight: 300;
   line-height: 1.18; // 59px
-  color: ${({ theme }) => theme.colors.accent};
+  color: ${({ theme }) => theme.colors.textSecond};
   text-decoration: none;
   letter-spacing: 0.255em;
 `;
@@ -76,7 +111,7 @@ export const TextNormal = styled(TextSmall)`
 export const StatsList = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 8px;
 `;
 
 export const StatsListItem = styled.li``;
@@ -92,7 +127,7 @@ export const TextMedium = styled(TextSmall)`
 
 export const TextMediumAccent = styled(TextMedium)`
   font-weight: 400;
-  color: ${({ theme }) => theme.colors.accent};
+  color: ${({ theme }) => theme.colors.textSecond};
   min-width: 40px;
   justify-content: center;
 `;

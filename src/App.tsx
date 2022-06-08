@@ -1,8 +1,8 @@
-import { useCustomTheme } from 'hooks/ui/theme/useTheme';
+import { useCustomTheme } from 'hooks/ui/theme';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from 'styles/GlobalStyle';
 import { AppStyled } from 'App.styled';
-import { RouterConfig } from 'routes/RouterConfig';
+import { AppRouter } from 'routes/AppRouter';
 
 export default function App() {
   const theme = useCustomTheme();
@@ -12,7 +12,7 @@ export default function App() {
       <GlobalStyle />
 
       <AppStyled className="App">
-        <RouterConfig />
+        <AppRouter />
       </AppStyled>
     </ThemeProvider>
   );

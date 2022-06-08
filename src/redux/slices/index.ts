@@ -1,4 +1,4 @@
 export * from './authSlice';
-export * from './countiersSlice';
+export * from './countriesSlice';
 export * from './langSlice';
 export * from './themeSlice';
