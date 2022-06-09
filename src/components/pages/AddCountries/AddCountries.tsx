@@ -28,7 +28,12 @@ export const EditCountryInput = styled.input`
   padding: 4px 8px;
 `;
 
-const Item = ({ _id, country, langCode }: Country) => {
+const Item = ({
+  _id,
+  country,
+  langCode,
+  setShowCountries,
+}: Country & { setShowCountries: (arg: boolean) => void }) => {
   const [editCountry] = useEditCountryMutation();
   const appDispatch = useAppDispatch();
 
@@ -61,6 +66,7 @@ const Item = ({ _id, country, langCode }: Country) => {
 
   const selectActiveCountry = async () => {
     appDispatch(setActiveCountry({ _id, country, langCode }));
+    setShowCountries(false);
   };
 
   return (
@@ -126,7 +132,7 @@ const Expand = ({ toggleButtonRef, setShowCountries, countries, isEng, add }: Ex
       <CountryListWrapper>
         <CountryList>
           {countries?.map((country: Country) => (
-            <Item key={country._id} {...country} />
+            <Item key={country._id} {...country} setShowCountries={setShowCountries} />
           ))}
         </CountryList>
       </CountryListWrapper>
