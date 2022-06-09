@@ -1,19 +1,16 @@
 import AddCountries from 'components/pages/AddCountries';
 import { Container } from 'components/shared/Container';
+import { Row } from 'components/pages/AddCountries/AddCountries.styled';
+import { BackButton } from 'components/pages/AddCountries/BackButton';
 import AddLanguagePage from './AddLanguagePage';
 
-import styled from 'styled-components/macro';
-const Row = styled.div`
-  display: flex;
-  justify-content: space-around;
-  gap: 54px;
-`;
 export default function AddCountryPage() {
   return (
     <Container>
       <Row>
-        <AddCountries />;
-        <AddLanguagePage />;
+        <BackButton />
+        <AddCountries />
+        <AddLanguagePage />
       </Row>
     </Container>
   );

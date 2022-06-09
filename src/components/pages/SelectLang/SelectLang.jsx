@@ -146,7 +146,6 @@ export default function SelectLang() {
 
       {touch && (
         <Modal toggleModal={toggleModal}>
-          (
           <div className={slang.modal__backdrop}>
             <div className={slang.container_add_lang}>
               <div className={slang.block_lang}>
@@ -185,7 +184,7 @@ export default function SelectLang() {
                   name="language"
                   className={slang.lang_block_input3}
                   onChange={onChange2}
-                  maxLength={5}
+                  maxLength={2}
                   value={language3.language}
                 />
                 <h5 className={slang.text_add_lang3}>international designation</h5>
@@ -203,7 +202,6 @@ export default function SelectLang() {
               </div>
             </div>
           </div>
-          )
         </Modal>
       )}
     </>
