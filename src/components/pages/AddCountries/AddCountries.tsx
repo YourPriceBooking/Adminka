@@ -13,9 +13,9 @@ import {
   ShowEditorButton,
 } from './AddCountries.styled';
 
-import { ChangeEvent, FormEvent, useCallback, useEffect, useState } from 'react';
-import { useAppSelector } from 'hooks/redux/hooks';
-import { selectActiveCountryName, selectActiveLang } from 'redux/slices';
+import { ChangeEvent, FormEvent, RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
+import { Lang, selectActiveCountryName, selectActiveLang, setActiveCountry } from 'redux/slices';
 
 import iconEdit from 'assets/icons/iconEdit.svg';
 
@@ -28,9 +28,14 @@ export const EditCountryInput = styled.input`
   padding: 4px 8px;
 `;
 
-const Item = ({ _id, country, langCode }: Country) => {
-  const [editCountry, { data: editedCountry }] = useEditCountryMutation();
-  console.log({ editedCountry });
+const Item = ({
+  _id,
+  country,
+  langCode,
+  setShowCountries,
+}: Country & { setShowCountries: (arg: boolean) => void }) => {
+  const [editCountry] = useEditCountryMutation();
+  const appDispatch = useAppDispatch();
 
   const [inputDisabled, setInputDisabled] = useState(true);
   const [localValue, setLocalValue] = useState(country);
@@ -58,10 +63,16 @@ const Item = ({ _id, country, langCode }: Country) => {
     (e: ChangeEvent<HTMLInputElement>) => setLocalValue(e.currentTarget.value),
     []
   );
+
+  const selectActiveCountry = async () => {
+    appDispatch(setActiveCountry({ _id, country, langCode }));
+    setShowCountries(false);
+  };
+
   return (
     <li>
       <EditCountryForm onSubmit={handleSubmit}>
-        <CountryInputLabel>
+        <CountryInputLabel onClick={selectActiveCountry}>
           <EditCountryInput
             type="text"
             value={localValue}
@@ -87,35 +98,41 @@ const Item = ({ _id, country, langCode }: Country) => {
   );
 };
 
-interface ExpandInterface {
+type ExpandType = {
   countries: CountriesResponse;
   isEng: boolean;
   add: (e: FormEvent<HTMLFormElement>) => Promise<void>;
-  delay: number;
-}
+  setShowCountries: (arg: boolean) => void;
+  toggleButtonRef: RefObject<HTMLButtonElement>;
+};
 
-const Expand = ({ countries, isEng, add, delay }: ExpandInterface) => {
-  const [isHidden, setIsHidden] = useState(true);
+const Expand = ({ toggleButtonRef, setShowCountries, countries, isEng, add }: ExpandType) => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setIsHidden(false);
-    return () => setIsHidden(true);
-  }, [delay]);
+    const onClick = async (e: MouseEvent) => {
+      if (toggleButtonRef.current === e.target) {
+        return setShowCountries(true);
+      }
 
-  const onAnimationEnd = () => {
-    if (isHidden) {
-      setIsHidden(false);
-    } else {
-      setIsHidden(true);
-    }
-  };
+      const { target } = e;
+      if (target instanceof Node && !wrapperRef.current?.contains(target)) {
+        setShowCountries(false);
+      }
+    };
+
+    document.addEventListener('click', onClick);
+    return () => {
+      document.removeEventListener('click', onClick);
+    };
+  }, [setShowCountries, toggleButtonRef]);
 
   return (
-    <Expandable isHidden={isHidden} onAnimationEnd={onAnimationEnd}>
+    <Expandable ref={wrapperRef}>
       <CountryListWrapper>
         <CountryList>
           {countries?.map((country: Country) => (
-            <Item key={country._id} {...country} />
+            <Item key={country._id} {...country} setShowCountries={setShowCountries} />
           ))}
         </CountryList>
       </CountryListWrapper>
@@ -140,9 +157,9 @@ export default function AddCountries() {
   // const { data: languages } = useGetLanguagesQuery();
   // console.log("AddCountries ~ languages", languages)
   const activeCountryName = useAppSelector(selectActiveCountryName);
-  const [showEditor, setShowEditor] = useState(false);
+  const [showCountries, setShowCountries] = useState(false);
 
-  const activeLang = useAppSelector(selectActiveLang);
+  const activeLang = useAppSelector<Lang[]>(selectActiveLang);
 
   const isEng = activeLang[0]?.language === 'EN';
 
@@ -165,18 +182,29 @@ export default function AddCountries() {
     [addCountry]
   );
 
-  const toggleEditor = useCallback(() => setShowEditor(!showEditor), [showEditor]);
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
 
   return (
     <AddCountriesStyled>
       <CountryEditorWrapper>
-        <ShowEditorButton type="button" onClick={toggleEditor}>
+        <ShowEditorButton
+          type="button"
+          onClick={() => setShowCountries(!showCountries)}
+          ref={toggleButtonRef}
+        >
           {activeCountryName}
         </ShowEditorButton>
 
-        {showEditor && <Expand countries={countries} isEng={isEng} add={add} delay={250} />}
+        {showCountries && (
+          <Expand
+            toggleButtonRef={toggleButtonRef}
+            setShowCountries={setShowCountries}
+            countries={countries}
+            isEng={isEng}
+            add={add}
+          />
+        )}
       </CountryEditorWrapper>
-      Hello, Salut!
     </AddCountriesStyled>
   );
 }

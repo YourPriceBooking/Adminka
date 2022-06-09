@@ -10,10 +10,10 @@ export const BackdropStyled = styled.div`
   overflow-y: scroll;
 
   backdrop-filter: blur(15px);
-  background-color: $colors-bg-button-cancel-delete-hover;
+  background-color: ${({ theme }) => theme.colors.bgTransparent.buttonCancelDeleteHover};
   opacity: 0.99;
 
-  transition: $transition;
+  transition: ${({ theme }) => theme.transition[110]};
   transition-property: visibility, opacity, transform;
 
   &.isHidden {
@@ -24,17 +24,15 @@ export const BackdropStyled = styled.div`
 
 export const ModalStyled = styled.div`
   position: relative;
-  width: clamp(250px, 100%, 295px);
   min-height: 277px;
   padding: 38px 30px;
   margin: auto;
 
-  background-color: $colors-white;
+  background-color: ${({ theme }) => theme.colors.white};
   border-radius: 4px;
-  box-shadow: $box-shadow-modal;
+  box-shadow: ${({ theme }) => theme.shadows.modal};
 
-  transition: $transition;
-  transition-property: transform;
+  transition: transform ${({ theme }) => theme.transition[110]};
 
   &.isHidden {
     transform: scale(1.08);
@@ -54,24 +52,24 @@ export const CloseModalButtonStyled = styled.button`
   height: 28px;
   padding: 0;
 
-  color: $colors-text-third;
+  color: ${({ theme }) => theme.colors.textThird};
   fill: currentColor;
 
-  background-color: $colors-bg-button-edit;
+  background-color: ${({ theme }) => theme.colors.bg.buttonEdit};
   border: 1px solid transparent;
   border-radius: 50%;
 
-  transition: $transition;
+  transition: ${({ theme }) => theme.transition[110]};
   transition-property: color, background-color;
 
   &:hover:not(:disabled) {
-    color: $colors-text-accent;
-    background-color: $colors-bg-button-edit-hover;
+    color: ${({ theme }) => theme.colors.textAccent};
+    background-color: ${({ theme }) => theme.colors.bgTransparent.buttonEditHover};
   }
 
   &:active:not(:disabled) {
-    color: $colors-text-accent;
-    background-color: $colors-bg-button-edit-active;
+    color: ${({ theme }) => theme.colors.textAccent};
+    background-color: ${({ theme }) => theme.colors.bgTransparent.buttonEditActive};
     border-color: white;
   }
 `;

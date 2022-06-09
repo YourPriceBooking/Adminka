@@ -1,6 +1,12 @@
 import styled, { css } from 'styled-components/macro';
 import { slideInLeft, slideOutLeft } from 'App.styled';
 
+export const Row = styled.div`
+  display: flex;
+  justify-content: space-around;
+  gap: 54px;
+`;
+
 export const AddCountriesStyled = styled.section`
   &.page-fade-enter {
     animation: ${slideInLeft} 0.2s forwards;
@@ -41,18 +47,6 @@ export const Expandable = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.border.list};
   border-radius: 10px;
-
-  opacity: 0.99;
-  transition: ${({ theme }) => theme.transition[160]};
-  transition-property: transform, visibility, opacity;
-
-  ${({ isHidden }: { isHidden: boolean }) =>
-    isHidden &&
-    css`
-      visibility: hidden;
-      opacity: 0.01;
-      transform: translateY(-21px);
-    `}
 `;
 
 export const CountryListWrapper = styled.div`
