@@ -21,19 +21,19 @@ export const countriesApi = baseApi.injectEndpoints({
     }),
 
     addCountry: builder.mutation<CountriesResponse, AddCountry>({
-      query: ({ country, langCode }) => ({
+      query: ({ country }) => ({
         url: '/countries',
         method: 'POST',
-        body: { country, langCode },
+        body: { country, langCode: 'EN' },
       }),
       invalidatesTags: [COUNTRIES_LIST],
     }),
 
     editCountry: builder.mutation<CountriesResponse, EditCountry>({
       query: ({ _id, country, langCode }) => ({
-        url: '/countries',
+        url: `/countries/${_id}`,
         method: 'PUT',
-        body: { _id, country, langCode },
+        body: { country, langCode },
       }),
       invalidatesTags: [COUNTRIES_LIST],
     }),

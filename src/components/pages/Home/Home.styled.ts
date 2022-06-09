@@ -77,7 +77,7 @@ export const Link = styled(RouterLink)`
   color: ${({ theme }) => theme.colors.black};
   text-align: center;
 
-  transition: color ${({ theme }) => theme.transition.short};
+  transition: color ${({ theme }) => theme.transition[110]};
 
   :hover,
   :focus {
