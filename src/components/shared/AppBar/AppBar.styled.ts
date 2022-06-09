@@ -10,23 +10,5 @@ export const AppBarStyled = styled.header`
   min-height: 50px;
   font-size: calc(10px + 2vmin);
   color: white;
-  background-color: ${({ theme }) => theme.colors.bg}; ;
-`;
-
-export const AppLogo = styled.img`
-  height: 50px;
-  width: 50px;
-
-  @media (prefers-reduced-motion: no-preference) {
-    animation: spin infinite 20s linear;
-  }
-
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
+  background-color: ${({ theme }) => theme.colors.bg.body};
 `;

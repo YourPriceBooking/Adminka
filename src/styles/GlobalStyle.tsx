@@ -17,7 +17,7 @@ export const GlobalStyle = createGlobalStyle`
 
 
     background-color: ${({ theme }) => theme.colors.bg.body};
-    transition: background-color ${({ theme }) => theme.transition.normal};
+    transition: background-color ${({ theme }) => theme.transition[250]};
   }
 
   code {

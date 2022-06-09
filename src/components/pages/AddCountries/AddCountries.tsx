@@ -1,6 +1,14 @@
 import {
   AddCountriesStyled,
+  AddCountryButton,
+  AddCountryForm,
+  AddCountryInput,
+  AddCountryText,
   CountryEditorWrapper,
+  CountryInputLabel,
+  CountryList,
+  CountryListWrapper,
+  EditCountryForm,
   Expandable,
   ShowEditorButton,
 } from './AddCountries.styled';
@@ -20,10 +28,9 @@ export const EditCountryInput = styled.input`
   padding: 4px 8px;
 `;
 
-
 const Item = ({ _id, country, langCode }: Country) => {
   const [editCountry, { data: editedCountry }] = useEditCountryMutation();
-  console.log({ editedCountry   });
+  console.log({ editedCountry });
 
   const [inputDisabled, setInputDisabled] = useState(true);
   const [localValue, setLocalValue] = useState(country);
@@ -53,58 +60,75 @@ const Item = ({ _id, country, langCode }: Country) => {
   );
   return (
     <li>
-      <form onSubmit={handleSubmit}>
-        <EditCountryInput
-          type="text"
-          value={localValue}
-          onChange={onChange}
-          disabled={inputDisabled}
-          name="editedCountryName"
-        />
-        <button onClick={edit} type="button" disabled={!inputDisabled}>
-          <img src={iconEdit} alt="" width={24} height={22} />
-        </button>
+      <EditCountryForm onSubmit={handleSubmit}>
+        <CountryInputLabel>
+          <EditCountryInput
+            type="text"
+            value={localValue}
+            onChange={onChange}
+            disabled={inputDisabled}
+            name="editedCountryName"
+          />
+        </CountryInputLabel>
 
-        <button type="submit" disabled={inputDisabled || !localValue.trim()}>
-          Done
-        </button>
-      </form>
+        {inputDisabled && (
+          <button onClick={edit} type="button" disabled={!inputDisabled}>
+            <img src={iconEdit} alt="" width={24} height={22} />
+          </button>
+        )}
+
+        {!inputDisabled && (
+          <button type="submit" disabled={inputDisabled || !localValue.trim()}>
+            Done
+          </button>
+        )}
+      </EditCountryForm>
     </li>
   );
 };
 
 interface ExpandInterface {
-  showEditor: boolean;
   countries: CountriesResponse;
   isEng: boolean;
   add: (e: FormEvent<HTMLFormElement>) => Promise<void>;
   delay: number;
 }
 
-const Expand = ({ showEditor, countries, isEng, add, delay }: ExpandInterface) => {
-  const [mounted, setMounted] = useState(false);
+const Expand = ({ countries, isEng, add, delay }: ExpandInterface) => {
+  const [isHidden, setIsHidden] = useState(true);
 
   useEffect(() => {
-    setMounted(true);
-    return () => {
-      setMounted(false);
-    };
+    setIsHidden(false);
+    return () => setIsHidden(true);
   }, [delay]);
 
+  const onAnimationEnd = () => {
+    if (isHidden) {
+      setIsHidden(false);
+    } else {
+      setIsHidden(true);
+    }
+  };
+
   return (
-    <Expandable showEditor={showEditor} className={mounted ? '' : 'isHidden'}>
-      <ul>
-        {countries?.map((country: Country) => (
-          <Item key={country._id} {...country} />
-        ))}
-      </ul>
+    <Expandable isHidden={isHidden} onAnimationEnd={onAnimationEnd}>
+      <CountryListWrapper>
+        <CountryList>
+          {countries?.map((country: Country) => (
+            <Item key={country._id} {...country} />
+          ))}
+        </CountryList>
+      </CountryListWrapper>
 
       {isEng && (
-        <form onSubmit={add}>
-          <input name="newCountryName" type="text" />
-          <input name="newCountryLangCode" type="text" />
-          <button type="submit">Add country</button>
-        </form>
+        <AddCountryForm onSubmit={add}>
+          <AddCountryText>You can add a country, enter the name in English</AddCountryText>
+
+          <AddCountryInput name="newCountryName" type="text" />
+          <p>name of the country in the English language</p>
+
+          <AddCountryButton type="submit">Add country</AddCountryButton>
+        </AddCountryForm>
       )}
     </Expandable>
   );
@@ -119,7 +143,8 @@ export default function AddCountries() {
   const [showEditor, setShowEditor] = useState(false);
 
   const activeLang = useAppSelector(selectActiveLang);
-  const isEng = activeLang === 'eng';
+
+  const isEng = activeLang[0]?.language === 'EN';
 
   const add = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
@@ -127,11 +152,10 @@ export default function AddCountries() {
       const form = e.currentTarget;
       const formData = new FormData(form);
       const country = formData.get('newCountryName')?.toString().trim();
-      const langCode = formData.get('newCountryLangCode')?.toString().trim();
-      if (!country || !langCode) return;
+      if (!country) return;
 
       try {
-        await addCountry({ country, langCode });
+        await addCountry({ country });
       } catch (error) {
         console.log(error);
       }
@@ -140,6 +164,7 @@ export default function AddCountries() {
     },
     [addCountry]
   );
+
   const toggleEditor = useCallback(() => setShowEditor(!showEditor), [showEditor]);
 
   return (
@@ -149,15 +174,7 @@ export default function AddCountries() {
           {activeCountryName}
         </ShowEditorButton>
 
-        {showEditor && (
-          <Expand
-            showEditor={showEditor}
-            countries={countries}
-            isEng={isEng}
-            add={add}
-            delay={250}
-          />
-        )}
+        {showEditor && <Expand countries={countries} isEng={isEng} add={add} delay={250} />}
       </CountryEditorWrapper>
       Hello, Salut!
     </AddCountriesStyled>

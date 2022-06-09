@@ -21,7 +21,12 @@ const PrivateRoute = ({ navigateTo = '/' }: RouteType) => {
 export const routes = {
   login: { path: '/', name: 'Login', Component: { Layout, LoginPage } },
   menu: { path: '/menu', name: 'Menu', Component: MenuPage },
-  country: { path: '/country/:id', name: 'Country', Component: AddCountryPage },
+  country: { path: '/country/:id', name: 'Страны', Component: AddCountryPage },
+
+  verification: { path: '/verification', name: 'Верификация', Component: null },
+  translators: { path: '/translators', name: 'Переводчики', Component: null },
+  statistics: { path: '/statistics', name: 'Статистика', Component: null },
+  adminPageAccess: { path: '/admin-page-access', name: 'Доступы в админку', Component: null },
 };
 
 export const AppRouter = () => {

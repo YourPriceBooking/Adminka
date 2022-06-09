@@ -10,7 +10,7 @@ export type CountriesResponse = Country[] | undefined;
 
 export interface AddCountry {
   country: string;
-  langCode: string;
+  // langCode: string;
   // edited: number;
 }
 

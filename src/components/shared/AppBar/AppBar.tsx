@@ -1,5 +1,4 @@
-import iconLogo from 'assets/icons/iconLogo.svg';
-import { AppBarStyled, AppLogo } from './AppBar.styled';
+import { AppBarStyled } from './AppBar.styled';
 import { NavBar } from './NavBar/NavBar';
 import { ThemeSwitch } from 'components/shared/ThemeSwitch';
 import { useAppDispatch } from 'hooks/redux/hooks';
@@ -13,7 +12,6 @@ export const AppBar = () => {
 
   return (
     <AppBarStyled>
-      <AppLogo src={iconLogo} alt="logo" />
       <NavBar />
 
       <button onClick={onLogout}>Logout</button>

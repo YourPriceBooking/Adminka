@@ -8,7 +8,7 @@ export const ThemeSwitchStyled = styled.div`
 
   opacity: 0.21;
 
-  transition: opacity ${({ theme }) => theme.transition.fast};
+  transition: opacity ${({ theme }) => theme.transition[160]};
 
   :hover,
   :focus-within {

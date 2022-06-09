@@ -1,5 +1,6 @@
 import { Container } from 'components/shared/Container';
-import { useLocation } from 'react-router-dom';
+import { useTypedLocation } from 'hooks/navigation';
+import { routes } from 'routes/AppRouter';
 import {
   HomeStyled,
   HomeNavListStyled,
@@ -22,38 +23,39 @@ interface HomeNavListInterface {
 }
 
 const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface) => {
-  const location = useLocation();
+  const location = useTypedLocation();
+  const newLocation = { from: location };
 
   return (
     <HomeNavListStyled>
       <HomeNavItem>
-        <Link to="/verification" state={location}>
-          <p>Верификация</p>
+        <Link to={routes.verification.path} state={newLocation}>
+          <p>{routes.verification.name}</p>
 
           <TextSmall>10781 в очереди</TextSmall>
         </Link>
       </HomeNavItem>
 
       <HomeNavItem>
-        <Link to="/translators" state={location}>
-          <p>Переводчики</p>
+        <Link to={routes.translators.path} state={newLocation}>
+          <p>{routes.translators.name}</p>
 
           <TextNormal>7741 перевод в очереди</TextNormal>
         </Link>
       </HomeNavItem>
 
       <HomeNavItem>
-        <Link to="/country/:id" state={location}>
+        <Link to={routes.country.path} state={newLocation}>
           <p>Языки</p> {/* Languages Мови */}
-          <p>Страны</p> {/* Countries Країни */}
+          <p>{routes.country.name}</p> {/* Countries Країни */}
           <p>Списки локаций</p> {/* Locations */}
           <TextAccent>1 2 3</TextAccent>
         </Link>
       </HomeNavItem>
 
       <HomeNavItem>
-        <Link to="/statistics" state={location}>
-          <p>Статистика</p>
+        <Link to={routes.statistics.path} state={newLocation}>
+          <p>{routes.statistics.name}</p>
 
           <StatsList>
             <StatsListItem>
@@ -88,8 +90,8 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
       </HomeNavItem>
 
       <HomeNavItem>
-        <Link to="/admin-page-access" state={location}>
-          Доступы в админку
+        <Link to={routes.adminPageAccess.path} state={newLocation}>
+          {routes.adminPageAccess.name}
         </Link>
       </HomeNavItem>
     </HomeNavListStyled>

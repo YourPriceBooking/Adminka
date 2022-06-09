@@ -21,3 +21,9 @@ yarn add styled-components @types/styled-components
 ```shell
 yarn add react-transition-group @types/react-transition-group
 ```
+
+### 4 2022-06-09 09:43
+
+```shell
+yarn add polished
+```

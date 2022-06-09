@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Container } from 'components/shared/Container';
+import { useCallback, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
 // import {
 //   selectLanguageList,
 //   generateLanguage,
@@ -8,15 +7,17 @@ import { Container } from 'components/shared/Container';
 // } from '../../Location/LocationSlicer';
 // import { selectLanguage, generate } from '../ListSlicer'
 import slang from './SelectLang.module.scss';
+import Modal from 'components/shared/Modal/Modal';
+import { setLang } from 'redux/slices';
 
 export default function SelectLang() {
-  const dispatch = useDispatch();
-  // const mainObj = useSelector(selectLocationObj);
-  // const allLanguage = useSelector(selectLanguageList);
-  // const activeLang = useSelector(selectLanguage);
+  const appDispatch = useAppDispatch();
+  // const mainObj = useAppSelector(selectLocationObj);
+  // const allLanguage = useAppSelector(selectLanguageList);
+  // const activeLang = useAppSelector(selectLanguage);
 
   // const initialLang = ['English', 'Polska', 'Українска', 'Руска'];
-  const testActiveLang = [{ landTex: 'English', language: 'en' }];
+  const testActiveLang = [{ landTex: 'English', language: 'EN' }];
   const initialArrLang = [
     {
       selected: false,
@@ -29,15 +30,15 @@ export default function SelectLang() {
   const initiallang1 = [
     {
       selected: true,
-      landTex: 'Enlish',
-      language: 'En',
+      landTex: 'English',
+      language: 'EN',
       id: '',
       countries: [],
     },
     {
       selected: false,
       landTex: 'Ukraine',
-      language: 'ua',
+      language: 'UA',
       id: '',
       countries: [],
     },
@@ -47,6 +48,7 @@ export default function SelectLang() {
   const [language2, setLanguage2] = useState(...testActiveLang);
   const [language3, setLanguage3] = useState(initialArrLang);
   const [touch, setTouch] = useState(false);
+  const toggleModal = useCallback(() => setTouch(!touch), [touch]);
 
   // useEffect(() => {
   //   dispatch(generateLanguage());
@@ -85,6 +87,7 @@ export default function SelectLang() {
   const selectLang = (el, item) => {
     el.preventDefault();
     setLanguage2(item);
+    appDispatch(setLang(item));
     setTouch(false);
   };
 
@@ -110,19 +113,17 @@ export default function SelectLang() {
 
   return (
     <>
-
-
-        <div className={slang.lang_container} onClick={codeTouch}>
-          <p className={slang.block_lang_p}>{language2.landTex}</p>
-          <p className={slang.block_lang_p2}>{language2.language}</p>
-          {/* <input
+      <div className={slang.lang_container} onClick={codeTouch}>
+        <p className={slang.block_lang_p}>{language2.landTex}</p>
+        <p className={slang.block_lang_p2}>{language2.language}</p>
+        {/* <input
           type="text"
           name="language"
           className={slang.lang_block_input1}
           value={language2.landTex}
         /> */}
 
-          {/* <select1
+        {/* <select1
           className={slang.lang_block_select}
           onChange={(e) => {
             e.preventDefault()
@@ -141,9 +142,11 @@ export default function SelectLang() {
             )
           })}
         </select> */}
-        </div>
+      </div>
 
-        {touch && (
+      {touch && (
+        <Modal toggleModal={toggleModal}>
+          (
           <div className={slang.modal__backdrop}>
             <div className={slang.container_add_lang}>
               <div className={slang.block_lang}>
@@ -200,8 +203,9 @@ export default function SelectLang() {
               </div>
             </div>
           </div>
-        )}
-
+          )
+        </Modal>
+      )}
     </>
   );
 }
