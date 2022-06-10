@@ -1,3 +1,6 @@
+import { FormEvent } from 'react';
+export type onSubmitFormType = { onSubmit: (e: FormEvent<HTMLFormElement>) => void };
+
 export interface Country {
   _id: string;
   country: string;

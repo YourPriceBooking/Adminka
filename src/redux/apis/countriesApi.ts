@@ -10,7 +10,7 @@ export const countriesApi = baseApi.injectEndpoints({
     getCountries: builder.query<CountriesResponse, void>({
       query: () => '/countries',
       keepUnusedDataFor: 300,
-      transformResponse: (result: /*  meta, arg */ CountriesResponse | any) => result.data.result,
+      transformResponse: (result: CountriesResponse | any) => result.data.result,
       providesTags: result =>
         result
           ? [

@@ -8,21 +8,99 @@
         "lang": "English",
         "code": "EN",
         "createdAt": "2022-05-31T07:38:42.273Z",
-        "updatedAt": "2022-05-31T07:38:42.273Z"
+        "updatedAt": "2022-05-31T07:38:42.273Z",
+        "countries": [
+          {
+            "_id": "6296040304383c63199e79e2",
+            "country": "Ukraine",
+            "langCode": "EN",
+            "createdAt": "2022-05-31T12:03:15.660Z",
+            "updatedAt": "2022-05-31T12:03:15.660Z",
+            "edited": 0
+          },
+          {
+            "_id": "62960433ae648c191a362663",
+            "country": "Poland",
+            "langCode": "EN",
+            "createdAt": "2022-05-31T12:04:03.767Z",
+            "updatedAt": "2022-05-31T12:31:28.931Z",
+            "edited": 0
+          },
+          {
+            "_id": "629b96f52a9ed1c074725d52",
+            "country": "USA",
+            "langCode": "EN",
+            "createdAt": "2022-06-04T17:31:33.952Z",
+            "updatedAt": "2022-06-04T17:31:33.952Z",
+            "edited": 0
+          }
+        ]
       },
       {
         "_id": "6295c6251ae198a10eee3733",
         "lang": "Українська",
         "code": "UA",
         "createdAt": "2022-05-31T07:39:17.046Z",
-        "updatedAt": "2022-05-31T07:39:17.046Z"
+        "updatedAt": "2022-05-31T07:39:17.046Z",
+        "countries": [
+          {
+            "_id": "UA1",
+            "country": "Україна",
+            "langCode": "UA",
+            "createdAt": "2022-05-31T12:03:15.660Z",
+            "updatedAt": "2022-05-31T12:03:15.660Z",
+            "edited": 0
+          },
+          {
+            "_id": "UA2",
+            "country": "Польша",
+            "langCode": "UA",
+            "createdAt": "2022-05-31T12:04:03.767Z",
+            "updatedAt": "2022-05-31T12:31:28.931Z",
+            "edited": 0
+          },
+          {
+            "_id": "UA3",
+            "country": "Сполучені штати",
+            "langCode": "UA",
+            "createdAt": "2022-06-04T17:31:33.952Z",
+            "updatedAt": "2022-06-04T17:31:33.952Z",
+            "edited": 0
+          }
+        ]
       },
       {
         "_id": "6295c6651ae198a10eee3735",
         "lang": "Polski",
         "code": "PL",
         "createdAt": "2022-05-31T07:40:21.301Z",
-        "updatedAt": "2022-05-31T11:46:48.150Z"
+        "updatedAt": "2022-05-31T11:46:48.150Z",
+        "countries": [
+          {
+            "_id": "PL1",
+            "country": "Ukraina",
+            "langCode": "PL",
+            "createdAt": "2022-05-31T12:03:15.660Z",
+            "updatedAt": "2022-05-31T12:03:15.660Z",
+            "edited": 0
+          },
+          {
+            "_id": "PL2",
+            "country": "Polska",
+            "langCode": "PL",
+            "createdAt": "2022-05-31T12:04:03.767Z",
+            "updatedAt": "2022-05-31T12:31:28.931Z",
+            "edited": 0
+          },
+          {
+            "_id": "PL3",
+            "country": "USA",
+            "langCode": "PL",
+            "createdAt": "2022-06-04T17:31:33.952Z",
+            "updatedAt": "2022-06-04T17:31:33.952Z",
+            "edited": 0
+          }
+        ]
       }
     ]
   }

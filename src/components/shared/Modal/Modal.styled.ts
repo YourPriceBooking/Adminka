@@ -28,9 +28,9 @@ export const ModalStyled = styled.div`
   padding: 38px 30px;
   margin: auto;
 
-  background-color: ${({ theme }) => theme.colors.white};
+  /* background-color: ${({ theme }) => theme.colors.white}; */
   border-radius: 4px;
-  box-shadow: ${({ theme }) => theme.shadows.modal};
+  /* box-shadow: ${({ theme }) => theme.shadows.modal}; */
 
   transition: transform ${({ theme }) => theme.transition[110]};
 
