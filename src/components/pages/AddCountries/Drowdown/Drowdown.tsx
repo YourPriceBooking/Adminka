@@ -7,11 +7,18 @@ import { AddCountryForm } from '../AddCountryForm/AddCountryForm';
 type DropdownType = {
   countries: CountriesResponse;
   isEng: boolean;
-  add: (e: FormEvent<HTMLFormElement>) => Promise<void>;
+  onSubmitAddCountry: (e: FormEvent<HTMLFormElement>) => Promise<void>;
   toggleCountiesList: () => void;
+  isLoading: boolean;
 };
 
-export const Dropdown = ({ countries, isEng, add, toggleCountiesList }: DropdownType) => {
+export const Dropdown = ({
+  countries,
+  isEng,
+  onSubmitAddCountry,
+  toggleCountiesList,
+  isLoading,
+}: DropdownType) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [isEditingCountry, setIsEditingCountry] = useState(false);
 
@@ -24,7 +31,7 @@ export const Dropdown = ({ countries, isEng, add, toggleCountiesList }: Dropdown
         toggleCountiesList={toggleCountiesList}
       />
 
-      {isEng && <AddCountryForm onSubmit={add} />}
+      {isEng && <AddCountryForm onSubmit={onSubmitAddCountry} isLoading={isLoading} />}
     </DropdownStyled>
   );
 };

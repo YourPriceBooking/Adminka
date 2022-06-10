@@ -9,96 +9,81 @@ import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
 import slang from './SelectLang.module.scss';
 import Modal from 'components/shared/Modal/Modal';
 import { selectActiveLang, setLang } from 'redux/slices';
-import { useGetLanguagesQuery } from 'redux/apis';
-import { Language, onSubmitFormType } from 'types/apis';
-
-type LanguageItemProps = Language & { selectLang: (arg: Language) => void };
-
-const LanguageItem = ({ _id, lang, code, createdAt, updatedAt, selectLang }: LanguageItemProps) => {
-  return (
-    <li
-      className={slang.block_lang_li}
-      value={code}
-      key={code}
-      onClick={e => selectLang({ _id, lang, code, createdAt, updatedAt })}
-    >
-      {lang}
-      <p className={slang.block_lang_li_p}>{code}</p>
-    </li>
-  );
-};
-
-const AddLanguageForm = ({ onSubmit }: onSubmitFormType) => {
-  return (
-    <form className={slang.block_add_lang_text} onSubmit={onSubmit}>
-      <h5 className={slang.text_add_lang1}>
-        You can add a language, enter the name of the language in the original language and its
-        international designation
-      </h5>
-
-      <input
-        type="text"
-        name="lang"
-        className={slang.lang_block_input2}
-        // onChange={onChange2}
-        maxLength={20}
-        // value={language3.landTex}
-      />
-
-      <h5 className={slang.text_add_lang2}>name of the language in the original language</h5>
-
-      <input type="text" name="code" className={slang.lang_block_input3} maxLength={2} />
-
-      <h5 className={slang.text_add_lang3}>international designation</h5>
-
-      <button type="submit">Add language</button>
-    </form>
-  );
-};
+import { useAddLanguageMutation, useGetLanguagesQuery } from 'redux/apis';
+import { Language } from 'types/apis';
+import { AddLanguageForm } from './AddLanguageForm/AddLanguageForm';
+import { SelectLangList } from './SelectLangList/SelectLangList';
 
 export default function SelectLang() {
-  const { data: languages } = useGetLanguagesQuery();
+  const {
+    data: languages,
+    isLoading: isLoadingLanguagesFirstTime,
+    isFetching,
+  } = useGetLanguagesQuery();
+
+  const [addLanguage, { isLoading: isAddingLanguage }] = useAddLanguageMutation();
+
+  const isLoading = isLoadingLanguagesFirstTime || isFetching || isAddingLanguage;
 
   const appDispatch = useAppDispatch();
   const activeLang = useAppSelector(selectActiveLang);
 
-  const [touch, setTouch] = useState(false);
-  const toggleModal = useCallback(() => setTouch(!touch), [touch]);
+  const [showLanguagesList, setShowLanguagesList] = useState(false);
+  const toggleModal = useCallback(
+    () => setShowLanguagesList(!showLanguagesList),
+    [showLanguagesList]
+  );
 
-  const selectLang = (activeLang: Language) => {
-    console.log({ activeLang });
-    appDispatch(setLang(activeLang));
-    setTouch(false);
-  };
+  const selectLang = useCallback(
+    (activeLang: Language) => {
+      appDispatch(setLang(activeLang));
+      console.log({ activeLang });
+      setShowLanguagesList(false);
+    },
+    [appDispatch]
+  );
 
-  const codeTouch = () => {
-    setTouch(true);
-  };
-  const onSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    setTouch(false);
-  };
+  const openLanguagesList = useCallback(() => setShowLanguagesList(true), []);
+
+  const onSubmitAddLanguage = useCallback(
+    async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const form = e.currentTarget;
+      const formData = new FormData(form);
+      const lang = formData.get('newLanguageName')?.toString().trim();
+      const code = formData.get('newLanguageCode')?.toString().trim().toUpperCase();
+      console.log('code', code);
+      console.log('lang', lang);
+      if (!lang || !code) return;
+
+      try {
+        await addLanguage({ lang, code });
+      } catch (error) {
+        console.log(error);
+      }
+
+      setShowLanguagesList(false);
+      form.reset();
+    },
+    [addLanguage]
+  );
 
   return (
     <>
-      <div className={slang.lang_container} onClick={codeTouch}>
+      <div className={slang.lang_container} onClick={openLanguagesList}>
         <p className={slang.block_lang_p}>{activeLang.lang}</p>
         <p className={slang.block_lang_p2}>{activeLang.code}</p>
       </div>
 
-      {touch && (
+      {showLanguagesList && (
         <Modal toggleModal={toggleModal}>
           <div className={slang.modal__backdrop}>
             <div className={slang.container_add_lang}>
               <div className={slang.block_lang}>
-                <ul className={slang.block_lang_ul}>
-                  {languages.map((language: Language) => (
-                    <LanguageItem key={language.code} selectLang={selectLang} {...language} />
-                  ))}
-                </ul>
+                <SelectLangList languages={languages} selectLang={selectLang} />
               </div>
 
-              <AddLanguageForm onSubmit={onSubmit} />
+              <AddLanguageForm onSubmit={onSubmitAddLanguage} isLoading={isLoading} />
             </div>
           </div>
         </Modal>
