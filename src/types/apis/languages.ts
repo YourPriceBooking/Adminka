@@ -11,14 +11,14 @@ export type LanguagesResponse = Language[];
 export interface AddLanguage {
   lang: string;
   code: string;
-  edited: number;
+  // edited: number;
 }
 
 export interface EditLanguage {
-  id: string;
+  _id: string;
   lang: string;
   code: string;
-  edited: number;
+  // edited: number;
 }
 
 // console.log(LanguagesResponse);

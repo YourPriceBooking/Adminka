@@ -22,8 +22,14 @@ yarn add styled-components @types/styled-components
 yarn add react-transition-group @types/react-transition-group
 ```
 
-### 4 2022-06-09 09:43
+### 4️⃣ 2022-06-09 09:43
 
 ```shell
-yarn add polished
+yarn add polished babel-plugin-styled-components
+```
+
+### 5️⃣ 2022-06-10 02:27
+
+```shell
+yarn add redux-persist
 ```

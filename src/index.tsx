@@ -1,19 +1,43 @@
 import { createRoot } from 'react-dom/client';
 import { StrictMode } from 'react';
 import { Provider } from 'react-redux';
-import { store } from 'redux/store';
+import { store, persistor } from 'redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
+
 import { BrowserRouter } from 'react-router-dom';
 import './styles/index.css';
 import App from 'App';
 
+import styled from 'styled-components/macro';
+
 const root = createRoot(document.getElementById('root') as HTMLElement);
+
+const Loading = styled.div`
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: #212121;
+
+  /* animation: 500ms rotate infinite; */
+
+  /* @keyframes rotate {
+    from {
+      transform: rotate3d(0, 0, 0, 0deg);
+    }
+    to {
+      transform: rotate3d(0, 0, 0, 360deg);
+    }
+  } */
+`;
 
 root.render(
   <StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <PersistGate persistor={persistor} loading={<Loading />}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </PersistGate>
     </Provider>
   </StrictMode>
 );

@@ -1,18 +1,21 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { ignoredActions, persistedReducer } from './persist';
 import { baseApi } from './apis';
-import { authReducer, countriesReducer, langReducer, themeReducer } from './slices';
+import persistStore from 'redux-persist/es/persistStore';
 
 export const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    lang: langReducer,
-    theme: themeReducer,
-    countries: countriesReducer,
-    [baseApi.reducerPath]: baseApi.reducer,
-  },
+  reducer: persistedReducer,
+  middleware: getDefaultMiddlewares =>
+    getDefaultMiddlewares({
+      serializableCheck: {
+        ignoredActions,
+      },
+    }).concat(baseApi.middleware),
 
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(baseApi.middleware),
+  devTools: process.env.NODE_ENV !== 'production',
 });
+
+export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
