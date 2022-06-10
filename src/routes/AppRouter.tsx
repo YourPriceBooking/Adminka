@@ -5,7 +5,7 @@ import { useAppSelector } from 'hooks/redux/hooks';
 import { selectIsLoggedIn } from 'redux/slices';
 import { AnimatedContainer } from 'components/shared/AppRouter/AnimatedContainer';
 
-const LoginPage = lazy(() => import('pages/LoginPage'));
+import LoginPage from 'pages/LoginPage';
 const AddCountryPage = lazy(() => import('pages/AddCountryPage'));
 const MenuPage = lazy(() => import('pages/MenuPage'));
 

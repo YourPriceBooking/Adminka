@@ -8,8 +8,15 @@ import { useAddCountryMutation, useGetCountriesQuery } from 'redux/apis';
 import { Dropdown } from './Drowdown/Drowdown';
 
 export default function AddCountries() {
-  const { data: countries } = useGetCountriesQuery();
-  const [addCountry] = useAddCountryMutation();
+  const {
+    data: countries,
+    isLoading: isLoadingCountriesFirstTime,
+    isFetching,
+  } = useGetCountriesQuery();
+  const [addCountry, { isLoading: isAddingCountry }] = useAddCountryMutation();
+
+  const isLoading = isLoadingCountriesFirstTime || isFetching || isAddingCountry;
+
   // const { data: languages } = useGetLanguagesQuery();
   // console.log("AddCountries ~ languages", languages)
   const activeCountryName = useAppSelector(selectActiveCountryName);
@@ -17,7 +24,7 @@ export default function AddCountries() {
 
   const [showCountries, setShowCountries] = useState(false);
 
-  const add = useCallback(
+  const onSubmitAddCountry = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       const form = e.currentTarget;
@@ -50,7 +57,8 @@ export default function AddCountries() {
             toggleCountiesList={toggleCountiesList}
             countries={countries}
             isEng={isEng}
-            add={add}
+            onSubmitAddCountry={onSubmitAddCountry}
+            isLoading={isLoading}
           />
         )}
       </CountryEditorWrapper>
