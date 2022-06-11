@@ -4,8 +4,9 @@ import { Item } from './EditCountryItem';
 
 type EditCountriesListType = {
   isEditingCountry: boolean;
+  isLoading: boolean;
   setIsEditingCountry: (arg: boolean) => void;
-  countries: CountriesResponse;
+  countries?: CountriesResponse;
   toggleCountiesList: () => void;
 };
 
@@ -14,6 +15,7 @@ export const EditCountriesList = ({
   isEditingCountry,
   setIsEditingCountry,
   toggleCountiesList,
+  isLoading,
 }: EditCountriesListType) => {
   return (
     <CountryListWrapper>
@@ -25,6 +27,7 @@ export const EditCountriesList = ({
             setIsEditingCountry={setIsEditingCountry}
             isEditingCountry={isEditingCountry}
             toggleCountiesList={toggleCountiesList}
+            isLoading={isLoading}
           />
         ))}
       </CountryList>

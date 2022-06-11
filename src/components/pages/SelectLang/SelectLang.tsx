@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
 // import { selectLanguage, generate } from '../ListSlicer'
 import slang from './SelectLang.module.scss';
 import Modal from 'components/shared/Modal/Modal';
-import { selectActiveLang, setLang } from 'redux/slices';
+import { selectActiveLang, setActiveLang } from 'redux/slices';
 import { useAddLanguageMutation, useGetLanguagesQuery } from 'redux/apis';
 import { Language } from 'types/apis';
 import { AddLanguageForm } from './AddLanguageForm/AddLanguageForm';
@@ -36,7 +36,7 @@ export default function SelectLang() {
 
   const selectLang = useCallback(
     (activeLang: Language) => {
-      appDispatch(setLang(activeLang));
+      appDispatch(setActiveLang(activeLang));
       console.log({ activeLang });
       setShowLanguagesList(false);
     },
@@ -57,7 +57,10 @@ export default function SelectLang() {
       if (!lang || !code) return;
 
       try {
-        await addLanguage({ lang, code });
+        const payload = await addLanguage({ lang, code }).unwrap();
+        if (payload) {
+          selectLang(payload);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -65,7 +68,7 @@ export default function SelectLang() {
       setShowLanguagesList(false);
       form.reset();
     },
-    [addLanguage]
+    [addLanguage, selectLang]
   );
 
   return (

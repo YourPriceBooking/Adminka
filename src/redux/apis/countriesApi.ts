@@ -1,5 +1,5 @@
 import { baseApi } from './baseApi';
-import { AddCountry, CountriesResponse, EditCountry } from 'types/apis';
+import type { AddCountry, CountriesResponse, EditCountry, InitCountriesResponse } from 'types/apis';
 
 const COUNTRIES = { type: 'Countries' as const };
 const ID_LIST = { id: 'LIST' as const };
@@ -10,7 +10,7 @@ export const countriesApi = baseApi.injectEndpoints({
     getCountries: builder.query<CountriesResponse, void>({
       query: () => '/countries',
       keepUnusedDataFor: 300,
-      transformResponse: (result: CountriesResponse | any) => result.data.result,
+      transformResponse: (result: InitCountriesResponse) => result.data.result,
       providesTags: result =>
         result
           ? [
