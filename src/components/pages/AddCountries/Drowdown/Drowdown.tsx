@@ -5,7 +5,7 @@ import { EditCountriesList } from '../EditCountriesList/EditCountriesList';
 import { AddCountryForm } from '../AddCountryForm/AddCountryForm';
 
 type DropdownType = {
-  countries: CountriesResponse;
+  countries?: CountriesResponse;
   isEng: boolean;
   onSubmitAddCountry: (e: FormEvent<HTMLFormElement>) => Promise<void>;
   toggleCountiesList: () => void;
@@ -29,6 +29,7 @@ export const Dropdown = ({
         isEditingCountry={isEditingCountry}
         setIsEditingCountry={setIsEditingCountry}
         toggleCountiesList={toggleCountiesList}
+        isLoading={isLoading}
       />
 
       {isEng && <AddCountryForm onSubmit={onSubmitAddCountry} isLoading={isLoading} />}

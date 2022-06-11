@@ -1,5 +1,6 @@
 import { baseApi } from './baseApi';
-import { AddLanguage, LanguagesResponse } from 'types/apis';
+
+import type { AddLanguage, InitLanguagesResponse, Language, LanguagesResponse } from 'types/apis';
 
 const LANGUAGES = { type: 'Languages' as const };
 const ID_LIST = { id: 'LIST' as const };
@@ -7,10 +8,10 @@ const LANGUAGES_LIST = { ...LANGUAGES, ...ID_LIST };
 
 export const languagesApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    getLanguages: builder.query<LanguagesResponse | any, void>({
+    getLanguages: builder.query<LanguagesResponse, void>({
       query: () => '/languages',
       keepUnusedDataFor: 300,
-      transformResponse: (result: LanguagesResponse | any) => result.data.result,
+      transformResponse: (result: InitLanguagesResponse) => result.data.result,
       providesTags: result =>
         result
           ? [
@@ -20,7 +21,7 @@ export const languagesApi = baseApi.injectEndpoints({
           : [LANGUAGES_LIST],
     }),
 
-    addLanguage: builder.mutation<LanguagesResponse, AddLanguage>({
+    addLanguage: builder.mutation<Language, AddLanguage>({
       query: ({ lang, code }) => ({
         url: '/languages',
         method: 'POST',

@@ -3,15 +3,16 @@ import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import { useAppDispatch } from 'hooks/redux/hooks';
 import { setActiveCountry } from 'redux/slices';
 
-import iconEdit from 'assets/icons/iconEdit.svg';
+import { ReactComponent as IconEdit } from 'assets/icons/iconEdit.svg';
 
 import { useEditCountryMutation } from 'redux/apis';
-import { Country } from 'types/apis';
+import type { Country } from 'types/apis';
 
 type CountryItem = Country & {
   toggleCountiesList: () => void;
   setIsEditingCountry: (arg: boolean) => void;
   isEditingCountry: boolean;
+  isLoading: boolean;
 };
 
 export const Item = ({
@@ -21,12 +22,13 @@ export const Item = ({
   toggleCountiesList,
   isEditingCountry,
   setIsEditingCountry,
+  isLoading,
 }: CountryItem) => {
   const [editCountry] = useEditCountryMutation();
   const appDispatch = useAppDispatch();
 
   const [inputDisabled, setInputDisabled] = useState(true);
-  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
+  const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
   const [localValue, setLocalValue] = useState(country);
 
   const handleSubmit = useCallback(
@@ -42,7 +44,7 @@ export const Item = ({
       } catch (error) {
         console.log(error);
       } finally {
-        setSubmitButtonDisabled(true);
+        setIsSubmitButtonDisabled(true);
       }
       setInputDisabled(true);
     },
@@ -52,7 +54,7 @@ export const Item = ({
   const edit = useCallback(() => {
     setIsEditingCountry(true);
     setInputDisabled(false);
-    setSubmitButtonDisabled(false);
+    setIsSubmitButtonDisabled(false);
   }, [setIsEditingCountry]);
 
   const onChange = useCallback(
@@ -66,6 +68,9 @@ export const Item = ({
     appDispatch(setActiveCountry({ _id, country, langCode }));
     toggleCountiesList();
   }, [_id, appDispatch, country, isEditingCountry, langCode, toggleCountiesList]);
+
+  const isFirstEdit = langCode?.toUpperCase() === 'EN';
+  console.log(isFirstEdit);
 
   return (
     <li>
@@ -81,13 +86,16 @@ export const Item = ({
         </CountryInputLabel>
 
         {inputDisabled && (
-          <button onClick={edit} type="button" disabled={!inputDisabled}>
-            <img src={iconEdit} alt="" width={24} height={22} />
+          <button onClick={edit} type="button" disabled={!inputDisabled || isLoading}>
+            <IconEdit style={{ fill: isFirstEdit ? 'orange' : '#9B9B9B' }} />
           </button>
         )}
 
-        {!submitButtonDisabled && (
-          <button type="submit" disabled={submitButtonDisabled || !localValue.trim()}>
+        {!isSubmitButtonDisabled && (
+          <button
+            type="submit"
+            disabled={isSubmitButtonDisabled || !localValue.trim() || isLoading}
+          >
             Done
           </button>
         )}

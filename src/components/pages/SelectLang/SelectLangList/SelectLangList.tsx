@@ -4,15 +4,13 @@ import { LanguageItem } from './SelectLangItem';
 
 type SelectLangListType = {
   selectLang: (arg: Language) => void;
-  languages: Language[];
+  languages?: Language[];
 };
 
-export const SelectLangList = ({ languages, selectLang }: SelectLangListType) => {
-  return (
-    <ul className={slang.block_lang_ul}>
-      {languages.map((language: Language) => (
-        <LanguageItem key={language.code} selectLang={selectLang} {...language} />
-      ))}
-    </ul>
-  );
-};
+export const SelectLangList = ({ languages, selectLang }: SelectLangListType) => (
+  <ul className={slang.block_lang_ul}>
+    {languages?.map((language: Language) => (
+      <LanguageItem key={language.code} selectLang={selectLang} {...language} />
+    ))}
+  </ul>
+);

@@ -1,6 +1,277 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { countriesApi, languagesApi } from 'redux/apis';
 import type { RootState } from 'redux/store';
-import { Language } from 'types/apis';
+import { CountriesResponse, Country, Language, LanguagesResponse } from 'types/apis';
+
+const example = {
+  languages: [
+    {
+      _id: '6295c6021ae198a10eee3731',
+      lang: 'English',
+      code: 'EN',
+      createdAt: '2022-05-31T07:38:42.273Z',
+      updatedAt: '2022-05-31T07:38:42.273Z',
+      countries: [
+        {
+          _id: '62a19f010ddb7bc00249b80b',
+          country: 'Germany',
+          langCode: 'EN',
+          createdAt: '2022-06-09T07:19:29.994Z',
+          updatedAt: '2022-06-09T07:19:29.994Z',
+        },
+        {
+          _id: '62a1a6c90ddb7bc00249b819',
+          country: 'GermanyUkr',
+          langCode: 'EN',
+          createdAt: '2022-06-09T07:52:41.989Z',
+          updatedAt: '2022-06-09T08:17:48.537Z',
+        },
+        {
+          _id: '62a2242a8b3f2a9c94e315e1',
+          country: '1',
+          langCode: 'EN',
+          createdAt: '2022-06-09T16:47:38.218Z',
+          updatedAt: '2022-06-09T16:47:38.218Z',
+        },
+        {
+          _id: '62a225898b3f2a9c94e315e6',
+          country: '33',
+          langCode: 'EN',
+          createdAt: '2022-06-09T16:53:29.504Z',
+          updatedAt: '2022-06-09T16:53:29.504Z',
+        },
+        {
+          _id: '62a225c58b3f2a9c94e315e9',
+          country: 'іміім',
+          langCode: 'EN',
+          createdAt: '2022-06-09T16:54:29.740Z',
+          updatedAt: '2022-06-09T16:54:29.740Z',
+        },
+        {
+          _id: '62a31cc6d9409875529ccc2c',
+          country: 'Poland',
+          langCode: 'EN',
+          createdAt: '2022-06-10T10:28:22.499Z',
+          updatedAt: '2022-06-10T10:28:22.499Z',
+        },
+        {
+          _id: '62a31cf7d9409875529ccc2f',
+          country: 'Poland',
+          langCode: 'EN',
+          createdAt: '2022-06-10T10:29:11.826Z',
+          updatedAt: '2022-06-10T10:29:11.826Z',
+        },
+      ],
+    },
+
+    {
+      _id: '6295c6251ae198a10eee3733',
+      lang: 'Українська',
+      code: 'UA',
+      createdAt: '2022-05-31T07:39:17.046Z',
+      updatedAt: '2022-05-31T07:39:17.046Z',
+      countries: [
+        {
+          _id: '629e177248ce78ab4cc1d652',
+          country: 'Ukraine',
+          langCode: 'UA',
+          createdAt: '2022-06-06T15:04:18.979Z',
+          updatedAt: '2022-06-06T15:04:18.979Z',
+        },
+        {
+          _id: '62a19f010ddb7bc00249b80b',
+          country: 'Germany',
+          langCode: 'EN',
+          createdAt: '2022-06-09T07:19:29.994Z',
+          updatedAt: '2022-06-09T07:19:29.994Z',
+        },
+        {
+          _id: '62a1a6c90ddb7bc00249b819',
+          country: 'GermanyUkr',
+          langCode: 'EN',
+          createdAt: '2022-06-09T07:52:41.989Z',
+          updatedAt: '2022-06-09T08:17:48.537Z',
+        },
+        {
+          _id: '62a2242a8b3f2a9c94e315e1',
+          country: '1',
+          langCode: 'EN',
+          createdAt: '2022-06-09T16:47:38.218Z',
+          updatedAt: '2022-06-09T16:47:38.218Z',
+        },
+        {
+          _id: '62a225898b3f2a9c94e315e6',
+          country: '33',
+          langCode: 'EN',
+          createdAt: '2022-06-09T16:53:29.504Z',
+          updatedAt: '2022-06-09T16:53:29.504Z',
+        },
+        {
+          _id: '62a225c58b3f2a9c94e315e9',
+          country: 'іміім',
+          langCode: 'EN',
+          createdAt: '2022-06-09T16:54:29.740Z',
+          updatedAt: '2022-06-09T16:54:29.740Z',
+        },
+        {
+          _id: '62a31cc6d9409875529ccc2c',
+          country: 'Poland',
+          langCode: 'EN',
+          createdAt: '2022-06-10T10:28:22.499Z',
+          updatedAt: '2022-06-10T10:28:22.499Z',
+        },
+        {
+          _id: '62a31cf7d9409875529ccc2f',
+          country: 'Poland',
+          langCode: 'EN',
+          createdAt: '2022-06-10T10:29:11.826Z',
+          updatedAt: '2022-06-10T10:29:11.826Z',
+        },
+      ],
+    },
+
+    {
+      _id: '6295c6651ae198a10eee3735',
+      lang: 'Polski',
+      code: 'PL',
+      createdAt: '2022-05-31T07:40:21.301Z',
+      updatedAt: '2022-05-31T11:46:48.150Z',
+      countries: [
+        {
+          _id: '629b96f52a9ed1c074725d52',
+          country: 'Great Britain',
+          langCode: 'PL',
+          createdAt: '2022-06-04T17:31:33.952Z',
+          updatedAt: '2022-06-09T22:21:26.010Z',
+        },
+        {
+          _id: '629e1d6c48ce78ab4cc1d665',
+          country: 'Poland',
+          langCode: 'PL',
+          createdAt: '2022-06-06T15:29:48.090Z',
+          updatedAt: '2022-06-06T15:29:48.090Z',
+        },
+        {
+          _id: '62a19f010ddb7bc00249b80b',
+          country: 'Germany',
+          langCode: 'EN',
+          createdAt: '2022-06-09T07:19:29.994Z',
+          updatedAt: '2022-06-09T07:19:29.994Z',
+        },
+        {
+          _id: '62a1a6c90ddb7bc00249b819',
+          country: 'GermanyUkr',
+          langCode: 'EN',
+          createdAt: '2022-06-09T07:52:41.989Z',
+          updatedAt: '2022-06-09T08:17:48.537Z',
+        },
+        {
+          _id: '62a2242a8b3f2a9c94e315e1',
+          country: '1',
+          langCode: 'EN',
+          createdAt: '2022-06-09T16:47:38.218Z',
+          updatedAt: '2022-06-09T16:47:38.218Z',
+        },
+        {
+          _id: '62a225898b3f2a9c94e315e6',
+          country: '33',
+          langCode: 'EN',
+          createdAt: '2022-06-09T16:53:29.504Z',
+          updatedAt: '2022-06-09T16:53:29.504Z',
+        },
+        {
+          _id: '62a225c58b3f2a9c94e315e9',
+          country: 'іміім',
+          langCode: 'EN',
+          createdAt: '2022-06-09T16:54:29.740Z',
+          updatedAt: '2022-06-09T16:54:29.740Z',
+        },
+        {
+          _id: '62a31cc6d9409875529ccc2c',
+          country: 'Poland',
+          langCode: 'EN',
+          createdAt: '2022-06-10T10:28:22.499Z',
+          updatedAt: '2022-06-10T10:28:22.499Z',
+        },
+        {
+          _id: '62a31cf7d9409875529ccc2f',
+          country: 'Poland',
+          langCode: 'EN',
+          createdAt: '2022-06-10T10:29:11.826Z',
+          updatedAt: '2022-06-10T10:29:11.826Z',
+        },
+      ],
+    },
+
+    {
+      _id: '62a33745b82327fd30e38407',
+      lang: 'Deutsch',
+      code: 'DE',
+      createdAt: '2022-06-10T12:21:25.388Z',
+      updatedAt: '2022-06-10T12:21:25.388Z',
+      countries: [
+        {
+          _id: '62a19f010ddb7bc00249b80b',
+          country: 'Germany',
+          langCode: 'EN',
+          createdAt: '2022-06-09T07:19:29.994Z',
+          updatedAt: '2022-06-09T07:19:29.994Z',
+        },
+        {
+          _id: '62a1a6c90ddb7bc00249b819',
+          country: 'GermanyUkr',
+          langCode: 'EN',
+          createdAt: '2022-06-09T07:52:41.989Z',
+          updatedAt: '2022-06-09T08:17:48.537Z',
+        },
+        {
+          _id: '62a2242a8b3f2a9c94e315e1',
+          country: '1',
+          langCode: 'EN',
+          createdAt: '2022-06-09T16:47:38.218Z',
+          updatedAt: '2022-06-09T16:47:38.218Z',
+        },
+        {
+          _id: '62a225898b3f2a9c94e315e6',
+          country: '33',
+          langCode: 'EN',
+          createdAt: '2022-06-09T16:53:29.504Z',
+          updatedAt: '2022-06-09T16:53:29.504Z',
+        },
+        {
+          _id: '62a225c58b3f2a9c94e315e9',
+          country: 'іміім',
+          langCode: 'EN',
+          createdAt: '2022-06-09T16:54:29.740Z',
+          updatedAt: '2022-06-09T16:54:29.740Z',
+        },
+        {
+          _id: '62a31cc6d9409875529ccc2c',
+          country: 'Poland',
+          langCode: 'EN',
+          createdAt: '2022-06-10T10:28:22.499Z',
+          updatedAt: '2022-06-10T10:28:22.499Z',
+        },
+        {
+          _id: '62a31cf7d9409875529ccc2f',
+          country: 'Poland',
+          langCode: 'EN',
+          createdAt: '2022-06-10T10:29:11.826Z',
+          updatedAt: '2022-06-10T10:29:11.826Z',
+        },
+      ],
+    },
+  ],
+};
+
+type LanguageWithCountries = {
+  _id: string;
+  lang: string;
+  code: string;
+  createdAt: string;
+  updatedAt: string;
+  countries: CountriesResponse;
+};
 
 export const langSlice = createSlice({
   name: 'lang',
@@ -12,16 +283,190 @@ export const langSlice = createSlice({
       createdAt: '2022-05-31T07:38:42.273Z',
       updatedAt: '2022-05-31T07:38:42.273Z',
     },
+
+    languagesWithCountries: [
+      { code: 'UA', counties: [] },
+      { code: 'EN', counties: [] },
+      { code: 'PL', counties: [] },
+      { code: 'DE', counties: [] },
+    ],
+
+    languages: [
+      {
+        _id: '6295c6021ae198a10eee3731',
+        lang: 'English',
+        code: 'EN',
+        createdAt: '2022-05-31T07:38:42.273Z',
+        updatedAt: '2022-05-31T07:38:42.273Z',
+      },
+
+      {
+        _id: '6295c6251ae198a10eee3733',
+        lang: 'Українська',
+        code: 'UA',
+        createdAt: '2022-05-31T07:39:17.046Z',
+        updatedAt: '2022-05-31T07:39:17.046Z',
+      },
+
+      {
+        _id: '6295c6651ae198a10eee3735',
+        lang: 'Polski',
+        code: 'PL',
+        createdAt: '2022-05-31T07:40:21.301Z',
+        updatedAt: '2022-05-31T11:46:48.150Z',
+      },
+
+      {
+        _id: '62a33745b82327fd30e38407',
+        lang: 'Deutsch',
+        code: 'DE',
+        createdAt: '2022-06-10T12:21:25.388Z',
+        updatedAt: '2022-06-10T12:21:25.388Z',
+      },
+    ],
+
+    countries: [
+      {
+        _id: '6296040304383c63199e79e2',
+        country: 'AOE',
+        langCode: 'UU',
+        createdAt: '2022-05-31T12:03:15.660Z',
+        updatedAt: '2022-06-09T07:45:05.733Z',
+      },
+      {
+        _id: '62960433ae648c191a362663',
+        country: 'New',
+        langCode: 'OO',
+        createdAt: '2022-05-31T12:04:03.767Z',
+        updatedAt: '2022-06-10T02:23:43.896Z',
+      },
+      {
+        _id: '629b96f52a9ed1c074725d52',
+        country: 'Great Britain',
+        langCode: 'PL',
+        createdAt: '2022-06-04T17:31:33.952Z',
+        updatedAt: '2022-06-09T22:21:26.010Z',
+      },
+      {
+        _id: '629e177248ce78ab4cc1d652',
+        country: 'Ukraine',
+        langCode: 'UA',
+        createdAt: '2022-06-06T15:04:18.979Z',
+        updatedAt: '2022-06-06T15:04:18.979Z',
+      },
+      {
+        _id: '629e1d6c48ce78ab4cc1d665',
+        country: 'Poland',
+        langCode: 'PL',
+        createdAt: '2022-06-06T15:29:48.090Z',
+        updatedAt: '2022-06-06T15:29:48.090Z',
+      },
+      {
+        _id: '629e1d7f48ce78ab4cc1d669',
+        country: 'USA',
+        langCode: 'US',
+        createdAt: '2022-06-06T15:30:07.033Z',
+        updatedAt: '2022-06-09T08:54:15.250Z',
+      },
+      {
+        _id: '62a086d682bce17ed1069773',
+        country: 'USA5vsdvsdv',
+        langCode: 'US',
+        createdAt: '2022-06-08T11:24:06.499Z',
+        updatedAt: '2022-06-09T08:06:52.811Z',
+      },
+      {
+        _id: '62a19f010ddb7bc00249b80b',
+        country: 'Germany',
+        langCode: 'EN',
+        createdAt: '2022-06-09T07:19:29.994Z',
+        updatedAt: '2022-06-09T07:19:29.994Z',
+      },
+      {
+        _id: '62a1a6c90ddb7bc00249b819',
+        country: 'GermanyUkr',
+        langCode: 'EN',
+        createdAt: '2022-06-09T07:52:41.989Z',
+        updatedAt: '2022-06-09T08:17:48.537Z',
+      },
+      {
+        _id: '62a2242a8b3f2a9c94e315e1',
+        country: '1',
+        langCode: 'EN',
+        createdAt: '2022-06-09T16:47:38.218Z',
+        updatedAt: '2022-06-09T16:47:38.218Z',
+      },
+      {
+        _id: '62a225898b3f2a9c94e315e6',
+        country: '33',
+        langCode: 'EN',
+        createdAt: '2022-06-09T16:53:29.504Z',
+        updatedAt: '2022-06-09T16:53:29.504Z',
+      },
+      {
+        _id: '62a225c58b3f2a9c94e315e9',
+        country: 'іміім',
+        langCode: 'EN',
+        createdAt: '2022-06-09T16:54:29.740Z',
+        updatedAt: '2022-06-09T16:54:29.740Z',
+      },
+      {
+        _id: '62a31cc6d9409875529ccc2c',
+        country: 'Poland',
+        langCode: 'EN',
+        createdAt: '2022-06-10T10:28:22.499Z',
+        updatedAt: '2022-06-10T10:28:22.499Z',
+      },
+      {
+        _id: '62a31cf7d9409875529ccc2f',
+        country: 'Poland',
+        langCode: 'EN',
+        createdAt: '2022-06-10T10:29:11.826Z',
+        updatedAt: '2022-06-10T10:29:11.826Z',
+      },
+    ],
   },
 
   reducers: {
-    setLang(state, action: PayloadAction<Language>) {
+    setActiveLang(state, action: PayloadAction<Language>) {
       state.activeLang = action.payload;
     },
+    addNewCountryToEngLangObjectAndCopyItToAllOtherLanguagesWithOrangePencil(
+      state,
+      action: PayloadAction<{ code: string; country: string }>
+    ) {
+      // 1. createNewCountry on backend
+      // 2. copy new country to all languages
+    },
   },
+
+  extraReducers: builder =>
+    builder
+      .addMatcher(
+        countriesApi.endpoints.getCountries.matchFulfilled,
+        (state, action: PayloadAction<CountriesResponse>) => {
+          state.countries = action.payload;
+        }
+      )
+      .addMatcher(
+        languagesApi.endpoints.getLanguages.matchFulfilled,
+        (state, action: PayloadAction<LanguagesResponse>) => {
+          state.languages = action.payload;
+        }
+      ),
 });
 
-export const { setLang } = langSlice.actions;
+export const { setActiveLang } = langSlice.actions;
 export const langReducer = langSlice.reducer;
 export const selectActiveLang = (state: RootState) => state.lang.activeLang;
 export const selectIsEnglishActiveLang = (state: RootState) => state.lang.activeLang.code === 'EN';
+export const selectAllCountriesFromLanguageObject = (state: RootState) => state.lang.countries;
+
+export const selectCountriesForActiveLanguage = (state: RootState) => {
+  const allCountries = selectAllCountriesFromLanguageObject(state);
+  const activeLang = selectActiveLang(state);
+  const filteredCountries = allCountries.filter(
+    ({ langCode }) => langCode === activeLang.code || langCode === 'EN'
+  );
+  return filteredCountries;
+};

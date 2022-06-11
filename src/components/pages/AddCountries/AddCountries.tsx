@@ -2,18 +2,21 @@ import { AddCountriesStyled, CountryEditorWrapper, ShowEditorButton } from './Ad
 
 import { FormEvent, useCallback, useState } from 'react';
 import { useAppSelector } from 'hooks/redux/hooks';
-import { selectActiveCountryName, selectIsEnglishActiveLang } from 'redux/slices';
+import {
+  selectActiveCountryName,
+  selectCountriesForActiveLanguage,
+  selectIsEnglishActiveLang,
+} from 'redux/slices';
 
 import { useAddCountryMutation, useGetCountriesQuery } from 'redux/apis';
 import { Dropdown } from './Drowdown/Drowdown';
 
 export default function AddCountries() {
-  const {
-    data: countries,
-    isLoading: isLoadingCountriesFirstTime,
-    isFetching,
-  } = useGetCountriesQuery();
+  const { isLoading: isLoadingCountriesFirstTime, isFetching } = useGetCountriesQuery();
   const [addCountry, { isLoading: isAddingCountry }] = useAddCountryMutation();
+
+  const visibleCountries = useAppSelector(selectCountriesForActiveLanguage);
+  console.log({ visibleCountries });
 
   const isLoading = isLoadingCountriesFirstTime || isFetching || isAddingCountry;
 
@@ -55,7 +58,7 @@ export default function AddCountries() {
         {showCountries && (
           <Dropdown
             toggleCountiesList={toggleCountiesList}
-            countries={countries}
+            countries={visibleCountries}
             isEng={isEng}
             onSubmitAddCountry={onSubmitAddCountry}
             isLoading={isLoading}
