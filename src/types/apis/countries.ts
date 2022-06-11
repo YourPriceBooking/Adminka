@@ -14,13 +14,15 @@ export type CountriesResponse = Country[];
 
 export type AddCountry = {
   country: string;
-  // langCode: string;
-  // edited: number;
+};
+
+export type AddCountryNotEng = {
+  country: string;
+  langCode: string;
 };
 
 export type EditCountry = {
   _id: string;
   country?: string;
   langCode?: string;
-  // edited: number;
 };

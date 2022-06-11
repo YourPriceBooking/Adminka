@@ -8,12 +8,13 @@ import {
   selectIsEnglishActiveLang,
 } from 'redux/slices';
 
-import { useAddCountryMutation, useGetCountriesQuery } from 'redux/apis';
+import { useAddCountryEngMutation, useGetCountriesQuery } from 'redux/apis';
 import { Dropdown } from './Drowdown/Drowdown';
 
 export default function AddCountries() {
   const { isLoading: isLoadingCountriesFirstTime, isFetching } = useGetCountriesQuery();
-  const [addCountry, { isLoading: isAddingCountry }] = useAddCountryMutation();
+
+  const [addCountryEng, { isLoading: isAddingCountry }] = useAddCountryEngMutation();
 
   const visibleCountries = useAppSelector(selectCountriesForActiveLanguage);
   console.log({ visibleCountries });
@@ -36,14 +37,14 @@ export default function AddCountries() {
       if (!country) return;
 
       try {
-        await addCountry({ country });
+        await addCountryEng({ country });
       } catch (error) {
         console.log(error);
       }
 
       form.reset();
     },
-    [addCountry]
+    [addCountryEng]
   );
 
   const toggleCountiesList = useCallback(() => setShowCountries(!showCountries), [showCountries]);

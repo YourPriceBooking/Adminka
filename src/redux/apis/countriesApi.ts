@@ -1,5 +1,11 @@
 import { baseApi } from './baseApi';
-import type { AddCountry, CountriesResponse, EditCountry, InitCountriesResponse } from 'types/apis';
+import type {
+  AddCountry,
+  AddCountryNotEng,
+  CountriesResponse,
+  EditCountry,
+  InitCountriesResponse,
+} from 'types/apis';
 
 const COUNTRIES = { type: 'Countries' as const };
 const ID_LIST = { id: 'LIST' as const };
@@ -10,7 +16,7 @@ export const countriesApi = baseApi.injectEndpoints({
     getCountries: builder.query<CountriesResponse, void>({
       query: () => '/countries',
       keepUnusedDataFor: 300,
-      transformResponse: (result: InitCountriesResponse) => result.data.result,
+      transformResponse: (result: InitCountriesResponse) => result?.data?.result?.reverse(),
       providesTags: result =>
         result
           ? [
@@ -20,7 +26,7 @@ export const countriesApi = baseApi.injectEndpoints({
           : [COUNTRIES_LIST],
     }),
 
-    addCountry: builder.mutation<CountriesResponse, AddCountry>({
+    addCountryEng: builder.mutation<CountriesResponse, AddCountry>({
       query: ({ country }) => ({
         url: '/countries',
         method: 'POST',
@@ -29,18 +35,32 @@ export const countriesApi = baseApi.injectEndpoints({
       invalidatesTags: [COUNTRIES_LIST],
     }),
 
-    editCountry: builder.mutation<CountriesResponse, EditCountry>({
-      query: ({ _id, country, langCode }) => ({
+    addCountryNotEng: builder.mutation<CountriesResponse, AddCountryNotEng>({
+      query: ({ country, langCode }) => ({
+        url: '/countries',
+        method: 'POST',
+        body: { country, langCode },
+      }),
+      invalidatesTags: [COUNTRIES_LIST],
+    }),
+
+    editCountryInEng: builder.mutation<CountriesResponse, EditCountry>({
+      query: ({ _id, country }) => ({
         url: `/countries/${_id}`,
         method: 'PUT',
-        body: { country, langCode },
+        body: { country, langCode: 'EN' },
       }),
       invalidatesTags: [COUNTRIES_LIST],
     }),
   }),
 });
 
-export const { useGetCountriesQuery, useAddCountryMutation, useEditCountryMutation } = countriesApi;
+export const {
+  useGetCountriesQuery,
+  useAddCountryEngMutation,
+  useAddCountryNotEngMutation,
+  useEditCountryInEngMutation,
+} = countriesApi;
 
 /*
 Це адрес по languages (add, update, del та get всіх )
