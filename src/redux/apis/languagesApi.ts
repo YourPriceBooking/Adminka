@@ -1,6 +1,12 @@
 import { baseApi } from './baseApi';
 
-import type { AddLanguage, InitLanguagesResponse, Language, LanguagesResponse } from 'types/apis';
+import type {
+  AddLanguage,
+  DeleteLanguage,
+  InitLanguagesResponse,
+  Language,
+  LanguagesResponse,
+} from 'types/apis';
 
 const LANGUAGES = { type: 'Languages' as const };
 const ID_LIST = { id: 'LIST' as const };
@@ -15,7 +21,10 @@ export const languagesApi = baseApi.injectEndpoints({
       providesTags: result =>
         result
           ? [
-              ...result.map(({ _id }: { _id: string }) => ({ ...LANGUAGES, id: _id })),
+              ...result.map(({ _id }: { _id: string }) => ({
+                ...LANGUAGES,
+                id: _id,
+              })),
               LANGUAGES_LIST,
             ]
           : [LANGUAGES_LIST],
@@ -29,7 +38,17 @@ export const languagesApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [LANGUAGES_LIST],
     }),
+
+    deleteLanguage: builder.mutation<Language, DeleteLanguage>({
+      query: ({ _id }) => ({
+        url: `/languages/${_id}`,
+        method: 'DELETE',
+        body: { _id },
+      }),
+      invalidatesTags: [LANGUAGES_LIST],
+    }),
   }),
 });
 
-export const { useGetLanguagesQuery, useAddLanguageMutation } = languagesApi;
+export const { useGetLanguagesQuery, useAddLanguageMutation, useDeleteLanguageMutation } =
+  languagesApi;

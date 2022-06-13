@@ -1,26 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from 'redux/store';
+import type { Country } from 'types/apis';
 
-export type CountryInterface = {
-  _id: string;
-  country: string;
-  langCode: string;
+type CountryState = {
+  activeCountry: Country;
+};
+
+const initialState: CountryState = {
+  activeCountry: { _id: '0', country: 'Ukraine', langCode: 'EN' },
 };
 
 const countriesSlice = createSlice({
   name: 'countries',
 
-  initialState: {
-    activeCountry: { _id: '1', country: 'Ukraine', langCode: 'US' },
-    entities: [
-      // { id: '0', name: 'USA' },
-      // { id: '1', name: 'Ukraine' },
-      // { id: '2', name: 'Poland' },
-    ],
-  },
+  initialState,
 
   reducers: {
-    setActiveCountry(state, { payload }: PayloadAction<CountryInterface>) {
+    setActiveCountry(state, { payload }: PayloadAction<Country>) {
       state.activeCountry = payload;
     },
 
@@ -43,4 +39,3 @@ export const countriesReducer = countriesSlice.reducer;
 export const selectActiveCountryId = (state: RootState) => state.countries.activeCountry._id;
 export const selectActiveCountryName = (state: RootState) => state.countries.activeCountry.country;
 export const selectActiveCountry = (state: RootState) => state.countries.activeCountry;
-export const selectCountries = (state: RootState) => state.countries.entities;

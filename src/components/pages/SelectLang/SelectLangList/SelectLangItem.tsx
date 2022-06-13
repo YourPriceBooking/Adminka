@@ -10,13 +10,14 @@ export const LanguageItem = ({
   createdAt,
   updatedAt,
   selectLang,
+  countries,
 }: LanguageItemProps) => {
   return (
     <li
       className={slang.block_lang_li}
       value={code}
       key={code}
-      onClick={e => selectLang({ _id, lang, code, createdAt, updatedAt })}
+      onClick={e => selectLang({ _id, lang, code, createdAt, updatedAt, countries })}
     >
       {lang}
       <p className={slang.block_lang_li_p}>{code}</p>

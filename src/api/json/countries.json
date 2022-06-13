@@ -24,6 +24,65 @@
         "createdAt": "2022-06-04T17:31:33.952Z",
         "updatedAt": "2022-06-04T17:31:33.952Z"
       }
+    ],
+
+    "languages1": [
+      {
+        "code": "EN",
+        "lang": "English",
+        "countries": [
+          { "id": "123", "country": "USA", "langCode": "EN" },
+          { "id": "345", "country": "Canada", "langCode": "EN" }
+        ]
+      },
+
+      {
+        "code": "UA",
+        "lang": "Ukraine",
+        "countries": [
+          { "id": "123", "country": "USA", "langCode": "EN", "edited": 0 },
+          { "id": "345", "country": "Canada", "langCode": "EN", "edited": 0 }
+        ]
+      },
+
+      {
+        "code": "PL",
+        "lang": "Poland",
+        "countries": [
+          { "id": "123", "country": "USA", "langCode": "EN", "edited": 0 },
+          { "id": "345", "country": "Canada", "langCode": "EN", "edited": 0 }
+        ]
+      }
+    ],
+
+    "languages2": [
+      {
+        "code": "EN",
+        "lang": "English",
+        "countries": [
+          { "id": "123", "country": "USA", "langCode": "EN" },
+          { "id": "345", "country": "Canada", "langCode": "EN" }
+        ]
+      },
+
+      {
+        "code": "UA",
+        "lang": "Ukraine",
+        "countries": [
+          { "id": "123", "country": "Штати", "langCode": "UA", "edited": 1 },
+          { "id": "345", "country": "Канада", "langCode": "UA", "edited": 1 },
+          { "id": "678", "country": "Kharkiv", "langCode": "EN", "edited": 0 }
+        ]
+      },
+
+      {
+        "code": "PL",
+        "lang": "Poland",
+        "countries": [
+          { "id": "123", "country": "USA", "langCode": "EN", "edited": 0 },
+          { "id": "345", "country": "Kanada", "langCode": "PL", "edited": 1 }
+        ]
+      }
     ]
   }
 }

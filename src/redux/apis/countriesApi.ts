@@ -1,8 +1,8 @@
 import { baseApi } from './baseApi';
 import type {
   AddCountry,
-  AddCountryNotEng,
   CountriesResponse,
+  DeleteCountry,
   EditCountry,
   InitCountriesResponse,
 } from 'types/apis';
@@ -13,18 +13,18 @@ const COUNTRIES_LIST = { ...COUNTRIES, ...ID_LIST };
 
 export const countriesApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    getCountries: builder.query<CountriesResponse, void>({
-      query: () => '/countries',
-      keepUnusedDataFor: 300,
-      transformResponse: (result: InitCountriesResponse) => result?.data?.result?.reverse(),
-      providesTags: result =>
-        result
-          ? [
-              ...result.map(({ _id }: { _id: string }) => ({ ...COUNTRIES, id: _id })),
-              COUNTRIES_LIST,
-            ]
-          : [COUNTRIES_LIST],
-    }),
+    // getCountries: builder.query<CountriesResponse, void>({
+    //   query: () => '/countries',
+    //   keepUnusedDataFor: 300,
+    //   transformResponse: (result: InitCountriesResponse) => result?.data?.result?.reverse(),
+    //   providesTags: result =>
+    //     result
+    //       ? [
+    //           ...result.map(({ _id }: { _id: string }) => ({ ...COUNTRIES, id: _id })),
+    //           COUNTRIES_LIST,
+    //         ]
+    //       : [COUNTRIES_LIST],
+    // }),
 
     addCountryEng: builder.mutation<CountriesResponse, AddCountry>({
       query: ({ country }) => ({
@@ -35,31 +35,49 @@ export const countriesApi = baseApi.injectEndpoints({
       invalidatesTags: [COUNTRIES_LIST],
     }),
 
-    addCountryNotEng: builder.mutation<CountriesResponse, AddCountryNotEng>({
-      query: ({ country, langCode }) => ({
-        url: '/countries',
-        method: 'POST',
+    editCountry: builder.mutation<CountriesResponse, EditCountry>({
+      query: ({ _id, country, langCode }) => ({
+        url: `/countries/${_id}`,
+        method: 'PUT',
         body: { country, langCode },
       }),
       invalidatesTags: [COUNTRIES_LIST],
     }),
 
-    editCountryInEng: builder.mutation<CountriesResponse, EditCountry>({
-      query: ({ _id, country }) => ({
+    deleteCountry: builder.mutation<CountriesResponse, DeleteCountry>({
+      query: ({ _id }) => ({
         url: `/countries/${_id}`,
-        method: 'PUT',
-        body: { country, langCode: 'EN' },
+        method: 'DELETE',
+        body: { _id },
       }),
       invalidatesTags: [COUNTRIES_LIST],
     }),
+
+    // addCountryNotEng: builder.mutation<CountriesResponse, AddCountryNotEng>({
+    //   query: ({ country, langCode }) => ({
+    //     url: '/countries',
+    //     method: 'POST',
+    //     body: { country, langCode },
+    //   }),
+    //   invalidatesTags: [COUNTRIES_LIST],
+    // }),
+
+    // editCountryNotEng: builder.mutation<CountriesResponse, EditCountry>({
+    //   query: ({ _id, country, langCode }) => ({
+    //     url: `/countries/${_id}`,
+    //     method: 'PUT',
+    //     body: { country, langCode },
+    //   }),
+    //   invalidatesTags: [COUNTRIES_LIST],
+    // }),
   }),
 });
 
 export const {
-  useGetCountriesQuery,
+  // useGetCountriesQuery,
   useAddCountryEngMutation,
-  useAddCountryNotEngMutation,
-  useEditCountryInEngMutation,
+  useEditCountryMutation,
+  useDeleteCountryMutation,
 } = countriesApi;
 
 /*

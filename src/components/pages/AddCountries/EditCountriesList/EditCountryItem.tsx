@@ -3,10 +3,9 @@ import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
 import { selectActiveLangCode, setActiveCountry } from 'redux/slices';
 
-import { ReactComponent as IconEdit } from 'assets/icons/iconEdit.svg';
-
-import { useAddCountryNotEngMutation, useEditCountryInEngMutation } from 'redux/apis';
+import { useEditCountryMutation, useDeleteCountryMutation } from 'redux/apis';
 import type { Country } from 'types/apis';
+import { EditButton } from '../EditButton/EditButton';
 
 type CountryItem = Country & {
   toggleCountiesList: () => void;
@@ -19,13 +18,14 @@ export const Item = ({
   _id,
   country,
   langCode,
+  international,
   toggleCountiesList,
   isEditingCountry,
   setIsEditingCountry,
   isLoading,
 }: CountryItem) => {
-  const [editCountryInEng, { isLoading: isEditingCountryInEng }] = useEditCountryInEngMutation();
-  const [addCountryNotEng, { isLoading: isAddingCountryNotEng }] = useAddCountryNotEngMutation();
+  const [editCountry, { isLoading: isLoadingEditedCountry }] = useEditCountryMutation();
+  const [deleteCountry, { isLoading: isDeletingCountry }] = useDeleteCountryMutation();
   const appDispatch = useAppDispatch();
 
   const activeLangCode = useAppSelector(selectActiveLangCode);
@@ -44,21 +44,22 @@ export const Item = ({
       if (!editedCountryName) return;
 
       try {
-        if (activeLangCode === 'EN') {
-          await editCountryInEng({ _id, country: editedCountryName });
-        } else {
-          await addCountryNotEng({ country: editedCountryName, langCode: activeLangCode });
-          // appDispatch(addEditedEngCountryId);
-        }
+        await editCountry({ _id, country: editedCountryName, langCode: activeLangCode });
       } catch (error) {
         console.log(error);
       } finally {
+        setInputDisabled(true);
         setIsSubmitButtonDisabled(true);
       }
-      setInputDisabled(true);
     },
-    [_id, activeLangCode, addCountryNotEng, editCountryInEng]
+    [_id, activeLangCode, editCountry]
   );
+
+  const onDeleteCountry = useCallback(async () => {
+    try {
+      await deleteCountry({ _id });
+    } catch (error) {}
+  }, [_id, deleteCountry]);
 
   const edit = useCallback(() => {
     setIsEditingCountry(true);
@@ -74,14 +75,14 @@ export const Item = ({
   const selectActiveCountry = useCallback(async () => {
     if (isEditingCountry) return;
 
-    appDispatch(setActiveCountry({ _id, country, langCode }));
+    appDispatch(setActiveCountry({ _id, country, langCode, international }));
     toggleCountiesList();
-  }, [_id, appDispatch, country, isEditingCountry, langCode, toggleCountiesList]);
+  }, [_id, appDispatch, country, international, isEditingCountry, langCode, toggleCountiesList]);
 
-  const isFirstEdit = langCode?.toUpperCase() === 'EN';
+  const isFirstEdit = langCode?.toUpperCase() === 'EN' && activeLangCode !== 'EN';
   console.log({ isFirstEdit });
 
-  const isPending = isLoading || isEditingCountryInEng || isAddingCountryNotEng;
+  const isPending = isLoading || isLoadingEditedCountry || isDeletingCountry;
 
   return (
     <li>
@@ -97,9 +98,11 @@ export const Item = ({
         </CountryInputLabel>
 
         {inputDisabled && (
-          <button onClick={edit} type="button" disabled={!inputDisabled || isPending}>
-            <IconEdit style={{ fill: isFirstEdit ? 'orange' : '#9B9B9B' }} />
-          </button>
+          <EditButton
+            onClick={edit}
+            $isFirstEdit={isFirstEdit}
+            disabled={!inputDisabled || isPending}
+          />
         )}
 
         {!isSubmitButtonDisabled && (
@@ -110,6 +113,10 @@ export const Item = ({
             Done
           </button>
         )}
+
+        <button type="button" onClick={onDeleteCountry}>
+          Delete
+        </button>
       </EditCountryForm>
     </li>
   );
