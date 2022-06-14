@@ -1,6 +1,6 @@
 import { AddCountriesStyled, CountryEditorWrapper, ShowEditorButton } from './AddCountries.styled';
 
-import { FormEvent, useCallback, useMemo, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useAppSelector } from 'hooks/redux/hooks';
 import {
   selectActiveCountryName,
@@ -11,10 +11,18 @@ import {
 
 import { languagesApi, useAddCountryEngMutation, useGetLanguagesQuery } from 'redux/apis';
 import { Dropdown } from './Drowdown/Drowdown';
+import { toast } from 'react-toastify';
 
 export default function AddCountries() {
   const { isLoading: isLoadingLanguagesFirstTime, isFetching } = useGetLanguagesQuery();
-  const [addCountryEng, { isLoading: isAddingCountry }] = useAddCountryEngMutation();
+  const [addCountryEng, { isLoading: isAddingCountry, error: addCountryEngMutationError }] =
+    useAddCountryEngMutation();
+
+  useEffect(() => {
+    if (!addCountryEngMutationError || !('data' in addCountryEngMutationError)) return;
+
+    toast.error(<p>{JSON.stringify(addCountryEngMutationError.data, null, 2)}</p>);
+  }, [addCountryEngMutationError]);
 
   const selectCountries = useMemo(() => languagesApi.endpoints.getLanguages.select(), []);
   const { data } = useAppSelector(selectCountries);
@@ -38,6 +46,7 @@ export default function AddCountries() {
 
       try {
         await addCountryEng({ country });
+        toast.success('Country added');
       } catch (error) {
         console.log(error);
       }

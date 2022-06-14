@@ -5,7 +5,7 @@
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 300;
-  src: local('Roboto'), local('Roboto Light'),
+  src: local('Roboto Light'), local('Roboto'),
     url('assets/fonts/roboto/roboto-lat-cyr-300.woff2') format('woff2'),
     url('assets/fonts/roboto/roboto-lat-cyr-300.woff') format('woff');
 }
@@ -14,7 +14,7 @@
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
-  src: local('Roboto'), local('Roboto Regular'),
+  src: local('Roboto Regular'), local('Roboto'),
     url('assets/fonts/roboto/roboto-lat-cyr-regular.woff2') format('woff2'),
     url('assets/fonts/roboto/roboto-lat-cyr-regular.woff') format('woff');
 }
@@ -23,7 +23,7 @@
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 500;
-  src: local('Roboto'), local('Roboto Medium'),
+  src: local('Roboto Medium'), local('Roboto'),
     url('assets/fonts/roboto/roboto-lat-cyr-500.woff2') format('woff2'),
     url('assets/fonts/roboto/roboto-lat-cyr-500.woff') format('woff');
 }
@@ -32,7 +32,38 @@
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
-  src: local('Roboto'), local('Roboto Bold'),
+  src: local('Roboto Bold'), local('Roboto'),
     url('assets/fonts/roboto/roboto-lat-cyr-700.woff2') format('woff2'),
     url('assets/fonts/roboto/roboto-lat-cyr-700.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Segoe UI';
+  font-style: normal;
+  font-weight: 200;
+  src: local('Segoe UI Light'), local('Segoe UI');
+}
+@font-face {
+  font-family: 'Segoe UI';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Segoe UI Semilight'), local('Segoe UI');
+}
+@font-face {
+  font-family: 'Segoe UI';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Segoe UI'), local('Segoe UI');
+}
+@font-face {
+  font-family: 'Segoe UI';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Segoe UI Semibold'), local('Segoe UI');
+}
+@font-face {
+  font-family: 'Segoe UI';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Segoe UI Bold'), local('Segoe UI');
 }

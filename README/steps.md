@@ -33,3 +33,9 @@ yarn add polished babel-plugin-styled-components
 ```shell
 yarn add redux-persist
 ```
+
+### 6️⃣ 2022-06-14 20:46
+
+```shell
+yarn add react-toastify
+```

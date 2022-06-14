@@ -36,6 +36,7 @@ declare module 'styled-components' {
         body: string;
         section: string;
         buttonEdit: string;
+        buttonAddLocation: string;
       };
 
       bgTransparent: {
@@ -88,6 +89,7 @@ declare module 'styled-components' {
       countrySelector: string;
       buttonCancel: string;
       cancelDeleteCard: string;
+      buttonAddLocation: string;
       modal: string;
     };
 
@@ -95,6 +97,18 @@ declare module 'styled-components' {
       '110': string;
       '160': string;
       '250': string;
+    };
+
+    zIndex: {
+      addCountryPage: {
+        addLanguageDropdown: number;
+        addCountryDropdown: number;
+        addLanguageModal: number;
+      };
+
+      modal: number;
+      toastify: number;
+      loading: number;
     };
   }
 }
@@ -108,8 +122,10 @@ export const breakpoints = {
 };
 
 export const fonts = {
-  roboto: "'Roboto', sans-serif",
-  segoe: "'Segoe UI', sans-serif",
+  roboto:
+    "'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+  segoe:
+    "'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
 };
 
 const permanent = {
@@ -145,15 +161,16 @@ export const border = {
 };
 
 export const borderTransparent = {
-  bgSection: `${rgba(0, 0, 0, 0.18)}`,
-  inputHover: `${rgba(light.textAccent, 0.5)}`,
-  inputFocus: `${rgba(light.textAccent, 0.7)}`,
-  bgBlock: `${rgba(border.input, 0.5)}`,
+  bgSection: rgba(0, 0, 0, 0.18),
+  inputHover: rgba(light.textAccent, 0.5),
+  inputFocus: rgba(light.textAccent, 0.7),
+  bgBlock: rgba(border.input, 0.5),
 };
 
 const bgNotAssigned = {
   section: '#f4f4f4',
   buttonEdit: '#dedede',
+  buttonAddLocation: '#ebecfe',
 };
 
 export const bgLight = {
@@ -162,37 +179,37 @@ export const bgLight = {
 };
 
 const bgTransparentNotAssigned = {
-  buttonHover: `${rgba(255, 96, 0, 0.9)}`,
-  buttonActive: `${rgba(255, 96, 0, 0.75)}`,
-  buttonCopyHover: `${rgba(106, 255, 121, 0.32)}`,
-  buttonCopyActive: `${rgba(106, 255, 121, 0.8)}`,
+  buttonHover: rgba(255, 96, 0, 0.9),
+  buttonActive: rgba(255, 96, 0, 0.75),
+  buttonCopyHover: rgba(106, 255, 121, 0.32),
+  buttonCopyActive: rgba(106, 255, 121, 0.8),
 
-  bgFormAddCountry: `${rgba(bgLight.body, 0.33)}`,
+  bgFormAddCountry: rgba(bgLight.body, 0.33),
 
-  buttonEditHover: `${rgba(bgLight.buttonEdit, 0.6)}`,
-  buttonEditActive: `${rgba(bgLight.buttonEdit, 0.9)}`,
+  buttonEditHover: rgba(bgLight.buttonEdit, 0.6),
+  buttonEditActive: rgba(bgLight.buttonEdit, 0.9),
 
-  bgAgentSettingsHeader: `${rgba(light.textAccent, 0.05)}`,
-  buttonSaveDisabled: `${rgba(light.textAccent, 0.39)}`,
-  buttonSaveActive: `${rgba(light.textAccent, 0.8)}`,
+  bgAgentSettingsHeader: rgba(light.textAccent, 0.05),
+  buttonSaveDisabled: rgba(light.textAccent, 0.39),
+  buttonSaveActive: rgba(light.textAccent, 0.8),
 
-  buttonDeleteAccountHover: `${rgba(light.black, 0.6)}`,
-  buttonCancelDelete: `${rgba(light.textThird, 0.2)}`,
-  buttonCancelDeleteHover: `${rgba(light.textThird, 0.28)}`,
-  buttonCancelDeleteActive: `${rgba(light.textThird, 0.11)}`,
-  buttonGoBackHover: `${rgba(light.textThird, 0.1)}`,
+  buttonDeleteAccountHover: rgba(light.black, 0.6),
+  buttonCancelDelete: rgba(light.textThird, 0.2),
+  buttonCancelDeleteHover: rgba(light.textThird, 0.28),
+  buttonCancelDeleteActive: rgba(light.textThird, 0.11),
+  buttonGoBackHover: rgba(light.textThird, 0.1),
 
-  buttonSaveCountryDisabled: `${rgba(light.title, 0.5)}`,
-  buttonSaveCountry: `${rgba(light.title, 0.7)}`,
-  buttonSaveCountryHover: `${rgba(light.title, 0.9)}`,
-  buttonSaveCountryActive: `${rgba(light.title, 0.3)}`,
+  buttonSaveCountryDisabled: rgba(light.title, 0.5),
+  buttonSaveCountry: rgba(light.title, 0.7),
+  buttonSaveCountryHover: rgba(light.title, 0.9),
+  buttonSaveCountryActive: rgba(light.title, 0.3),
 
-  blackTransparentQuarter: `${rgba(light.black, 0.25)}`,
+  blackTransparentQuarter: rgba(light.black, 0.25),
 };
 
 export const bgTransparentLight = {
   ...bgTransparentNotAssigned,
-  bgInput: `${rgba(bgLight.section, 0.5)}`,
+  bgInput: rgba(bgLight.section, 0.5),
 };
 
 export const dark = {
@@ -208,18 +225,19 @@ export const bgDark = {
 
 export const bgTransparentDark = {
   ...bgTransparentNotAssigned,
-  bgInput: `${rgba(bgDark.section, 0.5)}`,
+  bgInput: rgba(bgDark.section, 0.5),
 };
 
-const quarterBlack = `${rgba(0, 0, 0, 0.25)}`;
+const quarterBlack = rgba(0, 0, 0, 0.25);
 
 export const shadows = {
   quarterBlack,
-  notification: `0 0 4px ${quarterBlack}`,
-  countrySelector: `0 0 9px 2px ${quarterBlack}`,
-  buttonCancel: `0 0 5px 2px ${quarterBlack}`,
-  cancelDeleteCard: `0 0 10px ${rgba(light.black, 0.3)}`,
-  modal: `0px 2px 4px ${rgba(light.black, 0.15)}`,
+  notification: '0 0 4px  ' + quarterBlack,
+  countrySelector: '0 0 9px 2px  ' + quarterBlack,
+  buttonCancel: '0 0 5px 2px  ' + quarterBlack,
+  cancelDeleteCard: '0 0 10px  ' + rgba(light.black, 0.3),
+  buttonAddLocation: '0 0 5px  ' + rgba(light.black, 0.3),
+  modal: '0px 2px 4px  ' + rgba(light.black, 0.15),
 };
 
 const cubic = 'cubic-bezier(0.4, 0, 0.2, 1)';
@@ -228,4 +246,17 @@ export const transition = {
   '110': `110ms ${cubic}`, // short
   '160': `160ms ${cubic}`, // fast
   '250': `250ms ${cubic}`, // normal
+};
+
+export const zIndex = {
+  addCountryPage: {
+    addLanguageDropdown: 90,
+    addCountryDropdown: 100,
+    addLanguageModal: 1000, // Modal
+  },
+
+  modal: 1000, // Modal
+  // closeModalButtonStyled: 1001,
+  toastify: 9999,
+  loading: 10000,
 };

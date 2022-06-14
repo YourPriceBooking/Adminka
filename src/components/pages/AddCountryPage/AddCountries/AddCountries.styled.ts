@@ -1,13 +1,30 @@
 import styled from 'styled-components/macro';
 import { slideInLeft, slideOutLeft } from 'App.styled';
 
-export const Row = styled.div`
+export const Header = styled.header`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
-  gap: 54px;
+  margin-bottom: 28px;
+
+  gap: 12px;
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    gap: 20px;
+  }
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    gap: 54px;
+  }
 `;
 
 export const AddCountriesStyled = styled.section`
+  width: 280px;
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    width: 402px;
+  }
+
   &.page-fade-enter {
     animation: ${slideInLeft} 0.2s forwards;
   }
@@ -18,14 +35,12 @@ export const AddCountriesStyled = styled.section`
 
 export const CountryEditorWrapper = styled.div`
   position: relative;
-
-  width: 402px;
 `;
 
 export const ShowEditorButton = styled.button`
-  min-width: 402px;
+  width: 100%;
+  min-width: 250px;
   height: 59px;
-
   padding: 12px 18px;
 
   font-family: ${({ theme }) => theme.fonts.segoe};
@@ -37,4 +52,12 @@ export const ShowEditorButton = styled.button`
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.border.list};
   border-radius: 10px;
+
+  &:hover:not(:disabled) {
+    border-color: ${({ theme }) => theme.colors.title};
+  }
+
+  &:active {
+    border-color: ${({ theme }) => theme.colors.title};
+  }
 `;
