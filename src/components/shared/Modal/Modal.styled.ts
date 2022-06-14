@@ -3,13 +3,13 @@ import styled from 'styled-components/macro';
 export const BackdropStyled = styled.div`
   position: fixed;
   inset: 0;
-  z-index: 1000;
-  display: flex;
-
-  padding: 100px 20px;
-  overflow-y: scroll;
-
+  z-index: ${({ theme }) => theme.zIndex.modal};
   backdrop-filter: blur(15px);
+
+  display: flex;
+  padding: 100px 20px;
+
+  overflow-y: scroll;
   background-color: ${({ theme }) => theme.colors.bgTransparent.buttonCancelDeleteHover};
   opacity: 0.99;
 
@@ -43,6 +43,7 @@ export const CloseModalButtonStyled = styled.button`
   position: absolute;
   top: 8px;
   right: 8px;
+  /* z-index: ; */
 
   display: flex;
   align-items: center;

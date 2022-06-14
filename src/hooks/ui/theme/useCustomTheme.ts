@@ -14,6 +14,7 @@ import {
   borderTransparent,
   shadows,
   transition,
+  zIndex,
 } from 'styles/theme/theme';
 import { DefaultTheme } from 'styled-components/macro';
 
@@ -35,6 +36,7 @@ export const useCustomTheme = () => {
       },
       shadows,
       transition,
+      zIndex,
     }),
     [activeTheme]
   );

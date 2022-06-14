@@ -3,12 +3,17 @@ import styled from 'styled-components/macro';
 export const AddCountryFormStyled = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 50px;
-  padding: 20px 55px 28px;
+  gap: 20px;
+  padding: 16px;
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    gap: 50px;
+    padding: 20px 55px 28px;
+  }
 `;
 
 export const AddCountryText = styled.p`
-  width: 274px;
+  /* width: 150px; */
 
   font-family: 'Segoe UI';
   font-style: normal;
@@ -18,6 +23,10 @@ export const AddCountryText = styled.p`
   text-align: justify;
 
   color: #4c4c4c;
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    width: 274px;
+  }
 `;
 
 export const AddCountryInput = styled.input`

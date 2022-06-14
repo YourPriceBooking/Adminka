@@ -3,11 +3,12 @@ import { ThemeProvider } from 'styled-components/macro';
 import { GlobalStyle } from 'styles/GlobalStyle';
 import { AppStyled } from 'App.styled';
 import { AppRouter } from 'routes/AppRouter';
-// import { persistor } from 'redux/store';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
   const theme = useCustomTheme();
-  // persistor.purge();
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
@@ -15,6 +16,8 @@ export default function App() {
       <AppStyled className="App">
         <AppRouter />
       </AppStyled>
+
+      <ToastContainer autoClose={2800} />
     </ThemeProvider>
   );
 }

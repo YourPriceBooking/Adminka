@@ -84,5 +84,82 @@
         ]
       }
     ]
+  },
+  "state": {
+    "auth": {
+      "isLoggedIn": true
+    },
+    "lang": {
+      "activeLang": {
+        "_id": "6295c6021ae198a10eee3731",
+        "lang": "English",
+        "code": "EN",
+        "createdAt": "2022-05-31T07:38:42.273Z",
+        "updatedAt": "2022-05-31T07:38:42.273Z",
+        "countries": [
+          {
+            "_id": "62a5ab55ffbdefb643b24150",
+            "international": "Ukraine",
+            "country": "Ukraine",
+            "langCode": "EN",
+            "__v": 0
+          }
+        ]
+      }
+    },
+
+    "theme": { "activeTheme": "light" },
+
+    "countries": { "activeCountry": { "_id": "0", "country": "Ukraine", "langCode": "EN" } },
+
+    "locations": {
+      "regions": [
+        {
+          "_id": "12345UARegion",
+
+          "regionName": "Kyiv Region",
+          "regionInternational": "Kyiv Region",
+          "regionCode": "Kyiv",
+          "regionPhotoURL": "https://kyiv.region.ua/photos/kyiv-region.webp",
+          "edited": 0,
+
+          "cities": [
+            {
+              "regionId": "12345UARegion",
+              "_id": "12345UACity",
+              "cityName": "Kyiv",
+              "cityInternational": "Kyiv",
+              "cityCode": "KYI",
+              "cityPhotoURL": "https://kyiv.city.ua/photos/kyiv-city.webp",
+              "edited": 0,
+              "districts": [
+                {
+                  "regionId": "12345UARegion",
+                  "cityId": "12345UACity",
+                  "_id": "12345UADistrict",
+                  "districtName": "Kyiv Podil",
+                  "districtInternational": "Kyiv Podil",
+                  "districtCode": "POD",
+                  "districtPhotoURL": "https://kyiv-podil.district.ua/photos/kyiv-podil.webp",
+                  "edited": 0
+                }
+              ]
+            },
+
+            {
+              "regionId": "12345UARegion",
+              "_id": "12346UACity",
+              "cityName": "Browary",
+              "cityInternational": "Browary",
+              "cityCode": "BR",
+              "cityPhotoURL": "https://browary.city.ua/photos/browary-city.webp",
+              "edited": 0,
+              "districts": []
+            }
+          ]
+        }
+      ]
+    },
+    "_persist": { "version": 1, "rehydrated": true }
   }
 }
