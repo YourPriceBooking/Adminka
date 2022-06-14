@@ -1,30 +1,30 @@
 import { AddCountriesStyled, CountryEditorWrapper, ShowEditorButton } from './AddCountries.styled';
 
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback, useMemo, useState } from 'react';
 import { useAppSelector } from 'hooks/redux/hooks';
 import {
   selectActiveCountryName,
-  selectCountriesForActiveLanguage,
+  selectActiveLang,
+  // selectCountriesForActiveLanguage,
   selectIsEnglishActiveLang,
 } from 'redux/slices';
 
-import { useAddCountryEngMutation, useGetCountriesQuery } from 'redux/apis';
+import { languagesApi, useAddCountryEngMutation, useGetLanguagesQuery } from 'redux/apis';
 import { Dropdown } from './Drowdown/Drowdown';
 
 export default function AddCountries() {
-  const { isLoading: isLoadingCountriesFirstTime, isFetching } = useGetCountriesQuery();
-
+  const { isLoading: isLoadingLanguagesFirstTime, isFetching } = useGetLanguagesQuery();
   const [addCountryEng, { isLoading: isAddingCountry }] = useAddCountryEngMutation();
 
-  const visibleCountries = useAppSelector(selectCountriesForActiveLanguage);
-  console.log({ visibleCountries });
+  const selectCountries = useMemo(() => languagesApi.endpoints.getLanguages.select(), []);
+  const { data } = useAppSelector(selectCountries);
 
-  const isLoading = isLoadingCountriesFirstTime || isFetching || isAddingCountry;
+  const isLoading = isLoadingLanguagesFirstTime || isFetching || isAddingCountry;
 
-  // const { data: languages } = useGetLanguagesQuery();
-  // console.log("AddCountries ~ languages", languages)
   const activeCountryName = useAppSelector(selectActiveCountryName);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
+  const activeLang = useAppSelector(selectActiveLang);
+  const visibleCountries = data?.find(e => e.code === activeLang.code)?.countries;
 
   const [showCountries, setShowCountries] = useState(false);
 

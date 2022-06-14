@@ -5,6 +5,7 @@ import persistStore from 'redux-persist/es/persistStore';
 
 export const store = configureStore({
   reducer: persistedReducer,
+
   middleware: getDefaultMiddlewares =>
     getDefaultMiddlewares({
       serializableCheck: {
