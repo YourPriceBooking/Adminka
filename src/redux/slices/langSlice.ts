@@ -1,4 +1,4 @@
-import { $CombinedState, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { languagesApi } from 'redux/apis';
 import type { RootState } from 'redux/store';
 import type { Language } from 'types/apis';

@@ -43,8 +43,15 @@ export const Item = ({
       const editedCountryName = formData.get('editedCountryName')?.toString().trim();
       if (!editedCountryName) return;
 
+      const editedCountry = {
+        _id,
+        country: editedCountryName,
+        langCode: activeLangCode,
+        international: activeLangCode !== 'EN' ? international : editedCountryName,
+      };
+
       try {
-        await editCountry({ _id, country: editedCountryName, langCode: activeLangCode });
+        await editCountry(editedCountry);
       } catch (error) {
         console.log(error);
       } finally {
@@ -52,7 +59,7 @@ export const Item = ({
         setIsSubmitButtonDisabled(true);
       }
     },
-    [_id, activeLangCode, editCountry]
+    [_id, activeLangCode, editCountry, international]
   );
 
   const onDeleteCountry = useCallback(async () => {
@@ -79,7 +86,8 @@ export const Item = ({
     toggleCountiesList();
   }, [_id, appDispatch, country, international, isEditingCountry, langCode, toggleCountiesList]);
 
-  const isFirstEdit = langCode?.toUpperCase() === 'EN' && activeLangCode !== 'EN';
+  const isFirstEdit =
+    (langCode?.toUpperCase() === 'EN' && activeLangCode?.toUpperCase() !== 'EN') === true;
   console.log({ isFirstEdit });
 
   const isPending = isLoading || isLoadingEditedCountry || isDeletingCountry;

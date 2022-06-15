@@ -1,11 +1,5 @@
 import { baseApi } from './baseApi';
-import type {
-  AddCountry,
-  CountriesResponse,
-  DeleteCountry,
-  EditCountry,
-  InitCountriesResponse,
-} from 'types/apis';
+import type { AddCountry, CountriesResponse, DeleteCountry, EditCountry } from 'types/apis';
 
 const COUNTRIES = { type: 'Countries' as const };
 const ID_LIST = { id: 'LIST' as const };
@@ -27,19 +21,19 @@ export const countriesApi = baseApi.injectEndpoints({
     // }),
 
     addCountryEng: builder.mutation<CountriesResponse, AddCountry>({
-      query: ({ country }) => ({
+      query: ({ country, international }) => ({
         url: '/countries',
         method: 'POST',
-        body: { country, langCode: 'EN' },
+        body: { country, langCode: 'EN', international },
       }),
       invalidatesTags: [COUNTRIES_LIST],
     }),
 
     editCountry: builder.mutation<CountriesResponse, EditCountry>({
-      query: ({ _id, country, langCode }) => ({
+      query: ({ _id, country, langCode, international }) => ({
         url: `/countries/${_id}`,
         method: 'PUT',
-        body: { country, langCode },
+        body: { country, langCode, international },
       }),
       invalidatesTags: [COUNTRIES_LIST],
     }),
@@ -52,24 +46,6 @@ export const countriesApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [COUNTRIES_LIST],
     }),
-
-    // addCountryNotEng: builder.mutation<CountriesResponse, AddCountryNotEng>({
-    //   query: ({ country, langCode }) => ({
-    //     url: '/countries',
-    //     method: 'POST',
-    //     body: { country, langCode },
-    //   }),
-    //   invalidatesTags: [COUNTRIES_LIST],
-    // }),
-
-    // editCountryNotEng: builder.mutation<CountriesResponse, EditCountry>({
-    //   query: ({ _id, country, langCode }) => ({
-    //     url: `/countries/${_id}`,
-    //     method: 'PUT',
-    //     body: { country, langCode },
-    //   }),
-    //   invalidatesTags: [COUNTRIES_LIST],
-    // }),
   }),
 });
 

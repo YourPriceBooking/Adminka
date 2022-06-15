@@ -17,12 +17,14 @@ export type CountriesResponse = Country[];
 
 export type AddCountry = {
   country: string;
+  international: string;
 };
 
 export type EditCountry = {
   _id: string;
   country: string;
   langCode: string;
+  international?: string;
 };
 
 export type DeleteCountry = {

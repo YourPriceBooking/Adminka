@@ -42,18 +42,26 @@ export default function AddCountries() {
       const form = e.currentTarget;
       const formData = new FormData(form);
       const country = formData.get('newCountryName')?.toString().trim();
-      if (!country) return;
+      if (!country) {
+        toast('Kindly provide country name');
+        return;
+      }
+      if (!isEng) {
+        toast('Please select English language to add countries');
+        return;
+      }
 
       try {
-        await addCountryEng({ country });
+        await addCountryEng({ country, international: country });
         toast.success('Country added');
       } catch (error) {
         console.log(error);
+        toast.error("Country not added. Let's try again");
       }
 
       form.reset();
     },
-    [addCountryEng]
+    [addCountryEng, isEng]
   );
 
   const toggleCountiesList = useCallback(() => setShowCountries(!showCountries), [showCountries]);

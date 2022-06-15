@@ -34,7 +34,7 @@ export const languagesApi = baseApi.injectEndpoints({
       query: ({ lang, code }) => ({
         url: '/languages',
         method: 'POST',
-        body: { lang, code },
+        body: { lang, code, countries: [] },
       }),
       invalidatesTags: [LANGUAGES_LIST],
     }),
@@ -52,3 +52,22 @@ export const languagesApi = baseApi.injectEndpoints({
 
 export const { useGetLanguagesQuery, useAddLanguageMutation, useDeleteLanguageMutation } =
   languagesApi;
+
+/*
+Редагування країн:
+PUT api/countries/id
+  очікує {
+    "international": "NEW",
+    "country":"New",
+    "langCode":"UA"
+  }
+
+Можна додавати нову мову, та отримати правильний об'єкт з масивом країн (нові id):
+Додавання нової мови:
+POST api/languages
+  очікує {
+    "lang": "Українська",
+    "code": "UA",
+    "countries": []
+  }
+  */
