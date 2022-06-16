@@ -1,20 +1,27 @@
 import { AddCountriesStyled, CountryEditorWrapper, ShowEditorButton } from './AddCountries.styled';
 
-import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
-import { useAppSelector } from 'hooks/redux/hooks';
+import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
 import {
   selectActiveCountryName,
-  selectActiveLang,
-  // selectCountriesForActiveLanguage,
+  selectActiveLangId,
   selectIsEnglishActiveLang,
+  setActiveCountry,
 } from 'redux/slices';
 
-import { languagesApi, useAddCountryEngMutation, useGetLanguagesQuery } from 'redux/apis';
+import { useAddCountryEngMutation, useGetLanguagesQuery } from 'redux/apis';
 import { Dropdown } from './Drowdown/Drowdown';
 import { toast } from 'react-toastify';
 
 export default function AddCountries() {
-  const { isLoading: isLoadingLanguagesFirstTime, isFetching } = useGetLanguagesQuery();
+  const appDispatch = useAppDispatch();
+
+  const {
+    data: languages,
+    isLoading: isLoadingLanguagesFirstTime,
+    isFetching,
+  } = useGetLanguagesQuery();
+
   const [addCountryEng, { isLoading: isAddingCountry, error: addCountryEngMutationError }] =
     useAddCountryEngMutation();
 
@@ -24,15 +31,18 @@ export default function AddCountries() {
     toast.error(<p>{JSON.stringify(addCountryEngMutationError.data, null, 2)}</p>);
   }, [addCountryEngMutationError]);
 
-  const selectCountries = useMemo(() => languagesApi.endpoints.getLanguages.select(), []);
-  const { data } = useAppSelector(selectCountries);
-
   const isLoading = isLoadingLanguagesFirstTime || isFetching || isAddingCountry;
-
-  const activeCountryName = useAppSelector(selectActiveCountryName);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
-  const activeLang = useAppSelector(selectActiveLang);
-  const visibleCountries = data?.find(e => e.code === activeLang.code)?.countries;
+  const activeLangId = useAppSelector(selectActiveLangId);
+
+  const activeCountryName = useAppSelector(selectActiveCountryName) ?? 'Select country';
+
+  const derivedVisibleCountries = useMemo(
+    () => languages?.find(language => language._id === activeLangId)?.countries,
+    [activeLangId, languages]
+  );
+
+  // const { data: visibleCountries } = useGetCountriesQuery();
 
   const [showCountries, setShowCountries] = useState(false);
 
@@ -54,8 +64,11 @@ export default function AddCountries() {
       const newCountry = { country, international: country };
 
       try {
-        await addCountryEng(newCountry);
-        toast.success('Country added');
+        const addedCountry = await addCountryEng(newCountry).unwrap();
+        if (addedCountry) {
+          appDispatch(setActiveCountry(addedCountry));
+          toast.success(`${addedCountry} added`);
+        }
       } catch (error) {
         console.log(error);
         toast.error("Country not added. Let's try again");
@@ -63,25 +76,27 @@ export default function AddCountries() {
         form.reset();
       }
     },
-    [addCountryEng, isEng]
+    [addCountryEng, appDispatch, isEng]
   );
 
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
   const toggleCountiesList = useCallback(() => setShowCountries(!showCountries), [showCountries]);
 
   return (
     <AddCountriesStyled>
       <CountryEditorWrapper>
-        <ShowEditorButton type="button" onClick={toggleCountiesList}>
+        <ShowEditorButton type="button" ref={toggleButtonRef} onClick={toggleCountiesList}>
           {activeCountryName}
         </ShowEditorButton>
 
         {showCountries && (
           <Dropdown
             toggleCountiesList={toggleCountiesList}
-            countries={visibleCountries}
+            countries={derivedVisibleCountries}
             isEng={isEng}
             onSubmitAddCountry={onSubmitAddCountry}
             isLoading={isLoading}
+            toggleButtonRef={toggleButtonRef}
           />
         )}
       </CountryEditorWrapper>

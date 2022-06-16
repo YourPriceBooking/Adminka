@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
 // import {
 //   selectLanguageList,
@@ -8,12 +8,18 @@ import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
 // import { selectLanguage, generate } from '../ListSlicer'
 import slang from './AddLanguages.module.scss';
 import Modal from 'components/shared/Modal/Modal';
-import { selectActiveLang, setActiveLang } from 'redux/slices';
+import {
+  decreaseModalCount,
+  increaseModalCount,
+  selectActiveLang,
+  setActiveLang,
+} from 'redux/slices';
 import { useAddLanguageMutation, useGetLanguagesQuery } from 'redux/apis';
 import { Language } from 'types/apis';
 import { AddLanguageForm } from './AddLanguageForm/AddLanguageForm';
 import { SelectLangList } from './SelectLangList/SelectLangList';
 import { toast } from 'react-toastify';
+import { ShowLanguagesButton } from './AddLanguages.styled';
 
 export default function SelectLang() {
   const {
@@ -30,10 +36,26 @@ export default function SelectLang() {
   const activeLang = useAppSelector(selectActiveLang);
 
   const [showLanguagesList, setShowLanguagesList] = useState(false);
-  const toggleModal = useCallback(
-    () => setShowLanguagesList(!showLanguagesList),
-    [showLanguagesList]
-  );
+
+  // useEffect(() => {
+
+  // }, [appDispatch, showLanguagesList]);
+
+  const openModal = useCallback(() => {
+    if (!showLanguagesList) {
+      appDispatch(increaseModalCount());
+    }
+
+    setShowLanguagesList(true);
+  }, [appDispatch, showLanguagesList]);
+
+  const closeModal = useCallback(() => {
+    if (showLanguagesList) {
+      appDispatch(decreaseModalCount());
+    }
+
+    setShowLanguagesList(showLanguagesList => !showLanguagesList);
+  }, [appDispatch, showLanguagesList]);
 
   const selectLang = useCallback(
     (activeLang: Language) => {
@@ -43,8 +65,6 @@ export default function SelectLang() {
     },
     [appDispatch]
   );
-
-  const openLanguagesList = useCallback(() => setShowLanguagesList(true), []);
 
   const onSubmitAddLanguage = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
@@ -76,13 +96,15 @@ export default function SelectLang() {
 
   return (
     <>
-      <div className={slang.lang_container} onClick={openLanguagesList}>
-        <p className={slang.block_lang_p}>{activeLang.lang}</p>
-        <p className={slang.block_lang_p2}>{activeLang.code}</p>
+      <div className={slang.lang_container}>
+        <ShowLanguagesButton onClick={openModal}>
+          <p className={slang.block_lang_p}>{activeLang.lang}</p>
+          <p className={slang.block_lang_p2}>{activeLang.code}</p>
+        </ShowLanguagesButton>
       </div>
 
       {showLanguagesList && (
-        <Modal toggleModal={toggleModal}>
+        <Modal toggleModal={closeModal}>
           <div className={slang.modal__backdrop}>
             <div className={slang.container_add_lang}>
               <div className={slang.block_lang}>

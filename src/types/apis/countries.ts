@@ -6,10 +6,9 @@ export type Country = {
   _id: string;
   country: string;
   langCode: string;
-  international?: string;
-  createdAt?: string;
-  updatedAt?: string;
-  __v?: number;
+  dbLangCode?: string;
+  international: string;
+  __v: number;
 };
 
 export type InitCountriesResponse = { data: { result: Country[] } };
@@ -25,6 +24,7 @@ export type EditCountry = {
   country: string;
   langCode: string;
   international?: string;
+  __v: number;
 };
 
 export type DeleteCountry = {

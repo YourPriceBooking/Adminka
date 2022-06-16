@@ -1,4 +1,9 @@
-import { CountryInputLabel, EditCountryForm, EditCountryInput } from './EditCountriesList.styled';
+import {
+  CountryInputLabel,
+  EditCountryForm,
+  EditCountryInput,
+  EditCountryItem,
+} from './EditCountriesList.styled';
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
 import { selectActiveLangCode, setActiveCountry } from 'redux/slices';
@@ -19,6 +24,8 @@ export const Item = ({
   country,
   langCode,
   international,
+  __v,
+
   toggleCountiesList,
   isEditingCountry,
   setIsEditingCountry,
@@ -48,6 +55,7 @@ export const Item = ({
         country: editedCountryName,
         langCode: activeLangCode,
         international: activeLangCode !== 'EN' ? international : editedCountryName,
+        __v: __v + 1,
       };
 
       try {
@@ -59,7 +67,7 @@ export const Item = ({
         setIsSubmitButtonDisabled(true);
       }
     },
-    [_id, activeLangCode, editCountry, international]
+    [__v, _id, activeLangCode, editCountry, international]
   );
 
   const onDeleteCountry = useCallback(async () => {
@@ -82,9 +90,18 @@ export const Item = ({
   const selectActiveCountry = useCallback(async () => {
     if (isEditingCountry) return;
 
-    appDispatch(setActiveCountry({ _id, country, langCode, international }));
+    appDispatch(setActiveCountry({ _id, country, langCode, international, __v }));
     toggleCountiesList();
-  }, [_id, appDispatch, country, international, isEditingCountry, langCode, toggleCountiesList]);
+  }, [
+    __v,
+    _id,
+    appDispatch,
+    country,
+    international,
+    isEditingCountry,
+    langCode,
+    toggleCountiesList,
+  ]);
 
   const isFirstEdit =
     (langCode?.toUpperCase() === 'EN' && activeLangCode?.toUpperCase() !== 'EN') === true;
@@ -93,7 +110,7 @@ export const Item = ({
   const isPending = isLoading || isLoadingEditedCountry || isDeletingCountry;
 
   return (
-    <li>
+    <EditCountryItem>
       <EditCountryForm onSubmit={handleSubmit}>
         <CountryInputLabel onClick={selectActiveCountry}>
           <EditCountryInput
@@ -126,6 +143,6 @@ export const Item = ({
           Delete
         </button>
       </EditCountryForm>
-    </li>
+    </EditCountryItem>
   );
 };

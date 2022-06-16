@@ -29,15 +29,20 @@ export const AddCountryText = styled.p`
   }
 `;
 
+export const AddCountryLabel = styled.label`
+  display: flex;
+  flex-direction: column;
+  max-width: 292px;
+`;
+
 export const AddCountryInput = styled.input`
   display: flex;
   align-items: center;
   justify-content: center;
 
-  padding: 8px;
-
-  width: 292px;
+  width: 100%;
   height: 42px;
+  padding: 8px;
 
   background-color: #ffffff;
   border: 1px solid #787878;

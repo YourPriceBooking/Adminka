@@ -9,8 +9,17 @@ export const CountryList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 34px 40px;
+  padding: 16px 12px;
   gap: 12px;
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    padding: 34px 40px;
+  }
+`;
+
+export const EditCountryItem = styled.li`
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 `;
 
 export const CountryInputLabel = styled.label`
@@ -19,11 +28,17 @@ export const CountryInputLabel = styled.label`
 `;
 
 export const EditCountryInput = styled.input`
+  width: 100%;
   font-size: 20px;
   padding: 4px 8px;
 `;
 
 export const EditCountryForm = styled.form`
   display: flex;
-  gap: 20px;
+  align-items: center;
+  gap: 4px;
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    gap: 20px;
+  }
 `;

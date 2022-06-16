@@ -1,5 +1,7 @@
 import { useCustomTheme } from 'hooks/ui/theme';
 import { ThemeProvider } from 'styled-components/macro';
+import { ScrollContainer } from 'components/shared/Container';
+
 import { GlobalStyle } from 'styles/GlobalStyle';
 import { AppStyled } from 'App.styled';
 import { AppRouter } from 'routes/AppRouter';
@@ -11,13 +13,15 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <GlobalStyle />
+      <ScrollContainer>
+        <GlobalStyle />
 
-      <AppStyled className="App">
-        <AppRouter />
-      </AppStyled>
+        <AppStyled className="App">
+          <AppRouter />
+        </AppStyled>
 
-      <ToastContainer autoClose={2800} />
+        <ToastContainer autoClose={2800} />
+      </ScrollContainer>
     </ThemeProvider>
   );
 }

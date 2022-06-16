@@ -3,11 +3,11 @@ import type { RootState } from 'redux/store';
 import type { Country } from 'types/apis';
 
 type CountryState = {
-  activeCountry: Country;
+  activeCountry: Country | null;
 };
 
 const initialState: CountryState = {
-  activeCountry: { _id: '0', country: 'Ukraine', langCode: 'EN' },
+  activeCountry: null,
 };
 
 const countriesSlice = createSlice({
@@ -36,6 +36,8 @@ const countriesSlice = createSlice({
 
 export const { setActiveCountry } = countriesSlice.actions;
 export const countriesReducer = countriesSlice.reducer;
-export const selectActiveCountryId = (state: RootState) => state.countries.activeCountry._id;
-export const selectActiveCountryName = (state: RootState) => state.countries.activeCountry.country;
+export const selectActiveCountryId = (state: RootState) => state.countries.activeCountry?._id;
+
+export const selectActiveCountryName = (state: RootState) => state.countries.activeCountry?.country;
+
 export const selectActiveCountry = (state: RootState) => state.countries.activeCountry;

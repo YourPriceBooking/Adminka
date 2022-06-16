@@ -25,7 +25,7 @@ export const BackdropStyled = styled.div`
 export const ModalStyled = styled.div`
   position: relative;
   min-height: 277px;
-  padding: 38px 30px;
+
   margin: auto;
 
   /* background-color: ${({ theme }) => theme.colors.white}; */
@@ -41,16 +41,15 @@ export const ModalStyled = styled.div`
 
 export const CloseModalButtonStyled = styled.button`
   position: absolute;
-  top: 8px;
-  right: 8px;
-  /* z-index: ; */
+  top: -24px;
+  right: -28px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   padding: 0;
 
   color: ${({ theme }) => theme.colors.textThird};

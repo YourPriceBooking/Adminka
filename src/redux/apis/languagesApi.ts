@@ -18,7 +18,7 @@ export const languagesApi = baseApi.injectEndpoints({
     getLanguages: builder.query<LanguagesResponse, void>({
       query: () => '/languages',
       keepUnusedDataFor: 300,
-      transformResponse: (result: InitLanguagesResponse) => result.data.result,
+      transformResponse: (result: InitLanguagesResponse) => result.data.languages,
       providesTags: result =>
         result
           ? [

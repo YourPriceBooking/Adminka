@@ -9,7 +9,7 @@ export type Language = {
   countries: Country[];
 };
 
-export type InitLanguagesResponse = { data: { result: Language[] } };
+export type InitLanguagesResponse = { data: { languages: Language[] } };
 
 export type LanguagesResponse = Language[];
 

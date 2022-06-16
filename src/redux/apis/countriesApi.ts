@@ -1,5 +1,12 @@
 import { baseApi } from './baseApi';
-import type { AddCountry, CountriesResponse, DeleteCountry, EditCountry } from 'types/apis';
+import type {
+  AddCountry,
+  CountriesResponse,
+  Country,
+  DeleteCountry,
+  EditCountry,
+  InitCountriesResponse,
+} from 'types/apis';
 
 const COUNTRIES = { type: 'Countries' as const };
 const ID_LIST = { id: 'LIST' as const };
@@ -7,33 +14,33 @@ const COUNTRIES_LIST = { ...COUNTRIES, ...ID_LIST };
 
 export const countriesApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    // getCountries: builder.query<CountriesResponse, void>({
-    //   query: () => '/countries',
-    //   keepUnusedDataFor: 300,
-    //   transformResponse: (result: InitCountriesResponse) => result?.data?.result?.reverse(),
-    //   providesTags: result =>
-    //     result
-    //       ? [
-    //           ...result.map(({ _id }: { _id: string }) => ({ ...COUNTRIES, id: _id })),
-    //           COUNTRIES_LIST,
-    //         ]
-    //       : [COUNTRIES_LIST],
-    // }),
+    getCountries: builder.query<CountriesResponse, void>({
+      query: () => '/countries',
+      keepUnusedDataFor: 300,
+      transformResponse: (result: InitCountriesResponse) => result?.data?.result,
+      providesTags: result =>
+        result
+          ? [
+              ...result.map(({ _id }: { _id: string }) => ({ ...COUNTRIES, id: _id })),
+              COUNTRIES_LIST,
+            ]
+          : [COUNTRIES_LIST],
+    }),
 
-    addCountryEng: builder.mutation<CountriesResponse, AddCountry>({
+    addCountryEng: builder.mutation<Country, AddCountry>({
       query: ({ country, international }) => ({
         url: '/countries',
         method: 'POST',
-        body: { country, langCode: 'EN', international },
+        body: { country, international, langCode: 'EN', dbLangCode: 'EN' },
       }),
       invalidatesTags: [COUNTRIES_LIST],
     }),
 
-    editCountry: builder.mutation<CountriesResponse, EditCountry>({
-      query: ({ _id, country, langCode, international }) => ({
+    editCountry: builder.mutation<Country, EditCountry>({
+      query: ({ _id, country, langCode, international, __v }) => ({
         url: `/countries/${_id}`,
         method: 'PUT',
-        body: { country, langCode, international },
+        body: { country, langCode, international, __v },
       }),
       invalidatesTags: [COUNTRIES_LIST],
     }),
@@ -50,7 +57,7 @@ export const countriesApi = baseApi.injectEndpoints({
 });
 
 export const {
-  // useGetCountriesQuery,
+  useGetCountriesQuery,
   useAddCountryEngMutation,
   useEditCountryMutation,
   useDeleteCountryMutation,

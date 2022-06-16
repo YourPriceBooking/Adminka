@@ -4,6 +4,7 @@ import {
   AddCountryButton,
   AddCountryFormStyled,
   AddCountryInput,
+  AddCountryLabel,
   AddCountryText,
 } from './AddCountryForm.styled';
 
@@ -18,13 +19,15 @@ export const AddCountryForm = ({ onSubmit, isLoading }: AddCountryFormProps) => 
     <AddCountryFormStyled onSubmit={onSubmit}>
       <AddCountryText>You can add a country, enter the name in English</AddCountryText>
 
-      <AddCountryInput
-        name="newCountryName"
-        type="text"
-        value={localNewCountryName}
-        onChange={e => setLocalNewCountryName(e.currentTarget.value)}
-        maxLength={20}
-      />
+      <AddCountryLabel>
+        <AddCountryInput
+          name="newCountryName"
+          type="text"
+          value={localNewCountryName}
+          onChange={e => setLocalNewCountryName(e.currentTarget.value)}
+          maxLength={20}
+        />
+      </AddCountryLabel>
 
       <p>name of the country in the English language</p>
 

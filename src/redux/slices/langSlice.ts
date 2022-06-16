@@ -9,20 +9,37 @@ type LanguageState = {
 
 const initialState: LanguageState = {
   activeLang: {
-    _id: '6295c6021ae198a10eee3731',
+    _id: '62aafec23f300ab5a1e54d08',
     lang: 'English',
     code: 'EN',
-    createdAt: '2022-05-31T07:38:42.273Z',
-    updatedAt: '2022-05-31T07:38:42.273Z',
     countries: [
       {
-        _id: '62a5ab55ffbdefb643b24150',
+        international: 'Poland',
+        country: 'Poland',
+        langCode: 'EN',
+        dbLangCode: 'EN',
+        _id: '62aafec13f300ab5a1e54d04',
+        __v: 0,
+      },
+      {
         international: 'Ukraine',
         country: 'Ukraine',
         langCode: 'EN',
+        dbLangCode: 'EN',
+        _id: '62aafec13f300ab5a1e54d05',
+        __v: 0,
+      },
+      {
+        international: 'USA',
+        country: 'USA',
+        langCode: 'EN',
+        dbLangCode: 'EN',
+        _id: '62aafec13f300ab5a1e54d06',
         __v: 0,
       },
     ],
+    createdAt: '2022-06-16T09:58:26.046Z',
+    updatedAt: '2022-06-16T09:58:26.046Z',
   },
 };
 
@@ -66,15 +83,24 @@ export const langSlice = createSlice({
 });
 
 export const { setActiveLang } = langSlice.actions;
-export const langReducer = langSlice.reducer;
-export const selectActiveLang = (state: RootState) => state.lang.activeLang;
-export const selectActiveLangCode = (state: RootState) => state.lang.activeLang.code;
-export const selectIsEnglishActiveLang = (state: RootState) => state.lang.activeLang.code === 'EN';
-const langFactory = languagesApi.endpoints.getLanguages.select();
-export const selectCountriesForActiveLanguage = (state: RootState) => {
-  const data = langFactory(state)?.data;
 
-  return !data
-    ? []
-    : data.find(language => language.code === state.lang.activeLang.code)?.countries;
-};
+export const langReducer = langSlice.reducer;
+
+export const selectActiveLang = (state: RootState) => state.lang.activeLang;
+export const selectActiveLangId = (state: RootState) => selectActiveLang(state)._id;
+export const selectActiveLangCode = (state: RootState) => selectActiveLang(state).code;
+export const selectIsEnglishActiveLang = (state: RootState) => selectActiveLangCode(state) === 'EN';
+
+// const langFactory = languagesApi.endpoints.getLanguages.select();
+
+// const emptyArray = Object.freeze([]);
+
+// export const selectCountriesForActiveLanguage = (state: RootState) => {
+//   const { data: languages } = langFactory(state);
+//   const activeLangId = selectActiveLangId(state) ?? '';
+
+//   if (!languages && !activeLangId) return emptyArray;
+//   if (languages && !activeLangId) return languages[0];
+
+//   return languages?.find(language => language._id === activeLangId)?.countries ?? emptyArray;
+// };

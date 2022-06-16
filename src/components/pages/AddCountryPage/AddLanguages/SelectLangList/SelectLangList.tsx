@@ -10,7 +10,7 @@ type SelectLangListType = {
 export const SelectLangList = ({ languages, selectLang }: SelectLangListType) => (
   <ul className={slang.block_lang_ul}>
     {languages?.map((language: Language) => (
-      <LanguageItem key={language.code} selectLang={selectLang} {...language} />
+      <LanguageItem key={language._id} selectLang={selectLang} {...language} />
     ))}
   </ul>
 );
