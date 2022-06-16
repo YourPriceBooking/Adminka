@@ -10,12 +10,14 @@ export type Language = {
 };
 
 export type InitLanguagesResponse = { data: { result: Language[] } };
+
 export type LanguagesResponse = Language[];
 
 export type AddLanguage = {
   lang: string;
   code: string;
 };
+export type AddLanguageResponse = { data: { languages: Language } };
 
 export type EditLanguage = {
   _id: string;

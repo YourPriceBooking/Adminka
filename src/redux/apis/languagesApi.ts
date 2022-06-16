@@ -2,6 +2,7 @@ import { baseApi } from './baseApi';
 
 import type {
   AddLanguage,
+  AddLanguageResponse,
   DeleteLanguage,
   InitLanguagesResponse,
   Language,
@@ -36,6 +37,7 @@ export const languagesApi = baseApi.injectEndpoints({
         method: 'POST',
         body: { lang, code, countries: [] },
       }),
+      transformResponse: (result: AddLanguageResponse) => result.data.languages,
       invalidatesTags: [LANGUAGES_LIST],
     }),
 

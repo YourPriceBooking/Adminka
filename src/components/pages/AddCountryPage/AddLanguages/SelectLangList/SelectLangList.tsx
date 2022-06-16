@@ -1,4 +1,4 @@
-import slang from '../SelectLang.module.scss';
+import slang from '../AddLanguages.module.scss';
 import { Language } from 'types/apis';
 import { LanguageItem } from './SelectLangItem';
 

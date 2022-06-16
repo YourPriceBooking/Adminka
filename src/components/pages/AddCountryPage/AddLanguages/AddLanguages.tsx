@@ -6,13 +6,14 @@ import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
 //   selectLocationObj,
 // } from '../../Location/LocationSlicer';
 // import { selectLanguage, generate } from '../ListSlicer'
-import slang from './SelectLang.module.scss';
+import slang from './AddLanguages.module.scss';
 import Modal from 'components/shared/Modal/Modal';
 import { selectActiveLang, setActiveLang } from 'redux/slices';
 import { useAddLanguageMutation, useGetLanguagesQuery } from 'redux/apis';
 import { Language } from 'types/apis';
 import { AddLanguageForm } from './AddLanguageForm/AddLanguageForm';
 import { SelectLangList } from './SelectLangList/SelectLangList';
+import { toast } from 'react-toastify';
 
 export default function SelectLang() {
   const {
@@ -52,21 +53,23 @@ export default function SelectLang() {
       const formData = new FormData(form);
       const lang = formData.get('newLanguageName')?.toString().trim();
       const code = formData.get('newLanguageCode')?.toString().trim().toUpperCase();
-      console.log('code', code);
-      console.log('lang', lang);
+      console.log({ code, lang });
       if (!lang || !code) return;
 
+      const newLanguage = { lang, code };
+
       try {
-        const payload = await addLanguage({ lang, code }).unwrap();
+        const payload = await addLanguage(newLanguage).unwrap();
         if (payload) {
           selectLang(payload);
         }
       } catch (error) {
+        toast.error('Language not added - please try again');
         console.log(error);
+      } finally {
+        setShowLanguagesList(false);
+        form.reset();
       }
-
-      setShowLanguagesList(false);
-      form.reset();
     },
     [addLanguage, selectLang]
   );

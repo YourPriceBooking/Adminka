@@ -51,15 +51,17 @@ export default function AddCountries() {
         return;
       }
 
+      const newCountry = { country, international: country };
+
       try {
-        await addCountryEng({ country, international: country });
+        await addCountryEng(newCountry);
         toast.success('Country added');
       } catch (error) {
         console.log(error);
         toast.error("Country not added. Let's try again");
+      } finally {
+        form.reset();
       }
-
-      form.reset();
     },
     [addCountryEng, isEng]
   );

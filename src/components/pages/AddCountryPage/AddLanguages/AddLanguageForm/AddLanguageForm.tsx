@@ -1,4 +1,4 @@
-import slang from '../SelectLang.module.scss';
+import slang from '../AddLanguages.module.scss';
 import { onSubmitFormType } from 'types/apis';
 import { useState } from 'react';
 
