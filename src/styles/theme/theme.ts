@@ -37,6 +37,7 @@ declare module 'styled-components' {
         section: string;
         buttonEdit: string;
         buttonAddLocation: string;
+        buttonSubmitAddLocation: string;
         hover: {
           buttonSelectLanguage: string;
         };
@@ -174,6 +175,7 @@ const bgNotAssigned = {
   section: '#f4f4f4',
   buttonEdit: '#dedede',
   buttonAddLocation: '#ebecfe',
+  buttonSubmitAddLocation: '#c5c7ee',
   hover: {
     buttonSelectLanguage: '#e5e5e5',
   },

@@ -2,7 +2,7 @@ import slang from '../AddLanguages.module.scss';
 import { Language } from 'types/apis';
 
 import { useDeleteLanguageMutation } from 'redux/apis';
-import { DeleteButton, SelectButton } from './SelectLangItem.styled';
+import { DeleteButton, DeleteIcon, SelectButton } from './SelectLangItem.styled';
 
 type LanguageItemProps = Language & { selectLang: (arg: Language) => void };
 
@@ -32,7 +32,7 @@ export const LanguageItem = ({
         onClick={async e => await deleteLanguage({ _id })}
         disabled={isDeletingLanguage}
       >
-        Delete
+        <DeleteIcon />
       </DeleteButton>
     </li>
   );

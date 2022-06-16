@@ -10,10 +10,10 @@ import {
   AddLocationButton,
   AddRegionForm,
 } from './AddLocations.styled';
+import { HeadingsList } from './HeadingsList/HeadingsList';
 
 import { EditRegionList } from './EditRegionList/EditRegionList';
-
-import { HeadingsList } from './HeadingsList/HeadingsList';
+import { SubmitAddLocationButton } from './EditRegionList/EditRegionList.styled';
 
 export default function AddLocations() {
   const regions = useAppSelector(selectRegions);
@@ -96,7 +96,7 @@ export default function AddLocations() {
                 <p>add the name of the location</p>
               </label>
 
-              <button type="submit">Add Loc 3</button>
+              <SubmitAddLocationButton type="submit">Add Loc 3</SubmitAddLocationButton>
             </Row>
           )}
         </AddRegionForm>

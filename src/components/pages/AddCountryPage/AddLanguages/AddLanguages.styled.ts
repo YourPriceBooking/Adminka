@@ -14,6 +14,10 @@ export const ShowLanguagesButton = styled.button`
   height: 59px;
   padding: 12px 18px;
 
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    width: 369px;
+  }
+
   font-family: ${({ theme }) => theme.fonts.segoe};
   font-size: 27px;
   line-height: 1.33;

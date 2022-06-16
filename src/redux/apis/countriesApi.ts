@@ -37,10 +37,10 @@ export const countriesApi = baseApi.injectEndpoints({
     }),
 
     editCountry: builder.mutation<Country, EditCountry>({
-      query: ({ _id, country, langCode, international, __v }) => ({
+      query: ({ _id, country, langCode, international }) => ({
         url: `/countries/${_id}`,
         method: 'PUT',
-        body: { country, langCode, international, __v },
+        body: { country, langCode, international },
       }),
       invalidatesTags: [COUNTRIES_LIST],
     }),

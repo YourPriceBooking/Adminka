@@ -4,17 +4,19 @@ import { slideInLeft, slideOutLeft } from 'App.styled';
 export const Header = styled.header`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
-  margin-bottom: 28px;
+  align-items: center;
+  margin-bottom: 16px;
 
   gap: 12px;
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     gap: 20px;
+    margin-bottom: 28px;
   }
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     gap: 54px;
+    margin-bottom: 28px;
   }
 `;
 

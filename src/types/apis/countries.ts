@@ -24,7 +24,6 @@ export type EditCountry = {
   country: string;
   langCode: string;
   international?: string;
-  __v: number;
 };
 
 export type DeleteCountry = {

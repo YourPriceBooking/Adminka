@@ -6,7 +6,7 @@ import type { EditRegion } from 'types/apis';
 import { EditButton } from '../../AddCountries/EditButton/EditButton';
 
 import {
-  EditLocationButton,
+  SubmitAddLocationButton,
   EditLocationsItemStyled,
   EditRegionFormStyled,
   RegionInfo,
@@ -120,9 +120,9 @@ export const EditRegionItem = ({
         )}
 
         {isEditingRegion && (
-          <EditLocationButton type="submit" disabled={isSubmitDisabled}>
+          <SubmitAddLocationButton type="submit" disabled={isSubmitDisabled}>
             Done
-          </EditLocationButton>
+          </SubmitAddLocationButton>
         )}
       </EditRegionFormStyled>
     </EditLocationsItemStyled>

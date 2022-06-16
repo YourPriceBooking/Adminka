@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro';
+import { ReactComponent as IconClose } from 'assets/icons/iconClose.svg';
 
 export const BackdropStyled = styled.div`
   position: fixed;
@@ -72,4 +73,10 @@ export const CloseModalButtonStyled = styled.button`
     background-color: ${({ theme }) => theme.colors.bgTransparent.buttonEditActive};
     border-color: white;
   }
+`;
+
+export const CloseModalIcon = styled(IconClose)`
+  fill: currentColor;
+  width: 12px;
+  height: 12px;
 `;
