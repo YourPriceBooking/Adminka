@@ -1,77 +1,53 @@
-import { AddCountriesStyled, CountryEditorWrapper, ShowEditorButton } from './AddCountries.styled';
-
-import { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import { useGetLanguagesQuery } from 'redux/apis';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { useAppSelector } from 'hooks/redux/hooks';
 import {
   selectActiveCountryName,
-  selectActiveLang,
-  // selectCountriesForActiveLanguage,
+  selectActiveLangId,
   selectIsEnglishActiveLang,
 } from 'redux/slices';
-
-import { languagesApi, useAddCountryEngMutation, useGetLanguagesQuery } from 'redux/apis';
+import { AddCountriesStyled, CountryEditorWrapper, ShowEditorButton } from './AddCountries.styled';
 import { Dropdown } from './Drowdown/Drowdown';
-import { toast } from 'react-toastify';
+import type { Language } from 'types/apis';
 
 export default function AddCountries() {
-  const { isLoading: isLoadingLanguagesFirstTime, isFetching } = useGetLanguagesQuery();
-  const [addCountryEng, { isLoading: isAddingCountry, error: addCountryEngMutationError }] =
-    useAddCountryEngMutation();
+  const {
+    data: languages,
+    isLoading: isLoadingLanguagesFirstTime,
+    isFetching,
+  } = useGetLanguagesQuery();
 
-  useEffect(() => {
-    if (!addCountryEngMutationError || !('data' in addCountryEngMutationError)) return;
-
-    toast.error(<p>{JSON.stringify(addCountryEngMutationError.data, null, 2)}</p>);
-  }, [addCountryEngMutationError]);
-
-  const selectCountries = useMemo(() => languagesApi.endpoints.getLanguages.select(), []);
-  const { data } = useAppSelector(selectCountries);
-
-  const isLoading = isLoadingLanguagesFirstTime || isFetching || isAddingCountry;
-
-  const activeCountryName = useAppSelector(selectActiveCountryName);
-  const isEng = useAppSelector(selectIsEnglishActiveLang);
-  const activeLang = useAppSelector(selectActiveLang);
-  const visibleCountries = data?.find(e => e.code === activeLang.code)?.countries;
-
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
   const [showCountries, setShowCountries] = useState(false);
+  const closeCountiesList = useCallback(() => setShowCountries(false), []);
+  const toggleCountiesList = useCallback(() => setShowCountries(show => !show), []);
 
-  const onSubmitAddCountry = useCallback(
-    async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const form = e.currentTarget;
-      const formData = new FormData(form);
-      const country = formData.get('newCountryName')?.toString().trim();
-      if (!country) return;
+  const isLoading = isLoadingLanguagesFirstTime || isFetching;
+  const activeLangId = useAppSelector(selectActiveLangId);
+  const isEng = useAppSelector(selectIsEnglishActiveLang);
+  const activeCountryName = useAppSelector(selectActiveCountryName) ?? 'Select country';
 
-      try {
-        await addCountryEng({ country });
-        toast.success('Country added');
-      } catch (error) {
-        console.log(error);
-      }
-
-      form.reset();
-    },
-    [addCountryEng]
+  const derivedVisibleCountries = useMemo(
+    () => languages?.find((language: Language) => language._id === activeLangId)?.countries,
+    [activeLangId, languages]
   );
 
-  const toggleCountiesList = useCallback(() => setShowCountries(!showCountries), [showCountries]);
+  // const { data: visibleCountries } = useGetCountriesQuery();
 
   return (
     <AddCountriesStyled>
       <CountryEditorWrapper>
-        <ShowEditorButton type="button" onClick={toggleCountiesList}>
+        <ShowEditorButton type="button" ref={toggleButtonRef} onClick={toggleCountiesList}>
           {activeCountryName}
         </ShowEditorButton>
 
         {showCountries && (
           <Dropdown
-            toggleCountiesList={toggleCountiesList}
-            countries={visibleCountries}
+            closeCountiesList={closeCountiesList}
+            countries={derivedVisibleCountries}
             isEng={isEng}
-            onSubmitAddCountry={onSubmitAddCountry}
             isLoading={isLoading}
+            toggleButtonRef={toggleButtonRef}
           />
         )}
       </CountryEditorWrapper>

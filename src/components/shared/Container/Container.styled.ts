@@ -14,3 +14,15 @@ export const ContainerStyled = styled.div`
     padding: 0 60px;
   }
 `;
+
+type ScrollProps = {
+  isModalOpen: boolean;
+};
+
+export const ScrollContainerStyled = styled.div.attrs(({ isModalOpen }: ScrollProps) => ({
+  isModalOpen,
+}))`
+  overflow-y: ${({ isModalOpen }) => (isModalOpen ? 'hidden' : 'scroll')};
+  padding-right: ${({ isModalOpen }) => isModalOpen && '17px'};
+  height: 100vh;
+`;

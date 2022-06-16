@@ -7,14 +7,14 @@ type EditCountriesListType = {
   isLoading: boolean;
   setIsEditingCountry: (arg: boolean) => void;
   countries?: CountriesResponse;
-  toggleCountiesList: () => void;
+  closeCountiesList: () => void;
 };
 
 export const EditCountriesList = ({
   countries,
   isEditingCountry,
   setIsEditingCountry,
-  toggleCountiesList,
+  closeCountiesList,
   isLoading,
 }: EditCountriesListType) => {
   return (
@@ -26,7 +26,7 @@ export const EditCountriesList = ({
             {...country}
             setIsEditingCountry={setIsEditingCountry}
             isEditingCountry={isEditingCountry}
-            toggleCountiesList={toggleCountiesList}
+            closeCountiesList={closeCountiesList}
             isLoading={isLoading}
           />
         ))}

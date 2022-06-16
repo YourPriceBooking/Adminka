@@ -74,46 +74,17 @@ $color_hover_background: #e5e5e5;
   color: #ffffff;
 }
 .lang_container {
-  position: relative;
-  // top: 0px;
-  // right: 96px;
   min-width: 250px;
   height: 59px;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  box-sizing: border-box;
-  background: #ffffff;
-  border: 1px solid #787878;
-  border-radius: 10px;
-  overflow: hidden;
-  cursor: pointer;
   // box-shadow: 0px 0px 9px 2px rgba(0, 0, 0, 0.25);
-  &::after {
-    content: '';
-    background-image: url('../../../../assets/icons/checkmark.png');
-    background-repeat: no-repeat;
-    position: absolute;
-    right: 27px;
-    top: 33px;
-    width: 20px;
-    height: 20px;
-  }
 }
 .lang_block_input1 {
   @extend %text-style-component-navigation;
 }
 .block_lang_p {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   @extend %text-style-component-navigation;
 }
 .block_lang_p2 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   text-transform: uppercase;
   @extend %text-style-component-navigation;
 }
@@ -161,39 +132,42 @@ $color_hover_background: #e5e5e5;
 .block_lang_ul {
   // overflow: hidden;
   padding: 9px 0px 0px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   list-style: none;
-  cursor: pointer;
+  // cursor: pointer;
   position: relative;
   @extend %language-text-style-block-addlang;
 }
 .block_lang_li {
-  height: 40px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin: 3px 0px 0px 0px;
-  padding: 0px 45px 0px 30px;
-
   scroll-snap-align: start;
   scroll-snap-stop: always;
+
   @extend %language-text-style-block-li;
+
   position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  min-height: 40px;
+  padding: 0px 45px 0px 30px;
+  margin: 3px 0px 0px 0px;
+
+  border-radius: 3px;
+
   &::after {
     content: '';
     background-image: url('../../../../assets/icons/checkmark.png');
     background-repeat: no-repeat;
+    background-position: center;
     position: absolute;
     right: 10px;
-    top: 24px;
     width: 20px;
     height: 20px;
-  }
-  &:hover {
-    height: 40px;
-    border-radius: 3px;
-    backdrop-filter: blur(15px);
-    background-color: $color_hover_background;
   }
 }
 .block_lang_li_p {

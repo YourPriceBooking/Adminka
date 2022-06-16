@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
 
 export const AddLocationsWrapper = styled.section`
-  min-height: 854px;
+  min-height: 832px;
   margin-bottom: 46px;
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.border.list};

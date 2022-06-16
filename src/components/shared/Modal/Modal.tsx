@@ -1,9 +1,13 @@
 import { MouseEventHandler, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import iconClose from 'assets/icons/iconClose.svg';
 
 import { getRefs } from 'utils';
-import { BackdropStyled, CloseModalButtonStyled, ModalStyled } from './Modal.styled';
+import {
+  BackdropStyled,
+  CloseModalButtonStyled,
+  CloseModalIcon,
+  ModalStyled,
+} from './Modal.styled';
 const { modalRoot } = getRefs();
 
 type ModalProps = {
@@ -53,8 +57,13 @@ export default function Modal({ toggleModal, children }: ModalProps) {
   return createPortal(
     <BackdropStyled className={className} onClick={handleBackdropClick}>
       <ModalStyled className={className}>
-        <CloseModalButtonStyled onClick={toggleModal} type="button" ref={closeModalButtonRef}>
-          <img src={iconClose} alt="close" />
+        <CloseModalButtonStyled
+          onClick={toggleModal}
+          type="button"
+          ref={closeModalButtonRef}
+          title="close"
+        >
+          <CloseModalIcon />
         </CloseModalButtonStyled>
 
         {children}

@@ -1,4 +1,4 @@
-import { FormEvent, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import { CountriesResponse } from 'types/apis';
 import { DropdownStyled } from './Drowdown.styled';
 import { EditCountriesList } from '../EditCountriesList/EditCountriesList';
@@ -7,32 +7,60 @@ import { AddCountryForm } from '../AddCountryForm/AddCountryForm';
 type DropdownType = {
   countries?: CountriesResponse;
   isEng: boolean;
-  onSubmitAddCountry: (e: FormEvent<HTMLFormElement>) => Promise<void>;
-  toggleCountiesList: () => void;
+  closeCountiesList: () => void;
   isLoading: boolean;
+  toggleButtonRef: RefObject<HTMLButtonElement>;
 };
 
 export const Dropdown = ({
   countries,
   isEng,
-  onSubmitAddCountry,
-  toggleCountiesList,
+  closeCountiesList,
   isLoading,
+  toggleButtonRef,
 }: DropdownType) => {
-  const wrapperRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [isEditingCountry, setIsEditingCountry] = useState(false);
 
-  return (
-    <DropdownStyled ref={wrapperRef}>
-      <EditCountriesList
-        countries={countries}
-        isEditingCountry={isEditingCountry}
-        setIsEditingCountry={setIsEditingCountry}
-        toggleCountiesList={toggleCountiesList}
-        isLoading={isLoading}
-      />
+  useEffect(() => {
+    const isClickOutsideDropdown = (e: MouseEvent) => {
+      const { target } = e;
+      if (!(target instanceof Node)) return;
+      if (dropdownRef.current?.contains(target)) {
+        console.log({
+          wrapper: dropdownRef.current,
+          target,
+        });
+        return;
+      }
+      if (toggleButtonRef.current === target) {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
 
-      {isEng && <AddCountryForm onSubmit={onSubmitAddCountry} isLoading={isLoading} />}
+      // closeCountiesList();
+    };
+
+    document.addEventListener('click', isClickOutsideDropdown);
+    return () => {
+      document.removeEventListener('click', isClickOutsideDropdown);
+    };
+  }, [toggleButtonRef, closeCountiesList]);
+
+  return (
+    <DropdownStyled ref={dropdownRef}>
+      {countries?.length ? (
+        <EditCountriesList
+          countries={countries}
+          isEditingCountry={isEditingCountry}
+          setIsEditingCountry={setIsEditingCountry}
+          closeCountiesList={closeCountiesList}
+          isLoading={isLoading}
+        />
+      ) : null}
+
+      {isEng && <AddCountryForm isLoading={isLoading} />}
     </DropdownStyled>
   );
 };

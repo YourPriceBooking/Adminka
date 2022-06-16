@@ -9,21 +9,15 @@ export const CountryList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 34px 40px;
+  padding: 16px 12px;
   gap: 12px;
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    padding: 34px 40px;
+  }
 `;
 
-export const CountryInputLabel = styled.label`
-  display: flex;
-  flex-direction: column;
-`;
-
-export const EditCountryInput = styled.input`
-  font-size: 20px;
-  padding: 4px 8px;
-`;
-
-export const EditCountryForm = styled.form`
-  display: flex;
-  gap: 20px;
+export const EditCountryItem = styled.li`
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 `;
