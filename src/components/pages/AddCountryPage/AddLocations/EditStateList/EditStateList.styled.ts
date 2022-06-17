@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 
-export const EditRegionListStyled = styled.ul``;
+export const EditStateListStyled = styled.ul``;
 
 export const EditLocationsItemStyled = styled.li`
   display: flex;
@@ -15,7 +15,7 @@ export const EditLocationButton = styled.button`
   padding: 10px 20px;
 `;
 
-export const RegionInfo = styled.div`
+export const StateInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -23,7 +23,7 @@ export const RegionInfo = styled.div`
   padding: 10px 20px;
 `;
 
-export const EditRegionFormStyled = styled.form`
+export const EditStateFormStyled = styled.form`
   display: flex;
   align-items: flex-start;
   gap: 20px;
