@@ -8,8 +8,62 @@ import { AppRouter } from 'routes/AppRouter';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import styled from 'styled-components/macro';
+import { rgba } from 'polished';
+import { useAppSelector } from 'hooks/redux/hooks';
+import { selectShowDeleteButtons } from 'redux/slices';
+
+const tomato = rgba('#cafe', 0.8);
+
+export const DevIndicator = styled.div`
+  position: absolute;
+  top: 12px;
+  right: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 50px;
+  height: 32px;
+
+  background-color: ${tomato};
+
+  transform: rotate(45deg);
+
+  &::before {
+    content: '';
+
+    position: absolute;
+    bottom: 0;
+    left: -32px;
+
+    width: 0;
+    height: 0;
+    border-left: 32px solid transparent;
+    border-bottom: 32px solid ${tomato};
+  }
+
+  &::after {
+    content: '';
+
+    position: absolute;
+    bottom: 0;
+    right: -32px;
+
+    width: 0;
+    height: 0;
+    border-right: 32px solid transparent;
+    border-bottom: 32px solid ${tomato};
+  }
+`;
+
+const dev = process.env.NODE_ENV === 'development';
+
 export default function App() {
   const theme = useCustomTheme();
+
+  const showDevButtons = useAppSelector(selectShowDeleteButtons);
 
   return (
     <ThemeProvider theme={theme}>
@@ -20,6 +74,7 @@ export default function App() {
           <AppRouter />
         </AppStyled>
 
+        {dev && showDevButtons && <DevIndicator>DEV</DevIndicator>}
         <ToastContainer autoClose={2800} />
       </ScrollContainer>
     </ThemeProvider>

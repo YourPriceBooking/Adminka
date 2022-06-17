@@ -4,14 +4,45 @@ import { BackButton } from 'components/pages/AddCountryPage/AddCountries/BackBut
 import AddCountries from 'components/pages/AddCountryPage/AddCountries';
 import AddLanguages from 'components/pages/AddCountryPage/AddLanguages';
 import AddLocations from 'components/pages/AddCountryPage/AddLocations';
+import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
+import { useCallback } from 'react';
+import { selectShowDeleteButtons, toggleShowDeleteButtons } from 'redux/slices';
+
+import styled from 'styled-components/macro';
+
+export const DevButton = styled.button`
+  position: absolute;
+  top: 0;
+  left: 100%;
+  padding: 4px 12px;
+  width: fit-content;
+
+  opacity: 0.1;
+
+  :hover,
+  :active {
+    opacity: 0.8;
+  }
+`;
 
 export default function AddCountryPage() {
+  const appDispatch = useAppDispatch();
+  const toggleDeleteButtons = useCallback(() => {
+    appDispatch(toggleShowDeleteButtons());
+  }, [appDispatch]);
+
+  const showDeleteButtons = useAppSelector(selectShowDeleteButtons);
+
   return (
     <Container>
       <Header>
         <BackButton />
         <AddCountries />
         <AddLanguages />
+
+        <DevButton onClick={toggleDeleteButtons}>
+          {showDeleteButtons ? 'Dev 👨‍💻' : 'Prod 🤴'}
+        </DevButton>
       </Header>
 
       <AddLocations />

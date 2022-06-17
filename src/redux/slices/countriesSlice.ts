@@ -4,10 +4,12 @@ import type { Country } from 'types/apis';
 
 type CountryState = {
   activeCountry: Country | null;
+  showDeleteButtons: boolean;
 };
 
 const initialState: CountryState = {
   activeCountry: null,
+  showDeleteButtons: true,
 };
 
 const countriesSlice = createSlice({
@@ -18,6 +20,10 @@ const countriesSlice = createSlice({
   reducers: {
     setActiveCountry(state, { payload }: PayloadAction<Country>) {
       state.activeCountry = payload;
+    },
+
+    toggleShowDeleteButtons(state) {
+      state.showDeleteButtons = !state.showDeleteButtons;
     },
 
     // addCountry: {
@@ -34,10 +40,11 @@ const countriesSlice = createSlice({
   },
 });
 
-export const { setActiveCountry } = countriesSlice.actions;
+export const { setActiveCountry, toggleShowDeleteButtons } = countriesSlice.actions;
 export const countriesReducer = countriesSlice.reducer;
 export const selectActiveCountryId = (state: RootState) => state.countries.activeCountry?._id;
 
 export const selectActiveCountryName = (state: RootState) => state.countries.activeCountry?.country;
 
 export const selectActiveCountry = (state: RootState) => state.countries.activeCountry;
+export const selectShowDeleteButtons = (state: RootState) => state.countries.showDeleteButtons;

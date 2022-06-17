@@ -26,7 +26,7 @@ export default function Modal({ toggleModal, children }: ModalProps) {
       toggleModal();
     };
 
-    document.addEventListener('keydown', onEscCloseModal);
+    document.addEventListener('keydown', onEscCloseModal, { passive: true });
     setIsMounted(true);
 
     return () => {
@@ -45,12 +45,8 @@ export default function Modal({ toggleModal, children }: ModalProps) {
   useEffect(() => {
     closeModalButtonRef.current?.focus();
   }, []);
-  if (!modalRoot)
-    return (
-      <div>
-        console.log('Add <div id="modal-root"></div> to index.html ')
-      </div>
-    );
+
+  if (!modalRoot) return <div>{`Add <div id="modal-root"></div> to index.html`}</div>;
 
   const className = isMounted ? '' : 'isHidden';
 

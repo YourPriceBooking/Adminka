@@ -2,6 +2,7 @@ import styled from 'styled-components/macro';
 import { slideInLeft, slideOutLeft } from 'App.styled';
 
 export const Header = styled.header`
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
