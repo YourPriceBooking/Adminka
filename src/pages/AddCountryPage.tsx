@@ -6,7 +6,7 @@ import AddLanguages from 'components/pages/AddCountryPage/AddLanguages';
 import AddLocations from 'components/pages/AddCountryPage/AddLocations';
 import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
 import { useCallback } from 'react';
-import { selectShowDeleteButtons, toggleShowDeleteButtons } from 'redux/slices';
+import { selectDev, toggleDev } from 'redux/slices';
 
 import styled from 'styled-components/macro';
 
@@ -28,10 +28,10 @@ export const DevButton = styled.button`
 export default function AddCountryPage() {
   const appDispatch = useAppDispatch();
   const toggleDeleteButtons = useCallback(() => {
-    appDispatch(toggleShowDeleteButtons());
+    appDispatch(toggleDev());
   }, [appDispatch]);
 
-  const showDeleteButtons = useAppSelector(selectShowDeleteButtons);
+  const showDev = useAppSelector(selectDev);
 
   return (
     <Container>
@@ -40,9 +40,7 @@ export default function AddCountryPage() {
         <AddCountries />
         <AddLanguages />
 
-        <DevButton onClick={toggleDeleteButtons}>
-          {showDeleteButtons ? 'Dev 👨‍💻' : 'Prod 🤴'}
-        </DevButton>
+        <DevButton onClick={toggleDeleteButtons}>{showDev ? 'Dev 👨‍💻' : 'Prod 🤴'}</DevButton>
       </Header>
 
       <AddLocations />

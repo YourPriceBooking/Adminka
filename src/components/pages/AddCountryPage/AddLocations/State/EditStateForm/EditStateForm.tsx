@@ -3,7 +3,7 @@ import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { editState, selectIsEnglishActiveLang, selectStatesNames } from 'redux/slices';
 import type { EditState } from 'types/apis';
-import { EditButton } from '../../AddCountries/EditButton/EditButton';
+import { EditButton } from '../../../AddCountries/EditButton/EditButton';
 
 import { SubmitAddLocationButton, EditStateFormStyled, StateInfo } from './EditStateForm.styled';
 

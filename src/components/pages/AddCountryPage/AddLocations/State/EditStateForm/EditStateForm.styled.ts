@@ -6,6 +6,8 @@ export const StateInfo = styled.div`
   gap: 12px;
 
   padding: 10px 20px;
+
+  word-break: break-all;
 `;
 
 export const EditStateFormStyled = styled.form`

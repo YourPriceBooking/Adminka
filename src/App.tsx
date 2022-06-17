@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import styled from 'styled-components/macro';
 import { rgba } from 'polished';
 import { useAppSelector } from 'hooks/redux/hooks';
-import { selectShowDeleteButtons } from 'redux/slices';
+import { selectDev } from 'redux/slices';
 
 const tomato = rgba('#cafe', 0.8);
 
@@ -63,7 +63,7 @@ const dev = process.env.NODE_ENV === 'development';
 export default function App() {
   const theme = useCustomTheme();
 
-  const showDevButtons = useAppSelector(selectShowDeleteButtons);
+  const showDev = useAppSelector(selectDev);
 
   return (
     <ThemeProvider theme={theme}>
@@ -74,7 +74,7 @@ export default function App() {
           <AppRouter />
         </AppStyled>
 
-        {dev && showDevButtons && <DevIndicator>DEV</DevIndicator>}
+        {dev && showDev && <DevIndicator>DEV</DevIndicator>}
         <ToastContainer autoClose={2800} />
       </ScrollContainer>
     </ThemeProvider>

@@ -2,6 +2,8 @@ import { EditStateListStyled, TotalStatesIndicator } from './EditStateList.style
 import type { State } from 'types/apis';
 import { EditStateItem } from './EditStateItem';
 import { useState } from 'react';
+import { useAppSelector } from 'hooks/redux/hooks';
+import { selectDev } from 'redux/slices';
 
 type EditStateListType = {
   editLocationsList: State[];
@@ -10,9 +12,11 @@ type EditStateListType = {
 export const EditStateList = ({ editLocationsList }: EditStateListType) => {
   const [visibleStatesCount, setVisibleStatesCount] = useState(0);
 
+  const dev = useAppSelector(selectDev);
+
   return (
     <>
-      <TotalStatesIndicator>Total states: {visibleStatesCount}</TotalStatesIndicator>
+      {dev && <TotalStatesIndicator>Total states: {visibleStatesCount}</TotalStatesIndicator>}
 
       <EditStateListStyled>
         {editLocationsList?.map((location: State) => (

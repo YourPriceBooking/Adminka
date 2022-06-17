@@ -5,7 +5,7 @@ import {
   selectActiveLangCode,
   selectIsEnglishActiveLang,
   setActiveCountry,
-  selectShowDeleteButtons,
+  selectDev,
 } from 'redux/slices';
 import { useEditCountryMutation, useDeleteCountryMutation } from 'redux/apis';
 import { toast } from 'react-toastify';
@@ -36,7 +36,7 @@ export const EditCountryForm = ({
 
   const activeLangCode = useAppSelector(selectActiveLangCode);
   const isEngActive = useAppSelector(selectIsEnglishActiveLang);
-  const showDeleteButtons = useAppSelector(selectShowDeleteButtons);
+  const showDev = useAppSelector(selectDev);
 
   const [inputDisabled, setInputDisabled] = useState(true);
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
@@ -144,8 +144,8 @@ export const EditCountryForm = ({
 
     return () => {
       clearTimeout(timer);
-      stopEditing();
       document.removeEventListener('click', onOutsideFormClickReset, { capture: true });
+      stopEditing();
       console.log('Click listen removed');
     };
   }, [country, inputDisabled, stopEditing]);
@@ -176,7 +176,7 @@ export const EditCountryForm = ({
         </button>
       )}
 
-      {showDeleteButtons && (
+      {showDev && (
         <button type="button" onClick={onDeleteCountry}>
           Delete
         </button>
