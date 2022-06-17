@@ -1,7 +1,12 @@
 import type { CountryItem } from '../EditCountriesList/EditCountryItem';
-import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
+import { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
-import { selectActiveLangCode, selectIsEnglishActiveLang, setActiveCountry } from 'redux/slices';
+import {
+  selectActiveLangCode,
+  selectIsEnglishActiveLang,
+  setActiveCountry,
+  selectDev,
+} from 'redux/slices';
 import { useEditCountryMutation, useDeleteCountryMutation } from 'redux/apis';
 import { toast } from 'react-toastify';
 import {
@@ -27,11 +32,11 @@ export const EditCountryForm = ({
   const [editCountry, { isLoading: isLoadingEditedCountry }] = useEditCountryMutation();
   const [deleteCountry, { isLoading: isDeletingCountry }] = useDeleteCountryMutation();
   const appDispatch = useAppDispatch();
+  const formRef = useRef<HTMLFormElement>(null);
 
   const activeLangCode = useAppSelector(selectActiveLangCode);
   const isEngActive = useAppSelector(selectIsEnglishActiveLang);
-
-  console.log({ activeLangCode });
+  const showDev = useAppSelector(selectDev);
 
   const [inputDisabled, setInputDisabled] = useState(true);
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
@@ -75,10 +80,22 @@ export const EditCountryForm = ({
   }, [_id, deleteCountry]);
 
   const startEditing = useCallback(() => {
+    if (isEditingCountry) return;
+    console.log('editing');
+
     setIsEditingCountry(true);
     setInputDisabled(false);
     setIsSubmitButtonDisabled(false);
-  }, [setIsEditingCountry]);
+  }, [isEditingCountry, setIsEditingCountry]);
+
+  const stopEditing = useCallback(() => {
+    if (!isEditingCountry) return;
+    console.log('stopped editing');
+
+    setIsEditingCountry(false);
+    setInputDisabled(true);
+    setIsSubmitButtonDisabled(true);
+  }, [isEditingCountry, setIsEditingCountry]);
 
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => setLocalValue(e.currentTarget.value),
@@ -105,8 +122,36 @@ export const EditCountryForm = ({
 
   const isPending = isLoading || isLoadingEditedCountry || isDeletingCountry;
 
+  useEffect(() => {
+    if (inputDisabled) return;
+
+    const onOutsideFormClickReset = (e: MouseEvent) => {
+      const { target } = e;
+      if (!(target instanceof Node)) return;
+      if (formRef.current?.contains(target)) return;
+
+      console.log({ target });
+
+      formRef.current?.reset();
+      stopEditing();
+      setLocalValue(country);
+    };
+
+    const timer = setTimeout(() => {
+      document.addEventListener('click', onOutsideFormClickReset, { passive: true, capture: true });
+      console.log('Click listen added');
+    }, 0);
+
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener('click', onOutsideFormClickReset, { capture: true });
+      stopEditing();
+      console.log('Click listen removed');
+    };
+  }, [country, inputDisabled, stopEditing]);
+
   return (
-    <EditCountryFormStyled onSubmit={handleSubmit}>
+    <EditCountryFormStyled onSubmit={handleSubmit} ref={formRef}>
       <CountryInputLabel onClick={selectActiveCountry}>
         <EditCountryInput
           type="text"
@@ -131,9 +176,11 @@ export const EditCountryForm = ({
         </button>
       )}
 
-      <button type="button" onClick={onDeleteCountry}>
-        Delete
-      </button>
+      {showDev && (
+        <button type="button" onClick={onDeleteCountry}>
+          Delete
+        </button>
+      )}
     </EditCountryFormStyled>
   );
 };

@@ -1,13 +1,10 @@
 import styled from 'styled-components/macro';
 
 export const HeadingsListStyled = styled.ul`
-  min-height: 71px;
-
   display: grid;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
   grid-template-columns: 34.3% 33.3% 32.4%;
+
+  min-height: 71px;
 
   border-bottom: 1px solid ${({ theme }) => theme.colors.border.list};
 `;

@@ -3,8 +3,8 @@ import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { addCity, selectCitiesNamesForActiveState } from 'redux/slices';
 import type { NewCityWithOutId } from 'types/apis';
-import { AddLocationButton } from '../AddStateForm/AddStateForm.styled';
-import { SubmitAddLocationButton } from '../EditStateForm/EditStateForm.styled';
+import { AddLocationButton } from '../../State/AddStateForm/AddStateForm.styled';
+import { SubmitAddLocationButton } from '../../State/EditStateForm/EditStateForm.styled';
 import { Row, AddCityFormStyled } from './AddCityForm.styled';
 
 export const AddCityForm = ({ stateId }: { stateId: string }) => {
@@ -65,7 +65,7 @@ export const AddCityForm = ({ stateId }: { stateId: string }) => {
     <AddCityFormStyled onSubmit={handleSubmitAddCity}>
       {!isAddingCity && (
         <AddLocationButton type="button" onClick={setAddingCityTrue}>
-          +3
+          +2
         </AddLocationButton>
       )}
 
@@ -85,10 +85,10 @@ export const AddCityForm = ({ stateId }: { stateId: string }) => {
 
           <label>
             <input type="text" name="cityName" minLength={3} maxLength={50} required />
-            <p>add the name of the location</p>
+            <p>add the name of the city</p>
           </label>
 
-          <SubmitAddLocationButton type="submit">Add Loc 3</SubmitAddLocationButton>
+          <SubmitAddLocationButton type="submit">Add Loc 2</SubmitAddLocationButton>
         </Row>
       )}
     </AddCityFormStyled>

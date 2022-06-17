@@ -25,27 +25,16 @@ export const Dropdown = ({
   useEffect(() => {
     const isClickOutsideDropdown = (e: MouseEvent) => {
       const { target } = e;
+
       if (!(target instanceof Node)) return;
-      if (dropdownRef.current?.contains(target)) {
-        console.log({
-          wrapper: dropdownRef.current,
-          target,
-        });
-        return;
-      }
-      if (toggleButtonRef.current === target) {
-        e.preventDefault();
-        e.stopPropagation();
-        return;
-      }
+      if (dropdownRef.current?.contains(target)) return;
+      if (toggleButtonRef.current === target) return;
 
-      // closeCountiesList();
+      closeCountiesList();
     };
 
-    document.addEventListener('click', isClickOutsideDropdown);
-    return () => {
-      document.removeEventListener('click', isClickOutsideDropdown);
-    };
+    document.addEventListener('click', isClickOutsideDropdown, { passive: true, capture: true });
+    return () => document.removeEventListener('click', isClickOutsideDropdown, { capture: true });
   }, [toggleButtonRef, closeCountiesList]);
 
   return (
