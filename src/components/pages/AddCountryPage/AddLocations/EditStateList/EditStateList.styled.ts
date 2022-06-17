@@ -3,50 +3,25 @@ import styled from 'styled-components/macro';
 export const EditStateListStyled = styled.ul``;
 
 export const EditLocationsItemStyled = styled.li`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr;
   align-items: center;
-
-  padding: 9px 0 18px 30px;
+  padding: 4px 0 8px 12px;
   border-bottom: 5px solid ${({ theme }) => theme.colors.border.list};
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-template-columns: 1fr 1fr;
+    padding: 8px 0 12px 20px;
+  }
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns: 34.3% 33.3% 32.4%;
+    padding: 9px 0 18px 30px;
+  }
 `;
 
-export const EditLocationButton = styled.button`
-  background-color: blue;
-  padding: 10px 20px;
-`;
-
-export const StateInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-
-  padding: 10px 20px;
-`;
-
-export const EditStateFormStyled = styled.form`
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-`;
-
-export const SubmitAddLocationButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 108px;
-  height: 46px;
-
-  font-family: ${({ theme }) => theme.fonts.segoe};
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1.33;
-  color: ${({ theme }) => theme.colors.textThird};
+export const TotalStatesIndicator = styled.p`
   text-align: center;
-
-  background: ${({ theme }) => theme.colors.bg.buttonSubmitAddLocation};
-  box-shadow: ${({ theme }) => theme.shadows.buttonAddLocation};
-  border-radius: 1.66667px;
-
-  border: none;
+  width: 250px;
+  padding-top: 8px;
 `;

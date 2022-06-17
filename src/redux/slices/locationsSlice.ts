@@ -2,14 +2,8 @@ import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from 'redux/store';
 import type { State, EditState, DeleteState, City, EditCity, DeleteCity } from 'types/apis';
 
-type StateInternationalType = {
-  _id: string;
-  stateInternational: string;
-};
-
 type LocationsState = {
   states: State[];
-  statesInternationalNames: StateInternationalType[];
 };
 
 const initialState: LocationsState = {
@@ -60,8 +54,6 @@ const initialState: LocationsState = {
       ],
     },
   ],
-
-  statesInternationalNames: [{ _id: '12345UAState', stateInternational: 'Kyiv State' }],
 };
 
 const locationsSlice = createSlice({
@@ -70,28 +62,17 @@ const locationsSlice = createSlice({
 
   reducers: {
     addState: {
-      prepare: args => ({ payload: { _id: nanoid(), ...args } }),
+      prepare: stateWithOutId => ({ payload: { _id: nanoid(), ...stateWithOutId } }),
       reducer: (state, { payload }: PayloadAction<State>) => {
         state.states.push(payload);
-
-        state.statesInternationalNames.push({
-          _id: payload._id,
-          stateInternational: payload.stateInternational,
-        });
       },
     },
 
     editState(state, { payload }: PayloadAction<EditState>) {
       const stateId = payload._id;
-      const stateIndex = state.states.findIndex(({ _id }) => _id === stateId);
-      const prevState = state.states[stateIndex];
 
-      state.states[stateIndex] = { ...prevState, ...payload };
-
-      state.statesInternationalNames = state.statesInternationalNames.map(area =>
-        area._id === stateId
-          ? area
-          : { _id: payload._id, stateInternational: payload.stateInternational }
+      state.states = state.states.map(area =>
+        area._id === stateId ? { ...area, ...payload } : area
       );
     },
 
@@ -99,37 +80,42 @@ const locationsSlice = createSlice({
       const stateId = payload._id;
 
       state.states = state.states.filter(({ _id }) => _id !== stateId);
-
-      state.statesInternationalNames = state.statesInternationalNames.filter(
-        ({ _id }) => _id !== stateId
-      );
     },
 
-    addCity(state, { payload }: PayloadAction<City>) {
-      const { stateId } = payload;
-      const { states } = state;
-      const stateIndex = states.findIndex(({ _id }) => _id === stateId);
+    addCity: {
+      prepare: cityWithOutId => ({ payload: { _id: nanoid(), ...cityWithOutId } }),
+      reducer: (state, { payload }: PayloadAction<City>) => {
+        const { stateId } = payload;
 
-      state.states[stateIndex].cities.push(payload);
+        state.states = state.states.map(area =>
+          area._id === stateId ? { ...area, cities: [...area.cities, payload] } : area
+        );
+      },
     },
 
     editCity(state, { payload }: PayloadAction<EditCity>) {
       const { stateId, _id: cityId } = payload;
-      const { states } = state;
-      const stateIndex = states.findIndex(({ _id }) => _id === stateId);
-      const cityIndex = states[stateIndex].cities.findIndex(({ _id }) => _id === cityId);
-      const prevCity = states[stateIndex].cities[cityIndex];
 
-      state.states[stateIndex].cities[cityIndex] = { ...prevCity, ...payload };
+      state.states = state.states.map(area =>
+        area._id === stateId
+          ? {
+              ...area,
+              cities: area.cities.map(city =>
+                city._id === cityId ? { ...city, ...payload } : city
+              ),
+            }
+          : area
+      );
     },
 
     deleteCity(state, { payload }: PayloadAction<DeleteCity>) {
       const { stateId, _id: cityId } = payload;
-      const { states } = state;
-      const stateIndex = states.findIndex(({ _id }) => _id === stateId);
-      const cityIndex = states[stateIndex].cities.findIndex(({ _id }) => _id === cityId);
 
-      state.states[stateIndex].cities.splice(cityIndex, 1);
+      state.states = state.states.map(area =>
+        area._id === stateId
+          ? { ...area, cities: area.cities.filter(({ _id }) => _id !== cityId) }
+          : area
+      );
     },
 
     // addDistrict(state, { payload }: PayloadAction<District>) {
@@ -148,5 +134,10 @@ export const locationsReducer = locationsSlice.reducer;
 
 export const selectStates = (state: RootState) => state.locations.states;
 
-export const selectStatesInternationalNames = (state: RootState) =>
-  state.locations.statesInternationalNames;
+export const selectStatesNames = (state: RootState) =>
+  selectStates(state).map(({ stateName }) => stateName);
+
+export const selectCitiesNamesForActiveState = (state: RootState, stateId: string) =>
+  selectStates(state)
+    .find(({ _id }) => _id === stateId)
+    ?.cities.map(({ cityName }) => cityName);

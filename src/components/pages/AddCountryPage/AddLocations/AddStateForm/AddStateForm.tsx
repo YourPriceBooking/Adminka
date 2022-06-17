@@ -1,14 +1,15 @@
-import { SubmitAddLocationButton } from '../EditStateList/EditStateList.styled';
-import { Row, AddLocationButton, AddStateFormStyled } from './AddStateForm.styled';
 import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { addState, selectStatesInternationalNames } from 'redux/slices';
+import { addState, selectStatesNames } from 'redux/slices';
 import type { NewStateWithOutId } from 'types/apis';
+import { SubmitAddLocationButton } from '../EditStateForm/EditStateForm.styled';
+
+import { Row, AddLocationButton, AddStateFormStyled } from './AddStateForm.styled';
 
 export const AddStateForm = () => {
   const appDispatch = useAppDispatch();
-  const statesInternationalNames = useAppSelector(selectStatesInternationalNames);
+  const statesNames = useAppSelector(selectStatesNames);
   const [isAddingState, setIsAddingState] = useState(false);
   // const [isAddingCity, setIsAddingCity] = useState(false);
   // const [isAddingDistrict, setIsAddingDistrict] = useState(false);
@@ -31,12 +32,8 @@ export const AddStateForm = () => {
         return toast('Please provide photo url and State name');
       }
 
-      if (
-        statesInternationalNames?.find(({ stateInternational }) =>
-          stateInternational.includes(stateName)
-        )
-      ) {
-        return toast.info(`State ${stateName} already exists! Please fill new 'name'`);
+      if (statesNames.find(existingStateName => existingStateName === stateName)) {
+        return toast.info(`${stateName} exists. Fill new 'name'`);
       }
 
       const newState: NewStateWithOutId = {
@@ -58,7 +55,7 @@ export const AddStateForm = () => {
         console.log(error);
       }
     },
-    [appDispatch, statesInternationalNames]
+    [appDispatch, statesNames]
   );
 
   return (
