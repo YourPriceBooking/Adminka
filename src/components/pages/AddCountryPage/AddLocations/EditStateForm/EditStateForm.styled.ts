@@ -1,21 +1,6 @@
 import styled from 'styled-components/macro';
 
-export const EditRegionListStyled = styled.ul``;
-
-export const EditLocationsItemStyled = styled.li`
-  display: flex;
-  align-items: center;
-
-  padding: 9px 0 18px 30px;
-  border-bottom: 5px solid ${({ theme }) => theme.colors.border.list};
-`;
-
-export const EditLocationButton = styled.button`
-  background-color: blue;
-  padding: 10px 20px;
-`;
-
-export const RegionInfo = styled.div`
+export const StateInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -23,10 +8,17 @@ export const RegionInfo = styled.div`
   padding: 10px 20px;
 `;
 
-export const EditRegionFormStyled = styled.form`
+export const EditStateFormStyled = styled.form`
   display: flex;
   align-items: flex-start;
-  gap: 20px;
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    gap: 12px;
+  }
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    gap: 20px;
+  }
 `;
 
 export const SubmitAddLocationButton = styled.button`
