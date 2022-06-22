@@ -19,7 +19,7 @@ export default function AddCountries() {
 
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
   const [showCountries, setShowCountries] = useState(false);
-  const closeCountiesList = useCallback(() => setShowCountries(false), []);
+  const closeCountriesList = useCallback(() => setShowCountries(false), []);
   const toggleCountiesList = useCallback(() => setShowCountries(show => !show), []);
 
   const isLoading = isLoadingLanguagesFirstTime || isFetching;
@@ -43,7 +43,7 @@ export default function AddCountries() {
 
         {showCountries && (
           <Dropdown
-            closeCountiesList={closeCountiesList}
+            closeCountriesList={closeCountriesList}
             countries={derivedVisibleCountries}
             isEng={isEng}
             isLoading={isLoading}

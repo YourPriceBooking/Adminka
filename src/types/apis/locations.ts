@@ -1,26 +1,53 @@
-export type District = {
+export type NewDistrictWithOutId = {
   stateId: string;
   cityId: string;
-  _id: string;
+
   districtName: string;
   districtPhotoURL: string;
   districtInternational: string;
   districtCode?: string;
   edited: number;
 };
+export type District = {
+  _id: string;
+} & {
+  stateId: string;
+  cityId: string;
+
+  districtName: string;
+  districtPhotoURL: string;
+  districtInternational: string;
+  districtCode?: string;
+  edited: number;
+};
+export type EditDistrict = District;
+export type DeleteDistrict = {
+  _id: string;
+  stateId: string;
+  cityId: string;
+};
 
 export type NewCityWithOutId = {
   stateId: string;
+
   cityName: string;
   cityPhotoURL: string;
   cityInternational: string;
   cityCode?: string;
   edited: number;
-
   districts: District[];
 };
-export type City = NewCityWithOutId & {
+export type City = {
   _id: string;
+} & {
+  stateId: string;
+
+  cityName: string;
+  cityPhotoURL: string;
+  cityInternational: string;
+  cityCode?: string;
+  edited: number;
+  districts: District[];
 };
 export type EditCity = City;
 export type DeleteCity = {
@@ -34,7 +61,6 @@ export type NewStateWithOutId = {
   stateInternational: string;
   stateCode?: string;
   edited: number;
-
   cities: City[];
 };
 export type State = NewStateWithOutId & {

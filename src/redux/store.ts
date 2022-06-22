@@ -12,7 +12,6 @@ export const store = configureStore({
         ignoredActions,
       },
     }).concat(baseApi.middleware),
-
   devTools: process.env.NODE_ENV !== 'production',
 });
 

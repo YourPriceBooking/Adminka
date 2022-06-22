@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
-import { addState, selectStatesNames } from 'redux/slices';
+import { addState, makeSelectStatesNames } from 'redux/slices';
 import type { NewStateWithOutId } from 'types/apis';
 import { SubmitAddLocationButton } from '../EditStateForm/EditStateForm.styled';
 
@@ -9,14 +9,11 @@ import { Row, AddLocationButton, AddStateFormStyled } from './AddStateForm.style
 
 export const AddStateForm = () => {
   const appDispatch = useAppDispatch();
+  const selectStatesNames = useMemo(makeSelectStatesNames, []);
   const statesNames = useAppSelector(selectStatesNames);
-  const [isAddingState, setIsAddingState] = useState(false);
-  // const [isAddingCity, setIsAddingCity] = useState(false);
-  // const [isAddingDistrict, setIsAddingDistrict] = useState(false);
 
+  const [isAddingState, setIsAddingState] = useState(false);
   const setAddingStateTrue = useCallback(() => setIsAddingState(true), []);
-  // const addCity = useCallback(() => setIsAddingCity(true), []);
-  // const addDistrict = useCallback(() => setIsAddingDistrict(true), []);
 
   const handleSubmitAddState = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
@@ -49,7 +46,6 @@ export const AddStateForm = () => {
         appDispatch(addState(newState));
         setIsAddingState(false);
         // toast.success(`State ${stateName} added`);
-        console.log({ statePhotoURL });
       } catch (error) {
         toast.error('State not added');
         console.log(error);

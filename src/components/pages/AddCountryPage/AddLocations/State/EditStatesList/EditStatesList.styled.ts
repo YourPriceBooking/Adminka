@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 
-export const EditStateListStyled = styled.ul``;
+export const EditStatesListStyled = styled.ul``;
 
 export const EditLocationsItemStyled = styled.li`
   display: grid;

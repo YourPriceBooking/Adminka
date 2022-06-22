@@ -7,6 +7,7 @@ import type {
   EditCountry,
   InitCountriesResponse,
 } from 'types/apis';
+import { LANGUAGES_LIST } from './languagesApi';
 
 const COUNTRIES = { type: 'Countries' as const };
 const ID_LIST = { id: 'LIST' as const };
@@ -33,7 +34,7 @@ export const countriesApi = baseApi.injectEndpoints({
         method: 'POST',
         body: { country, international, langCode: 'EN', dbLangCode: 'EN' },
       }),
-      invalidatesTags: [COUNTRIES_LIST],
+      invalidatesTags: [COUNTRIES_LIST, LANGUAGES_LIST],
     }),
 
     editCountry: builder.mutation<Country, EditCountry>({
@@ -42,7 +43,7 @@ export const countriesApi = baseApi.injectEndpoints({
         method: 'PUT',
         body: { country, langCode, international },
       }),
-      invalidatesTags: [COUNTRIES_LIST],
+      invalidatesTags: [COUNTRIES_LIST, LANGUAGES_LIST],
     }),
 
     deleteCountry: builder.mutation<CountriesResponse, DeleteCountry>({
@@ -51,7 +52,7 @@ export const countriesApi = baseApi.injectEndpoints({
         method: 'DELETE',
         body: { _id },
       }),
-      invalidatesTags: [COUNTRIES_LIST],
+      invalidatesTags: [COUNTRIES_LIST, LANGUAGES_LIST],
     }),
   }),
 });

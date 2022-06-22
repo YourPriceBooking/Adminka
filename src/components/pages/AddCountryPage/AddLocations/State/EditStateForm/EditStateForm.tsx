@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
-import { editState, selectIsEnglishActiveLang, selectStatesNames } from 'redux/slices';
+import { editState, selectIsEnglishActiveLang, makeSelectStatesNames } from 'redux/slices';
 import type { EditState } from 'types/apis';
 import { EditButton } from '../../../AddCountries/EditButton/EditButton';
 
@@ -17,6 +17,8 @@ export const EditStateForm = ({
   cities,
 }: EditState) => {
   const [isEditingState, setIsEditingState] = useState(false);
+
+  const selectStatesNames = useMemo(makeSelectStatesNames, []);
   const appDispatch = useAppDispatch();
 
   const [localStateName, setLocalStateName] = useState(stateName);

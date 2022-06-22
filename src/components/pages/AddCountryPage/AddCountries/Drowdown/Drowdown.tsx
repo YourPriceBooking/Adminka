@@ -7,7 +7,7 @@ import { AddCountryForm } from '../AddCountryForm/AddCountryForm';
 type DropdownType = {
   countries?: CountriesResponse;
   isEng: boolean;
-  closeCountiesList: () => void;
+  closeCountriesList: () => void;
   isLoading: boolean;
   toggleButtonRef: RefObject<HTMLButtonElement>;
 };
@@ -15,7 +15,7 @@ type DropdownType = {
 export const Dropdown = ({
   countries,
   isEng,
-  closeCountiesList,
+  closeCountriesList,
   isLoading,
   toggleButtonRef,
 }: DropdownType) => {
@@ -30,12 +30,12 @@ export const Dropdown = ({
       if (dropdownRef.current?.contains(target)) return;
       if (toggleButtonRef.current === target) return;
 
-      closeCountiesList();
+      closeCountriesList();
     };
 
     document.addEventListener('click', isClickOutsideDropdown, { passive: true, capture: true });
     return () => document.removeEventListener('click', isClickOutsideDropdown, { capture: true });
-  }, [toggleButtonRef, closeCountiesList]);
+  }, [toggleButtonRef, closeCountriesList]);
 
   return (
     <DropdownStyled ref={dropdownRef}>
@@ -44,7 +44,7 @@ export const Dropdown = ({
           countries={countries}
           isEditingCountry={isEditingCountry}
           setIsEditingCountry={setIsEditingCountry}
-          closeCountiesList={closeCountiesList}
+          closeCountriesList={closeCountriesList}
           isLoading={isLoading}
         />
       ) : null}

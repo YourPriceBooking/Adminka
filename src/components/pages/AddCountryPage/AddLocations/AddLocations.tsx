@@ -2,7 +2,7 @@ import { useAppSelector } from 'hooks/redux/hooks';
 import { AddLocationsWrapper, AddLocationsContent } from './AddLocations.styled';
 import { HeadingsList } from './HeadingsList/HeadingsList';
 
-import { EditStateList } from './State/EditStateList/EditStateList';
+import { EditStatesList } from './State/EditStatesList/EditStatesList';
 import { AddStateForm } from './State/AddStateForm/AddStateForm';
 import { selectStates } from 'redux/slices';
 
@@ -14,7 +14,7 @@ export default function AddLocations() {
       <HeadingsList />
 
       <AddLocationsContent>
-        <EditStateList editLocationsList={states} />
+        <EditStatesList editLocationsList={states} />
 
         <AddStateForm />
       </AddLocationsContent>

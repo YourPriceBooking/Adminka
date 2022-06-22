@@ -11,7 +11,7 @@ import type {
 
 const LANGUAGES = { type: 'Languages' as const };
 const ID_LIST = { id: 'LIST' as const };
-const LANGUAGES_LIST = { ...LANGUAGES, ...ID_LIST };
+export const LANGUAGES_LIST = { ...LANGUAGES, ...ID_LIST };
 
 export const languagesApi = baseApi.injectEndpoints({
   endpoints: builder => ({

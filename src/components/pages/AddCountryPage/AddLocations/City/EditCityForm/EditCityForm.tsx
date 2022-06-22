@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
-import { editCity, selectIsEnglishActiveLang, selectCitiesNamesForActiveState } from 'redux/slices';
+import { editCity, selectIsEnglishActiveLang, makeSelectCitiesNamesForState } from 'redux/slices';
 import type { EditCity } from 'types/apis';
 import { EditButton } from '../../../AddCountries/EditButton/EditButton';
 import { SubmitAddLocationButton } from '../../State/EditStateForm/EditStateForm.styled';
@@ -20,12 +20,13 @@ export const EditCityForm = ({
   districts,
 }: EditCity) => {
   const [isEditingCity, setIsEditingCity] = useState(false);
+  const selectCitiesNamesForState = useMemo(makeSelectCitiesNamesForState, []);
   const appDispatch = useAppDispatch();
 
   const [localCityName, setLocalCityName] = useState(cityName);
   const [localCityPhotoURL, setLocalCityPhotoURL] = useState(cityPhotoURL);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
-  const citiesNames = useAppSelector(state => selectCitiesNamesForActiveState(state, stateId));
+  const citiesNames = useAppSelector(state => selectCitiesNamesForState(state, { stateId }));
 
   const setIsEditingCityTrue = useCallback(() => setIsEditingCity(true), []);
 

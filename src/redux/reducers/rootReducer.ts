@@ -3,6 +3,8 @@ import { langReducer, themeReducer, countriesReducer, authReducer } from 'redux/
 import { baseApi } from 'redux/apis';
 import { locationsReducer } from 'redux/slices';
 import { modalSliceReducer } from 'redux/slices/modalSlice';
+// import { counterSliceReducer } from 'redux/slices/counterSlice';
+// counter: counterSliceReducer,
 
 export const rootReducer = combineReducers({
   auth: authReducer,
