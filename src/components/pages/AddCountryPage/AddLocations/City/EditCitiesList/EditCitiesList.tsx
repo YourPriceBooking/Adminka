@@ -1,17 +1,17 @@
 import type { City } from 'types/apis';
-import { EditCityListStyled } from './EditCityList.styled';
+import { EditCitiesListStyled } from './EditCitiesList.styled';
 import { EditCityItem } from './EditCityItem';
 
-type EditCityListProps = {
+type EditCitiesListProps = {
   cities: City[];
 };
 
-export const EditCityList = ({ cities }: EditCityListProps) => {
+export const EditCitiesList = ({ cities }: EditCitiesListProps) => {
   return (
-    <EditCityListStyled>
+    <EditCitiesListStyled>
       {cities.map(city => (
         <EditCityItem key={city._id} {...city} />
       ))}
-    </EditCityListStyled>
+    </EditCitiesListStyled>
   );
 };

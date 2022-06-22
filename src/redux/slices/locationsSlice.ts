@@ -1,6 +1,19 @@
-import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from 'redux/store';
-import type { State, EditState, DeleteState, City, EditCity, DeleteCity } from 'types/apis';
+import type {
+  State,
+  EditState,
+  DeleteState,
+  City,
+  EditCity,
+  DeleteCity,
+  District,
+  NewStateWithOutId,
+  NewCityWithOutId,
+  NewDistrictWithOutId,
+  EditDistrict,
+  DeleteDistrict,
+} from 'types/apis';
 
 type LocationsState = {
   states: State[];
@@ -61,13 +74,15 @@ const locationsSlice = createSlice({
   initialState,
 
   reducers: {
+    // country state
     addState: {
-      prepare: stateWithOutId => ({ payload: { _id: nanoid(), ...stateWithOutId } }),
-      reducer: (state, { payload }: PayloadAction<State>) => {
+      prepare: (stateWithOutId: NewStateWithOutId) => ({
+        payload: { _id: nanoid(), ...stateWithOutId },
+      }),
+      reducer(state, { payload }: PayloadAction<State>) {
         state.states.push(payload);
       },
     },
-
     editState(state, { payload }: PayloadAction<EditState>) {
       const stateId = payload._id;
 
@@ -75,15 +90,17 @@ const locationsSlice = createSlice({
         area._id === stateId ? { ...area, ...payload } : area
       );
     },
-
     deleteState(state, { payload }: PayloadAction<DeleteState>) {
       const stateId = payload._id;
 
       state.states = state.states.filter(({ _id }) => _id !== stateId);
     },
 
+    // city
     addCity: {
-      prepare: cityWithOutId => ({ payload: { _id: nanoid(), ...cityWithOutId } }),
+      prepare: (cityWithOutId: NewCityWithOutId) => ({
+        payload: { _id: nanoid(), ...cityWithOutId },
+      }),
       reducer: (state, { payload }: PayloadAction<City>) => {
         const { stateId } = payload;
 
@@ -92,7 +109,6 @@ const locationsSlice = createSlice({
         );
       },
     },
-
     editCity(state, { payload }: PayloadAction<EditCity>) {
       const { stateId, _id: cityId } = payload;
 
@@ -107,7 +123,6 @@ const locationsSlice = createSlice({
           : area
       );
     },
-
     deleteCity(state, { payload }: PayloadAction<DeleteCity>) {
       const { stateId, _id: cityId } = payload;
 
@@ -118,26 +133,152 @@ const locationsSlice = createSlice({
       );
     },
 
-    // addDistrict(state, { payload }: PayloadAction<District>) {
-    //   const stateIndex = state.states.findIndex(area => area._id === payload.areaId);
-    //   const cities = state.states[stateIndex]?.cities;
+    // district
+    addDistrict: {
+      prepare: (districtWithOutId: NewDistrictWithOutId) => ({
+        payload: { _id: nanoid(), ...districtWithOutId },
+      }),
+      reducer: (state, { payload }: PayloadAction<District>) => {
+        const { stateId, cityId } = payload;
 
-    //   return state;
-    // },
+        state.states = state.states.map(area =>
+          area._id === stateId
+            ? {
+                ...area,
+                cities: area.cities.map(city =>
+                  city._id === cityId ? { ...city, districts: [...city.districts, payload] } : city
+                ),
+              }
+            : area
+        );
+      },
+    },
+    editDistrict(state, { payload }: PayloadAction<EditDistrict>) {
+      const { stateId, cityId, _id: districtId } = payload;
+
+      state.states = state.states.map(area =>
+        area._id === stateId
+          ? {
+              ...area,
+              cities: area.cities.map(city =>
+                city._id === cityId
+                  ? {
+                      ...city,
+                      districts: city.districts.map(district =>
+                        district._id === districtId ? { ...district, ...payload } : district
+                      ),
+                    }
+                  : city
+              ),
+            }
+          : area
+      );
+    },
+    deleteDistrict(state, { payload }: PayloadAction<DeleteDistrict>) {
+      const { stateId, cityId, _id: districtId } = payload;
+
+      state.states = state.states.map(area =>
+        area._id === stateId
+          ? {
+              ...area,
+              cities: area.cities.map(city =>
+                city._id === cityId
+                  ? { ...city, districts: city.districts.filter(({ _id }) => _id !== districtId) }
+                  : city
+              ),
+            }
+          : area
+      );
+    },
   },
 });
 
-export const { addState, editState, deleteState, addCity, editCity, deleteCity } =
-  locationsSlice.actions;
+export const {
+  addState,
+  editState,
+  deleteState,
+
+  addCity,
+  editCity,
+  deleteCity,
+
+  addDistrict,
+  editDistrict,
+  deleteDistrict,
+} = locationsSlice.actions;
 
 export const locationsReducer = locationsSlice.reducer;
 
+// export const selectDistrictNamesForActiveStateAndCity = (
+//   state: RootState,
+//   stateId: string,
+//   cityId: string
+// ) =>
+//   selectStates(state)
+//     .find(({ _id }) => _id === stateId)
+//     ?.cities.find(({ _id }) => _id === cityId)
+//     ?.districts.map(({ districtName }) => districtName);
+
 export const selectStates = (state: RootState) => state.locations.states;
 
-export const selectStatesNames = (state: RootState) =>
-  selectStates(state).map(({ stateName }) => stateName);
+// reselect selectors to return memoized result
+export const selectStateId = (state: RootState, { stateId }: { stateId: string }) => stateId;
+export const selectCityId = (state: RootState, { cityId }: { cityId: string }) => cityId;
 
-export const selectCitiesNamesForActiveState = (state: RootState, stateId: string) =>
-  selectStates(state)
-    .find(({ _id }) => _id === stateId)
-    ?.cities.map(({ cityName }) => cityName);
+const called = {
+  makeSelectStatesNames: 0,
+  makeSelectCities: 0,
+  makeSelectDistricts: 0,
+  makeSelectCitiesNamesForState: 0,
+  makeSelectDistrictNamesForStateAndCity: 0,
+};
+
+export const makeSelectStatesNames = () => {
+  called.makeSelectStatesNames += 1;
+  console.log(JSON.stringify(called, null, 2));
+
+  return createSelector([selectStates], states => states.map(({ stateName }) => stateName));
+};
+
+export const makeSelectCities = () => {
+  called.makeSelectCities += 1;
+  console.log(JSON.stringify(called, null, 2));
+
+  return createSelector(
+    [selectStates, selectStateId],
+    (states, stateId) => states.find(({ _id }) => _id === stateId)?.cities
+  );
+};
+
+export const makeSelectDistricts = () => {
+  called.makeSelectDistricts += 1;
+  console.log(JSON.stringify(called, null, 2));
+
+  return createSelector(
+    [makeSelectCities(), selectCityId],
+    (cities, cityId) => cities?.find(({ _id }) => _id === cityId)?.districts
+  );
+};
+
+export const makeSelectCitiesNamesForState = () => {
+  called.makeSelectCitiesNamesForState += 1;
+  console.log(JSON.stringify(called, null, 2));
+
+  return createSelector(makeSelectCities(), cities => cities?.map(({ cityName }) => cityName));
+};
+
+/**
+ * two arguments must be provided to each individual selector
+ * args: (state: RootState, {stateId: string, cityId: string})
+ * @yields {createSelector function} Selector for each element in the list
+ * to have its own version of the function to keep memoization working
+ * for active state and city to return its own Array with districts names if same args.
+ */
+export const makeSelectDistrictNamesForStateAndCity = () => {
+  called.makeSelectDistrictNamesForStateAndCity += 1;
+  console.log(JSON.stringify(called, null, 2));
+
+  return createSelector(makeSelectDistricts(), districts =>
+    districts?.map(({ districtName }) => districtName)
+  );
+};

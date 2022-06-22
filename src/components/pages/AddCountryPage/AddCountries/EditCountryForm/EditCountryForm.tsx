@@ -24,7 +24,7 @@ export const EditCountryForm = ({
   international,
   __v,
 
-  closeCountiesList,
+  closeCountriesList,
   isEditingCountry,
   setIsEditingCountry,
   isLoading,
@@ -106,7 +106,7 @@ export const EditCountryForm = ({
     if (isEditingCountry) return;
 
     appDispatch(setActiveCountry({ _id, country, langCode, international, __v }));
-    closeCountiesList();
+    closeCountriesList();
   }, [
     __v,
     _id,
@@ -115,7 +115,7 @@ export const EditCountryForm = ({
     international,
     isEditingCountry,
     langCode,
-    closeCountiesList,
+    closeCountriesList,
   ]);
 
   const isFirstEdit = langCode?.toUpperCase() === 'EN' && !isEngActive;

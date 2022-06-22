@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
-import { FormEvent, useCallback, useState } from 'react';
+import { FormEvent, useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
-import { addCity, selectCitiesNamesForActiveState } from 'redux/slices';
+import { addCity, makeSelectCitiesNamesForState } from 'redux/slices';
 import type { NewCityWithOutId } from 'types/apis';
 import { AddLocationButton } from '../../State/AddStateForm/AddStateForm.styled';
 import { SubmitAddLocationButton } from '../../State/EditStateForm/EditStateForm.styled';
@@ -9,16 +9,11 @@ import { Row, AddCityFormStyled } from './AddCityForm.styled';
 
 export const AddCityForm = ({ stateId }: { stateId: string }) => {
   const appDispatch = useAppDispatch();
-
-  const citiesNames = useAppSelector(state => selectCitiesNamesForActiveState(state, stateId));
+  const selectCitiesNamesForState = useMemo(makeSelectCitiesNamesForState, []);
+  const citiesNames = useAppSelector(state => selectCitiesNamesForState(state, { stateId }));
 
   const [isAddingCity, setIsAddingCity] = useState(false);
-  // const [isAddingCity, setIsAddingCity] = useState(false);
-  // const [isAddingDistrict, setIsAddingDistrict] = useState(false);
-
   const setAddingCityTrue = useCallback(() => setIsAddingCity(true), []);
-  // const addCity = useCallback(() => setIsAddingCity(true), []);
-  // const addDistrict = useCallback(() => setIsAddingDistrict(true), []);
 
   const handleSubmitAddCity = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
@@ -52,7 +47,6 @@ export const AddCityForm = ({ stateId }: { stateId: string }) => {
         appDispatch(addCity(newCity));
         setIsAddingCity(false);
         // toast.success(`City ${cityName} added`);
-        console.log({ cityPhotoURL });
       } catch (error) {
         toast.error('City not added');
         console.log(error);

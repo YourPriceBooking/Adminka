@@ -40,8 +40,8 @@ export const AddLanguageForm = ({ closeModal, selectLang, isLoading }: AddLangua
         toast.error('Language not added - please try again');
         console.log(error);
       } finally {
-        closeModal();
         form.reset();
+        closeModal();
       }
     },
     [addLanguage, closeModal, selectLang]

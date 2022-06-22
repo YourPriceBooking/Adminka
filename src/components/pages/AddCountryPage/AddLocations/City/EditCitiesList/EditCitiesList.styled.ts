@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 
-export const EditCityListStyled = styled.ul`
+export const EditCitiesListStyled = styled.ul`
   display: flex;
   flex-direction: column;
   gap: clamp(4px, 1.6vw, 8px);
@@ -13,6 +13,12 @@ export const EditCityItemStyled = styled.li`
   max-width: 360px;
 
   border-bottom: 1px solid ${({ theme }) => theme.colors.border.list};
+`;
+
+export const District = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 /*
