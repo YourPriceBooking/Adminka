@@ -11,17 +11,17 @@ import { AppLoading } from 'App.styled';
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
 
-// <StrictMode>
 root.render(
-  <Provider store={store}>
-    <PersistGate persistor={persistor} loading={<AppLoading />}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </PersistGate>
-  </Provider>
+  <StrictMode>
+    <Provider store={store}>
+      <PersistGate persistor={persistor} loading={<AppLoading />}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
+  </StrictMode>
 );
-// </StrictMode>
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

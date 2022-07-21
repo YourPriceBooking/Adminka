@@ -20,7 +20,7 @@ import { AddLanguageForm } from './AddLanguageForm/AddLanguageForm';
 import { SelectLangList } from './SelectLangList/SelectLangList';
 import { ShowLanguagesButton } from './AddLanguages.styled';
 
-export default function SelectLang() {
+export const SelectLang = () => {
   const {
     data: languages,
     isLoading: isLoadingLanguagesFirstTime,
@@ -87,4 +87,4 @@ export default function SelectLang() {
       )}
     </>
   );
-}
+};
