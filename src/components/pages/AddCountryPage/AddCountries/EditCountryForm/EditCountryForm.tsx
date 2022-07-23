@@ -1,4 +1,3 @@
-import type { CountryItem } from '../EditCountriesList/EditCountryItem';
 import { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
 import {
@@ -9,6 +8,7 @@ import {
 } from 'redux/slices';
 import { useEditCountryMutation, useDeleteCountryMutation } from 'redux/apis';
 import { toast } from 'react-toastify';
+import type { CountryItem } from '../EditCountriesList/EditCountryItem';
 import {
   CountryInputLabel,
   EditCountryFormStyled,

@@ -1,5 +1,5 @@
-import slang from '../AddLanguages.module.scss';
 import { Language } from 'types/apis';
+import slang from '../AddLanguages.module.scss';
 import { LanguageItem } from './SelectLangItem';
 
 type SelectLangListType = {

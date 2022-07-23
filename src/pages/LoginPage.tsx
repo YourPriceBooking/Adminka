@@ -1,5 +1,3 @@
-// import Home from 'components/pages/Home';
-
 import { useAppDispatch } from 'hooks/redux/hooks';
 import { useNavigate } from 'react-router-dom';
 import { login } from 'redux/slices';
@@ -9,7 +7,7 @@ const style = {
   button: { padding: '12px 16px', fontSize: '2rem' },
 };
 
-export default function LoginPage() {
+const LoginPage = () => {
   const appDispatch = useAppDispatch();
   const nav = useNavigate();
 
@@ -25,4 +23,6 @@ export default function LoginPage() {
       </button>
     </div>
   );
-}
+};
+
+export default LoginPage;

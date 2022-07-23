@@ -6,11 +6,11 @@ import {
   selectActiveLangId,
   selectIsEnglishActiveLang,
 } from 'redux/slices';
+import type { Language } from 'types/apis';
 import { AddCountriesStyled, CountryEditorWrapper, ShowEditorButton } from './AddCountries.styled';
 import { Dropdown } from './Drowdown/Drowdown';
-import type { Language } from 'types/apis';
 
-export default function AddCountries() {
+export const AddCountries = () => {
   const {
     data: languages,
     isLoading: isLoadingLanguagesFirstTime,
@@ -53,4 +53,4 @@ export default function AddCountries() {
       </CountryEditorWrapper>
     </AddCountriesStyled>
   );
-}
+};

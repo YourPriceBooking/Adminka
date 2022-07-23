@@ -1,6 +1,6 @@
+import type { Country } from 'types/apis';
 import { EditCountryItem } from './EditCountriesList.styled';
 
-import type { Country } from 'types/apis';
 import { EditCountryForm } from '../EditCountryForm/EditCountryForm';
 
 export type CountryItem = Country & {
@@ -10,10 +10,8 @@ export type CountryItem = Country & {
   isLoading: boolean;
 };
 
-export const Item = (countryItem: CountryItem) => {
-  return (
-    <EditCountryItem>
-      <EditCountryForm {...countryItem} />
-    </EditCountryItem>
-  );
-};
+export const Item = (countryItem: CountryItem) => (
+  <EditCountryItem>
+    <EditCountryForm {...countryItem} />
+  </EditCountryItem>
+);

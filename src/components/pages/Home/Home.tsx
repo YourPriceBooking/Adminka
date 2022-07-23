@@ -98,7 +98,7 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
   );
 };
 
-export default function Home() {
+const Home = () => {
   return (
     <HomeStyled>
       <Container>
@@ -106,4 +106,6 @@ export default function Home() {
       </Container>
     </HomeStyled>
   );
-}
+};
+
+export default Home;

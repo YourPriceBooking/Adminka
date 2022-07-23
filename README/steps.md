@@ -52,3 +52,9 @@ yarn create @eslint/config # adds @typescript-eslint/eslint-plugin @typescript-e
 
 yarn add -D eslint-config-airbnb-typescript
 ```
+
+### 8️⃣ 2022-07-23 01:10
+
+```bash
+yarn add -D prettier eslint-config-prettier eslint-plugin-prettier
+```

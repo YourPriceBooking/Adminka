@@ -1,5 +1,5 @@
 import { useCustomTheme } from 'hooks/ui/theme';
-import { ThemeProvider } from 'styled-components/macro';
+import styled, { ThemeProvider } from 'styled-components/macro';
 import { ScrollContainer } from 'components/shared/Container';
 
 import { GlobalStyle } from 'styles/GlobalStyle';
@@ -8,7 +8,6 @@ import { AppRouter } from 'routes/AppRouter';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import styled from 'styled-components/macro';
 import { rgba } from 'polished';
 import { useAppSelector } from 'hooks/redux/hooks';
 import { selectDev } from 'redux/slices';
@@ -60,7 +59,7 @@ export const DevIndicator = styled.div`
 
 const dev = process.env.NODE_ENV === 'development';
 
-export default function App() {
+export const App = () => {
   const theme = useCustomTheme();
 
   const showDev = useAppSelector(selectDev);
@@ -79,4 +78,4 @@ export default function App() {
       </ScrollContainer>
     </ThemeProvider>
   );
-}
+};

@@ -2,7 +2,7 @@ import { Container } from 'components/shared/Container';
 import { Header } from 'components/pages/AddCountryPage/AddCountries/AddCountries.styled';
 import { BackButton } from 'components/pages/AddCountryPage/AddCountries/BackButton';
 import AddCountries from 'components/pages/AddCountryPage/AddCountries';
-import AddLanguages from 'components/pages/AddCountryPage/AddLanguages';
+import { SelectLang as AddLanguages } from 'components/pages/AddCountryPage/AddLanguages';
 import AddLocations from 'components/pages/AddCountryPage/AddLocations';
 import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
 import { useCallback } from 'react';
@@ -25,7 +25,7 @@ export const DevButton = styled.button`
   }
 `;
 
-export default function AddCountryPage() {
+const AddCountryPage = () => {
   const appDispatch = useAppDispatch();
   const toggleDeleteButtons = useCallback(() => {
     appDispatch(toggleDev());
@@ -46,4 +46,6 @@ export default function AddCountryPage() {
       <AddLocations />
     </Container>
   );
-}
+};
+
+export default AddCountryPage;

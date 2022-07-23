@@ -1,5 +1,3 @@
-import { baseApi } from './baseApi';
-
 import type {
   AddLanguage,
   AddLanguageResponse,
@@ -8,6 +6,7 @@ import type {
   Language,
   LanguagesResponse,
 } from 'types/apis';
+import { baseApi } from './baseApi';
 
 const LANGUAGES = { type: 'Languages' as const };
 const ID_LIST = { id: 'LIST' as const };

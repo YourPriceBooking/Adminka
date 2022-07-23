@@ -1,8 +1,13 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import { langReducer, themeReducer, countriesReducer, authReducer } from 'redux/slices';
+import {
+  langReducer,
+  themeReducer,
+  countriesReducer,
+  authReducer,
+  locationsReducer,
+  modalSliceReducer,
+} from 'redux/slices';
 import { baseApi } from 'redux/apis';
-import { locationsReducer } from 'redux/slices';
-import { modalSliceReducer } from 'redux/slices/modalSlice';
 // import { counterSliceReducer } from 'redux/slices/counterSlice';
 // counter: counterSliceReducer,
 

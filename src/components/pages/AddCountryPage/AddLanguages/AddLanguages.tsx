@@ -6,8 +6,7 @@ import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
 //   selectLocationObj,
 // } from '../../Location/LocationSlicer';
 // import { selectLanguage, generate } from '../ListSlicer'
-import slang from './AddLanguages.module.scss';
-import Modal from 'components/shared/Modal/Modal';
+import { Modal } from 'components/shared/Modal/Modal';
 import {
   decreaseModalCount,
   increaseModalCount,
@@ -16,6 +15,7 @@ import {
 } from 'redux/slices';
 import { useGetLanguagesQuery } from 'redux/apis';
 import { Language } from 'types/apis';
+import slang from './AddLanguages.module.scss';
 import { AddLanguageForm } from './AddLanguageForm/AddLanguageForm';
 import { SelectLangList } from './SelectLangList/SelectLangList';
 import { ShowLanguagesButton } from './AddLanguages.styled';

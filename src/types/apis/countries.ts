@@ -1,4 +1,5 @@
 import { FormEvent } from 'react';
+
 export type onSubmitFormType = { onSubmit: (e: FormEvent<HTMLFormElement>) => void };
 export type onSubmitType = (e: FormEvent<HTMLFormElement>) => void;
 

@@ -6,6 +6,7 @@ import { selectIsLoggedIn } from 'redux/slices';
 import { AnimatedContainer } from 'components/shared/AppRouter/AnimatedContainer';
 
 import LoginPage from 'pages/LoginPage';
+
 const AddCountryPage = lazy(() => import('pages/AddCountryPage'));
 const MenuPage = lazy(() => import('pages/MenuPage'));
 

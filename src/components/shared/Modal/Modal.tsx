@@ -8,6 +8,7 @@ import {
   CloseModalIcon,
   ModalStyled,
 } from './Modal.styled';
+
 const { modalRoot } = getRefs();
 
 type ModalProps = {
@@ -15,7 +16,7 @@ type ModalProps = {
   children: ReactNode;
 };
 
-export default function Modal({ toggleModal, children }: ModalProps) {
+export const Modal = ({ toggleModal, children }: ModalProps) => {
   const closeModalButtonRef = useRef<HTMLButtonElement>(null);
 
   const [isMounted, setIsMounted] = useState(false);
@@ -46,7 +47,7 @@ export default function Modal({ toggleModal, children }: ModalProps) {
     closeModalButtonRef.current?.focus();
   }, []);
 
-  if (!modalRoot) return <div>{`Add <div id="modal-root"></div> to index.html`}</div>;
+  if (!modalRoot) return <div>{'Add <div id="modal-root"></div> to index.html'}</div>;
 
   const className = isMounted ? '' : 'isHidden';
 
@@ -67,4 +68,4 @@ export default function Modal({ toggleModal, children }: ModalProps) {
     </BackdropStyled>,
     modalRoot
   );
-}
+};

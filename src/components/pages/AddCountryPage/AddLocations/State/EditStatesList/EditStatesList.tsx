@@ -1,9 +1,9 @@
-import { EditStatesListStyled, TotalStatesIndicator } from './EditStatesList.styled';
 import type { State } from 'types/apis';
-import { EditStateItem } from './EditStateItem';
 import { useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
 import { incrementCounter, selectDev } from 'redux/slices';
+import { EditStateItem } from './EditStateItem';
+import { EditStatesListStyled, TotalStatesIndicator } from './EditStatesList.styled';
 
 type EditStatesListType = {
   editLocationsList: State[];

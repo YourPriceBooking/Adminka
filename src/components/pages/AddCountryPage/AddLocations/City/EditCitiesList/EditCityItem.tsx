@@ -4,15 +4,13 @@ import { EditDistrictsList } from '../../District/EditDistrictsList/EditDistrict
 import { EditCityForm } from '../EditCityForm/EditCityForm';
 import { District, EditCityItemStyled } from './EditCitiesList.styled';
 
-export const EditCityItem = (city: City) => {
-  return (
-    <EditCityItemStyled key={city._id}>
-      <EditCityForm {...city} />
+export const EditCityItem = (city: City) => (
+  <EditCityItemStyled key={city._id}>
+    <EditCityForm {...city} />
 
-      <District className="district">
-        <EditDistrictsList districts={city.districts} />
-        <AddDistrictForm stateId={city.stateId} cityId={city._id} />
-      </District>
-    </EditCityItemStyled>
-  );
-};
+    <District className="district">
+      <EditDistrictsList districts={city.districts} />
+      <AddDistrictForm stateId={city.stateId} cityId={city._id} />
+    </District>
+  </EditCityItemStyled>
+);

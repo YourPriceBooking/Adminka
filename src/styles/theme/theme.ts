@@ -240,12 +240,12 @@ const quarterBlack = rgba(0, 0, 0, 0.25);
 
 export const shadows = {
   quarterBlack,
-  notification: '0 0 4px ' + quarterBlack,
-  countrySelector: '0 0 9px 2px ' + quarterBlack,
-  buttonCancel: '0 0 5px 2px ' + quarterBlack,
-  cancelDeleteCard: '0 0 10px ' + rgba(light.black, 0.3),
-  buttonAddLocation: '0 0 5px ' + rgba(light.black, 0.3),
-  modal: '0px 2px 4px ' + rgba(light.black, 0.15),
+  notification: `0 0 4px ${quarterBlack}`,
+  countrySelector: `0 0 9px 2px ${quarterBlack}`,
+  buttonCancel: `0 0 5px 2px ${quarterBlack}`,
+  cancelDeleteCard: `0 0 10px ${rgba(light.black, 0.3)}`,
+  buttonAddLocation: `0 0 5px ${rgba(light.black, 0.3)}`,
+  modal: `0px 2px 4px ${rgba(light.black, 0.15)}`,
 };
 
 const cubic = 'cubic-bezier(0.4, 0, 0.2, 1)';

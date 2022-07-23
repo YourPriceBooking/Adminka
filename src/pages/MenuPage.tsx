@@ -1,5 +1,7 @@
 import Home from 'components/pages/Home';
 
-export default function MenuPage() {
+const MenuPage = () => {
   return <Home />;
-}
+};
+
+export default MenuPage;

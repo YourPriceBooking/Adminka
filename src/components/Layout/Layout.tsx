@@ -1,8 +1,8 @@
 import { useLocation, Outlet } from 'react-router-dom';
 import { AppBar } from 'components/shared/AppBar';
 import { Suspense } from 'react';
-import { Main } from './Layout.styled';
 import { routes } from 'routes/AppRouter';
+import { Main } from './Layout.styled';
 
 export const Layout = () => {
   const { pathname } = useLocation();

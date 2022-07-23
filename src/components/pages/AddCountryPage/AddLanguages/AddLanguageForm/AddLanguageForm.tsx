@@ -1,8 +1,8 @@
-import slang from '../AddLanguages.module.scss';
 import type { Language } from 'types/apis';
 import { FormEvent, useCallback, useState } from 'react';
 import { useAddLanguageMutation } from 'redux/apis';
 import { toast } from 'react-toastify';
+import slang from '../AddLanguages.module.scss';
 
 type AddLanguageFormProps = {
   closeModal: () => void;
