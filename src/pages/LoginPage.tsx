@@ -1,28 +1,41 @@
-// import Home from 'components/pages/Home';
-
+import { useFromLocation } from 'hooks/navigation';
 import { useAppDispatch } from 'hooks/redux/hooks';
+import { FormEvent } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { login } from 'redux/slices';
+// import { useNavigate } from 'react-router-dom';
+import { login, selectIsLoggedIn } from 'redux/slices';
 
 const style = {
   container: { display: 'flex', alignItems: 'center', justifyContent: 'center', height: '90vh' },
   button: { padding: '12px 16px', fontSize: '2rem' },
 };
 
-export default function LoginPage() {
+const LoginPage = () => {
   const appDispatch = useAppDispatch();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const from = useFromLocation();
   const nav = useNavigate();
 
-  const onLogin = () => {
+  const onLogin = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     appDispatch(login());
-    nav('/menu', { replace: true });
+
+    if (isLoggedIn && from) {
+      nav(from);
+    }
   };
 
   return (
     <div style={style.container}>
-      <button style={style.button} onClick={onLogin}>
-        Login
-      </button>
+      <form onSubmit={onLogin}>
+        <button style={style.button} type="submit">
+          Login
+        </button>
+      </form>
     </div>
   );
-}
+};
+
+export default LoginPage;

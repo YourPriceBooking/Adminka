@@ -1,4 +1,3 @@
-import type { CountryItem } from '../EditCountriesList/EditCountryItem';
 import { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
 import {
@@ -9,6 +8,7 @@ import {
 } from 'redux/slices';
 import { useEditCountryMutation, useDeleteCountryMutation } from 'redux/apis';
 import { toast } from 'react-toastify';
+import type { CountryItem } from '../EditCountriesList/EditCountryItem';
 import {
   CountryInputLabel,
   EditCountryFormStyled,
@@ -18,16 +18,13 @@ import {
 import { EditButton } from '../EditButton/EditButton';
 
 export const EditCountryForm = ({
-  _id,
-  country,
-  langCode,
-  international,
-  __v,
-
-  closeCountriesList,
-  isEditingCountry,
-  setIsEditingCountry,
-  isLoading,
+  countryItem: {
+    country: { country, _id, langCode, international, __v },
+    closeCountriesList,
+    isEditingCountry,
+    setIsEditingCountry,
+    isLoading,
+  },
 }: CountryItem) => {
   const [editCountry, { isLoading: isLoadingEditedCountry }] = useEditCountryMutation();
   const [deleteCountry, { isLoading: isDeletingCountry }] = useDeleteCountryMutation();
@@ -64,7 +61,6 @@ export const EditCountryForm = ({
         }
       } catch (error) {
         toast.error(JSON.stringify(error));
-        console.log(error);
       } finally {
         setInputDisabled(true);
         setIsSubmitButtonDisabled(true);
@@ -76,12 +72,14 @@ export const EditCountryForm = ({
   const onDeleteCountry = useCallback(async () => {
     try {
       await deleteCountry({ _id });
-    } catch (error) {}
+    } catch (error) {
+      toast.error(`Error while deleting country with _id:${_id}`);
+    }
   }, [_id, deleteCountry]);
 
   const startEditing = useCallback(() => {
     if (isEditingCountry) return;
-    console.log('editing');
+    // console.log('editing');
 
     setIsEditingCountry(true);
     setInputDisabled(false);
@@ -90,7 +88,6 @@ export const EditCountryForm = ({
 
   const stopEditing = useCallback(() => {
     if (!isEditingCountry) return;
-    console.log('stopped editing');
 
     setIsEditingCountry(false);
     setInputDisabled(true);
@@ -123,14 +120,12 @@ export const EditCountryForm = ({
   const isPending = isLoading || isLoadingEditedCountry || isDeletingCountry;
 
   useEffect(() => {
-    if (inputDisabled) return;
+    if (inputDisabled) return () => {};
 
     const onOutsideFormClickReset = (e: MouseEvent) => {
       const { target } = e;
       if (!(target instanceof Node)) return;
       if (formRef.current?.contains(target)) return;
-
-      console.log({ target });
 
       formRef.current?.reset();
       stopEditing();
@@ -139,15 +134,15 @@ export const EditCountryForm = ({
 
     const timer = setTimeout(() => {
       document.addEventListener('click', onOutsideFormClickReset, { passive: true, capture: true });
-      console.log('Click listen added');
     }, 0);
 
-    return () => {
+    const clearGarbage = () => {
       clearTimeout(timer);
       document.removeEventListener('click', onOutsideFormClickReset, { capture: true });
       stopEditing();
-      console.log('Click listen removed');
     };
+
+    return clearGarbage;
   }, [country, inputDisabled, stopEditing]);
 
   return (

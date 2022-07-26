@@ -1,21 +1,23 @@
-import { useLocation, Outlet } from 'react-router-dom';
-import { AppBar } from 'components/shared/AppBar';
+import { Outlet } from 'react-router-dom';
 import { Suspense } from 'react';
+import { usePageTransition } from 'hooks/ui/transitions/usePageTransition';
+import { AnimatedContainer } from 'components/shared/AppRouter/AnimatedContainer';
+import { AppBar } from 'components/shared/AppBar';
 import { Main } from './Layout.styled';
-import { routes } from 'routes/AppRouter';
 
 export const Layout = () => {
-  const { pathname } = useLocation();
-
+  const { onAnimationEnd, show } = usePageTransition();
   return (
     <>
-      {pathname === routes.login.path ? null : <AppBar />}
+      <AppBar />
 
-      <Suspense>
-        <Main>
-          <Outlet />
-        </Main>
-      </Suspense>
+      <Main>
+        <AnimatedContainer className={show ? 'fadeOut' : 'fadeIn'} onAnimationEnd={onAnimationEnd}>
+          <Suspense>
+            <Outlet />
+          </Suspense>
+        </AnimatedContainer>
+      </Main>
     </>
   );
 };

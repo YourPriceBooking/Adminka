@@ -26,11 +26,13 @@ export const AddStateForm = () => {
       const stateName = content.get('stateName')?.toString().trim();
 
       if (!statePhotoURL || !stateName) {
-        return toast('Please provide photo url and State name');
+        toast('Please provide photo url and State name');
+        return;
       }
 
       if (statesNames.find(existingStateName => existingStateName === stateName)) {
-        return toast.info(`${stateName} exists. Fill new 'name'`);
+        toast.info(`${stateName} exists. Fill new 'name'`);
+        return;
       }
 
       const newState: NewStateWithOutId = {
@@ -48,7 +50,6 @@ export const AddStateForm = () => {
         // toast.success(`State ${stateName} added`);
       } catch (error) {
         toast.error('State not added');
-        console.log(error);
       }
     },
     [appDispatch, statesNames]

@@ -1,21 +1,24 @@
-import slang from '../AddLanguages.module.scss';
 import { Language } from 'types/apis';
 
 import { useDeleteLanguageMutation } from 'redux/apis';
-import { DeleteButton, DeleteIcon, SelectButton } from './SelectLangItem.styled';
 import { selectDev } from 'redux/slices';
 import { useAppSelector } from 'hooks/redux/hooks';
+import { DeleteButton, DeleteIcon, SelectButton } from './SelectLangItem.styled';
+import slang from '../AddLanguages.module.scss';
+import type { SelectLanguage } from './SelectLangList';
 
-type LanguageItemProps = Language & { selectLang: (arg: Language) => void };
+type LanguageItemProps = {
+  languageItem: {
+    language: Language;
+    selectLang: SelectLanguage;
+  };
+};
 
 export const LanguageItem = ({
-  _id,
-  lang,
-  code,
-  createdAt,
-  updatedAt,
-  selectLang,
-  countries,
+  languageItem: {
+    language: { _id, lang, code, createdAt, updatedAt, countries },
+    selectLang,
+  },
 }: LanguageItemProps) => {
   const [deleteLanguage, { isLoading: isDeletingLanguage }] = useDeleteLanguageMutation();
   const showDev = useAppSelector(selectDev);
@@ -23,7 +26,7 @@ export const LanguageItem = ({
   return (
     <li className={slang.block_lang_li} value={code} key={code}>
       <SelectButton
-        onClick={e => selectLang({ _id, lang, code, createdAt, updatedAt, countries })}
+        onClick={() => selectLang({ _id, lang, code, createdAt, updatedAt, countries })}
         disabled={isDeletingLanguage}
       >
         <span>{lang}</span>
@@ -32,10 +35,7 @@ export const LanguageItem = ({
       </SelectButton>
 
       {showDev && (
-        <DeleteButton
-          onClick={async e => await deleteLanguage({ _id })}
-          disabled={isDeletingLanguage}
-        >
+        <DeleteButton onClick={() => deleteLanguage({ _id })} disabled={isDeletingLanguage}>
           <DeleteIcon />
         </DeleteButton>
       )}

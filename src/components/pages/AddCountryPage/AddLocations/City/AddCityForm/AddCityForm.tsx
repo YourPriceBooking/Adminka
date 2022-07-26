@@ -26,11 +26,13 @@ export const AddCityForm = ({ stateId }: { stateId: string }) => {
       const cityName = content.get('cityName')?.toString().trim();
 
       if (!cityPhotoURL || !cityName) {
-        return toast('Please provide photo url and City name');
+        toast('Please provide photo url and City name');
+        return;
       }
 
       if (citiesNames?.find(existingCityName => existingCityName === cityName)) {
-        return toast.info(`${cityName} exists. Fill new 'name'`);
+        toast.info(`${cityName} exists. Fill new 'name'`);
+        return;
       }
 
       const newCity: NewCityWithOutId = {
@@ -46,10 +48,9 @@ export const AddCityForm = ({ stateId }: { stateId: string }) => {
       try {
         appDispatch(addCity(newCity));
         setIsAddingCity(false);
-        // toast.success(`City ${cityName} added`);
+        toast.success(`City ${cityName} added`);
       } catch (error) {
         toast.error('City not added');
-        console.log(error);
       }
     },
     [appDispatch, citiesNames, stateId]
@@ -74,12 +75,12 @@ export const AddCityForm = ({ stateId }: { stateId: string }) => {
               required
               title="https://my-location.com/photo.jpg"
             />
-            <p>add a link to the photo</p>
+            <span>add a link to the photo</span>
           </label>
 
           <label>
             <input type="text" name="cityName" minLength={3} maxLength={50} required />
-            <p>add the name of the city</p>
+            <span>add the name of the city</span>
           </label>
 
           <SubmitAddLocationButton type="submit">Add Loc 2</SubmitAddLocationButton>

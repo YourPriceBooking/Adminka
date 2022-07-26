@@ -1,4 +1,3 @@
-import { baseApi } from './baseApi';
 import type {
   AddCountry,
   CountriesResponse,
@@ -7,6 +6,7 @@ import type {
   EditCountry,
   InitCountriesResponse,
 } from 'types/apis';
+import { baseApi } from './baseApi';
 import { LANGUAGES_LIST } from './languagesApi';
 
 const COUNTRIES = { type: 'Countries' as const };

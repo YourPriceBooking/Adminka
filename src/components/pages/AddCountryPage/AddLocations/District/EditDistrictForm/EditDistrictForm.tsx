@@ -6,9 +6,10 @@ import {
   selectIsEnglishActiveLang,
   makeSelectDistrictNamesForStateAndCity,
 } from 'redux/slices';
-import type { EditDistrict } from 'types/apis';
+
 import { EditButton } from '../../../AddCountries/EditButton/EditButton';
 import { SubmitAddLocationButton } from '../../State/EditStateForm/EditStateForm.styled';
+import type { EditDistrictItemType } from '../EditDistrictsList/EditDistrictItem';
 
 import {
   EditDistrictFormStyled,
@@ -17,16 +18,18 @@ import {
 } from './EditDistrictForm.styled';
 
 export const EditDistrictForm = ({
-  stateId,
-  cityId,
+  district: {
+    stateId,
+    cityId,
 
-  _id,
-  districtName,
-  districtPhotoURL,
-  districtInternational,
-  districtCode,
-  edited,
-}: EditDistrict) => {
+    _id,
+    districtName,
+    districtPhotoURL,
+    districtInternational,
+    districtCode,
+    edited,
+  },
+}: EditDistrictItemType) => {
   const appDispatch = useAppDispatch();
 
   const [isEditingDistrict, setIsEditingDistrict] = useState(false);
@@ -45,18 +48,19 @@ export const EditDistrictForm = ({
   const handleSubmitEditDistrict = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      const form = e.currentTarget;
+      const districtPhotoURLTrimmed = localDistrictPhotoURL?.trim();
+      const districtNameTrimmed = localDistrictName?.trim();
 
-      const content = new FormData(form);
-      const districtPhotoURL = content.get('districtPhotoURL')?.toString().trim();
-      const districtName = content.get('districtName')?.toString().trim();
-
-      if (!districtPhotoURL || !districtName) {
-        return toast('Please provide photo url and District name');
+      if (!districtPhotoURLTrimmed || !districtNameTrimmed) {
+        toast('Please provide photo url and District name');
+        return;
       }
 
-      if (districtNames?.find(existingDistrictName => existingDistrictName === districtName)) {
-        return toast.info(`${districtName} exists. Try another 'name'`);
+      if (
+        districtNames?.find(existingDistrictName => existingDistrictName === districtNameTrimmed)
+      ) {
+        toast.info(`${districtNameTrimmed} exists. Try another 'name'`);
+        return;
       }
 
       const updatedDistrict = {
@@ -64,10 +68,10 @@ export const EditDistrictForm = ({
         cityId,
 
         _id,
-        districtName: localDistrictName,
-        districtPhotoURL: localDistrictPhotoURL,
+        districtName: districtNameTrimmed,
+        districtPhotoURL: districtPhotoURLTrimmed,
         districtInternational:
-          !districtInternational && isEng ? localDistrictName : districtInternational,
+          !districtInternational && isEng ? districtNameTrimmed : districtInternational,
         districtCode,
         edited: Number(edited) + 1,
       };
@@ -78,7 +82,6 @@ export const EditDistrictForm = ({
         // toast.success('District updated');
       } catch (error) {
         toast.error('District not updated');
-        console.log(error);
       }
     },
 
@@ -107,6 +110,7 @@ export const EditDistrictForm = ({
     <EditDistrictFormStyled onSubmit={handleSubmitEditDistrict}>
       <DistrictInfo>
         <label>
+          <span>District name</span>
           <input
             type="text"
             name="districtName"
@@ -120,6 +124,7 @@ export const EditDistrictForm = ({
         </label>
 
         <label>
+          <span>District photo URL</span>
           <EditDistrictPhotoURLInput
             type="url"
             name="districtPhotoURL"

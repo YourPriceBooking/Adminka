@@ -8,8 +8,12 @@ const modalSlice = createSlice({
     openedModalCount: 0,
   },
   reducers: {
-    increaseModalCount: state => void (state.openedModalCount += 1),
-    decreaseModalCount: state => void (state.openedModalCount -= 1),
+    increaseModalCount: state => {
+      state.openedModalCount += 1;
+    },
+    decreaseModalCount: state => {
+      state.openedModalCount -= 1;
+    },
     // openModal: state => void (state.showModal = true),
     // closeModal: state => void (state.showModal = false),
   },

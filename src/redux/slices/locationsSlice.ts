@@ -225,47 +225,23 @@ export const selectStates = (state: RootState) => state.locations.states;
 export const selectStateId = (state: RootState, { stateId }: { stateId: string }) => stateId;
 export const selectCityId = (state: RootState, { cityId }: { cityId: string }) => cityId;
 
-const called = {
-  makeSelectStatesNames: 0,
-  makeSelectCities: 0,
-  makeSelectDistricts: 0,
-  makeSelectCitiesNamesForState: 0,
-  makeSelectDistrictNamesForStateAndCity: 0,
-};
+export const makeSelectStatesNames = () =>
+  createSelector([selectStates], states => states.map(({ stateName }) => stateName));
 
-export const makeSelectStatesNames = () => {
-  called.makeSelectStatesNames += 1;
-  console.log(JSON.stringify(called, null, 2));
-
-  return createSelector([selectStates], states => states.map(({ stateName }) => stateName));
-};
-
-export const makeSelectCities = () => {
-  called.makeSelectCities += 1;
-  console.log(JSON.stringify(called, null, 2));
-
-  return createSelector(
+export const makeSelectCities = () =>
+  createSelector(
     [selectStates, selectStateId],
     (states, stateId) => states.find(({ _id }) => _id === stateId)?.cities
   );
-};
 
-export const makeSelectDistricts = () => {
-  called.makeSelectDistricts += 1;
-  console.log(JSON.stringify(called, null, 2));
-
-  return createSelector(
+export const makeSelectDistricts = () =>
+  createSelector(
     [makeSelectCities(), selectCityId],
     (cities, cityId) => cities?.find(({ _id }) => _id === cityId)?.districts
   );
-};
 
-export const makeSelectCitiesNamesForState = () => {
-  called.makeSelectCitiesNamesForState += 1;
-  console.log(JSON.stringify(called, null, 2));
-
-  return createSelector(makeSelectCities(), cities => cities?.map(({ cityName }) => cityName));
-};
+export const makeSelectCitiesNamesForState = () =>
+  createSelector(makeSelectCities(), cities => cities?.map(({ cityName }) => cityName));
 
 /**
  * two arguments must be provided to each individual selector
@@ -274,11 +250,7 @@ export const makeSelectCitiesNamesForState = () => {
  * to have its own version of the function to keep memoization working
  * for active state and city to return its own Array with districts names if same args.
  */
-export const makeSelectDistrictNamesForStateAndCity = () => {
-  called.makeSelectDistrictNamesForStateAndCity += 1;
-  console.log(JSON.stringify(called, null, 2));
-
-  return createSelector(makeSelectDistricts(), districts =>
+export const makeSelectDistrictNamesForStateAndCity = () =>
+  createSelector(makeSelectDistricts(), districts =>
     districts?.map(({ districtName }) => districtName)
   );
-};

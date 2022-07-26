@@ -1,8 +1,12 @@
+import { useAppSelector } from 'hooks/redux';
+import { selectIsLoggedIn } from 'redux/slices';
 import { AppBarStyled } from './AppBar.styled';
 import { NavBar } from './NavBar/NavBar';
 
 export const AppBar = () => {
-  return (
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+
+  return isLoggedIn ? null : (
     <AppBarStyled>
       <NavBar />
     </AppBarStyled>

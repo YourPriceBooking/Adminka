@@ -6,22 +6,22 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import { BrowserRouter } from 'react-router-dom';
 import './styles/index.css';
-import App from 'App';
-import { AppLoading } from 'App.styled';
+import { AppLoading } from 'App/App.styled';
+import { AppRouter } from 'routes/AppRouter';
 
 const root = createRoot(document.getElementById('root') as HTMLElement);
 
-// <StrictMode>
 root.render(
-  <Provider store={store}>
-    <PersistGate persistor={persistor} loading={<AppLoading />}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </PersistGate>
-  </Provider>
+  <StrictMode>
+    <Provider store={store}>
+      <PersistGate persistor={persistor} loading={<AppLoading />}>
+        <BrowserRouter>
+          <AppRouter />
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
+  </StrictMode>
 );
-// </StrictMode>
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

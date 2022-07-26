@@ -1,1 +1,1 @@
-export { default } from './AddLanguages';
+export * from './AddLanguages';

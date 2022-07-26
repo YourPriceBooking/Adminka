@@ -24,7 +24,7 @@ export const EditButtonStyled = styled.button`
 `;
 
 export const IconPencil = styled(IconEdit).attrs(({ $isFirstEdit }: { $isFirstEdit: boolean }) => ({
-  $isFirstEdit: $isFirstEdit,
+  $isFirstEdit,
 }))`
   color: ${({ $isFirstEdit }) => ($isFirstEdit ? 'orange' : '#9B9B9B')};
 `;

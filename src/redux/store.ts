@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
+import persistStore from 'redux-persist/es/persistStore';
 import { ignoredActions, persistedReducer } from './persist';
 import { baseApi } from './apis';
-import persistStore from 'redux-persist/es/persistStore';
 
 export const store = configureStore({
   reducer: persistedReducer,

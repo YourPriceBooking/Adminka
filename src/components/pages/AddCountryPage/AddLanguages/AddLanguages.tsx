@@ -6,8 +6,7 @@ import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
 //   selectLocationObj,
 // } from '../../Location/LocationSlicer';
 // import { selectLanguage, generate } from '../ListSlicer'
-import slang from './AddLanguages.module.scss';
-import Modal from 'components/shared/Modal/Modal';
+import { Modal } from 'components/shared/Modal/Modal';
 import {
   decreaseModalCount,
   increaseModalCount,
@@ -16,11 +15,12 @@ import {
 } from 'redux/slices';
 import { useGetLanguagesQuery } from 'redux/apis';
 import { Language } from 'types/apis';
+import slang from './AddLanguages.module.scss';
 import { AddLanguageForm } from './AddLanguageForm/AddLanguageForm';
 import { SelectLangList } from './SelectLangList/SelectLangList';
 import { ShowLanguagesButton } from './AddLanguages.styled';
 
-export default function SelectLang() {
+export const SelectLang = () => {
   const {
     data: languages,
     isLoading: isLoadingLanguagesFirstTime,
@@ -30,7 +30,7 @@ export default function SelectLang() {
   const isLoading = isLoadingLanguagesFirstTime || isFetching;
 
   const appDispatch = useAppDispatch();
-  const activeLang = useAppSelector(selectActiveLang);
+  const activeLanguage = useAppSelector(selectActiveLang);
 
   const [showLanguagesList, setShowLanguagesList] = useState(false);
 
@@ -53,7 +53,6 @@ export default function SelectLang() {
   const selectLang = useCallback(
     (activeLang: Language) => {
       appDispatch(setActiveLang(activeLang));
-      console.log({ activeLang });
       setShowLanguagesList(false);
     },
     [appDispatch]
@@ -63,8 +62,8 @@ export default function SelectLang() {
     <>
       <div className={slang.lang_container}>
         <ShowLanguagesButton onClick={openModal}>
-          <p className={slang.block_lang_p}>{activeLang.lang}</p>
-          <p className={slang.block_lang_p2}>{activeLang.code}</p>
+          <p className={slang.block_lang_p}>{activeLanguage.lang}</p>
+          <p className={slang.block_lang_p2}>{activeLanguage.code}</p>
         </ShowLanguagesButton>
       </div>
 
@@ -87,4 +86,4 @@ export default function SelectLang() {
       )}
     </>
   );
-}
+};

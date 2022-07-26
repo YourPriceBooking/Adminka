@@ -16,21 +16,21 @@ export const EditCountriesList = ({
   setIsEditingCountry,
   closeCountriesList,
   isLoading,
-}: EditCountriesListType) => {
-  return (
-    <CountryListWrapper>
-      <CountryList>
-        {countries?.map((country: Country) => (
-          <Item
-            key={country._id}
-            {...country}
-            setIsEditingCountry={setIsEditingCountry}
-            isEditingCountry={isEditingCountry}
-            closeCountriesList={closeCountriesList}
-            isLoading={isLoading}
-          />
-        ))}
-      </CountryList>
-    </CountryListWrapper>
-  );
-};
+}: EditCountriesListType) => (
+  <CountryListWrapper>
+    <CountryList>
+      {countries?.map((country: Country) => (
+        <Item
+          key={country._id}
+          countryItem={{
+            country,
+            setIsEditingCountry,
+            isEditingCountry,
+            closeCountriesList,
+            isLoading,
+          }}
+        />
+      ))}
+    </CountryList>
+  </CountryListWrapper>
+);

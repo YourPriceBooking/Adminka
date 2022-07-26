@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 import { Link as RouterLink } from 'react-router-dom';
-import { slideInLeft, slideOutLeft } from 'App.styled';
+import { slideInLeft, slideOutLeft } from 'App/App.styled';
 
 export const HomeStyled = styled.section`
   padding: 74px 0;
@@ -108,7 +108,7 @@ export const TextNormal = styled(TextSmall)`
   line-height: 1.16;
 `;
 
-export const StatsList = styled.ul`
+export const StatsListStyled = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 8px;

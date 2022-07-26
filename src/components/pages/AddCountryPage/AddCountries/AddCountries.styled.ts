@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import { slideInLeft, slideOutLeft } from 'App.styled';
+import { slideInLeft, slideOutLeft } from 'App/App.styled';
 
 export const Header = styled.header`
   position: relative;

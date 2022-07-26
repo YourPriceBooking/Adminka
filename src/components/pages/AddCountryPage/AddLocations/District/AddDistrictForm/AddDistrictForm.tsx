@@ -36,11 +36,13 @@ export const AddDistrictForm = ({ stateId, cityId }: { stateId: string; cityId: 
       const districtName = content.get('districtName')?.toString().trim();
 
       if (!districtPhotoURL || !districtName) {
-        return toast('Please provide photo url and District name');
+        toast('Please provide photo url and District name');
+        return;
       }
 
       if (districtsNames?.find(existingDistrictName => existingDistrictName === districtName)) {
-        return toast.info(`${districtName} exists. Fill new 'name'`);
+        toast.info(`${districtName} exists. Fill new 'name'`);
+        return;
       }
 
       const newDistrict: NewDistrictWithOutId = {
@@ -57,11 +59,9 @@ export const AddDistrictForm = ({ stateId, cityId }: { stateId: string; cityId: 
       try {
         appDispatch(addDistrict(newDistrict));
         setAddingDistrictTrue();
-        // toast.success(`District ${districtName} added`);
-        console.log({ districtPhotoURL });
+        toast.success(`District ${districtName} added`);
       } catch (error) {
         toast.error('District not added');
-        console.log(error);
       }
     },
     [appDispatch, districtsNames, cityId, setAddingDistrictTrue, stateId]
