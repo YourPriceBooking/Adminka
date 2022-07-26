@@ -48,7 +48,8 @@
         "labelAttributes": ["htmlFor"],
         "controlComponents": ["input"]
       }
-    ]
+    ],
+    "linebreak-style": ["error", "unix"]
   },
   "reportUnusedDisableDirectives": true,
   "settings": {

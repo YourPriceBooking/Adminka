@@ -22,11 +22,11 @@
 
 # special
 *.sql           text
-*.docx   diff=astextplain
-*.DOCX   diff=astextplain
+*.docx          diff=astextplain
+*.DOCX          diff=astextplain
 
 # to prevent modification of binary.
-*.png binary
-*.jpg binary
-*.data binary
-*.pdf -text
+*.png           binary
+*.jpg           binary
+*.data          binary
+*.pdf           -text
