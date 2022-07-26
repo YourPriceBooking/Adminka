@@ -6,7 +6,6 @@
 - `yarn add package` adds package dependencies.
 - `yarn add -D package` adds package devDependencies.
 - `yarn remove package` removes package from dependencies.
-- `yarn remove -D package` removes package from devDependencies.
 
 - `yarn start` Runs the app in the development mode. [http://localhost:3000](http://localhost:3000)
 - `yarn test` - Launches the test runner in the interactive watch mode.
