@@ -9,7 +9,7 @@ type EditCitiesListProps = {
 export const EditCitiesList = ({ cities }: EditCitiesListProps) => (
   <EditCitiesListStyled>
     {cities.map(city => (
-      <EditCityItem key={city._id} {...city} />
+      <EditCityItem key={city._id} city={city} />
     ))}
   </EditCitiesListStyled>
 );

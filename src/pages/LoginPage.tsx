@@ -1,5 +1,8 @@
+import { useFromLocation } from 'hooks/navigation';
 import { useAppDispatch } from 'hooks/redux/hooks';
+import { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { login } from 'redux/slices';
 
 const style = {
@@ -10,17 +13,22 @@ const style = {
 const LoginPage = () => {
   const appDispatch = useAppDispatch();
   const nav = useNavigate();
+  const from = useFromLocation();
 
-  const onLogin = () => {
+  const onLogin = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     appDispatch(login());
-    nav('/menu', { replace: true });
+    nav(from || '/menu');
   };
 
   return (
     <div style={style.container}>
-      <button style={style.button} onClick={onLogin}>
-        Login
-      </button>
+      <form onSubmit={onLogin}>
+        <button style={style.button} type="submit">
+          Login
+        </button>
+      </form>
     </div>
   );
 };

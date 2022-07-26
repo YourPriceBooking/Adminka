@@ -1,5 +1,5 @@
 import { Container } from 'components/shared/Container';
-import { useTypedLocation } from 'hooks/navigation';
+import { useFromLocation } from 'hooks/navigation';
 import { routes } from 'routes/AppRouter';
 import {
   HomeStyled,
@@ -23,8 +23,8 @@ interface HomeNavListInterface {
 }
 
 const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface) => {
-  const location = useTypedLocation();
-  const newLocation = { from: location };
+  const from = useFromLocation();
+  const newLocation = { from };
 
   return (
     <HomeNavListStyled>
@@ -98,14 +98,10 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
   );
 };
 
-const Home = () => {
-  return (
-    <HomeStyled>
-      <Container>
-        <HomeNavList users={10000} hoteliers={100} agents={2000} objects={3500} />
-      </Container>
-    </HomeStyled>
-  );
-};
-
-export default Home;
+export const Home = () => (
+  <HomeStyled>
+    <Container>
+      <HomeNavList users={10000} hoteliers={100} agents={2000} objects={3500} />
+    </Container>
+  </HomeStyled>
+);

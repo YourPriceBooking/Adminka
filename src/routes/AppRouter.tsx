@@ -16,7 +16,8 @@ type RouteType = {
 
 const PrivateRoute = ({ navigateTo = '/' }: RouteType) => {
   const auth = useAppSelector(selectIsLoggedIn);
-  return !auth ? <Navigate to={navigateTo} replace /> : <Outlet />;
+  const { pathname } = useLocation();
+  return !auth ? <Navigate to={navigateTo} replace state={{ from: pathname }} /> : <Outlet />;
 };
 
 export const routes = {
@@ -27,7 +28,11 @@ export const routes = {
   verification: { path: '/verification', name: 'Верификация', Component: null },
   translators: { path: '/translators', name: 'Переводчики', Component: null },
   statistics: { path: '/statistics', name: 'Статистика', Component: null },
-  adminPageAccess: { path: '/admin-page-access', name: 'Доступы в админку', Component: null },
+  adminPageAccess: {
+    path: '/admin-page-access',
+    name: 'Доступы в админку',
+    Component: null,
+  },
 };
 
 export const AppRouter = () => {
@@ -54,7 +59,7 @@ export const AppRouter = () => {
           <Route path={routes.login.path} element={<routes.login.Component.Layout />}>
             <Route index element={<routes.login.Component.LoginPage />} />
 
-            <Route element={<PrivateRoute navigateTo={routes.login.path} />}>
+            <Route element={<PrivateRoute />}>
               <Route path={routes.menu.path} element={<routes.menu.Component />} />
               <Route path={routes.country.path} element={<routes.country.Component />} />
               {/* <Route path="/location" element={<Location />} /> */}

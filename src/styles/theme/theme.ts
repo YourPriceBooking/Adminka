@@ -98,9 +98,9 @@ declare module 'styled-components' {
     };
 
     transition: {
-      '110': string;
-      '160': string;
-      '250': string;
+      110: string;
+      160: string;
+      250: string;
     };
 
     zIndex: {
@@ -251,9 +251,9 @@ export const shadows = {
 const cubic = 'cubic-bezier(0.4, 0, 0.2, 1)';
 
 export const transition = {
-  '110': `110ms ${cubic}`, // short
-  '160': `160ms ${cubic}`, // fast
-  '250': `250ms ${cubic}`, // normal
+  110: `110ms ${cubic}`, // short
+  160: `160ms ${cubic}`, // fast
+  250: `250ms ${cubic}`, // normal
 };
 
 export const zIndex = {

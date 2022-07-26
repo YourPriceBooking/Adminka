@@ -9,7 +9,7 @@ type EditDistrictsListProps = {
 export const EditDistrictsList = ({ districts }: EditDistrictsListProps) => (
   <EditDistrictsListStyled>
     {districts.map(district => (
-      <EditDistrictItem key={district._id} {...district} />
+      <EditDistrictItem key={district._id} district={district} />
     ))}
   </EditDistrictsListStyled>
 );

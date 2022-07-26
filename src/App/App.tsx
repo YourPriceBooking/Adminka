@@ -3,7 +3,7 @@ import styled, { ThemeProvider } from 'styled-components/macro';
 import { ScrollContainer } from 'components/shared/Container';
 
 import { GlobalStyle } from 'styles/GlobalStyle';
-import { AppStyled } from 'App.styled';
+import { AppStyled } from 'App/App.styled';
 import { AppRouter } from 'routes/AppRouter';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

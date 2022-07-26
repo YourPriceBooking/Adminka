@@ -4,9 +4,13 @@ import { EditDistrictsList } from '../../District/EditDistrictsList/EditDistrict
 import { EditCityForm } from '../EditCityForm/EditCityForm';
 import { District, EditCityItemStyled } from './EditCitiesList.styled';
 
-export const EditCityItem = (city: City) => (
+export type EditCityItemType = {
+  city: City;
+};
+
+export const EditCityItem = ({ city }: EditCityItemType) => (
   <EditCityItemStyled key={city._id}>
-    <EditCityForm {...city} />
+    <EditCityForm city={city} />
 
     <District className="district">
       <EditDistrictsList districts={city.districts} />

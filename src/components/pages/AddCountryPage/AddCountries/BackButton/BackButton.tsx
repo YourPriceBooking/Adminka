@@ -1,4 +1,4 @@
-import { useTypedLocation } from 'hooks/navigation';
+import { useFromLocation } from 'hooks/navigation';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,9 +6,7 @@ import iconArrowLeft from 'assets/icons/iconArrowLeft.svg';
 import { BackButtonStyled } from './BackButton.styled';
 
 export const BackButton = () => {
-  const location = useTypedLocation();
-  const from = location.state?.from?.pathname || '/';
-
+  const from = useFromLocation() || '/';
   const nav = useNavigate();
   const goBack = useCallback(() => nav(from, { replace: true }), [from, nav]);
 

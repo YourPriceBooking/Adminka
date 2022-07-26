@@ -57,7 +57,6 @@ export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
           toast.success(`${addedCountry} added`);
         }
       } catch (error) {
-        console.log(error);
         toast.error("Country not added. Let's try again");
       } finally {
         form.reset();

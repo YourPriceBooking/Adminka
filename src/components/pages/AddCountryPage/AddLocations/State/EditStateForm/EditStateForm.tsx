@@ -7,15 +7,13 @@ import { EditButton } from '../../../AddCountries/EditButton/EditButton';
 
 import { SubmitAddLocationButton, EditStateFormStyled, StateInfo } from './EditStateForm.styled';
 
+type EditStateFormType = {
+  stateItem: EditState;
+};
+
 export const EditStateForm = ({
-  _id,
-  stateName,
-  statePhotoURL,
-  stateInternational,
-  stateCode,
-  edited,
-  cities,
-}: EditState) => {
+  stateItem: { _id, stateName, stateInternational, statePhotoURL, stateCode, cities, edited },
+}: EditStateFormType) => {
   const [isEditingState, setIsEditingState] = useState(false);
 
   const selectStatesNames = useMemo(makeSelectStatesNames, []);
@@ -31,37 +29,30 @@ export const EditStateForm = ({
   const handleSubmitEditState = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      const form = e.currentTarget;
-
-      const content = new FormData(form);
-      const statePhotoURL = content.get('statePhotoURL')?.toString().trim();
-      const stateName = content.get('stateName')?.toString().trim();
-
-      if (!statePhotoURL || !stateName) {
-        return toast('Please provide photo url and State name');
+      const stateNameTrimmed = localStateName?.trim();
+      const statePhotoURLTrimmed = localStatePhotoURL?.trim();
+      if (!stateNameTrimmed || !statePhotoURLTrimmed) {
+        toast('Please provide photo url and State name');
+        return;
       }
-
-      if (statesNames.find(existingStateName => existingStateName === stateName)) {
-        return toast.info(`${stateName} exists. Try another 'name'`);
+      if (statesNames.find(existingStateName => existingStateName === stateNameTrimmed)) {
+        toast.info(`${stateNameTrimmed} exists. Try another 'name'`);
+        return;
       }
-
       const updatedState = {
         _id,
-        stateName: localStateName,
-        statePhotoURL: localStatePhotoURL,
-        stateInternational: !stateInternational && isEng ? localStateName : stateInternational,
+        stateName: stateNameTrimmed,
+        statePhotoURL: statePhotoURLTrimmed,
+        stateInternational: !stateInternational && isEng ? stateNameTrimmed : stateInternational,
         stateCode,
         cities,
         edited: Number(edited) + 1,
       };
-
       try {
         appDispatch(editState(updatedState));
         setIsEditingState(false);
-        // toast.success('State updated');
       } catch (error) {
         toast.error('State is not edited');
-        console.log(error);
       }
     },
 
@@ -88,6 +79,7 @@ export const EditStateForm = ({
     <EditStateFormStyled onSubmit={handleSubmitEditState}>
       <StateInfo>
         <label>
+          <span>State info</span>
           <input
             type="text"
             name="stateName"
@@ -101,6 +93,7 @@ export const EditStateForm = ({
         </label>
 
         <label>
+          <span>State photo URL</span>
           <input
             type="url"
             name="statePhotoURL"

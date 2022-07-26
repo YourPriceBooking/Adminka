@@ -30,7 +30,7 @@ export const SelectLang = () => {
   const isLoading = isLoadingLanguagesFirstTime || isFetching;
 
   const appDispatch = useAppDispatch();
-  const activeLang = useAppSelector(selectActiveLang);
+  const activeLanguage = useAppSelector(selectActiveLang);
 
   const [showLanguagesList, setShowLanguagesList] = useState(false);
 
@@ -53,7 +53,6 @@ export const SelectLang = () => {
   const selectLang = useCallback(
     (activeLang: Language) => {
       appDispatch(setActiveLang(activeLang));
-      console.log({ activeLang });
       setShowLanguagesList(false);
     },
     [appDispatch]
@@ -63,8 +62,8 @@ export const SelectLang = () => {
     <>
       <div className={slang.lang_container}>
         <ShowLanguagesButton onClick={openModal}>
-          <p className={slang.block_lang_p}>{activeLang.lang}</p>
-          <p className={slang.block_lang_p2}>{activeLang.code}</p>
+          <p className={slang.block_lang_p}>{activeLanguage.lang}</p>
+          <p className={slang.block_lang_p2}>{activeLanguage.code}</p>
         </ShowLanguagesButton>
       </div>
 

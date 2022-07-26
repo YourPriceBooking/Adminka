@@ -26,7 +26,7 @@ export const AddLanguageForm = ({ closeModal, selectLang, isLoading }: AddLangua
       const formData = new FormData(form);
       const lang = formData.get('newLanguageName')?.toString().trim();
       const code = formData.get('newLanguageCode')?.toString().trim().toUpperCase();
-      console.log({ code, lang });
+      // console.log({ code, lang });
       if (!lang || !code) return;
 
       const newLanguage = { lang, code };
@@ -38,7 +38,7 @@ export const AddLanguageForm = ({ closeModal, selectLang, isLoading }: AddLangua
         }
       } catch (error) {
         toast.error('Language not added - please try again');
-        console.log(error);
+        // console.log(error);
       } finally {
         form.reset();
         closeModal();
