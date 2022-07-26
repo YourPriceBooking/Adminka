@@ -6,7 +6,7 @@ import iconArrowLeft from 'assets/icons/iconArrowLeft.svg';
 import { BackButtonStyled } from './BackButton.styled';
 
 export const BackButton = () => {
-  const from = useFromLocation() || '/';
+  const from = useFromLocation();
   const nav = useNavigate();
   const goBack = useCallback(() => nav(from, { replace: true }), [from, nav]);
 

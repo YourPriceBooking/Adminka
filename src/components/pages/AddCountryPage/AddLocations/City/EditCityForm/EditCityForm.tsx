@@ -6,11 +6,11 @@ import { EditButton } from '../../../AddCountries/EditButton/EditButton';
 import { SubmitAddLocationButton } from '../../State/EditStateForm/EditStateForm.styled';
 
 import { EditCityFormStyled, CityInfo, EditCityPhotoURLInput } from './EditCityForm.styled';
-import type { EditCityItem } from '../EditCitiesList/EditCityItem';
+import type { EditCityItemType } from '../EditCitiesList/EditCityItem';
 
 export const EditCityForm = ({
   city: { stateId, _id, cityName, cityPhotoURL, cityInternational, cityCode, edited, districts },
-}: EditCityItem) => {
+}: EditCityItemType) => {
   const [isEditingCity, setIsEditingCity] = useState(false);
   const selectCitiesNamesForState = useMemo(makeSelectCitiesNamesForState, []);
   const appDispatch = useAppDispatch();

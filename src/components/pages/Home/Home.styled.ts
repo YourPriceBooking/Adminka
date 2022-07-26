@@ -108,7 +108,7 @@ export const TextNormal = styled(TextSmall)`
   line-height: 1.16;
 `;
 
-export const StatsList = styled.ul`
+export const StatsListStyled = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 8px;

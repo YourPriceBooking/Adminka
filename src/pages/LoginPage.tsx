@@ -1,9 +1,10 @@
 import { useFromLocation } from 'hooks/navigation';
 import { useAppDispatch } from 'hooks/redux/hooks';
 import { FormEvent } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
-import { login } from 'redux/slices';
+import { login, selectIsLoggedIn } from 'redux/slices';
 
 const style = {
   container: { display: 'flex', alignItems: 'center', justifyContent: 'center', height: '90vh' },
@@ -12,14 +13,18 @@ const style = {
 
 const LoginPage = () => {
   const appDispatch = useAppDispatch();
-  const nav = useNavigate();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const from = useFromLocation();
+  const nav = useNavigate();
 
   const onLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     appDispatch(login());
-    nav(from || '/menu');
+
+    if (isLoggedIn && from) {
+      nav(from);
+    }
   };
 
   return (

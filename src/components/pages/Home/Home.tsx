@@ -1,6 +1,8 @@
 import { Container } from 'components/shared/Container';
 import { useFromLocation } from 'hooks/navigation';
-import { routes } from 'routes/AppRouter';
+import { memo, useMemo } from 'react';
+import { routes } from 'routes/routesConfig';
+
 import {
   HomeStyled,
   HomeNavListStyled,
@@ -9,11 +11,13 @@ import {
   TextSmall,
   TextNormal,
   TextAccent,
-  StatsList,
+  StatsListStyled,
   StatsListItem,
   TextMedium,
   TextMediumAccent,
 } from './Home.styled';
+
+const { verification, translators, statistics, country } = routes;
 
 interface HomeNavListInterface {
   users: number;
@@ -22,70 +26,79 @@ interface HomeNavListInterface {
   objects: number;
 }
 
+type StatItem = {
+  text: {
+    en: string;
+    ua: string;
+    ru: string;
+  };
+  data: string | number;
+};
+
+type StatsListType = {
+  items: StatItem[];
+};
+
+const StatsList = ({ items }: StatsListType) => (
+  <StatsListStyled>
+    {items?.map(({ text, data }) => (
+      <StatsListItem key={text.en}>
+        <TextMedium>
+          <span>{text.ru}</span>
+          <TextMediumAccent as="span">{data}</TextMediumAccent>
+        </TextMedium>
+      </StatsListItem>
+    ))}
+  </StatsListStyled>
+);
+
+const StatsListMemoized = memo(StatsList);
+
 const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface) => {
   const from = useFromLocation();
-  const newLocation = { from };
+  const newLocation = useMemo(() => ({ from }), [from]);
+  const statItems = useMemo(
+    () => [
+      { text: { en: 'Users: ', ua: 'Користувачі: ', ru: 'Юзеры: ' }, data: users },
+      { text: { en: 'Hoteliers: ', ua: 'Готельєри ', ru: 'Отельеры: ' }, data: hoteliers },
+      { text: { en: 'Agents: ', ua: 'Агенти ', ru: 'Агенты: ' }, data: agents },
+      { text: { en: 'Objects: ', ua: "Об'єкти ", ru: 'Объекты: ' }, data: objects },
+    ],
+    [agents, hoteliers, objects, users]
+  );
 
   return (
     <HomeNavListStyled>
       <HomeNavItem>
-        <Link to={routes.verification.path} state={newLocation}>
-          <p>{routes.verification.name}</p>
+        <Link to={verification.path} state={newLocation}>
+          <p>{verification.name}</p>
 
           <TextSmall>10781 в очереди</TextSmall>
         </Link>
       </HomeNavItem>
 
       <HomeNavItem>
-        <Link to={routes.translators.path} state={newLocation}>
-          <p>{routes.translators.name}</p>
+        <Link to={translators.path} state={newLocation}>
+          <p>{translators.name}</p>
 
           <TextNormal>7741 перевод в очереди</TextNormal>
         </Link>
       </HomeNavItem>
 
       <HomeNavItem>
-        <Link to={routes.country.path} state={newLocation}>
+        <Link to={country.path} state={newLocation}>
           <p>Языки</p> {/* Languages Мови */}
-          <p>{routes.country.name}</p> {/* Countries Країни */}
+          <p>{country.name}</p> {/* Countries Країни */}
           <p>Списки локаций</p> {/* Locations */}
           <TextAccent>1 2 3</TextAccent>
         </Link>
       </HomeNavItem>
 
       <HomeNavItem>
-        <Link to={routes.statistics.path} state={newLocation}>
-          <p>{routes.statistics.name}</p>
+        <Link to={statistics.path} state={newLocation}>
+          <p>{statistics.name}</p>
 
-          <StatsList>
-            <StatsListItem>
-              <TextMedium>
-                <span>Юзеры: </span>
-                <TextMediumAccent as="span">{users}</TextMediumAccent>
-              </TextMedium>
-            </StatsListItem>
-
-            <StatsListItem>
-              <TextMedium>
-                <span>Отельеры: </span>
-                <TextMediumAccent as="span">{hoteliers}</TextMediumAccent>
-              </TextMedium>
-            </StatsListItem>
-
-            <StatsListItem>
-              <TextMedium>
-                <span>Агенты: </span>
-                <TextMediumAccent as="span">{agents}</TextMediumAccent>
-              </TextMedium>
-            </StatsListItem>
-
-            <StatsListItem>
-              <TextMedium>
-                <span>Объекты: </span>
-                <TextMediumAccent as="span">{objects}</TextMediumAccent>
-              </TextMedium>
-            </StatsListItem>
-          </StatsList>
+          <StatsListMemoized items={statItems} />
         </Link>
       </HomeNavItem>
 

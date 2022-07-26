@@ -4,4 +4,4 @@ type LocationState = {
   from: string;
 };
 
-export const useFromLocation = () => (useLocation().state as LocationState)?.from;
+export const useFromLocation = () => (useLocation().state as LocationState)?.from ?? '/menu';
