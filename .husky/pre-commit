@@ -1,32 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-# npx lint-staged -q
-
-echo '🏗👷‍♂️ Styling, testing and building your project before committing'
-yarn check-types ||
-(
-  echo '❌ Failed Type 📦!=🏀 check. Please make changes stated above ☝'
-  false;
-)
-
-yarn check-format ||
-(
-  echo '❌ Prettier 💅 check failed. Run yarn format, add changes and try to commit again'
-  false;
-)
-
-yarn lint ||
-(
-  echo '❌ ESLint 🔧 check failed. Please make changes stated above ☝'
-  false;
-)
-
-
-yarn build ||
-(
-  echo '❌ Build 🚀 failed. View errors above ☝'
-  false;
-)
-
-echo '✅ Commiting this now. ✅'
+npx lint-staged -q
