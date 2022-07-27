@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import { App } from 'App';
+import { App } from 'components/App';
 import LoginPage from 'pages/LoginPage';
 
 const MenuPage = lazy(() => import('pages/MenuPage'));

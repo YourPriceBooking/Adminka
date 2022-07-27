@@ -24,10 +24,10 @@ const fadeOut = keyframes`
 
 export const AnimatedContainer = styled.div`
   &.fadeIn {
-    animation: 0.5s ${fadeIn} forwards;
+    animation: 210ms ${fadeIn} forwards;
   }
 
   &.fadeOut {
-    animation: 0.5s ${fadeOut} forwards;
+    animation: 210ms ${fadeOut} forwards;
   }
 `;

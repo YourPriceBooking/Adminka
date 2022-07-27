@@ -6,11 +6,17 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import { BrowserRouter } from 'react-router-dom';
 import './styles/index.css';
-import { AppLoading } from 'App/App.styled';
+import { AppLoading } from 'components/App/App.styled';
 import { AppRouter } from 'routes/AppRouter';
+import { getRefs } from 'utils';
 
-const root = createRoot(document.getElementById('root') as HTMLElement);
+const { rootRef } = getRefs();
 
+if (!rootRef) {
+  throw new Error(`Please add 'div' with id="root" to index.html`);
+}
+
+const root = createRoot(rootRef);
 root.render(
   <StrictMode>
     <Provider store={store}>

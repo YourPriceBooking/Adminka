@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 import { Link as RouterLink } from 'react-router-dom';
-import { slideInLeft, slideOutLeft } from 'App/App.styled';
+import { slideInLeft, slideOutLeft } from 'components/App/App.styled';
 
 export const HomeStyled = styled.section`
   padding: 74px 0;

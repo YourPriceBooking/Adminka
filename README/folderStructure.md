@@ -2,22 +2,22 @@ Folder structure:
 
 ```
 v src
-    1️⃣ @types
-    2️⃣ api
-  v 3️⃣ assets
+    1️⃣ api
+  v 2️⃣ assets
         > fonts
-        > images
-    4️⃣ components
-    5️⃣ hooks
-    6️⃣ i18n
-    7️⃣ pages
-    8️⃣ routes
-  v 9️⃣ redux
-        > actions
+        > icons
+        > img
+    3️⃣ components
+    4️⃣ hooks
+    5️⃣ i18n
+    6️⃣ pages
+  v 7️⃣ redux
+        > apis
         > reducers
-        > sages
-        > services
-    🔟 styles
-    11 utils
+        > slices
+    8️⃣ routes
+    9️⃣ styles
+    🔟 types
+    11️ utils
 
 ```
