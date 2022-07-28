@@ -1,23 +1,10 @@
 {
   "editor.formatOnSaveMode": "file",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "[jsonc]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
-  },
   // ESLINT
-  "eslint.validate": [
-    "typescript",
-    "typescriptreact",
-    "javascript",
-    "javascriptreact"
-  ],
+  "eslint.validate": ["typescript", "typescriptreact", "javascript", "javascriptreact"],
   "eslint.alwaysShowStatus": true,
-  "eslint.probe": [
-    "typescript",
-    "typescriptreact",
-    "javascript",
-    "javascriptreact"
-  ],
+  "eslint.probe": ["typescript", "typescriptreact", "javascript", "javascriptreact"],
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.formatOnType": true,
@@ -27,5 +14,5 @@
       "source.formatDocument", // 1. Prettier -> 2. ESLint
       "source.fixAll.eslint"
     ]
-  },
+  }
 }
