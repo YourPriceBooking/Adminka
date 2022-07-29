@@ -70,3 +70,10 @@ export type EditState = State;
 export type DeleteState = {
   _id: string;
 };
+
+export type StatesResponse = State[];
+
+export type AddState = {
+  state: string;
+  stateInternational: string;
+};

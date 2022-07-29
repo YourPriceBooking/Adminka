@@ -14,6 +14,6 @@ export const baseApi = createApi({
     //   return headers;
     // },
   }),
-  tagTypes: ['Countries', 'Languages'],
+  tagTypes: ['Countries', 'Languages', 'States', 'Cities', 'Districts'],
   endpoints: () => ({}),
 });
