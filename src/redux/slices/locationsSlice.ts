@@ -21,51 +21,47 @@ type LocationsState = {
 
 const initialState: LocationsState = {
   states: [
-    {
-      _id: '12345UAState',
-      stateName: 'Kyiv State',
-      stateInternational: 'Kyiv State',
-      stateCode: 'Kyiv',
-      statePhotoURL: 'https://kyiv.states.ua/photos/kyiv-state.webp',
-      edited: 0,
-
-      cities: [
-        {
-          stateId: '12345UAState',
-          _id: '12345UACity',
-          cityName: 'Kyiv',
-          cityInternational: 'Kyiv',
-          cityCode: 'KYI',
-          cityPhotoURL: 'https://kyiv.city.ua/photos/kyiv-city.webp',
-          edited: 0,
-
-          districts: [
-            {
-              stateId: '12345UAState',
-              cityId: '12345UACity',
-              _id: '12345UADistrict',
-              districtName: 'Kyiv Podil',
-              districtInternational: 'Kyiv Podil',
-              districtCode: 'POD',
-              districtPhotoURL: 'https://kyiv-podil.district.ua/photos/kyiv-podil.webp',
-              edited: 0,
-            },
-          ],
-        },
-
-        {
-          stateId: '12345UAState',
-          _id: '12346UACity',
-          cityName: 'Browary',
-          cityInternational: 'Browary',
-          cityCode: 'BR',
-          cityPhotoURL: 'https://browary.city.ua/photos/browary-city.webp',
-          edited: 0,
-
-          districts: [],
-        },
-      ],
-    },
+    // {
+    //   _id: '12345UAState',
+    //   stateName: 'Kyiv State',
+    //   stateInternational: 'Kyiv State',
+    //   stateCode: 'Kyiv',
+    //   statePhotoURL: 'https://kyiv.states.ua/photos/kyiv-state.webp',
+    //   edited: 0,
+    //   cities: [
+    //     {
+    //       stateId: '12345UAState',
+    //       _id: '12345UACity',
+    //       cityName: 'Kyiv',
+    //       cityInternational: 'Kyiv',
+    //       cityCode: 'KYI',
+    //       cityPhotoURL: 'https://kyiv.city.ua/photos/kyiv-city.webp',
+    //       edited: 0,
+    //       districts: [
+    //         {
+    //           stateId: '12345UAState',
+    //           cityId: '12345UACity',
+    //           _id: '12345UADistrict',
+    //           districtName: 'Kyiv Podil',
+    //           districtInternational: 'Kyiv Podil',
+    //           districtCode: 'POD',
+    //           districtPhotoURL: 'https://kyiv-podil.district.ua/photos/kyiv-podil.webp',
+    //           edited: 0,
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       stateId: '12345UAState',
+    //       _id: '12346UACity',
+    //       cityName: 'Browary',
+    //       cityInternational: 'Browary',
+    //       cityCode: 'BR',
+    //       cityPhotoURL: 'https://browary.city.ua/photos/browary-city.webp',
+    //       edited: 0,
+    //       districts: [],
+    //     },
+    //   ],
+    // },
   ],
 };
 

@@ -1,45 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { SelectLanguageType } from 'components/pages/AddCountryPage/AddLanguages/SelectLangList/SelectLangList';
 // import { languagesApi } from 'redux/apis';
 import type { RootState } from 'redux/store';
-import type { Language } from 'types/apis';
 
 type LanguageState = {
-  activeLang: Language;
+  activeLang: SelectLanguageType;
 };
 
 const initialState: LanguageState = {
   activeLang: {
-    _id: '12345',
-    lang: 'English',
-    code: 'EN',
-    countries: [
-      // {
-      //   international: 'Poland',
-      //   country: 'Poland',
-      //   langCode: 'EN',
-      //   dbLangCode: 'EN',
-      //   _id: '62aafec13f300ab5a1e54d04',
-      //   __v: 0,
-      // },
-      // {
-      //   international: 'Ukraine',
-      //   country: 'Ukraine',
-      //   langCode: 'EN',
-      //   dbLangCode: 'EN',
-      //   _id: '62aafec13f300ab5a1e54d05',
-      //   __v: 0,
-      // },
-      // {
-      //   international: 'USA',
-      //   country: 'USA',
-      //   langCode: 'EN',
-      //   dbLangCode: 'EN',
-      //   _id: '62aafec13f300ab5a1e54d06',
-      //   __v: 0,
-      // },
-    ],
-    createdAt: '2022-08-06T23:03:26.046Z',
-    updatedAt: '2022-08-06T23:03:26.046Z',
+    _id: '',
+    lang: '',
+    code: '',
+    dbLangCode: '',
+    createdAt: '',
+    updatedAt: '',
   },
 };
 
@@ -48,7 +23,7 @@ export const langSlice = createSlice({
   initialState,
 
   reducers: {
-    setActiveLang(state, action: PayloadAction<Language>) {
+    setActiveLang(state, action: PayloadAction<SelectLanguageType>) {
       state.activeLang = action.payload;
     },
   },

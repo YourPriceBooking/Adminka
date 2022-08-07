@@ -7,10 +7,20 @@ import { AddLocationButton } from '../../State/AddStateForm/AddStateForm.styled'
 import { SubmitAddLocationButton } from '../../State/EditStateForm/EditStateForm.styled';
 import { Row, AddCityFormStyled } from './AddCityForm.styled';
 
-export const AddCityForm = ({ stateId }: { stateId: string }) => {
+export const AddCityForm = ({
+  stateId,
+  stateInternational,
+  state,
+}: {
+  stateId: string;
+  stateInternational: string;
+  state: string;
+}) => {
   const appDispatch = useAppDispatch();
   const selectCitiesNamesForState = useMemo(makeSelectCitiesNamesForState, []);
-  const citiesNames = useAppSelector(state => selectCitiesNamesForState(state, { stateId }));
+  const citiesNames = useAppSelector(rootState =>
+    selectCitiesNamesForState(rootState, { stateId })
+  );
 
   const [isAddingCity, setIsAddingCity] = useState(false);
   const setAddingCityTrue = useCallback(() => setIsAddingCity(true), []);
@@ -43,6 +53,12 @@ export const AddCityForm = ({ stateId }: { stateId: string }) => {
         cityCode: cityName.slice(0, 4).toUpperCase(),
         edited: 0,
         districts: [],
+
+        langCode: 'EN',
+        stateInternational,
+        state,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       };
 
       try {
@@ -53,7 +69,7 @@ export const AddCityForm = ({ stateId }: { stateId: string }) => {
         toast.error('City not added');
       }
     },
-    [appDispatch, citiesNames, stateId]
+    [appDispatch, citiesNames, state, stateId, stateInternational]
   );
 
   return (

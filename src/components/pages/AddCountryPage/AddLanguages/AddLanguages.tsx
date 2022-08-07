@@ -14,11 +14,11 @@ import {
   setActiveLang,
 } from 'redux/slices';
 import { useGetLanguagesQuery } from 'redux/apis';
-import { Language } from 'types/apis';
 import slang from './AddLanguages.module.scss';
 import { AddLanguageForm } from './AddLanguageForm/AddLanguageForm';
 import { SelectLangList } from './SelectLangList/SelectLangList';
 import { ShowLanguagesButton } from './AddLanguages.styled';
+import type { SelectLanguageType } from './SelectLangList/SelectLangList';
 
 export const SelectLang = () => {
   const {
@@ -52,7 +52,7 @@ export const SelectLang = () => {
   }, [appDispatch, showLanguagesList]);
 
   const selectLang = useCallback(
-    (activeLang: Language) => {
+    (activeLang: SelectLanguageType) => {
       appDispatch(setActiveLang(activeLang));
       if (activeLang.code === 'EN') {
         refetch();

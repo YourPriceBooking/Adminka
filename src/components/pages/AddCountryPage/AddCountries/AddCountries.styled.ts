@@ -6,12 +6,14 @@ export const Header = styled.header`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  margin-bottom: 16px;
-
   gap: 12px;
+
+  padding-top: 16px;
+  margin-bottom: 16px;
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     gap: 20px;
+    padding-top: 32px;
     margin-bottom: 28px;
   }
 

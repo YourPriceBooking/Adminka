@@ -26,6 +26,7 @@ export const countriesApi = baseApi.injectEndpoints({
         method: 'POST',
         body: { country, international, langCode: 'EN', dbLangCode: 'EN' },
       }),
+      transformResponse: (result: { data: { country: Country } }) => result.data.country,
       // invalidatesTags: ['Country'],
     }),
 
@@ -35,6 +36,7 @@ export const countriesApi = baseApi.injectEndpoints({
         method: 'PUT',
         body: { country, langCode, international },
       }),
+      transformResponse: (result: { data: { result: Country } }) => result.data.result,
       // invalidatesTags: (result, error, _id) => [{ type: 'Country', _id }],
     }),
 

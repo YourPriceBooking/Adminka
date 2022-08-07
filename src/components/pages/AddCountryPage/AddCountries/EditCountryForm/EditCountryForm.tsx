@@ -17,9 +17,18 @@ import {
 
 import { EditButton } from '../EditButton/EditButton';
 
+const INITIAL_STATE = {
+  _id: '',
+  country: '',
+  langCode: '',
+  international: '',
+  __v: 0,
+  dbLangCode: '',
+};
+
 export const EditCountryForm = ({
   countryItem: {
-    country: { country, _id, langCode, international, __v },
+    country: { country, _id, langCode, dbLangCode, international, __v },
     closeCountriesList,
     isEditingCountry,
     setIsEditingCountry,
@@ -56,8 +65,9 @@ export const EditCountryForm = ({
 
       try {
         const editedResponse = await editCountry(editedCountry).unwrap();
+
         if (editedResponse) {
-          toast.success(`${editedResponse.country} updated!`);
+          toast.success(`${editedResponse.country} saved!`);
         }
       } catch (error) {
         toast.error(JSON.stringify(error));
@@ -72,10 +82,11 @@ export const EditCountryForm = ({
   const onDeleteCountry = useCallback(async () => {
     try {
       await deleteCountry({ _id });
+      appDispatch(setActiveCountry(INITIAL_STATE));
     } catch (error) {
       toast.error(`Error while deleting country with _id:${_id}`);
     }
-  }, [_id, deleteCountry]);
+  }, [_id, appDispatch, deleteCountry]);
 
   const startEditing = useCallback(() => {
     if (isEditingCountry) return;
@@ -102,16 +113,26 @@ export const EditCountryForm = ({
   const selectActiveCountry = useCallback(async () => {
     if (isEditingCountry) return;
 
-    appDispatch(setActiveCountry({ _id, country, langCode, international, __v }));
+    appDispatch(
+      setActiveCountry({
+        _id,
+        country,
+        langCode,
+        international,
+        __v,
+        dbLangCode,
+      })
+    );
     closeCountriesList();
   }, [
-    __v,
-    _id,
-    appDispatch,
-    country,
-    international,
     isEditingCountry,
+    appDispatch,
+    _id,
+    country,
     langCode,
+    international,
+    __v,
+    dbLangCode,
     closeCountriesList,
   ]);
 

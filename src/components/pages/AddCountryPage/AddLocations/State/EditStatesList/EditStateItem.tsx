@@ -24,7 +24,11 @@ export const EditStateItem = ({ stateItem, setVisibleStatesCount }: EditStateIte
 
       <City className="city">
         <EditCitiesList cities={stateItem.cities} />
-        <AddCityForm stateId={stateItem._id} />
+        <AddCityForm
+          stateId={stateItem._id}
+          stateInternational={stateItem.stateInternational}
+          state={stateItem.stateName}
+        />
       </City>
     </EditLocationsItemStyled>
   );

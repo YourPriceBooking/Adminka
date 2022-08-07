@@ -54,6 +54,10 @@ export const AddDistrictForm = ({ stateId, cityId }: { stateId: string; cityId: 
         districtInternational: districtName,
         districtCode: districtName.slice(0, 4).toUpperCase(),
         edited: 0,
+
+        cityInternational: '',
+        langCode: 'EN',
+        dbLangCode: 'EN',
       };
 
       try {
