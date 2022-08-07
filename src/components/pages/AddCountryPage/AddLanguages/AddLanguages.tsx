@@ -25,6 +25,7 @@ export const SelectLang = () => {
     data: languages,
     isLoading: isLoadingLanguagesFirstTime,
     isFetching,
+    refetch,
   } = useGetLanguagesQuery();
 
   const isLoading = isLoadingLanguagesFirstTime || isFetching;
@@ -53,9 +54,12 @@ export const SelectLang = () => {
   const selectLang = useCallback(
     (activeLang: Language) => {
       appDispatch(setActiveLang(activeLang));
+      if (activeLang.code === 'EN') {
+        refetch();
+      }
       setShowLanguagesList(false);
     },
-    [appDispatch]
+    [appDispatch, refetch]
   );
 
   return (

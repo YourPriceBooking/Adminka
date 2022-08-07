@@ -8,7 +8,7 @@ const AddCountryPage = lazy(() => import('pages/AddCountryPage'));
 export const routes = {
   login: { path: '/', name: 'Login', element: { App, LoginPage } },
   menu: { path: '/menu', name: 'Menu', element: MenuPage },
-  country: { path: '/country/:id', name: 'Страны', element: AddCountryPage },
+  country: { path: '/countries', name: 'Страны', element: AddCountryPage },
 
   verification: { path: '/verification', name: 'Верификация', element: null },
   translators: { path: '/translators', name: 'Переводчики', element: null },

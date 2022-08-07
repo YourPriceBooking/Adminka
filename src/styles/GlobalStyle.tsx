@@ -2,8 +2,9 @@ import { createGlobalStyle } from 'styled-components/macro';
 
 export const GlobalStyle = createGlobalStyle`
   html {
-  box-sizing: border-box;
+    box-sizing: border-box;
   }
+
   *, ::before, ::after {
     box-sizing: inherit;
   }
@@ -14,7 +15,6 @@ export const GlobalStyle = createGlobalStyle`
       'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-
 
     background-color: ${({ theme }) => theme.colors.bg.body};
     transition: background-color ${({ theme }) => theme.transition[250]};
@@ -40,5 +40,4 @@ export const GlobalStyle = createGlobalStyle`
   a {
     text-decoration: none;
   }
-
 `;

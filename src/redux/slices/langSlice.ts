@@ -9,37 +9,37 @@ type LanguageState = {
 
 const initialState: LanguageState = {
   activeLang: {
-    _id: '62aafec23f300ab5a1e54d08',
+    _id: '12345',
     lang: 'English',
     code: 'EN',
     countries: [
-      {
-        international: 'Poland',
-        country: 'Poland',
-        langCode: 'EN',
-        dbLangCode: 'EN',
-        _id: '62aafec13f300ab5a1e54d04',
-        __v: 0,
-      },
-      {
-        international: 'Ukraine',
-        country: 'Ukraine',
-        langCode: 'EN',
-        dbLangCode: 'EN',
-        _id: '62aafec13f300ab5a1e54d05',
-        __v: 0,
-      },
-      {
-        international: 'USA',
-        country: 'USA',
-        langCode: 'EN',
-        dbLangCode: 'EN',
-        _id: '62aafec13f300ab5a1e54d06',
-        __v: 0,
-      },
+      // {
+      //   international: 'Poland',
+      //   country: 'Poland',
+      //   langCode: 'EN',
+      //   dbLangCode: 'EN',
+      //   _id: '62aafec13f300ab5a1e54d04',
+      //   __v: 0,
+      // },
+      // {
+      //   international: 'Ukraine',
+      //   country: 'Ukraine',
+      //   langCode: 'EN',
+      //   dbLangCode: 'EN',
+      //   _id: '62aafec13f300ab5a1e54d05',
+      //   __v: 0,
+      // },
+      // {
+      //   international: 'USA',
+      //   country: 'USA',
+      //   langCode: 'EN',
+      //   dbLangCode: 'EN',
+      //   _id: '62aafec13f300ab5a1e54d06',
+      //   __v: 0,
+      // },
     ],
-    createdAt: '2022-06-16T09:58:26.046Z',
-    updatedAt: '2022-06-16T09:58:26.046Z',
+    createdAt: '2022-08-06T23:03:26.046Z',
+    updatedAt: '2022-08-06T23:03:26.046Z',
   },
 };
 
