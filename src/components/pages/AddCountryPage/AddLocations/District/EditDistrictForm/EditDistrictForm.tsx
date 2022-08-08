@@ -5,6 +5,7 @@ import {
   editDistrict,
   selectIsEnglishActiveLang,
   makeSelectDistrictNamesForStateAndCity,
+  selectActiveLang,
 } from 'redux/slices';
 
 import { EditButton } from '../../../AddCountries/EditButton/EditButton';
@@ -21,6 +22,7 @@ export const EditDistrictForm = ({
   district: {
     stateId,
     cityId,
+    cityInternational,
 
     _id,
     districtName,
@@ -31,6 +33,8 @@ export const EditDistrictForm = ({
   },
 }: EditDistrictItemType) => {
   const appDispatch = useAppDispatch();
+
+  const activeLang = useAppSelector(selectActiveLang);
 
   const [isEditingDistrict, setIsEditingDistrict] = useState(false);
   const selectDistrictNamesForStateAndCity = useMemo(makeSelectDistrictNamesForStateAndCity, []);
@@ -74,6 +78,10 @@ export const EditDistrictForm = ({
           !districtInternational && isEng ? districtNameTrimmed : districtInternational,
         districtCode,
         edited: Number(edited) + 1,
+
+        cityInternational, // TODO: check if it arrives
+        langCode: activeLang.code,
+        dbLangCode: activeLang.dbLangCode,
       };
 
       try {
@@ -86,18 +94,20 @@ export const EditDistrictForm = ({
     },
 
     [
+      localDistrictPhotoURL,
+      localDistrictName,
+      districtNames,
       stateId,
       cityId,
-
       _id,
-      localDistrictName,
-      localDistrictPhotoURL,
       districtInternational,
       isEng,
       districtCode,
       edited,
+      cityInternational,
+      activeLang.code,
+      activeLang.dbLangCode,
       appDispatch,
-      districtNames,
     ]
   );
 

@@ -12,11 +12,11 @@ import {
 const { modalRoot } = getRefs();
 
 type ModalProps = {
-  toggleModal: () => void;
+  closeModal: () => void;
   children: ReactNode;
 };
 
-export const Modal = ({ toggleModal, children }: ModalProps) => {
+export const Modal = ({ closeModal, children }: ModalProps) => {
   const closeModalButtonRef = useRef<HTMLButtonElement>(null);
 
   const [isMounted, setIsMounted] = useState(false);
@@ -24,7 +24,7 @@ export const Modal = ({ toggleModal, children }: ModalProps) => {
   useEffect(() => {
     const onEscCloseModal = ({ code }: KeyboardEvent) => {
       if (code !== 'Escape') return;
-      toggleModal();
+      closeModal();
     };
 
     document.addEventListener('keydown', onEscCloseModal, { passive: true });
@@ -33,14 +33,14 @@ export const Modal = ({ toggleModal, children }: ModalProps) => {
     return () => {
       document.removeEventListener('keydown', onEscCloseModal);
     };
-  }, [toggleModal]);
+  }, [closeModal]);
 
   const handleBackdropClick: MouseEventHandler<HTMLDivElement> = useCallback(
     e => {
       if (e.currentTarget !== e.target) return;
-      toggleModal();
+      closeModal();
     },
-    [toggleModal]
+    [closeModal]
   );
 
   useEffect(() => {
@@ -55,7 +55,7 @@ export const Modal = ({ toggleModal, children }: ModalProps) => {
     <BackdropStyled className={className} onClick={handleBackdropClick}>
       <ModalStyled className={className}>
         <CloseModalButtonStyled
-          onClick={toggleModal}
+          onClick={closeModal}
           type="button"
           ref={closeModalButtonRef}
           title="close"

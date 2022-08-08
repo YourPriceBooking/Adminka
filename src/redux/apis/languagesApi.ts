@@ -8,10 +8,6 @@ import type {
 } from 'types/apis';
 import { baseApi } from './baseApi';
 
-const LANGUAGES = { type: 'Languages' as const };
-const ID_LIST = { id: 'LIST' as const };
-export const LANGUAGES_LIST = { ...LANGUAGES, ...ID_LIST };
-
 export const languagesApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     getLanguages: builder.query<LanguagesResponse, void>({
@@ -20,24 +16,18 @@ export const languagesApi = baseApi.injectEndpoints({
       transformResponse: (result: InitLanguagesResponse) => result.data.languages,
       providesTags: result =>
         result
-          ? [
-              ...result.map(({ _id }: { _id: string }) => ({
-                ...LANGUAGES,
-                id: _id,
-              })),
-              LANGUAGES_LIST,
-            ]
-          : [LANGUAGES_LIST],
+          ? [...result.map(({ _id }) => ({ type: 'Language' as const, _id })), 'Language']
+          : ['Language'],
     }),
 
     addLanguage: builder.mutation<Language, AddLanguage>({
       query: ({ lang, code }) => ({
         url: '/languages',
         method: 'POST',
-        body: { lang, code, countries: [] },
+        body: { lang, code, ...(code === 'EN' ? {} : { countries: [] }) },
       }),
       transformResponse: (result: AddLanguageResponse) => result.data.languages,
-      invalidatesTags: [LANGUAGES_LIST],
+      invalidatesTags: ['Language'],
     }),
 
     deleteLanguage: builder.mutation<Language, DeleteLanguage>({
@@ -46,7 +36,7 @@ export const languagesApi = baseApi.injectEndpoints({
         method: 'DELETE',
         body: { _id },
       }),
-      invalidatesTags: [LANGUAGES_LIST],
+      invalidatesTags: ['Language'],
     }),
   }),
 });

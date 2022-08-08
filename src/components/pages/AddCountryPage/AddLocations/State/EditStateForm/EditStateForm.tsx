@@ -12,7 +12,20 @@ type EditStateFormType = {
 };
 
 export const EditStateForm = ({
-  stateItem: { _id, stateName, stateInternational, statePhotoURL, stateCode, cities, edited },
+  stateItem: {
+    _id,
+    stateName,
+    stateInternational,
+    statePhotoURL,
+    stateCode,
+    cities,
+    edited,
+
+    international,
+    langCode,
+    dbLangCode,
+    countryId,
+  },
 }: EditStateFormType) => {
   const [isEditingState, setIsEditingState] = useState(false);
 
@@ -47,6 +60,10 @@ export const EditStateForm = ({
         stateCode,
         cities,
         edited: Number(edited) + 1,
+        international,
+        langCode,
+        dbLangCode,
+        countryId,
       };
       try {
         appDispatch(editState(updatedState));
@@ -60,8 +77,12 @@ export const EditStateForm = ({
       _id,
       appDispatch,
       cities,
+      countryId,
+      dbLangCode,
       edited,
+      international,
       isEng,
+      langCode,
       localStateName,
       localStatePhotoURL,
       stateCode,

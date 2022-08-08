@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
 import { FormEvent, useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
-import { addState, makeSelectStatesNames } from 'redux/slices';
+import { addState, makeSelectStatesNames, selectActiveCountryId } from 'redux/slices';
 import type { NewStateWithOutId } from 'types/apis';
 import { SubmitAddLocationButton } from '../EditStateForm/EditStateForm.styled';
 
@@ -9,9 +9,9 @@ import { Row, AddLocationButton, AddStateFormStyled } from './AddStateForm.style
 
 export const AddStateForm = () => {
   const appDispatch = useAppDispatch();
+  const activeCountryId = useAppSelector(selectActiveCountryId);
   const selectStatesNames = useMemo(makeSelectStatesNames, []);
   const statesNames = useAppSelector(selectStatesNames);
-
   const [isAddingState, setIsAddingState] = useState(false);
   const setAddingStateTrue = useCallback(() => setIsAddingState(true), []);
 
@@ -37,11 +37,17 @@ export const AddStateForm = () => {
 
       const newState: NewStateWithOutId = {
         stateName,
-        statePhotoURL,
         stateInternational: stateName,
-        stateCode: stateName.slice(0, 4).toUpperCase(),
+        stateCode: stateName.slice(0, 5).toUpperCase(),
+        international: '',
         edited: 0,
+        langCode: 'EN',
+        dbLangCode: 'EN',
+        statePhotoURL,
+        countryId: activeCountryId,
         cities: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       };
 
       try {
@@ -52,7 +58,7 @@ export const AddStateForm = () => {
         toast.error('State not added');
       }
     },
-    [appDispatch, statesNames]
+    [activeCountryId, appDispatch, statesNames]
   );
 
   return (

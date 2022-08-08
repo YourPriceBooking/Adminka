@@ -1,26 +1,6 @@
 import styled from 'styled-components/macro';
 import { slideInLeft, slideOutLeft } from 'components/App/App.styled';
 
-export const Header = styled.header`
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-bottom: 16px;
-
-  gap: 12px;
-
-  @media screen and (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    gap: 20px;
-    margin-bottom: 28px;
-  }
-
-  @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    gap: 54px;
-    margin-bottom: 28px;
-  }
-`;
-
 export const AddCountriesStyled = styled.section`
   width: 280px;
 

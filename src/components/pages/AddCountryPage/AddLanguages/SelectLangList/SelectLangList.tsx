@@ -1,8 +1,17 @@
-import { Language } from 'types/apis';
+import type { Language } from 'types/apis';
 import slang from '../AddLanguages.module.scss';
 import { LanguageItem } from './SelectLangItem';
 
-export type SelectLanguage = (arg: Language) => void;
+export type SelectLanguageType = {
+  _id: string;
+  lang: string;
+  code: string;
+  dbLangCode: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type SelectLanguage = (arg: SelectLanguageType) => void;
 
 type SelectLangListType = {
   selectLang: SelectLanguage;

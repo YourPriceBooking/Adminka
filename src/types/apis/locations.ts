@@ -3,23 +3,19 @@ export type NewDistrictWithOutId = {
   cityId: string;
 
   districtName: string;
-  districtPhotoURL: string;
   districtInternational: string;
-  districtCode?: string;
+  districtCode: string;
+  districtPhotoURL: string;
   edited: number;
+
+  cityInternational: string;
+  langCode: string;
+  dbLangCode: string;
+  __v?: number;
 };
 export type District = {
   _id: string;
-} & {
-  stateId: string;
-  cityId: string;
-
-  districtName: string;
-  districtPhotoURL: string;
-  districtInternational: string;
-  districtCode?: string;
-  edited: number;
-};
+} & NewDistrictWithOutId;
 export type EditDistrict = District;
 export type DeleteDistrict = {
   _id: string;
@@ -31,24 +27,20 @@ export type NewCityWithOutId = {
   stateId: string;
 
   cityName: string;
-  cityPhotoURL: string;
   cityInternational: string;
-  cityCode?: string;
+  cityCode: string;
+  cityPhotoURL: string;
   edited: number;
+  langCode: string;
+  stateInternational: string;
+  state: string;
   districts: District[];
+  createdAt: string;
+  updatedAt: string;
 };
 export type City = {
   _id: string;
-} & {
-  stateId: string;
-
-  cityName: string;
-  cityPhotoURL: string;
-  cityInternational: string;
-  cityCode?: string;
-  edited: number;
-  districts: District[];
-};
+} & NewCityWithOutId;
 export type EditCity = City;
 export type DeleteCity = {
   _id: string;
@@ -57,16 +49,29 @@ export type DeleteCity = {
 
 export type NewStateWithOutId = {
   stateName: string;
-  statePhotoURL: string;
   stateInternational: string;
-  stateCode?: string;
+  stateCode: string;
+  international: string;
   edited: number;
+  langCode: string;
+  dbLangCode: string;
+  statePhotoURL: string;
+  countryId: string;
   cities: City[];
+  createdAt?: string;
+  updatedAt?: string;
 };
-export type State = NewStateWithOutId & {
+export type State = {
   _id: string;
-};
+} & NewStateWithOutId;
 export type EditState = State;
 export type DeleteState = {
   _id: string;
+};
+
+export type StatesResponse = State[];
+
+export type AddState = {
+  state: string;
+  stateInternational: string;
 };

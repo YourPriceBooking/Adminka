@@ -1,12 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from 'redux/store';
 
+type ModalState = {
+  openedModalCount: number;
+};
+
+const initialState: ModalState = {
+  openedModalCount: 0,
+};
+
 const modalSlice = createSlice({
   name: 'modal',
-  initialState: {
-    // showModal: false,
-    openedModalCount: 0,
-  },
+  initialState,
   reducers: {
     increaseModalCount: state => {
       state.openedModalCount += 1;

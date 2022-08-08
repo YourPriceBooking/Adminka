@@ -4,29 +4,21 @@ import type {
   Country,
   DeleteCountry,
   EditCountry,
-  InitCountriesResponse,
+  // InitCountriesResponse,
 } from 'types/apis';
 import { baseApi } from './baseApi';
-import { LANGUAGES_LIST } from './languagesApi';
-
-const COUNTRIES = { type: 'Countries' as const };
-const ID_LIST = { id: 'LIST' as const };
-const COUNTRIES_LIST = { ...COUNTRIES, ...ID_LIST };
 
 export const countriesApi = baseApi.injectEndpoints({
   endpoints: builder => ({
-    getCountries: builder.query<CountriesResponse, void>({
-      query: () => '/countries',
-      keepUnusedDataFor: 300,
-      transformResponse: (result: InitCountriesResponse) => result?.data?.result,
-      providesTags: result =>
-        result
-          ? [
-              ...result.map(({ _id }: { _id: string }) => ({ ...COUNTRIES, id: _id })),
-              COUNTRIES_LIST,
-            ]
-          : [COUNTRIES_LIST],
-    }),
+    // getCountries: builder.query<CountriesResponse, void>({
+    //   query: () => '/countries',
+    //   keepUnusedDataFor: 300,
+    //   transformResponse: (result: InitCountriesResponse) => result?.data?.result,
+    //   providesTags: result =>
+    //     result
+    //       ? [...result.map(({ _id }) => ({ type: 'Country' as const, _id })), "Country"]
+    //       : ["Country"],
+    // }),
 
     addCountryEng: builder.mutation<Country, AddCountry>({
       query: ({ country, international }) => ({
@@ -34,7 +26,8 @@ export const countriesApi = baseApi.injectEndpoints({
         method: 'POST',
         body: { country, international, langCode: 'EN', dbLangCode: 'EN' },
       }),
-      invalidatesTags: [COUNTRIES_LIST, LANGUAGES_LIST],
+      transformResponse: (result: { data: { country: Country } }) => result.data.country,
+      // invalidatesTags: ['Country'],
     }),
 
     editCountry: builder.mutation<Country, EditCountry>({
@@ -43,7 +36,8 @@ export const countriesApi = baseApi.injectEndpoints({
         method: 'PUT',
         body: { country, langCode, international },
       }),
-      invalidatesTags: [COUNTRIES_LIST, LANGUAGES_LIST],
+      transformResponse: (result: { data: { result: Country } }) => result.data.result,
+      // invalidatesTags: (result, error, _id) => [{ type: 'Country', _id }],
     }),
 
     deleteCountry: builder.mutation<CountriesResponse, DeleteCountry>({
@@ -52,13 +46,13 @@ export const countriesApi = baseApi.injectEndpoints({
         method: 'DELETE',
         body: { _id },
       }),
-      invalidatesTags: [COUNTRIES_LIST, LANGUAGES_LIST],
+      // invalidatesTags: ['Country'],
     }),
   }),
 });
 
 export const {
-  useGetCountriesQuery,
+  // useGetCountriesQuery,
   useAddCountryEngMutation,
   useEditCountryMutation,
   useDeleteCountryMutation,

@@ -16,7 +16,7 @@ type LanguageItemProps = {
 
 export const LanguageItem = ({
   languageItem: {
-    language: { _id, lang, code, createdAt, updatedAt, countries },
+    language: { _id, lang, code, createdAt, updatedAt, dbLangCode },
     selectLang,
   },
 }: LanguageItemProps) => {
@@ -26,7 +26,7 @@ export const LanguageItem = ({
   return (
     <li className={slang.block_lang_li} value={code} key={code}>
       <SelectButton
-        onClick={() => selectLang({ _id, lang, code, createdAt, updatedAt, countries })}
+        onClick={() => selectLang({ _id, lang, code, createdAt, updatedAt, dbLangCode })}
         disabled={isDeletingLanguage}
       >
         <span>{lang}</span>

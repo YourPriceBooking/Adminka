@@ -52,9 +52,9 @@ export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
 
       try {
         const addedCountry = await addCountryEng(newCountry).unwrap();
+
         if (addedCountry) {
           appDispatch(setActiveCountry(addedCountry));
-          toast.success(`${addedCountry} added`);
         }
       } catch (error) {
         toast.error("Country not added. Let's try again");

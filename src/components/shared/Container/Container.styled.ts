@@ -24,5 +24,5 @@ export const ScrollContainerStyled = styled.div.attrs(({ isModalOpen }: ScrollPr
 }))`
   overflow-y: ${({ isModalOpen }) => (isModalOpen ? 'hidden' : 'scroll')};
   padding-right: ${({ isModalOpen }) => isModalOpen && '17px'};
-  height: 100vh;
+  min-height: 100vh;
 `;

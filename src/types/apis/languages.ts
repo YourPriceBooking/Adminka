@@ -4,9 +4,10 @@ export type Language = {
   _id: string;
   lang: string;
   code: string;
+  dbLangCode: string;
+  countries: Country[];
   createdAt: string;
   updatedAt: string;
-  countries: Country[];
 };
 
 export type InitLanguagesResponse = { data: { languages: Language[] } };

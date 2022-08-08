@@ -9,7 +9,22 @@ import { EditCityFormStyled, CityInfo, EditCityPhotoURLInput } from './EditCityF
 import type { EditCityItemType } from '../EditCitiesList/EditCityItem';
 
 export const EditCityForm = ({
-  city: { stateId, _id, cityName, cityPhotoURL, cityInternational, cityCode, edited, districts },
+  city: {
+    stateId,
+    _id,
+    cityName,
+    cityPhotoURL,
+    cityInternational,
+    cityCode,
+    edited,
+    districts,
+
+    langCode,
+    stateInternational,
+    state,
+    createdAt,
+    updatedAt,
+  },
 }: EditCityItemType) => {
   const [isEditingCity, setIsEditingCity] = useState(false);
   const selectCitiesNamesForState = useMemo(makeSelectCitiesNamesForState, []);
@@ -18,7 +33,9 @@ export const EditCityForm = ({
   const [localCityName, setLocalCityName] = useState(cityName);
   const [localCityPhotoURL, setLocalCityPhotoURL] = useState(cityPhotoURL);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
-  const citiesNames = useAppSelector(state => selectCitiesNamesForState(state, { stateId }));
+  const citiesNames = useAppSelector(rootState =>
+    selectCitiesNamesForState(rootState, { stateId })
+  );
 
   const setIsEditingCityTrue = useCallback(() => setIsEditingCity(true), []);
 
@@ -47,6 +64,12 @@ export const EditCityForm = ({
         cityCode,
         districts,
         edited: Number(edited) + 1,
+
+        langCode,
+        stateInternational,
+        state,
+        createdAt,
+        updatedAt,
       };
 
       try {
@@ -58,16 +81,21 @@ export const EditCityForm = ({
     },
 
     [
+      localCityPhotoURL,
+      localCityName,
       citiesNames,
       stateId,
       _id,
-      localCityName,
-      localCityPhotoURL,
       cityInternational,
       isEng,
       cityCode,
       districts,
       edited,
+      langCode,
+      stateInternational,
+      state,
+      createdAt,
+      updatedAt,
       appDispatch,
     ]
   );
