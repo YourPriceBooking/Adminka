@@ -10,6 +10,8 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    height: 100vh;
+    overflow: hidden;
     margin: 0;
     font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu',
       'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;

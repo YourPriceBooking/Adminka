@@ -45,6 +45,8 @@ export const countriesReducer = countriesSlice.reducer;
 export const selectActiveCountryId = (state: RootState) => state.countries.activeCountry?._id ?? '';
 
 export const selectActiveCountryName = (state: RootState) => state.countries.activeCountry?.country;
+export const selectActiveCountryInternational = (state: RootState) =>
+  state.countries.activeCountry?.international;
 
 export const selectActiveCountry = (state: RootState) => state.countries.activeCountry;
 export const selectDev = (state: RootState) => state.countries.showDev;

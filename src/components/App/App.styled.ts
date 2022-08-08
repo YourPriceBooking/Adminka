@@ -1,7 +1,9 @@
 import { rgba } from 'polished';
 import styled, { keyframes } from 'styled-components/macro';
 
-export const AppStyled = styled.div``;
+export const AppStyled = styled.div`
+  height: 100vh;
+`;
 
 export const slideInLeft = keyframes`
   from {

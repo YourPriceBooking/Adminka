@@ -1,6 +1,6 @@
 // import { useMemo } from 'react';
 import { useAppSelector } from 'hooks/redux/hooks';
-import { selectActiveCountryId, selectActiveLangId } from 'redux/slices';
+import { selectActiveCountryInternational, selectActiveLangId } from 'redux/slices';
 import type { LanguagesResponse } from 'types/apis';
 
 export const useVisibleCountries = (languages: LanguagesResponse | undefined) => {
@@ -16,12 +16,12 @@ export const useVisibleCountries = (languages: LanguagesResponse | undefined) =>
 
 export const useVisibleStates = (languages: LanguagesResponse | undefined) => {
   const countries = useVisibleCountries(languages);
-  const activeCountryId = useAppSelector(selectActiveCountryId);
+  const activeCountryInternational = useAppSelector(selectActiveCountryInternational);
 
   // return useMemo(
   //   () => ,
   //   [activeCountryId, countries]
   // );
 
-  return countries?.find(country => country._id === activeCountryId)?.states;
+  return countries?.find(country => country.international === activeCountryInternational)?.states;
 };

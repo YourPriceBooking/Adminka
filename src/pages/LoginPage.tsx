@@ -1,9 +1,8 @@
 import { useFromLocation } from 'hooks/navigation';
 import { useAppDispatch } from 'hooks/redux/hooks';
-import { FormEvent } from 'react';
+import { FormEvent, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-// import { useNavigate } from 'react-router-dom';
 import { login, selectIsLoggedIn } from 'redux/slices';
 
 const style = {
@@ -21,11 +20,13 @@ const LoginPage = () => {
     e.preventDefault();
 
     appDispatch(login());
+  };
 
+  useEffect(() => {
     if (isLoggedIn && from) {
       nav(from);
     }
-  };
+  }, [from, isLoggedIn, nav]);
 
   return (
     <div style={style.container}>

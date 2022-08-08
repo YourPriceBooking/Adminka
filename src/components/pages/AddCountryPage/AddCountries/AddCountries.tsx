@@ -1,7 +1,7 @@
 import { useGetLanguagesQuery } from 'redux/apis';
 import { useCallback, useRef, useState } from 'react';
 import { useAppSelector } from 'hooks/redux/hooks';
-import { selectActiveCountryName, selectIsEnglishActiveLang } from 'redux/slices';
+import { selectActiveCountryInternational, selectIsEnglishActiveLang } from 'redux/slices';
 import { useVisibleCountries } from 'hooks/redux';
 import { AddCountriesStyled, CountryEditorWrapper, ShowEditorButton } from './AddCountries.styled';
 import { Dropdown } from './Drowdown/Drowdown';
@@ -23,13 +23,14 @@ export const AddCountries = () => {
   const isLoading = isLoadingLanguagesFirstTime || isFetching;
 
   const isEng = useAppSelector(selectIsEnglishActiveLang);
-  const activeCountryName = useAppSelector(selectActiveCountryName) ?? 'Select country';
+  const activeCountryInternational =
+    useAppSelector(selectActiveCountryInternational) ?? 'Select country';
 
   return (
     <AddCountriesStyled>
       <CountryEditorWrapper>
         <ShowEditorButton type="button" ref={toggleButtonRef} onClick={toggleCountiesList}>
-          {activeCountryName}
+          {activeCountryInternational}
         </ShowEditorButton>
 
         {showCountries && (
