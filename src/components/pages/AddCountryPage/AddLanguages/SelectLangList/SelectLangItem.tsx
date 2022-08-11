@@ -1,16 +1,15 @@
-import { Language } from 'types/apis';
+import { Language, SelectLangType } from 'types/apis';
 
 import { useDeleteLanguageMutation } from 'redux/apis';
 import { selectDev } from 'redux/slices';
-import { useAppSelector } from 'hooks/redux/hooks';
+import { useAppSelector } from 'hooks/redux';
 import { DeleteButton, DeleteIcon, SelectButton } from './SelectLangItem.styled';
 import slang from '../AddLanguages.module.scss';
-import type { SelectLanguage } from './SelectLangList';
 
 type LanguageItemProps = {
   languageItem: {
     language: Language;
-    selectLang: SelectLanguage;
+    selectLang: SelectLangType;
   };
 };
 
