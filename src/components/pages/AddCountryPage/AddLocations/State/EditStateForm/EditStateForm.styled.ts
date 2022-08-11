@@ -11,6 +11,7 @@ export const StateInfo = styled.div`
 `;
 
 export const EditStateFormStyled = styled.form`
+  position: relative;
   display: flex;
   align-items: flex-start;
 
@@ -43,4 +44,12 @@ export const SubmitAddLocationButton = styled.button`
   border-radius: 1.66667px;
 
   border: none;
+`;
+
+export const ButtonsOverlay = styled.div`
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  display: flex;
+  gap: 4px;
 `;

@@ -1,11 +1,17 @@
-import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { FormEvent, useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import { editState, selectIsEnglishActiveLang, makeSelectStatesNames } from 'redux/slices';
 import type { EditState } from 'types/apis';
 import { EditButton } from '../../../AddCountries/EditButton/EditButton';
+import { AddDirButton } from '../../AddDirButton';
 
-import { SubmitAddLocationButton, EditStateFormStyled, StateInfo } from './EditStateForm.styled';
+import {
+  SubmitAddLocationButton,
+  EditStateFormStyled,
+  StateInfo,
+  ButtonsOverlay,
+} from './EditStateForm.styled';
 
 type EditStateFormType = {
   stateItem: EditState;
@@ -96,11 +102,20 @@ export const EditStateForm = ({
   const isSubmitDisabled = !localStateName?.trim() || !localStatePhotoURL?.trim();
   const $isFirstEdit = !edited && !isEng;
 
+  const addDir = useCallback(() => {
+    toast.success('TODO: Add Directory Fn');
+  }, []);
+  const addDirDisabled = isEditingState;
+
+  const addLoc = useCallback(() => {
+    toast.success('TODO: Add Location Fn');
+  }, []);
+  const addLocDisabled = isEditingState;
+
   return (
     <EditStateFormStyled onSubmit={handleSubmitEditState}>
       <StateInfo>
-        <label>
-          <span>State info</span>
+        <label aria-label="State info">
           <input
             type="text"
             name="stateName"
@@ -113,8 +128,7 @@ export const EditStateForm = ({
           />
         </label>
 
-        <label>
-          <span>State photo URL</span>
+        <label aria-label="State photo URL">
           <input
             type="url"
             name="statePhotoURL"
@@ -129,11 +143,21 @@ export const EditStateForm = ({
       </StateInfo>
 
       {!isEditingState && (
-        <EditButton
-          $isFirstEdit={$isFirstEdit}
-          onClick={setIsEditingStateTrue}
-          disabled={isEditButtonDisabled}
-        />
+        <ButtonsOverlay>
+          <EditButton
+            $isFirstEdit={$isFirstEdit}
+            onClick={setIsEditingStateTrue}
+            disabled={isEditButtonDisabled}
+          />
+
+          <AddDirButton onClick={addDir} disabled={addDirDisabled}>
+            Add Dir
+          </AddDirButton>
+
+          <AddDirButton onClick={addLoc} disabled={addLocDisabled}>
+            Add Loc
+          </AddDirButton>
+        </ButtonsOverlay>
       )}
 
       {isEditingState && (
