@@ -144,6 +144,7 @@ export const EditDistrictForm = ({
             maxLength={300}
             minLength={8}
             required
+            title={localDistrictPhotoURL}
           />
         </label>
       </DistrictInfo>

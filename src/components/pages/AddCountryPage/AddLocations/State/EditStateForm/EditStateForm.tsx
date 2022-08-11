@@ -115,7 +115,8 @@ export const EditStateForm = ({
   return (
     <EditStateFormStyled onSubmit={handleSubmitEditState}>
       <StateInfo>
-        <label aria-label="State info">
+        <label>
+          <p>State info</p>
           <input
             type="text"
             name="stateName"
@@ -128,7 +129,8 @@ export const EditStateForm = ({
           />
         </label>
 
-        <label aria-label="State photo URL">
+        <label>
+          <p>State photo URL</p>
           <input
             type="url"
             name="statePhotoURL"
@@ -138,6 +140,7 @@ export const EditStateForm = ({
             maxLength={300}
             minLength={8}
             required
+            title={localStatePhotoURL}
           />
         </label>
       </StateInfo>

@@ -135,6 +135,7 @@ export const EditCityForm = ({
             maxLength={300}
             minLength={8}
             required
+            title={localCityPhotoURL}
           />
         </label>
       </CityInfo>
