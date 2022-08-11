@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useAppSelector } from 'hooks/redux/hooks';
+import { useAppSelector } from 'hooks/redux';
 import { selectActiveTheme } from 'redux/slices';
 import {
   breakpoints,

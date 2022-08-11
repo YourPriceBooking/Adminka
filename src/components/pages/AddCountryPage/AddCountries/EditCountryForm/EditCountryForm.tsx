@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import {
   selectActiveLangCode,
   selectIsEnglishActiveLang,

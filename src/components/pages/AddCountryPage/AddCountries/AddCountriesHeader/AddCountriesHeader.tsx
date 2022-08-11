@@ -1,8 +1,7 @@
 import { BackButton } from 'components/pages/AddCountryPage/AddCountries/BackButton';
 import { AddCountries } from 'components/pages/AddCountryPage/AddCountries';
 import { SelectLang as AddLanguages } from 'components/pages/AddCountryPage/AddLanguages';
-
-import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { useCallback } from 'react';
 import { selectDev, toggleDev } from 'redux/slices';
 import {

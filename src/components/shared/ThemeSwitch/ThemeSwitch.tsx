@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { useCallback } from 'react';
 import { selectActiveTheme, setTheme } from 'redux/slices';
 import {

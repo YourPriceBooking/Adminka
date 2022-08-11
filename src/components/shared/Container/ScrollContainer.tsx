@@ -1,4 +1,4 @@
-import { useAppSelector } from 'hooks/redux/hooks';
+import { useAppSelector } from 'hooks/redux';
 import { selectModalCount } from 'redux/slices';
 import { PropsWithChildren } from 'react';
 import { ScrollContainerStyled } from './Container.styled';

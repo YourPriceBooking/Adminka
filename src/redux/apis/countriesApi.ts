@@ -30,6 +30,15 @@ export const countriesApi = baseApi.injectEndpoints({
       // invalidatesTags: ['Country'],
     }),
 
+    /**
+     * Редагування країн:
+     * PUT api/countries/id
+     *   очікує {
+     *     "international": "Ukraine",
+     *     "country":"Україна",
+     *     "langCode":"UA"
+     *   }
+     */
     editCountry: builder.mutation<Country, EditCountry>({
       query: ({ _id, country, langCode, international }) => ({
         url: `/countries/${_id}`,
@@ -59,20 +68,11 @@ export const {
 } = countriesApi;
 
 /*
-Це адрес по languages (add, update, del та get всіх )
- https://your-price-booking.herokuapp.com/api/languages.
+  https://your-price-booking.herokuapp.com/api/languages
+  На беку: (GET, POST, PUT, DEL) - отримуємо данні з БД
 
-На беку чекаємо метод (GET, POST, PUT. DEL).
-Ця інфа для Кості щоб міг вже отримувати данні з БД.
-Для
+  GET ()
+  POST ('lang': "English", code: "EN"),
+  PUT (id, 'lang': "English", code: "EN"),
+  DEL (id)
 */
-
-/*
-GET ()
-POST ('lang': "English", code: "EN"),
-PUT (id, 'lang': "English", code: "EN"),
-DEL (id)
-*/
-
-// "country": "Ukraine",
-// "langCode": "en",

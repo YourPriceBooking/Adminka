@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { SelectLanguageType } from 'components/pages/AddCountryPage/AddLanguages/SelectLangList/SelectLangList';
 // import { languagesApi } from 'redux/apis';
+import type { SelectLanguageType } from 'types/apis';
 import type { RootState } from 'redux/store';
 
 type LanguageState = {
@@ -28,7 +28,7 @@ export const langSlice = createSlice({
     },
   },
 
-  extraReducers: builder => builder,
+  // extraReducers: builder => builder,
   // .addMatcher(
   //   countriesApi.endpoints.getCountries.matchFulfilled,
   //   (state, action: PayloadAction<CountriesResponse>) => {

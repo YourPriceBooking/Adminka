@@ -1,5 +1,5 @@
 // import { useMemo } from 'react';
-import { useAppSelector } from 'hooks/redux/hooks';
+import { useAppSelector } from 'hooks/redux';
 import { selectActiveCountryInternational, selectActiveLangId } from 'redux/slices';
 import type { LanguagesResponse } from 'types/apis';
 

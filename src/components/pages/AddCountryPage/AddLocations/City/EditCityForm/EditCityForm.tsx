@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { FormEvent, useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import { editCity, selectIsEnglishActiveLang, makeSelectCitiesNamesForState } from 'redux/slices';

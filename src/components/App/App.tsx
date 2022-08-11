@@ -8,7 +8,7 @@ import { AppStyled, DevIndicator } from 'components/App/App.styled';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { useAppSelector } from 'hooks/redux/hooks';
+import { useAppSelector } from 'hooks/redux';
 import { selectDev } from 'redux/slices';
 
 const dev = process.env.NODE_ENV === 'development';

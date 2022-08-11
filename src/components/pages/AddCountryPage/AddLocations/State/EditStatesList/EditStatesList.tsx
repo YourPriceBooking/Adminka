@@ -1,6 +1,6 @@
 import type { State } from 'types/apis';
 import { useCallback, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { incrementCounter, selectDev } from 'redux/slices';
 import { EditStateItem } from './EditStateItem';
 import { EditStatesListStyled, TotalStatesIndicator } from './EditStatesList.styled';

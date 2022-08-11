@@ -1,13 +1,18 @@
 import type { Country } from './countries';
 
-export type Language = {
+export type SelectLanguageType = {
   _id: string;
   lang: string;
   code: string;
   dbLangCode: string;
-  countries: Country[];
   createdAt: string;
   updatedAt: string;
+};
+
+export type SelectLangType = (arg: SelectLanguageType) => void;
+
+export type Language = SelectLanguageType & {
+  countries: Country[];
 };
 
 export type InitLanguagesResponse = { data: { languages: Language[] } };

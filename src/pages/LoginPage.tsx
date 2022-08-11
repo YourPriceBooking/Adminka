@@ -1,5 +1,5 @@
 import { useFromLocation } from 'hooks/navigation';
-import { useAppDispatch } from 'hooks/redux/hooks';
+import { useAppDispatch } from 'hooks/redux';
 import { FormEvent, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';

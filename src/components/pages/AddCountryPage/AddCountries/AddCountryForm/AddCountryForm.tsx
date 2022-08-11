@@ -1,4 +1,4 @@
-import { useAppDispatch } from 'hooks/redux/hooks';
+import { useAppDispatch } from 'hooks/redux';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
