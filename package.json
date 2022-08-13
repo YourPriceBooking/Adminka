@@ -10,11 +10,11 @@
     "prepare": "husky install",
     "lint": "eslint --cache src/**/*.{ts,tsx,js,jsx}",
     "lint:fix": "eslint --cache --fix src/**/*.{ts,tsx,js,jsx}",
-    "check-types": "tsc --pretty --noEmit",
+    "types": "tsc --pretty --noEmit",
     "check-format": "prettier --cache --check src/**/*.{ts,tsx,js,jsx}",
     "format": "prettier --check --write --cache src/**/*.{ts,tsx,js,jsx}",
     "check-all": "yarn check-format && yarn check-types && yarn lint && yarn build",
-    "dev": "json-server -p 3500 -w ./src/api/json/db.json"
+    "dev": "json-server -p 3500 -i _id -w ./src/api/json/db.json"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.2",
