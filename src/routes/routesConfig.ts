@@ -1,9 +1,5 @@
-import { lazy } from 'react';
 import { App } from 'components/App';
-import LoginPage from 'pages/LoginPage';
-
-const MenuPage = lazy(() => import('pages/MenuPage'));
-const AddCountryPage = lazy(() => import('pages/AddCountryPage'));
+import { AddCountryPage, LoginPage, MenuPage } from 'pages';
 
 export const routes = {
   login: { path: '/', name: 'Login', element: { App, LoginPage } },
