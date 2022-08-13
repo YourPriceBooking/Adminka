@@ -5,10 +5,9 @@ export const BackdropStyled = styled.div`
   position: fixed;
   inset: 0;
   z-index: ${({ theme }) => theme.zIndex.modal};
-  backdrop-filter: blur(15px);
 
   display: flex;
-  padding: 100px 20px;
+  padding: 40px 20px;
 
   overflow-y: scroll;
   background-color: ${({ theme }) => theme.colors.bgTransparent.buttonCancelDeleteHover};

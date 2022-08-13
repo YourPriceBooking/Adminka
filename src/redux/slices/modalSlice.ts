@@ -31,3 +31,4 @@ export const modalSliceReducer = modalSlice.reducer;
 
 // export const selectShowModal = (state: RootState) => state.modal.showModal;
 export const selectModalCount = (state: RootState) => state.modal.openedModalCount;
+export const selectIsModalOpen = (state: RootState) => state.modal.openedModalCount > 0;
