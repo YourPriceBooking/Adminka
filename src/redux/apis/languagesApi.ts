@@ -12,7 +12,7 @@ import type {
 } from 'types/apis';
 import type { RootState } from 'redux/store';
 
-import { useAppSelector } from 'components/App';
+import { useAppSelector } from 'App';
 import { useMemo } from 'react';
 import { selectActiveLangId } from 'redux/slices';
 import { logRender } from 'utils';

@@ -1,4 +1,4 @@
-import { useAppDispatch } from 'components/App';
+import { useAppDispatch } from 'App';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';

@@ -1,4 +1,4 @@
-import { App } from 'components/App';
+import { App } from 'App';
 import { AddCountryPage, LoginPage, MenuPage } from 'pages';
 
 export const routes = {

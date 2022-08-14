@@ -1,4 +1,4 @@
-import { useAppDispatch } from 'components/App';
+import { useAppDispatch } from 'App';
 import { useCallback, useMemo, useState } from 'react';
 
 import { decreaseModalCount, increaseModalCount } from 'redux/slices';

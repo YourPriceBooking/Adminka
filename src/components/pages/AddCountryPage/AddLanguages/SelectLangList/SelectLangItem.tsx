@@ -1,7 +1,7 @@
 import type { SelectLangType, SelectLanguageType } from 'types/apis';
 import { useDeleteLanguageMutation } from 'redux/apis';
 import { selectDev, setActiveLang } from 'redux/slices';
-import { useAppDispatch, useAppSelector } from 'components/App';
+import { useAppDispatch, useAppSelector } from 'App';
 import { useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { DeleteButton, DeleteIcon, SelectButton } from './SelectLangItem.styled';

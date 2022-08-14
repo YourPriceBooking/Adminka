@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useAppDispatch } from 'components/App';
+import { useAppDispatch } from 'App';
 import type { SelectLanguageType } from 'types/apis';
 import { setActiveLang } from 'redux/slices';
 

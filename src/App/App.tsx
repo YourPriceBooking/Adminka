@@ -3,12 +3,12 @@ import { ThemeProvider } from 'styled-components/macro';
 import { ScrollContainer } from 'components/shared/Container';
 import { Layout } from 'components/Layout';
 import { GlobalStyle } from 'styles/GlobalStyle';
-import { AppStyled, DevIndicator } from 'components/App/App.styled';
+import { AppStyled, DevIndicator } from 'App/App.styled';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { useAppSelector } from 'components/App';
+import { useAppSelector } from 'App';
 import { selectDev } from 'redux/slices';
 
 const dev = process.env.NODE_ENV === 'development';

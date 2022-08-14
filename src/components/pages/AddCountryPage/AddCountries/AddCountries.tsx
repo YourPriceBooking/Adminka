@@ -1,5 +1,5 @@
 import { RefObject, useCallback, useRef, useState } from 'react';
-import { useAppSelector } from 'components/App';
+import { useAppSelector } from 'App';
 import { selectActiveCountryName } from 'redux/slices';
 import { useSelectCountries } from 'redux/apis';
 import { EntityId } from '@reduxjs/toolkit';

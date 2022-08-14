@@ -1,5 +1,5 @@
 import { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'components/App';
+import { useAppDispatch, useAppSelector } from 'App';
 import { setActiveCountry, selectDev, selectActiveLang } from 'redux/slices';
 import { useEditCountryMutation, useDeleteCountryMutation } from 'redux/apis';
 import { toast } from 'react-toastify';

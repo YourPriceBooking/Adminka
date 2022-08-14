@@ -1,6 +1,6 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 import type { EntityId } from '@reduxjs/toolkit';
-import { useAppSelector } from 'components/App';
+import { useAppSelector } from 'App';
 import { selectIsEnglishActiveLang } from 'redux/slices';
 import { DropdownStyled } from './Drowdown.styled';
 import { EditCountriesList } from '../EditCountriesList/EditCountriesList';
