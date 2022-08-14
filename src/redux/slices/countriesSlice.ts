@@ -18,7 +18,7 @@ const countriesSlice = createSlice({
   initialState,
 
   reducers: {
-    setActiveCountry(state, { payload }: PayloadAction<ActiveCountry>) {
+    setActiveCountry(state, { payload }: PayloadAction<ActiveCountry | null>) {
       state.activeCountry = payload;
     },
 
@@ -42,7 +42,7 @@ const countriesSlice = createSlice({
 
 export const { setActiveCountry, toggleDev } = countriesSlice.actions;
 export const countriesReducer = countriesSlice.reducer;
-export const selectActiveCountryId = (state: RootState) => state.countries.activeCountry?._id ?? '';
+export const selectActiveCountryId = (state: RootState) => state.countries.activeCountry?._id;
 
 export const selectActiveCountryName = (state: RootState) => state.countries.activeCountry?.country;
 export const selectActiveCountryInternational = (state: RootState) =>
