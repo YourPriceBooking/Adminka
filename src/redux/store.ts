@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import persistStore from 'redux-persist/es/persistStore';
 import { ignoredActions, persistedReducer } from './persist';
-import { baseApi } from './apis';
+import { api } from './apis';
 
 export const store = configureStore({
   reducer: persistedReducer,
@@ -11,7 +11,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions,
       },
-    }).concat(baseApi.middleware),
+    }).concat(api.middleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 
