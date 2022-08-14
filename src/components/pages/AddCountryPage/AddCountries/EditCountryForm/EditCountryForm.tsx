@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'App';
-import { setActiveCountry, selectDev, selectActiveLang } from 'redux/slices';
-import { useEditCountryMutation, useDeleteCountryMutation } from 'redux/apis';
+import { setActiveCountry, selectDev, selectActiveLang } from 'features/slices';
+import { useEditCountryMutation, useDeleteCountryMutation } from 'features/apis';
 import { toast } from 'react-toastify';
 import type { ActiveCountry, EditCountry } from 'types/apis';
 

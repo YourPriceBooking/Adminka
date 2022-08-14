@@ -2,8 +2,8 @@ import { useAppDispatch } from 'App';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { useAddCountryEngMutation } from 'redux/apis';
-import { selectIsEnglishActiveLang, setActiveCountry } from 'redux/slices';
+import { useAddCountryEngMutation } from 'features/apis';
+import { selectIsEnglishActiveLang, setActiveCountry } from 'features/slices';
 
 import {
   AddCountryButton,

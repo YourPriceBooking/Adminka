@@ -1,9 +1,9 @@
-import { useFromLocation } from 'hooks/navigation';
+import { useFromLocation } from 'common/hooks';
 import { useAppDispatch } from 'App';
 import { FormEvent, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { login, selectIsLoggedIn } from 'redux/slices';
+import { login, selectIsLoggedIn } from 'features/slices';
 
 const style = {
   container: { display: 'flex', alignItems: 'center', justifyContent: 'center', height: '90vh' },

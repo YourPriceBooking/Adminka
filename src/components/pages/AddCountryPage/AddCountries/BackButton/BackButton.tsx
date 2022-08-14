@@ -1,8 +1,7 @@
-import { useFromLocation } from 'hooks/navigation';
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import iconArrowLeft from 'assets/icons/iconArrowLeft.svg';
+import { useFromLocation } from 'common/hooks';
 import { BackButtonStyled } from './BackButton.styled';
 
 export const BackButton = () => {

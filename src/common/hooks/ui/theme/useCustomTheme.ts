@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useAppSelector } from 'App';
-import { selectActiveTheme } from 'redux/slices';
+import { selectActiveTheme } from 'features/slices';
 import {
   breakpoints,
   fonts,

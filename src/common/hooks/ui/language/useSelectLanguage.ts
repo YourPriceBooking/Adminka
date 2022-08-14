@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useAppDispatch } from 'App';
 import type { SelectLanguageType } from 'types/apis';
-import { setActiveLang } from 'redux/slices';
+import { setActiveLang } from 'features/slices';
 
 export const useSelectLanguage = (closeModal: () => void) => {
   const appDispatch = useAppDispatch();

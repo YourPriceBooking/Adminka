@@ -1,7 +1,7 @@
 import { useAppSelector } from 'App';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { selectActiveCountryId } from 'redux/slices';
+import { selectActiveCountryId } from 'features/slices';
 import type { NewStateWithOutId } from 'types/apis';
 import { SubmitAddLocationButton } from '../EditStateForm/EditStateForm.styled';
 

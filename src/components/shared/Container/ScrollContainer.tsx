@@ -1,4 +1,4 @@
-import { useToggleNoScroll } from 'hooks/ui/modal';
+import { useToggleNoScroll } from 'common/hooks';
 import { PropsWithChildren } from 'react';
 import { ScrollContainerStyled } from './Container.styled';
 

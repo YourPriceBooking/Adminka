@@ -1,7 +1,7 @@
 import { useAppSelector } from 'App';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { selectIsEnglishActiveLang } from 'redux/slices';
+import { selectIsEnglishActiveLang } from 'features/slices';
 import type { EditState } from 'types/apis';
 import { EditButton } from '../../../AddCountries/EditButton/EditButton';
 import { AddDirButton } from '../../AddDirButton';

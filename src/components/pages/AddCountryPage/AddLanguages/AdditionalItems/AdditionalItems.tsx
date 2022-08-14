@@ -1,6 +1,6 @@
 import type { SelectLanguageType } from 'types/apis';
 import { useAppSelector } from 'App';
-import { selectActiveLang } from 'redux/slices';
+import { selectActiveLang } from 'features/slices';
 import slang from '../AddLanguages.module.scss';
 import { ShowLanguagesButton } from '../AddLanguages.styled';
 

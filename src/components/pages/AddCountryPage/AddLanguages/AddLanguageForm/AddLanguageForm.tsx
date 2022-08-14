@@ -1,6 +1,6 @@
 import type { AddLanguage, Language } from 'types/apis';
 import { FormEvent, useState } from 'react';
-import { useAddLanguageMutation } from 'redux/apis';
+import { useAddLanguageMutation } from 'features/apis';
 import { toast } from 'react-toastify';
 import slang from '../AddLanguages.module.scss';
 

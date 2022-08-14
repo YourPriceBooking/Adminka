@@ -1,4 +1,4 @@
-import { useCustomTheme } from 'hooks/ui/theme';
+import { useCustomTheme } from 'common/hooks';
 import { ThemeProvider } from 'styled-components/macro';
 import { ScrollContainer } from 'components/shared/Container';
 import { Layout } from 'components/Layout';
@@ -9,7 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useAppSelector } from 'App';
-import { selectDev } from 'redux/slices';
+import { selectDev } from 'features/slices';
 
 const dev = process.env.NODE_ENV === 'development';
 

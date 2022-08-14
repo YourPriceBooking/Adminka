@@ -10,11 +10,11 @@ import type {
   LanguagesAdapter,
   LanguagesResponse,
 } from 'types/apis';
-import type { RootState } from 'redux/store';
+import type { RootState } from 'features/store';
 
 import { useAppSelector } from 'App';
 import { useMemo } from 'react';
-import { selectActiveLangId } from 'redux/slices';
+import { selectActiveLangId } from 'features/slices';
 import { logRender } from 'common/utils';
 import { api, frozenArr } from './api';
 

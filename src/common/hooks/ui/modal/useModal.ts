@@ -1,7 +1,7 @@
 import { useAppDispatch } from 'App';
 import { useCallback, useMemo, useState } from 'react';
 
-import { decreaseModalCount, increaseModalCount } from 'redux/slices';
+import { decreaseModalCount, increaseModalCount } from 'features/slices';
 
 export const useModal = () => {
   const appDispatch = useAppDispatch();

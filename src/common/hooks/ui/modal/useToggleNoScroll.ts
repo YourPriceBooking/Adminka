@@ -1,6 +1,6 @@
 import { useAppSelector } from 'App';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { selectIsModalOpen } from 'redux/slices';
+import { selectIsModalOpen } from 'features/slices';
 import { getScrollWidth } from 'common/utils';
 
 export const useToggleNoScroll = () => {

@@ -5,9 +5,9 @@ import {
   countriesReducer,
   authReducer,
   modalSliceReducer,
-} from 'redux/slices';
-import { api } from 'redux/apis';
-import { counterSliceReducer } from 'redux/slices/counterSlice';
+} from 'features/slices';
+import { api } from 'features/apis';
+import { counterSliceReducer } from 'features/slices/counterSlice';
 
 export const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,

@@ -1,6 +1,6 @@
 import type { SelectLangType, SelectLanguageType } from 'types/apis';
-import { useDeleteLanguageMutation } from 'redux/apis';
-import { selectDev, setActiveLang } from 'redux/slices';
+import { useDeleteLanguageMutation } from 'features/apis';
+import { selectDev, setActiveLang } from 'features/slices';
 import { useAppDispatch, useAppSelector } from 'App';
 import { useCallback } from 'react';
 import { toast } from 'react-toastify';

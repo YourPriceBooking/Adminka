@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // import { languagesApi } from 'redux/apis';
 import type { SelectLanguageType } from 'types/apis';
-import type { RootState } from 'redux/store';
+import type { RootState } from 'features/store';
 
 type LanguageState = {
   activeLang: SelectLanguageType | null;

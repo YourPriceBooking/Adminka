@@ -1,7 +1,7 @@
 import { RefObject, useCallback, useRef, useState } from 'react';
 import { useAppSelector } from 'App';
-import { selectActiveCountryName } from 'redux/slices';
-import { useSelectCountries } from 'redux/apis';
+import { selectActiveCountryName } from 'features/slices';
+import { useSelectCountries } from 'features/apis';
 import { EntityId } from '@reduxjs/toolkit';
 import { AddCountriesStyled, CountryEditorWrapper, ShowEditorButton } from './AddCountries.styled';
 import { Dropdown } from './Drowdown/Drowdown';

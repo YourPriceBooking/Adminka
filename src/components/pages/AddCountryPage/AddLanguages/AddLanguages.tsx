@@ -1,7 +1,6 @@
 import { Modal } from 'components/shared/Modal/Modal';
-import { useGetLanguagesQuery, useSelectLanguages } from 'redux/apis';
-import { useModal } from 'hooks/ui/modal';
-import { useSelectLanguage } from 'hooks/ui/language';
+import { useGetLanguagesQuery, useSelectLanguages } from 'features/apis';
+import { useModal, useSelectLanguage } from 'common/hooks';
 import type { LanguageWithoutCountries } from 'types/apis';
 import { logRender } from 'common/utils';
 import slang from './AddLanguages.module.scss';

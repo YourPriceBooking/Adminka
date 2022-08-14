@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from 'redux/store';
+import type { RootState } from 'features/store';
 import type { ActiveCountry } from 'types/apis';
 
 type CountryState = {
