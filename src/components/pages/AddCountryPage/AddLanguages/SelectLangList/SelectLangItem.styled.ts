@@ -1,13 +1,16 @@
 import styled from 'styled-components/macro';
 import { rgba } from 'polished';
 import { ReactComponent as iconClose } from 'assets/icons/iconClose.svg';
+import checkmark from 'assets/icons/checkmark.png';
 
 export const SelectButton = styled.button`
+  position: relative;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   width: 100%;
-  padding: 8px 16px;
+  padding: 8px 48px 8px 16px;
 
   font-family: ${({ theme }) => theme.fonts.segoe};
   font-size: 27px;
@@ -22,6 +25,17 @@ export const SelectButton = styled.button`
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.bg.hover.buttonSelectLanguage};
+  }
+
+  &::after {
+    content: '';
+    background-image: url(${checkmark});
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    right: 10px;
+    width: 20px;
+    height: 20px;
   }
 `;
 

@@ -1,40 +1,47 @@
-import { Language, SelectLangType } from 'types/apis';
-
+import type { SelectLangType, SelectLanguageType } from 'types/apis';
 import { useDeleteLanguageMutation } from 'redux/apis';
-import { selectDev } from 'redux/slices';
-import { useAppSelector } from 'hooks/redux';
+import { selectDev, setActiveLang } from 'redux/slices';
+import { useAppDispatch, useAppSelector } from 'components/App';
+import { useCallback } from 'react';
+import { toast } from 'react-toastify';
 import { DeleteButton, DeleteIcon, SelectButton } from './SelectLangItem.styled';
 import slang from '../AddLanguages.module.scss';
 
 type LanguageItemProps = {
   languageItem: {
-    language: Language;
+    language: SelectLanguageType;
     selectLang: SelectLangType;
   };
 };
 
-export const LanguageItem = ({
-  languageItem: {
-    language: { _id, lang, code, createdAt, updatedAt, dbLangCode },
-    selectLang,
-  },
-}: LanguageItemProps) => {
+export const LanguageItem = ({ languageItem: { language, selectLang } }: LanguageItemProps) => {
   const [deleteLanguage, { isLoading: isDeletingLanguage }] = useDeleteLanguageMutation();
   const showDev = useAppSelector(selectDev);
 
-  return (
-    <li className={slang.block_lang_li} value={code} key={code}>
-      <SelectButton
-        onClick={() => selectLang({ _id, lang, code, createdAt, updatedAt, dbLangCode })}
-        disabled={isDeletingLanguage}
-      >
-        <span>{lang}</span>
+  const appDispatch = useAppDispatch();
 
-        <span className={slang.block_lang_li_p}>{code}</span>
+  const onDeleteLanguage = useCallback(() => {
+    if (!language) return;
+    deleteLanguage({ _id: language._id });
+    appDispatch(setActiveLang(null));
+    toast.success('Language deleted');
+  }, [appDispatch, deleteLanguage, language]);
+
+  const selectLanguage = () => {
+    if (!language) return;
+    selectLang(language);
+  };
+
+  return (
+    <li className={slang.block_lang_li}>
+      <SelectButton onClick={selectLanguage} disabled={isDeletingLanguage}>
+        <span>{language.lang}</span>
+
+        <span className={slang.block_lang_li_p}>{language.code}</span>
       </SelectButton>
 
       {showDev && (
-        <DeleteButton onClick={() => deleteLanguage({ _id })} disabled={isDeletingLanguage}>
+        <DeleteButton onClick={onDeleteLanguage} disabled={isDeletingLanguage}>
           <DeleteIcon />
         </DeleteButton>
       )}
