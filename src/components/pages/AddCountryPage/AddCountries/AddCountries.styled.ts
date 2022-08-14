@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
 import { slideInLeft, slideOutLeft } from 'components/App/App.styled';
 
-export const AddCountriesStyled = styled.section`
+export const AddCountriesStyled = styled.div`
   width: 280px;
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
