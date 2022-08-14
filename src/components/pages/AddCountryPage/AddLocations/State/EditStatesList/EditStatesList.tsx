@@ -1,7 +1,8 @@
 import type { State } from 'types/apis';
 import { useCallback, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { incrementCounter, selectDev } from 'redux/slices';
+import { useAppDispatch, useAppSelector } from 'components/App';
+import { incrementCounter, selectCounterValue, selectDev } from 'redux/slices';
+import { logRender } from 'utils';
 import { EditStateItem } from './EditStateItem';
 import { EditStatesListStyled, TotalStatesIndicator } from './EditStatesList.styled';
 
@@ -9,16 +10,16 @@ type EditStatesListType = {
   editLocationsList: State[];
 };
 
-// let EditStatesListRender = 0;
-
 export const EditStatesList = ({ editLocationsList }: EditStatesListType) => {
   const [visibleStatesCount, setVisibleStatesCount] = useState(0);
-  // const counter = useAppSelector(selectCounterValue);
+  const counter = useAppSelector(selectCounterValue);
 
   const appDispatch = useAppDispatch();
   const addOne = useCallback(() => appDispatch(incrementCounter(1)), [appDispatch]);
 
   const dev = useAppSelector(selectDev);
+
+  logRender('EditStatesList');
 
   return (
     <>
@@ -26,15 +27,13 @@ export const EditStatesList = ({ editLocationsList }: EditStatesListType) => {
         <>
           <TotalStatesIndicator>Total states: {visibleStatesCount}</TotalStatesIndicator>
 
-          {/* <p>{counter}</p> */}
+          <p>{counter}</p>
 
           <button type="button" onClick={addOne}>
             Counter +1
           </button>
         </>
       )}
-
-      {/* {console.log({ EditStatesListRender: (EditStatesListRender += 1) })} */}
 
       <EditStatesListStyled>
         {editLocationsList?.map((location: State) => (

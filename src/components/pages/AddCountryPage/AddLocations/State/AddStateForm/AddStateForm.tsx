@@ -1,23 +1,27 @@
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { FormEvent, useCallback, useMemo, useState } from 'react';
+import { useAppSelector } from 'components/App';
+import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { addState, makeSelectStatesNames, selectActiveCountryId } from 'redux/slices';
+import { selectActiveCountryId } from 'redux/slices';
 import type { NewStateWithOutId } from 'types/apis';
 import { SubmitAddLocationButton } from '../EditStateForm/EditStateForm.styled';
 
 import { Row, AddLocationButton, AddStateFormStyled } from './AddStateForm.styled';
 
+const emptyArr: never[] = [];
+
 export const AddStateForm = () => {
-  const appDispatch = useAppDispatch();
   const activeCountryId = useAppSelector(selectActiveCountryId);
-  const selectStatesNames = useMemo(makeSelectStatesNames, []);
-  const statesNames = useAppSelector(selectStatesNames);
+  const statesNames = emptyArr;
   const [isAddingState, setIsAddingState] = useState(false);
   const setAddingStateTrue = useCallback(() => setIsAddingState(true), []);
+
+  const isLoading = false;
+  const isSubmitDisabled = isLoading || !activeCountryId;
 
   const handleSubmitAddState = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      if (isSubmitDisabled) return;
 
       const form = e.currentTarget;
 
@@ -40,25 +44,22 @@ export const AddStateForm = () => {
         stateInternational: stateName,
         stateCode: stateName.slice(0, 5).toUpperCase(),
         international: '',
-        edited: 0,
         langCode: 'EN',
         dbLangCode: 'EN',
         statePhotoURL,
         countryId: activeCountryId,
-        cities: [],
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
       };
 
       try {
-        appDispatch(addState(newState));
+        // appDispatch(addState(newState));
+        console.log('newState', newState);
         setIsAddingState(false);
         // toast.success(`State ${stateName} added`);
       } catch (error) {
         toast.error('State not added');
       }
     },
-    [activeCountryId, appDispatch, statesNames]
+    [activeCountryId, isSubmitDisabled, statesNames]
   );
 
   return (
@@ -88,7 +89,9 @@ export const AddStateForm = () => {
             <p>add the name of the location</p>
           </label>
 
-          <SubmitAddLocationButton type="submit">Add Loc 3</SubmitAddLocationButton>
+          <SubmitAddLocationButton type="submit" disabled={isSubmitDisabled}>
+            Add Loc 3
+          </SubmitAddLocationButton>
         </Row>
       )}
     </AddStateFormStyled>

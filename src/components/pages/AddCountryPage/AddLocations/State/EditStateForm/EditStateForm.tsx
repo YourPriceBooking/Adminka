@@ -1,7 +1,7 @@
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { FormEvent, useCallback, useMemo, useState } from 'react';
+import { useAppSelector } from 'components/App';
+import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { editState, selectIsEnglishActiveLang, makeSelectStatesNames } from 'redux/slices';
+import { selectIsEnglishActiveLang } from 'redux/slices';
 import type { EditState } from 'types/apis';
 import { EditButton } from '../../../AddCountries/EditButton/EditButton';
 import { AddDirButton } from '../../AddDirButton';
@@ -17,6 +17,8 @@ type EditStateFormType = {
   stateItem: EditState;
 };
 
+const emptyArr: never[] = [];
+
 export const EditStateForm = ({
   stateItem: {
     _id,
@@ -24,83 +26,64 @@ export const EditStateForm = ({
     stateInternational,
     statePhotoURL,
     stateCode,
-    cities,
-    edited,
 
+    countryId,
     international,
     langCode,
     dbLangCode,
-    countryId,
+    createdAt,
+    updatedAt,
   },
 }: EditStateFormType) => {
   const [isEditingState, setIsEditingState] = useState(false);
 
-  const selectStatesNames = useMemo(makeSelectStatesNames, []);
-  const appDispatch = useAppDispatch();
-
   const [localStateName, setLocalStateName] = useState(stateName);
   const [localStatePhotoURL, setLocalStatePhotoURL] = useState(statePhotoURL);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
-  const statesNames = useAppSelector(selectStatesNames);
+  const statesNames = emptyArr;
 
   const setIsEditingStateTrue = useCallback(() => setIsEditingState(true), []);
-
-  const handleSubmitEditState = useCallback(
-    async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const stateNameTrimmed = localStateName?.trim();
-      const statePhotoURLTrimmed = localStatePhotoURL?.trim();
-      if (!stateNameTrimmed || !statePhotoURLTrimmed) {
-        toast('Please provide photo url and State name');
-        return;
-      }
-      if (statesNames.find(existingStateName => existingStateName === stateNameTrimmed)) {
-        toast.info(`${stateNameTrimmed} exists. Try another 'name'`);
-        return;
-      }
-      const updatedState = {
-        _id,
-        stateName: stateNameTrimmed,
-        statePhotoURL: statePhotoURLTrimmed,
-        stateInternational: !stateInternational && isEng ? stateNameTrimmed : stateInternational,
-        stateCode,
-        cities,
-        edited: Number(edited) + 1,
-        international,
-        langCode,
-        dbLangCode,
-        countryId,
-      };
-      try {
-        appDispatch(editState(updatedState));
-        setIsEditingState(false);
-      } catch (error) {
-        toast.error('State is not edited');
-      }
-    },
-
-    [
-      _id,
-      appDispatch,
-      cities,
-      countryId,
-      dbLangCode,
-      edited,
-      international,
-      isEng,
-      langCode,
-      localStateName,
-      localStatePhotoURL,
-      stateCode,
-      stateInternational,
-      statesNames,
-    ]
-  );
 
   const isInputDisabled = !isEditingState;
   const isEditButtonDisabled = isEditingState;
   const isSubmitDisabled = !localStateName?.trim() || !localStatePhotoURL?.trim();
-  const $isFirstEdit = !edited && !isEng;
+  const $isFirstEdit = new Date(updatedAt).getTime() > new Date(createdAt).getTime() && !isEng;
+
+  const handleSubmitEditState = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isSubmitDisabled) return;
+
+    const stateNameTrimmed = localStateName?.trim();
+    const statePhotoURLTrimmed = localStatePhotoURL?.trim();
+    if (!stateNameTrimmed || !statePhotoURLTrimmed) {
+      toast('Please provide photo url and State name');
+      return;
+    }
+    if (statesNames.find(existingStateName => existingStateName === stateNameTrimmed)) {
+      toast.info(`${stateNameTrimmed} exists. Try another 'name'`);
+      return;
+    }
+    const updatedState = {
+      _id,
+      stateName: stateNameTrimmed,
+      statePhotoURL: statePhotoURLTrimmed,
+      stateInternational: !stateInternational && isEng ? stateNameTrimmed : stateInternational,
+      stateCode,
+
+      international,
+      langCode,
+      dbLangCode,
+      countryId,
+    };
+    try {
+      // appDispatch(editState(updatedState));
+      console.log('handleSubmitEditState ~ updatedState', updatedState);
+
+      setIsEditingState(false);
+    } catch (error) {
+      toast.error('State is not edited');
+    }
+  };
 
   const addDir = useCallback(() => {
     toast.success('TODO: Add Directory Fn');

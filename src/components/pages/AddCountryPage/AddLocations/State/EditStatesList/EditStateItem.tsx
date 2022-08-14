@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect } from 'react';
 
-import type { EditState } from 'types/apis';
+import type { State } from 'types/apis';
 import { AddCityForm } from '../../City/AddCityForm/AddCityForm';
 import { EditCitiesList } from '../../City/EditCitiesList/EditCitiesList';
 import { EditStateForm } from '../EditStateForm/EditStateForm';
@@ -8,7 +8,7 @@ import { EditStateForm } from '../EditStateForm/EditStateForm';
 import { City, EditLocationsItemStyled } from './EditStatesList.styled';
 
 type EditStateItemType = {
-  stateItem: EditState;
+  stateItem: State;
   setVisibleStatesCount: Dispatch<SetStateAction<number>>;
 };
 
@@ -24,11 +24,7 @@ export const EditStateItem = ({ stateItem, setVisibleStatesCount }: EditStateIte
 
       <City className="city">
         <EditCitiesList cities={stateItem.cities} />
-        <AddCityForm
-          stateId={stateItem._id}
-          stateInternational={stateItem.stateInternational}
-          state={stateItem.stateName}
-        />
+        <AddCityForm stateId={stateItem._id} stateInternational={stateItem.stateInternational} />
       </City>
     </EditLocationsItemStyled>
   );
