@@ -1,20 +1,10 @@
-import type { Country } from 'types/apis';
+import { EditCountryForm, type EditCountryFormType } from '../EditCountryForm/EditCountryForm';
 import { EditCountryItem } from './EditCountriesList.styled';
 
-import { EditCountryForm } from '../EditCountryForm/EditCountryForm';
+export type CountryItem = EditCountryFormType;
 
-export type CountryItem = {
-  countryItem: {
-    country: Country;
-    closeCountriesList: () => void;
-    setIsEditingCountry: (arg: boolean) => void;
-    isEditingCountry: boolean;
-    isLoading: boolean;
-  };
-};
-
-export const Item = ({ countryItem }: CountryItem) => (
+export const Item = ({ countryId, countryItem }: CountryItem) => (
   <EditCountryItem>
-    <EditCountryForm countryItem={countryItem} />
+    <EditCountryForm countryId={countryId} countryItem={countryItem} />
   </EditCountryItem>
 );

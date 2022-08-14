@@ -1,36 +1,35 @@
-import { CountriesResponse, Country } from 'types/apis';
-import { CountryList, CountryListWrapper } from './EditCountriesList.styled';
+import type { EntityId } from '@reduxjs/toolkit';
+
+import { CountryList } from './EditCountriesList.styled';
 import { Item } from './EditCountryItem';
 
 type EditCountriesListType = {
+  countryIds: EntityId[];
   isEditingCountry: boolean;
   isLoading: boolean;
   setIsEditingCountry: (arg: boolean) => void;
-  countries?: CountriesResponse;
   closeCountriesList: () => void;
 };
 
 export const EditCountriesList = ({
-  countries,
+  countryIds,
   isEditingCountry,
   setIsEditingCountry,
   closeCountriesList,
   isLoading,
 }: EditCountriesListType) => (
-  <CountryListWrapper>
-    <CountryList>
-      {countries?.map((country: Country) => (
-        <Item
-          key={country._id}
-          countryItem={{
-            country,
-            setIsEditingCountry,
-            isEditingCountry,
-            closeCountriesList,
-            isLoading,
-          }}
-        />
-      ))}
-    </CountryList>
-  </CountryListWrapper>
+  <CountryList>
+    {countryIds.map(countryId => (
+      <Item
+        key={countryId}
+        countryId={countryId}
+        countryItem={{
+          setIsEditingCountry,
+          isEditingCountry,
+          closeCountriesList,
+          isLoading,
+        }}
+      />
+    ))}
+  </CountryList>
 );

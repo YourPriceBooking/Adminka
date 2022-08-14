@@ -1,16 +1,14 @@
 import styled from 'styled-components/macro';
 
-export const CountryListWrapper = styled.div`
-  max-height: 300px;
-  overflow-y: auto;
-`;
-
 export const CountryList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px 12px;
   gap: 12px;
+
+  max-height: 300px;
+  padding: 16px 12px;
+  overflow-y: auto;
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     padding: 34px 40px;
