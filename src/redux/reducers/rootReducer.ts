@@ -4,19 +4,17 @@ import {
   themeReducer,
   countriesReducer,
   authReducer,
-  locationsReducer,
   modalSliceReducer,
 } from 'redux/slices';
-import { baseApi } from 'redux/apis';
-// import { counterSliceReducer } from 'redux/slices/counterSlice';
-// counter: counterSliceReducer,
+import { api } from 'redux/apis';
+import { counterSliceReducer } from 'redux/slices/counterSlice';
 
 export const rootReducer = combineReducers({
+  [api.reducerPath]: api.reducer,
   auth: authReducer,
   lang: langReducer,
   theme: themeReducer,
   modal: modalSliceReducer,
   countries: countriesReducer,
-  locations: locationsReducer,
-  [baseApi.reducerPath]: baseApi.reducer,
+  counter: counterSliceReducer,
 });
