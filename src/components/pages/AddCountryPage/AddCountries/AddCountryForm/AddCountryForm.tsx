@@ -1,4 +1,4 @@
-import { useAppDispatch } from 'hooks/redux';
+import { useAppDispatch } from 'components/App';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -36,6 +36,8 @@ export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
   const onSubmitAddCountry = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      if (isSubmitDisabled) return;
+
       const form = e.currentTarget;
       const formData = new FormData(form);
       const country = formData.get('newCountryName')?.toString().trim();
@@ -44,7 +46,7 @@ export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
         return;
       }
       if (!isEngActive) {
-        toast('Please select English language to add countries');
+        toast('Please select English to add countries');
         return;
       }
 
@@ -62,7 +64,7 @@ export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
         form.reset();
       }
     },
-    [addCountryEng, appDispatch, isEngActive]
+    [addCountryEng, appDispatch, isEngActive, isSubmitDisabled]
   );
 
   return (
