@@ -1,7 +1,7 @@
 import { MouseEventHandler, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-import { getRefs } from 'utils';
+import { getRefs } from 'common/utils';
 import {
   BackdropStyled,
   CloseModalButtonStyled,

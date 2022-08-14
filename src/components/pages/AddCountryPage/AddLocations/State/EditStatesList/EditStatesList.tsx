@@ -2,7 +2,7 @@ import type { State } from 'types/apis';
 import { useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'App';
 import { incrementCounter, selectCounterValue, selectDev } from 'redux/slices';
-import { logRender } from 'utils';
+import { logRender } from 'common/utils';
 import { EditStateItem } from './EditStateItem';
 import { EditStatesListStyled, TotalStatesIndicator } from './EditStatesList.styled';
 

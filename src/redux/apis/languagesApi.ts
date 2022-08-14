@@ -15,7 +15,7 @@ import type { RootState } from 'redux/store';
 import { useAppSelector } from 'App';
 import { useMemo } from 'react';
 import { selectActiveLangId } from 'redux/slices';
-import { logRender } from 'utils';
+import { logRender } from 'common/utils';
 import { api, frozenArr } from './api';
 
 const languagesAdapter = createEntityAdapter<Language>({

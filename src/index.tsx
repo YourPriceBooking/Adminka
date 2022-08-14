@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import './styles/index.css';
 import { AppLoading } from 'App/App.styled';
 import { AppRouter } from 'routes/AppRouter';
-import { getRefs } from 'utils';
+import { getRefs } from 'common/utils';
 
 const { rootRef } = getRefs();
 

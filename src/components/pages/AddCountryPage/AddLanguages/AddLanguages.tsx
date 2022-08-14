@@ -3,7 +3,7 @@ import { useGetLanguagesQuery, useSelectLanguages } from 'redux/apis';
 import { useModal } from 'hooks/ui/modal';
 import { useSelectLanguage } from 'hooks/ui/language';
 import type { LanguageWithoutCountries } from 'types/apis';
-import { logRender } from 'utils';
+import { logRender } from 'common/utils';
 import slang from './AddLanguages.module.scss';
 import { AddLanguageForm } from './AddLanguageForm/AddLanguageForm';
 import { SelectLangList } from './SelectLangList/SelectLangList';
