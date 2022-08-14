@@ -1,7 +1,8 @@
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { FormEvent, useCallback, useMemo, useState } from 'react';
+import { useAppSelector } from 'components/App';
+import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { editCity, selectIsEnglishActiveLang, makeSelectCitiesNamesForState } from 'redux/slices';
+import { selectIsEnglishActiveLang } from 'redux/slices';
+import { isEdited } from 'utils';
 import { EditButton } from '../../../AddCountries/EditButton/EditButton';
 import { SubmitAddLocationButton } from '../../State/EditStateForm/EditStateForm.styled';
 
@@ -16,94 +17,66 @@ export const EditCityForm = ({
     cityPhotoURL,
     cityInternational,
     cityCode,
-    edited,
-    districts,
 
     langCode,
     stateInternational,
-    state,
+
     createdAt,
     updatedAt,
   },
 }: EditCityItemType) => {
   const [isEditingCity, setIsEditingCity] = useState(false);
-  const selectCitiesNamesForState = useMemo(makeSelectCitiesNamesForState, []);
-  const appDispatch = useAppDispatch();
 
   const [localCityName, setLocalCityName] = useState(cityName);
   const [localCityPhotoURL, setLocalCityPhotoURL] = useState(cityPhotoURL);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
-  const citiesNames = useAppSelector(rootState =>
-    selectCitiesNamesForState(rootState, { stateId })
-  );
 
   const setIsEditingCityTrue = useCallback(() => setIsEditingCity(true), []);
-
-  const handleSubmitEditCity = useCallback(
-    async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const cityPhotoURLTrimmed = localCityPhotoURL?.trim();
-      const cityNameTrimmed = localCityName?.trim();
-
-      if (!cityPhotoURLTrimmed || !cityNameTrimmed) {
-        toast('Please provide photo url and City name');
-        return;
-      }
-
-      if (citiesNames?.find(existingCityName => existingCityName === cityNameTrimmed)) {
-        toast.info(`${cityNameTrimmed} exists. Try another 'name'`);
-        return;
-      }
-
-      const updatedCity = {
-        stateId,
-        _id,
-        cityName: cityNameTrimmed,
-        cityPhotoURL: cityPhotoURLTrimmed,
-        cityInternational: !cityInternational && isEng ? cityNameTrimmed : cityInternational,
-        cityCode,
-        districts,
-        edited: Number(edited) + 1,
-
-        langCode,
-        stateInternational,
-        state,
-        createdAt,
-        updatedAt,
-      };
-
-      try {
-        appDispatch(editCity(updatedCity));
-        setIsEditingCity(false);
-      } catch (error) {
-        toast.error('City not updated');
-      }
-    },
-
-    [
-      localCityPhotoURL,
-      localCityName,
-      citiesNames,
-      stateId,
-      _id,
-      cityInternational,
-      isEng,
-      cityCode,
-      districts,
-      edited,
-      langCode,
-      stateInternational,
-      state,
-      createdAt,
-      updatedAt,
-      appDispatch,
-    ]
-  );
-
   const isInputDisabled = !isEditingCity;
   const isEditButtonDisabled = isEditingCity;
   const isSubmitDisabled = !localCityName?.trim() || !localCityPhotoURL?.trim();
-  const $isFirstEdit = !edited && !isEng;
+  const $isFirstEdit = !isEdited(createdAt, updatedAt) && !isEng;
+
+  const handleSubmitEditCity = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isSubmitDisabled) return;
+
+    const cityPhotoURLTrimmed = localCityPhotoURL?.trim();
+    const cityNameTrimmed = localCityName?.trim();
+
+    if (!cityPhotoURLTrimmed || !cityNameTrimmed) {
+      toast('Please provide photo url and City name');
+      return;
+    }
+
+    // if (citiesNames?.find(existingCityName => existingCityName === cityNameTrimmed)) {
+    //   toast.info(`${cityNameTrimmed} exists. Try another 'name'`);
+    //   return;
+    // }
+
+    const updatedCity = {
+      stateId,
+      _id,
+      cityName: cityNameTrimmed,
+      cityPhotoURL: cityPhotoURLTrimmed,
+      cityInternational: !cityInternational && isEng ? cityNameTrimmed : cityInternational,
+      cityCode,
+
+      langCode,
+      stateInternational,
+
+      createdAt,
+      updatedAt,
+    };
+
+    try {
+      // appDispatch(editCity(updatedCity));
+      console.log('handleSubmitEditCity ~ updatedCity', updatedCity);
+      setIsEditingCity(false);
+    } catch (error) {
+      toast.error('City not updated');
+    }
+  };
 
   return (
     <EditCityFormStyled onSubmit={handleSubmitEditCity}>

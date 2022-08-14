@@ -1,34 +1,27 @@
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { FormEvent, useCallback, useMemo, useState } from 'react';
+import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { addCity, makeSelectCitiesNamesForState } from 'redux/slices';
-import type { NewCityWithOutId } from 'types/apis';
+
+import type { AddCity } from 'types/apis';
 import { AddLocationButton } from '../../State/AddStateForm/AddStateForm.styled';
 import { SubmitAddLocationButton } from '../../State/EditStateForm/EditStateForm.styled';
 import { Row, AddCityFormStyled } from './AddCityForm.styled';
 
-export const AddCityForm = ({
-  stateId,
-  stateInternational,
-  state,
-}: {
+type AddCityFormProps = {
   stateId: string;
   stateInternational: string;
-  state: string;
-}) => {
-  const appDispatch = useAppDispatch();
-  const selectCitiesNamesForState = useMemo(makeSelectCitiesNamesForState, []);
-  const citiesNames = useAppSelector(rootState =>
-    selectCitiesNamesForState(rootState, { stateId })
-  );
+};
 
+export const AddCityForm = ({ stateId, stateInternational }: AddCityFormProps) => {
   const [isAddingCity, setIsAddingCity] = useState(false);
   const setAddingCityTrue = useCallback(() => setIsAddingCity(true), []);
+
+  const isLoading = false;
+  const isSubmitDisabled = isLoading;
 
   const handleSubmitAddCity = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-
+      if (isSubmitDisabled) return;
       const form = e.currentTarget;
 
       const content = new FormData(form);
@@ -40,36 +33,32 @@ export const AddCityForm = ({
         return;
       }
 
-      if (citiesNames?.find(existingCityName => existingCityName === cityName)) {
-        toast.info(`${cityName} exists. Fill new 'name'`);
-        return;
-      }
+      // if (citiesNames?.find(existingCityName => existingCityName === cityName)) {
+      //   toast.info(`${cityName} exists. Fill new 'name'`);
+      //   return;
+      // }
 
-      const newCity: NewCityWithOutId = {
+      const newCity: AddCity = {
         stateId,
         cityName,
         cityPhotoURL,
         cityInternational: cityName,
         cityCode: cityName.slice(0, 4).toUpperCase(),
-        edited: 0,
-        districts: [],
 
         langCode: 'EN',
         stateInternational,
-        state,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
       };
 
       try {
-        appDispatch(addCity(newCity));
+        // appDispatch(addCity(newCity));
+        console.log('newCity', newCity);
         setIsAddingCity(false);
         toast.success(`City ${cityName} added`);
       } catch (error) {
         toast.error('City not added');
       }
     },
-    [appDispatch, citiesNames, state, stateId, stateInternational]
+    [isSubmitDisabled, stateId, stateInternational]
   );
 
   return (
