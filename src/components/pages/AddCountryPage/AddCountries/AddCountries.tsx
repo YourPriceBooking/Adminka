@@ -1,42 +1,57 @@
-import { useGetLanguagesQuery } from 'redux/apis';
-import { useCallback, useRef, useState } from 'react';
-import { useAppSelector, useVisibleCountries } from 'hooks/redux';
-import { selectActiveCountryInternational, selectIsEnglishActiveLang } from 'redux/slices';
+import { RefObject, useCallback, useRef, useState } from 'react';
+import { useAppSelector } from 'components/App';
+import { selectActiveCountryName } from 'redux/slices';
+import { useSelectCountries } from 'redux/apis';
+import { EntityId } from '@reduxjs/toolkit';
 import { AddCountriesStyled, CountryEditorWrapper, ShowEditorButton } from './AddCountries.styled';
 import { Dropdown } from './Drowdown/Drowdown';
 
-export const AddCountries = () => {
-  const {
-    data: languages,
-    isLoading: isLoadingLanguagesFirstTime,
-    isFetching,
-  } = useGetLanguagesQuery();
+type ExpandButtonProps = {
+  toggleCountiesList: () => void;
+  toggleButtonRef: RefObject<HTMLButtonElement>;
+};
 
-  const visibleCountries = useVisibleCountries(languages);
+const ActiveCountryButton = ({ toggleCountiesList, toggleButtonRef }: ExpandButtonProps) => {
+  const activeCountryName = useAppSelector(selectActiveCountryName) ?? 'Select country';
 
+  return (
+    <ShowEditorButton type="button" ref={toggleButtonRef} onClick={toggleCountiesList}>
+      {activeCountryName}
+    </ShowEditorButton>
+  );
+};
+
+const render = {
+  AddCountries: 0,
+};
+
+type SelectCountriesProps = {
+  countryIds: EntityId[] | undefined;
+};
+
+const SelectCountries = ({ countryIds }: SelectCountriesProps) => {
+  console.log({ AddCountries: (render.AddCountries += 1) });
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
   const [showCountries, setShowCountries] = useState(false);
   const closeCountriesList = useCallback(() => setShowCountries(false), []);
   const toggleCountiesList = useCallback(() => setShowCountries(show => !show), []);
 
-  const isLoading = isLoadingLanguagesFirstTime || isFetching;
+  const isLoading = false;
 
-  const isEng = useAppSelector(selectIsEnglishActiveLang);
-  const activeCountryInternational =
-    useAppSelector(selectActiveCountryInternational) ?? 'Select country';
+  // <CountryListItem countryId={countryId}>
 
   return (
     <AddCountriesStyled>
       <CountryEditorWrapper>
-        <ShowEditorButton type="button" ref={toggleButtonRef} onClick={toggleCountiesList}>
-          {activeCountryInternational}
-        </ShowEditorButton>
+        <ActiveCountryButton
+          toggleCountiesList={toggleCountiesList}
+          toggleButtonRef={toggleButtonRef}
+        />
 
         {showCountries && (
           <Dropdown
+            countryIds={countryIds}
             closeCountriesList={closeCountriesList}
-            countries={visibleCountries}
-            isEng={isEng}
             isLoading={isLoading}
             toggleButtonRef={toggleButtonRef}
           />
@@ -44,4 +59,10 @@ export const AddCountries = () => {
       </CountryEditorWrapper>
     </AddCountriesStyled>
   );
+};
+
+export const AddCountries = () => {
+  const countryIds = useSelectCountries();
+
+  return <SelectCountries countryIds={countryIds} />;
 };

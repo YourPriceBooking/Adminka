@@ -1,24 +1,25 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
-import { CountriesResponse } from 'types/apis';
+import type { EntityId } from '@reduxjs/toolkit';
+import { useAppSelector } from 'components/App';
+import { selectIsEnglishActiveLang } from 'redux/slices';
 import { DropdownStyled } from './Drowdown.styled';
 import { EditCountriesList } from '../EditCountriesList/EditCountriesList';
 import { AddCountryForm } from '../AddCountryForm/AddCountryForm';
 
 type DropdownType = {
-  countries?: CountriesResponse;
-  isEng: boolean;
+  countryIds: EntityId[] | [] | undefined | null;
   closeCountriesList: () => void;
   isLoading: boolean;
   toggleButtonRef: RefObject<HTMLButtonElement>;
 };
 
 export const Dropdown = ({
-  countries,
-  isEng,
+  countryIds,
   closeCountriesList,
   isLoading,
   toggleButtonRef,
 }: DropdownType) => {
+  const isEng = useAppSelector(selectIsEnglishActiveLang);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isEditingCountry, setIsEditingCountry] = useState(false);
 
@@ -39,9 +40,9 @@ export const Dropdown = ({
 
   return (
     <DropdownStyled ref={dropdownRef}>
-      {countries?.length ? (
+      {countryIds?.length ? (
         <EditCountriesList
-          countries={countries}
+          countryIds={countryIds}
           isEditingCountry={isEditingCountry}
           setIsEditingCountry={setIsEditingCountry}
           closeCountriesList={closeCountriesList}
