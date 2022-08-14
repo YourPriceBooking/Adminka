@@ -1,5 +1,5 @@
-import type { Language } from 'types/apis';
-import { FormEvent, useCallback, useState } from 'react';
+import type { AddLanguage, Language } from 'types/apis';
+import { FormEvent, useState } from 'react';
 import { useAddLanguageMutation } from 'redux/apis';
 import { toast } from 'react-toastify';
 import slang from '../AddLanguages.module.scss';
@@ -7,45 +7,42 @@ import slang from '../AddLanguages.module.scss';
 type AddLanguageFormProps = {
   closeModal: () => void;
   selectLang: (activeLang: Language) => void;
-  isLoading: boolean;
 };
 
-export const AddLanguageForm = ({ closeModal, selectLang, isLoading }: AddLanguageFormProps) => {
+export const AddLanguageForm = ({ closeModal, selectLang }: AddLanguageFormProps) => {
   const [addLanguage, { isLoading: isAddingLanguage }] = useAddLanguageMutation();
 
   const [localNewLangName, setLocalNewLangName] = useState('');
   const [localNewLangCode, setLocalNewLangCode] = useState('');
 
-  const isSubmitDisabled =
-    !localNewLangName.trim() || !localNewLangCode.trim() || isLoading || isAddingLanguage;
+  const isSubmitDisabled = !localNewLangName.trim() || !localNewLangCode.trim() || isAddingLanguage;
 
-  const onSubmitAddLanguage = useCallback(
-    async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const form = e.currentTarget;
-      const formData = new FormData(form);
-      const lang = formData.get('newLanguageName')?.toString().trim();
-      const code = formData.get('newLanguageCode')?.toString().trim().toUpperCase();
-      // console.log({ code, lang });
-      if (!lang || !code) return;
+  const onSubmitAddLanguage = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isSubmitDisabled) return;
 
-      const newLanguage = { lang, code };
+    const lang = localNewLangName.trim();
+    const code = localNewLangCode.trim().toUpperCase();
+    if (!lang || !code) return;
 
-      try {
-        const payload = await addLanguage(newLanguage).unwrap();
-        if (payload) {
-          selectLang(payload);
-        }
-      } catch (error) {
-        toast.error('Language not added - please try again');
-        // console.log(error);
-      } finally {
-        form.reset();
-        closeModal();
+    const newLanguage: AddLanguage = { lang, code };
+
+    try {
+      const payload = await addLanguage(newLanguage).unwrap();
+      console.log({ payload });
+
+      if (payload) {
+        selectLang(payload);
+        toast.success(`${newLanguage.lang} language added`);
       }
-    },
-    [addLanguage, closeModal, selectLang]
-  );
+    } catch (error: any) {
+      toast.error(`Language not added ${error?.data?.message}`);
+    } finally {
+      setLocalNewLangName('');
+      setLocalNewLangCode('');
+      closeModal();
+    }
+  };
 
   return (
     <form className={slang.block_add_lang_text} onSubmit={onSubmitAddLanguage}>
