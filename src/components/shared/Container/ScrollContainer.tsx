@@ -1,11 +1,12 @@
-import { useAppSelector } from 'hooks/redux';
-import { selectModalCount } from 'redux/slices';
+import { useToggleNoScroll } from 'hooks/ui/modal';
 import { PropsWithChildren } from 'react';
 import { ScrollContainerStyled } from './Container.styled';
 
 export const ScrollContainer = ({ children }: PropsWithChildren) => {
-  const modalCount = useAppSelector(selectModalCount);
-  const isModalOpen = modalCount > 0;
-
-  return <ScrollContainerStyled isModalOpen={isModalOpen}>{children}</ScrollContainerStyled>;
+  const { isModalOpen, scrollWidth, ref } = useToggleNoScroll();
+  return (
+    <ScrollContainerStyled ref={ref} scrollWidth={scrollWidth} isModalOpen={isModalOpen}>
+      {children}
+    </ScrollContainerStyled>
+  );
 };

@@ -17,12 +17,16 @@ export const ContainerStyled = styled.div`
 
 type ScrollProps = {
   isModalOpen: boolean;
+  scrollWidth: number;
 };
 
-export const ScrollContainerStyled = styled.div.attrs(({ isModalOpen }: ScrollProps) => ({
-  isModalOpen,
-}))`
+export const ScrollContainerStyled = styled.div.attrs(
+  ({ isModalOpen, scrollWidth }: ScrollProps) => ({
+    isModalOpen,
+    scrollWidth,
+  })
+)`
   overflow-y: ${({ isModalOpen }) => (isModalOpen ? 'hidden' : 'scroll')};
-  padding-right: ${({ isModalOpen }) => isModalOpen && '17px'};
+  margin-right: ${({ isModalOpen, scrollWidth }) => isModalOpen && `${scrollWidth}px`};
   min-height: 100vh;
 `;
