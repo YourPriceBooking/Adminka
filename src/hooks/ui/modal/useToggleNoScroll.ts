@@ -1,4 +1,4 @@
-import { useAppSelector } from 'hooks/redux';
+import { useAppSelector } from 'components/App';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { selectIsModalOpen } from 'redux/slices';
 import { getScrollWidth } from 'utils';

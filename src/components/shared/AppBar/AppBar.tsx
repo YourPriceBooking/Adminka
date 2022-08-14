@@ -1,4 +1,4 @@
-import { useAppSelector } from 'hooks/redux';
+import { useAppSelector } from 'components/App';
 import { selectIsLoggedIn } from 'redux/slices';
 import { AppBarStyled } from './AppBar.styled';
 import { NavBar } from './NavBar/NavBar';

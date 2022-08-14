@@ -1,5 +1,5 @@
 import { Navigate, useLocation, Outlet } from 'react-router-dom';
-import { useAppSelector } from 'hooks/redux';
+import { useAppSelector } from 'components/App';
 import { selectIsLoggedIn } from 'redux/slices';
 
 type RouteType = {
