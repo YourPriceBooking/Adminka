@@ -1,12 +1,7 @@
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { FormEvent, useCallback, useMemo, useState } from 'react';
+import { useAppSelector } from 'components/App';
+import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import {
-  editDistrict,
-  selectIsEnglishActiveLang,
-  makeSelectDistrictNamesForStateAndCity,
-  selectActiveLang,
-} from 'redux/slices';
+import { selectIsEnglishActiveLang, selectActiveLang } from 'redux/slices';
 
 import { EditButton } from '../../../AddCountries/EditButton/EditButton';
 import { SubmitAddLocationButton } from '../../State/EditStateForm/EditStateForm.styled';
@@ -32,16 +27,9 @@ export const EditDistrictForm = ({
     edited,
   },
 }: EditDistrictItemType) => {
-  const appDispatch = useAppDispatch();
-
   const activeLang = useAppSelector(selectActiveLang);
 
   const [isEditingDistrict, setIsEditingDistrict] = useState(false);
-  const selectDistrictNamesForStateAndCity = useMemo(makeSelectDistrictNamesForStateAndCity, []);
-
-  const districtNames = useAppSelector(state =>
-    selectDistrictNamesForStateAndCity(state, { stateId, cityId })
-  );
 
   const [localDistrictName, setLocalDistrictName] = useState(districtName);
   const [localDistrictPhotoURL, setLocalDistrictPhotoURL] = useState(districtPhotoURL);
@@ -49,72 +37,55 @@ export const EditDistrictForm = ({
 
   const setIsEditingDistrictTrue = useCallback(() => setIsEditingDistrict(true), []);
 
-  const handleSubmitEditDistrict = useCallback(
-    async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const districtPhotoURLTrimmed = localDistrictPhotoURL?.trim();
-      const districtNameTrimmed = localDistrictName?.trim();
-
-      if (!districtPhotoURLTrimmed || !districtNameTrimmed) {
-        toast('Please provide photo url and District name');
-        return;
-      }
-
-      if (
-        districtNames?.find(existingDistrictName => existingDistrictName === districtNameTrimmed)
-      ) {
-        toast.info(`${districtNameTrimmed} exists. Try another 'name'`);
-        return;
-      }
-
-      const updatedDistrict = {
-        stateId,
-        cityId,
-
-        _id,
-        districtName: districtNameTrimmed,
-        districtPhotoURL: districtPhotoURLTrimmed,
-        districtInternational:
-          !districtInternational && isEng ? districtNameTrimmed : districtInternational,
-        districtCode,
-        edited: Number(edited) + 1,
-
-        cityInternational, // TODO: check if it arrives
-        langCode: activeLang.code,
-        dbLangCode: activeLang.dbLangCode,
-      };
-
-      try {
-        appDispatch(editDistrict(updatedDistrict));
-        setIsEditingDistrict(false);
-        // toast.success('District updated');
-      } catch (error) {
-        toast.error('District not updated');
-      }
-    },
-
-    [
-      localDistrictPhotoURL,
-      localDistrictName,
-      districtNames,
-      stateId,
-      cityId,
-      _id,
-      districtInternational,
-      isEng,
-      districtCode,
-      edited,
-      cityInternational,
-      activeLang.code,
-      activeLang.dbLangCode,
-      appDispatch,
-    ]
-  );
-
   const isInputDisabled = !isEditingDistrict;
   const isEditButtonDisabled = isEditingDistrict;
-  const isSubmitDisabled = !localDistrictName?.trim() || !localDistrictPhotoURL?.trim();
+  const isSubmitDisabled =
+    !localDistrictName?.trim() || !localDistrictPhotoURL?.trim() || !activeLang;
   const $isFirstEdit = !edited && !isEng;
+
+  const handleSubmitEditDistrict = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isSubmitDisabled) return;
+
+    const districtPhotoURLTrimmed = localDistrictPhotoURL?.trim();
+    const districtNameTrimmed = localDistrictName?.trim();
+
+    if (!districtPhotoURLTrimmed || !districtNameTrimmed) {
+      toast('Please provide photo url and District name');
+      return;
+    }
+
+    // if (districtNames?.find(existingDistrictName => existingDistrictName === districtNameTrimmed)) {
+    //   toast.info(`${districtNameTrimmed} exists. Try another 'name'`);
+    //   return;
+    // }
+
+    const updatedDistrict = {
+      stateId,
+      cityId,
+
+      _id,
+      districtName: districtNameTrimmed,
+      districtPhotoURL: districtPhotoURLTrimmed,
+      districtInternational:
+        !districtInternational && isEng ? districtNameTrimmed : districtInternational,
+      districtCode,
+      edited: Number(edited) + 1,
+
+      cityInternational, // TODO: check if it arrives
+      langCode: activeLang.code,
+      dbLangCode: activeLang.dbLangCode,
+    };
+
+    try {
+      // appDispatch(editDistrict(updatedDistrict));
+      console.log('handleSubmitEditDistrict ~ updatedDistrict', updatedDistrict);
+      setIsEditingDistrict(false);
+      // toast.success('District updated');
+    } catch (error) {
+      toast.error('District not updated');
+    }
+  };
 
   return (
     <EditDistrictFormStyled onSubmit={handleSubmitEditDistrict}>

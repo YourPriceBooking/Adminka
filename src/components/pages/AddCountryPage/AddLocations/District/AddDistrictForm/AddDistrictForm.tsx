@@ -1,34 +1,25 @@
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { FormEvent, useCallback, useMemo, useState } from 'react';
+import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { addDistrict, makeSelectDistrictNamesForStateAndCity } from 'redux/slices';
 import type { NewDistrictWithOutId } from 'types/apis';
 import { AddLocationButton } from '../../State/AddStateForm/AddStateForm.styled';
 import { SubmitAddLocationButton } from '../../State/EditStateForm/EditStateForm.styled';
 import { Row, AddDistrictFormStyled } from './AddDistrictForm.styled';
 
 export const AddDistrictForm = ({ stateId, cityId }: { stateId: string; cityId: string }) => {
-  const selectDistrictNamesForActiveStateAndCity = useMemo(
-    makeSelectDistrictNamesForStateAndCity,
-    []
-  );
-
-  const appDispatch = useAppDispatch();
-
   // const selectMemoizedDistrictNames = useMemo(selectDistrictNamesForActiveStateAndCity, []);
 
-  const districtsNames = useAppSelector(state =>
-    selectDistrictNamesForActiveStateAndCity(state, { stateId, cityId })
-  );
   // const districtsNames = useAppSelector(state => selectMemoizedDistrictNames(state, stateId, cityId));
 
   const [isAddingDistrict, setIsAddingDistrict] = useState(false);
   const setAddingDistrictTrue = useCallback(() => setIsAddingDistrict(true), []);
 
+  const isLoading = false;
+  const isSubmitDisabled = isLoading;
+
   const handleSubmitAddDistrict = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-
+      if (isSubmitDisabled) return;
       const form = e.currentTarget;
 
       const content = new FormData(form);
@@ -40,10 +31,10 @@ export const AddDistrictForm = ({ stateId, cityId }: { stateId: string; cityId: 
         return;
       }
 
-      if (districtsNames?.find(existingDistrictName => existingDistrictName === districtName)) {
-        toast.info(`${districtName} exists. Fill new 'name'`);
-        return;
-      }
+      // if (districtsNames?.find(existingDistrictName => existingDistrictName === districtName)) {
+      //   toast.info(`${districtName} exists. Fill new 'name'`);
+      //   return;
+      // }
 
       const newDistrict: NewDistrictWithOutId = {
         stateId,
@@ -61,14 +52,15 @@ export const AddDistrictForm = ({ stateId, cityId }: { stateId: string; cityId: 
       };
 
       try {
-        appDispatch(addDistrict(newDistrict));
+        // appDispatch(addDistrict(newDistrict));
+        console.log('newDistrict', newDistrict);
         setAddingDistrictTrue();
         toast.success(`District ${districtName} added`);
       } catch (error) {
         toast.error('District not added');
       }
     },
-    [appDispatch, districtsNames, cityId, setAddingDistrictTrue, stateId]
+    [isSubmitDisabled, stateId, cityId, setAddingDistrictTrue]
   );
 
   return (
