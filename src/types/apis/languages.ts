@@ -1,3 +1,4 @@
+import type { EntityState } from '@reduxjs/toolkit';
 import type { Country } from './countries';
 
 export type SelectLanguageType = {
@@ -8,12 +9,15 @@ export type SelectLanguageType = {
   createdAt: string;
   updatedAt: string;
 };
+export type LanguageWithoutCountries = SelectLanguageType[];
 
 export type SelectLangType = (arg: SelectLanguageType) => void;
 
 export type Language = SelectLanguageType & {
   countries: Country[];
 };
+
+export type LanguagesAdapter = EntityState<Language>;
 
 export type InitLanguagesResponse = { data: { languages: Language[] } };
 
