@@ -1,11 +1,12 @@
-import { MouseEvent, PropsWithChildren } from 'react';
+import { MouseEvent, ReactNode } from 'react';
 import { AddDirButtonStyled } from './AddDirButton.styled';
 
 type AddDirButtonType = {
   onClick: (e: MouseEvent<HTMLButtonElement>) => void;
   disabled: boolean;
   type?: 'button' | 'submit' | 'reset' | undefined;
-} & PropsWithChildren;
+  children?: ReactNode;
+};
 
 export const AddDirButton = ({
   onClick,

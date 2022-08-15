@@ -1,10 +1,9 @@
 import { RefObject, useCallback, useRef, useState } from 'react';
 import { useAppSelector } from 'App';
-import { selectActiveCountryName } from 'features/slices';
-import { useSelectCountries } from 'features/apis';
 import { EntityId } from '@reduxjs/toolkit';
+import { selectActiveCountryName } from 'features/countries';
 import { AddCountriesStyled, CountryEditorWrapper, ShowEditorButton } from './AddCountries.styled';
-import { Dropdown } from './Drowdown/Drowdown';
+import { Dropdown } from './Drowdown';
 
 type ExpandButtonProps = {
   toggleCountiesList: () => void;
@@ -62,7 +61,7 @@ const SelectCountries = ({ countryIds }: SelectCountriesProps) => {
 };
 
 export const AddCountries = () => {
-  const countryIds = useSelectCountries();
+  const countryIds = undefined;
 
   return <SelectCountries countryIds={countryIds} />;
 };

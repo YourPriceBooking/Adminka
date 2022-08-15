@@ -1,8 +1,8 @@
 import { Modal } from 'components/shared/Modal/Modal';
-import { useGetLanguagesQuery, useSelectLanguages } from 'features/apis';
 import { useModal, useSelectLanguage } from 'common/hooks';
 import type { LanguageWithoutCountries } from 'types/apis';
 import { logRender } from 'common/utils';
+import { useGetLanguagesQuery, useSelectLanguages } from 'features/languages';
 import slang from './AddLanguages.module.scss';
 import { AddLanguageForm } from './AddLanguageForm/AddLanguageForm';
 import { SelectLangList } from './SelectLangList/SelectLangList';

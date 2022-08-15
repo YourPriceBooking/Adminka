@@ -1,6 +1,6 @@
 import { useAppSelector } from 'App';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { selectIsModalOpen } from 'features/slices';
+import { selectIsModalOpen } from 'features/common';
 import { getScrollWidth } from 'common/utils';
 
 export const useToggleNoScroll = () => {

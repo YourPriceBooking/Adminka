@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // import { languagesApi } from 'redux/apis';
 import type { SelectLanguageType } from 'types/apis';
-import type { RootState } from 'features/store';
+import type { RootState } from 'App/store';
 
 type LanguageState = {
   activeLang: SelectLanguageType | null;
@@ -56,7 +56,9 @@ export const langReducer = langSlice.reducer;
 
 export const selectActiveLang = (state: RootState) => state.lang.activeLang;
 export const selectActiveLangId = (state: RootState) => selectActiveLang(state)?._id;
+export const selectActiveLangName = (state: RootState) => selectActiveLang(state)?.lang;
 export const selectActiveLangCode = (state: RootState) => selectActiveLang(state)?.code;
+export const selectActiveDBLangCode = (state: RootState) => selectActiveLang(state)?.dbLangCode;
 export const selectIsEnglishActiveLang = (state: RootState) => selectActiveLangCode(state) === 'EN';
 
 // const langFactory = languagesApi.endpoints.getLanguages.select();

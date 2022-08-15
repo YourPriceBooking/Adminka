@@ -1,8 +1,9 @@
 import type { State } from 'types/apis';
 import { useCallback, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'App';
-import { incrementCounter, selectCounterValue, selectDev } from 'features/slices';
+import { incrementCounter, selectCounterValue } from 'features/common';
 import { logRender } from 'common/utils';
+import { selectDev } from 'features/countries';
 import { EditStateItem } from './EditStateItem';
 import { EditStatesListStyled, TotalStatesIndicator } from './EditStatesList.styled';
 

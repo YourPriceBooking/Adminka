@@ -9,7 +9,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useAppSelector } from 'App';
-import { selectDev } from 'features/slices';
+import { selectDev } from 'features/countries';
 
 const dev = process.env.NODE_ENV === 'development';
 

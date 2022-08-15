@@ -13,8 +13,15 @@ export type LanguageWithoutCountries = SelectLanguageType[];
 
 export type SelectLangType = (arg: SelectLanguageType) => void;
 
-export type Language = SelectLanguageType & {
+export type Language = {
+  _id: string;
+  lang: string;
+  code: string;
+  dbLangCode: string;
+
   countries: Country[];
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type LanguagesAdapter = EntityState<Language>;

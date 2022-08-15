@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useAppSelector } from 'App';
-import { selectActiveTheme } from 'features/slices';
+import { selectActiveTheme } from 'features/common';
 import {
   breakpoints,
   fonts,

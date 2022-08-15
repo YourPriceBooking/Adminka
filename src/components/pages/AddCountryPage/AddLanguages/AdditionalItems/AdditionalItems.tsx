@@ -1,30 +1,26 @@
-import type { SelectLanguageType } from 'types/apis';
 import { useAppSelector } from 'App';
-import { selectActiveLang } from 'features/slices';
+import { selectActiveLangCode, selectActiveLangName } from 'features/languages';
 import slang from '../AddLanguages.module.scss';
 import { ShowLanguagesButton } from '../AddLanguages.styled';
-
-export const ButtonLabel = ({ activeLanguage }: { activeLanguage: SelectLanguageType }) => (
-  <>
-    <p className={slang.block_lang_p}>{activeLanguage.lang}</p>
-    <p className={slang.block_lang_p2}>{activeLanguage.code}</p>
-  </>
-);
 
 export type ButtonSelectLanguageType = {
   openModal: () => void;
 };
 
 export const ButtonSelectLanguage = ({ openModal }: ButtonSelectLanguageType) => {
-  const activeLanguage = useAppSelector(selectActiveLang);
+  const activeLangCode = useAppSelector(selectActiveLangCode);
+  const activeLangName = useAppSelector(selectActiveLangName);
 
   return (
     <ShowLanguagesButton onClick={openModal} type="button">
-      {activeLanguage?.code ? (
-        <ButtonLabel activeLanguage={activeLanguage} />
-      ) : (
-        <p className={slang.block_lang_p}>Select language</p>
+      {activeLangCode && (
+        <>
+          <p className={slang.block_lang_p}>{activeLangName}</p>
+          <p className={slang.block_lang_p2}>{activeLangCode}</p>
+        </>
       )}
+
+      {!activeLangCode && <p className={slang.block_lang_p}>Select language</p>}
     </ShowLanguagesButton>
   );
 };

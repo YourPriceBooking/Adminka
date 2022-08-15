@@ -39,14 +39,13 @@ export const AddDistrictForm = ({ stateId, cityId }: { stateId: string; cityId: 
       const newDistrict: NewDistrictWithOutId = {
         stateId,
         cityId,
+        cityInternational: '',
 
         districtName,
         districtPhotoURL,
         districtInternational: districtName,
         districtCode: districtName.slice(0, 4).toUpperCase(),
-        edited: 0,
 
-        cityInternational: '',
         langCode: 'EN',
         dbLangCode: 'EN',
       };

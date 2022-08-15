@@ -1,11 +1,20 @@
 import { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'App';
-import { setActiveCountry, selectDev, selectActiveLang } from 'features/slices';
-import { useEditCountryMutation, useDeleteCountryMutation } from 'features/apis';
 import { toast } from 'react-toastify';
 import type { ActiveCountry, EditCountry } from 'types/apis';
 
 import type { EntityId } from '@reduxjs/toolkit';
+import {
+  selectDev,
+  setActiveCountry,
+  useDeleteCountryMutation,
+  useEditCountryMutation,
+} from 'features/countries';
+import {
+  selectActiveLangCode,
+  selectActiveLangId,
+  selectIsEnglishActiveLang,
+} from 'features/languages';
 import {
   CountryInputLabel,
   EditCountryFormStyled,
@@ -46,9 +55,10 @@ export const EditCountryForm = ({
 
   console.log(countryId);
 
-  const activeLang = useAppSelector(selectActiveLang);
+  const activeLangId = useAppSelector(selectActiveLangId);
+  const activeLangCode = useAppSelector(selectActiveLangCode);
+  const isEng = useAppSelector(selectIsEnglishActiveLang);
   const showDev = useAppSelector(selectDev);
-  const isEngActive = activeLang?.code === 'EN';
 
   const [localCountryName, setLocalCountryName] = useState(country);
   const [inputDisabled, setInputDisabled] = useState(true);
@@ -57,7 +67,11 @@ export const EditCountryForm = ({
   const isPending = isLoading || isLoadingEditedCountry || isDeletingCountry;
   const isDisabledEdit = !inputDisabled || isPending;
   const isDisabledSubmit =
-    isSubmitButtonDisabled || !localCountryName.trim() || isPending || !activeLang;
+    isSubmitButtonDisabled ||
+    !localCountryName.trim() ||
+    isPending ||
+    !activeLangId ||
+    !activeLangCode;
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -67,9 +81,9 @@ export const EditCountryForm = ({
     const editedCountry: EditCountry = {
       _id,
       country: editedCountryName,
-      langCode: activeLang.code,
+      langCode: activeLangCode,
       international,
-      activeLangId: activeLang._id,
+      activeLangId,
     };
 
     try {
@@ -145,7 +159,7 @@ export const EditCountryForm = ({
     closeCountriesList,
   ]);
 
-  const isFirstEdit = langCode?.toUpperCase() === 'EN' && !isEngActive;
+  const isFirstEdit = langCode?.toUpperCase() === 'EN' && !isEng;
 
   useEffect(() => {
     if (inputDisabled) return () => {};

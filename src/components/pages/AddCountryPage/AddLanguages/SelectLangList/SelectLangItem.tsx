@@ -1,9 +1,10 @@
 import type { SelectLangType, SelectLanguageType } from 'types/apis';
-import { useDeleteLanguageMutation } from 'features/apis';
-import { selectDev, setActiveLang } from 'features/slices';
+
 import { useAppDispatch, useAppSelector } from 'App';
 import { useCallback } from 'react';
 import { toast } from 'react-toastify';
+import { setActiveLang, useDeleteLanguageMutation } from 'features/languages';
+import { selectDev } from 'features/countries';
 import { DeleteButton, DeleteIcon, SelectButton } from './SelectLangItem.styled';
 import slang from '../AddLanguages.module.scss';
 

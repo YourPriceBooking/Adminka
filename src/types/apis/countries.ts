@@ -17,8 +17,17 @@ export type ActiveCountry = {
   updatedAt: string;
 };
 
-export type Country = ActiveCountry & {
+export type Country = {
+  _id: string;
+  international: string;
+  country: string;
+
+  langCode: string;
+  dbLangCode: string;
+
   states: State[];
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type InitCountriesResponse = { data: { result: Country[] } };

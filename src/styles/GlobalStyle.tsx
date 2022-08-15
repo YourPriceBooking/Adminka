@@ -1,11 +1,15 @@
 import { createGlobalStyle } from 'styled-components/macro';
 
-export const GlobalStyle = createGlobalStyle`
+const styled = { createGlobalStyle };
+
+export const GlobalStyle = styled.createGlobalStyle`
   html {
     box-sizing: border-box;
   }
 
-  *, ::before, ::after {
+  *,
+  ::before,
+  ::after {
     box-sizing: inherit;
   }
 
@@ -26,12 +30,21 @@ export const GlobalStyle = createGlobalStyle`
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
   }
 
-  h1, h2, h3, h4, ul, ol, li, p, a {
+  h1,
+  h2,
+  h3,
+  h4,
+  ul,
+  ol,
+  li,
+  p,
+  a {
     padding: 0;
     margin: 0;
   }
 
-  ul, ol {
+  ul,
+  ol {
     list-style: none;
   }
 

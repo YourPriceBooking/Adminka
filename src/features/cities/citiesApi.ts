@@ -1,5 +1,5 @@
 import type { AddCity, EditCity, CitiesArray } from 'types/apis';
-import { api } from './api';
+import { api } from '../api/api';
 
 export const statesApi = api.injectEndpoints({
   endpoints: builder => ({

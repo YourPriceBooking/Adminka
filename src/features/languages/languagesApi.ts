@@ -10,13 +10,12 @@ import type {
   LanguagesAdapter,
   LanguagesResponse,
 } from 'types/apis';
-import type { RootState } from 'features/store';
+import type { RootState } from 'App/store';
 
 import { useAppSelector } from 'App';
-import { useMemo } from 'react';
-import { selectActiveLangId } from 'features/slices';
+
 import { logRender } from 'common/utils';
-import { api, frozenArr } from './api';
+import { api, frozenArr } from 'features/api';
 
 const languagesAdapter = createEntityAdapter<Language>({
   selectId: language => language._id,
@@ -130,17 +129,4 @@ export const useSelectLanguages = () => {
   console.log('useSelectLanguages ~ allLanguages', allLanguages);
   logRender('useSelectLanguages');
   return allLanguages;
-};
-
-export const useSelectCountries = () => {
-  const activeLangId = useAppSelector(selectActiveLangId) ?? '';
-  const activeLanguage = useAppSelector(state => selectLanguageById(state, activeLangId));
-  const countriesForActiveLanguage = activeLanguage?.countries;
-  const countriesWithoutStates = useMemo(
-    () => countriesForActiveLanguage?.map(({ _id }) => _id),
-    [countriesForActiveLanguage]
-  );
-  console.log('useSelectCountries ~ countriesWithoutStates', countriesWithoutStates);
-  logRender('useSelectCountries');
-  return countriesWithoutStates;
 };

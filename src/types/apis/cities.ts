@@ -13,11 +13,21 @@ export type AddCity = {
 };
 
 export type City = {
+  stateId: string;
+  stateInternational: string;
+
   _id: string;
+  cityName: string;
+  cityInternational: string;
+  cityCode: string;
+  cityPhotoURL: string;
+
+  langCode: string;
+
   districts: District[];
   createdAt: string;
   updatedAt: string;
-} & AddCity;
+};
 
 export type CitiesArray = City[];
 export type InitCitiesResponse = { data: { cities: City[] } };

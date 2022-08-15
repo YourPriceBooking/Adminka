@@ -1,7 +1,8 @@
 import type { AddLanguage, Language } from 'types/apis';
 import { FormEvent, useState } from 'react';
-import { useAddLanguageMutation } from 'features/apis';
+
 import { toast } from 'react-toastify';
+import { useAddLanguageMutation } from 'features/languages';
 import slang from '../AddLanguages.module.scss';
 
 type AddLanguageFormProps = {

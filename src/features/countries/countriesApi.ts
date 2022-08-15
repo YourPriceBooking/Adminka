@@ -13,8 +13,8 @@ import type {
   // InitCountriesResponse,
   // InitCountryResponse,
 } from 'types/apis';
-import { api /* emptyArray */ } from './api';
-import { languagesApi } from './languagesApi';
+import { api /* emptyArray */ } from '../api/api';
+import { languagesApi } from '../languages/languagesApi';
 
 // const countriesAdapter = createEntityAdapter<Country>({
 //   selectId: country => country._id,

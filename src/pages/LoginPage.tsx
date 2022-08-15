@@ -3,7 +3,7 @@ import { useAppDispatch } from 'App';
 import { FormEvent, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { login, selectIsLoggedIn } from 'features/slices';
+import { login, selectIsLoggedIn } from 'features/common';
 
 const style = {
   container: { display: 'flex', alignItems: 'center', justifyContent: 'center', height: '90vh' },

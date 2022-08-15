@@ -1,6 +1,6 @@
 import { Navigate, useLocation, Outlet } from 'react-router-dom';
 import { useAppSelector } from 'App';
-import { selectIsLoggedIn } from 'features/slices';
+import { selectIsLoggedIn } from 'features/common';
 
 type RouteType = {
   navigateTo?: string;

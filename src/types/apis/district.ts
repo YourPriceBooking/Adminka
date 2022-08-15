@@ -1,24 +1,50 @@
 export type NewDistrictWithOutId = {
   stateId: string;
   cityId: string;
+  cityInternational: string;
 
   districtName: string;
   districtInternational: string;
   districtCode: string;
   districtPhotoURL: string;
-  edited: number;
 
-  cityInternational: string;
   langCode: string;
   dbLangCode: string;
-  __v?: number;
 };
 
 export type District = {
-  _id: string;
-} & NewDistrictWithOutId;
+  stateId: string;
+  cityId: string;
+  cityInternational: string;
 
-export type EditDistrict = District;
+  _id: string;
+  districtName: string;
+  districtInternational: string;
+  districtCode: string;
+  districtPhotoURL: string;
+
+  langCode: string;
+  dbLangCode: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type EditDistrict = {
+  stateId: string;
+  cityId: string;
+  cityInternational: string;
+
+  _id: string;
+  districtName: string;
+  districtInternational: string;
+  districtCode: string;
+  districtPhotoURL: string;
+
+  langCode: string;
+  dbLangCode: string;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export type DeleteDistrict = {
   _id: string;

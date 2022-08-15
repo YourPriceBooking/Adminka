@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from 'App';
 import { useCallback } from 'react';
-import { selectActiveTheme, setTheme } from 'features/slices';
+import { selectActiveTheme, setTheme } from 'features/common';
 import {
   ThemeSwitchStyled,
   ThemeSwitchButtonLight,

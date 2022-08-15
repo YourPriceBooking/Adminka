@@ -1,13 +1,15 @@
 import { useAppSelector } from 'App';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { selectIsEnglishActiveLang } from 'features/slices';
-import { isEdited } from 'common/utils';
-import { EditButton } from '../../../AddCountries/EditButton/EditButton';
-import { SubmitAddLocationButton } from '../../State/EditStateForm/EditStateForm.styled';
 
+import { isEdited } from 'common/utils';
+
+import { EditButton } from 'components/pages/AddCountryPage/AddCountries/EditButton/EditButton';
+
+import { selectIsEnglishActiveLang } from 'features/languages';
 import { EditCityFormStyled, CityInfo, EditCityPhotoURLInput } from './EditCityForm.styled';
 import type { EditCityItemType } from '../EditCitiesList/EditCityItem';
+import { SubmitAddLocationButton } from '../../State/EditStateForm/EditStateForm.styled';
 
 export const EditCityForm = ({
   city: {

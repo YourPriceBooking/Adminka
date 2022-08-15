@@ -1,11 +1,17 @@
 import { useAppSelector } from 'App';
+import { isEdited } from 'common/utils';
+import {
+  selectActiveLangCode,
+  selectActiveDBLangCode,
+  selectIsEnglishActiveLang,
+} from 'features/languages';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { selectIsEnglishActiveLang, selectActiveLang } from 'features/slices';
+import type { EditDistrict } from 'types/apis';
+import type { EditDistrictItemType } from '../EditDistrictsList/EditDistrictItem';
 
 import { EditButton } from '../../../AddCountries/EditButton/EditButton';
 import { SubmitAddLocationButton } from '../../State/EditStateForm/EditStateForm.styled';
-import type { EditDistrictItemType } from '../EditDistrictsList/EditDistrictItem';
 
 import {
   EditDistrictFormStyled,
@@ -24,24 +30,29 @@ export const EditDistrictForm = ({
     districtPhotoURL,
     districtInternational,
     districtCode,
-    edited,
+    createdAt,
+    updatedAt,
   },
 }: EditDistrictItemType) => {
-  const activeLang = useAppSelector(selectActiveLang);
+  const activeLangCode = useAppSelector(selectActiveLangCode);
+  const activeDBLangCode = useAppSelector(selectActiveDBLangCode);
+  const isEng = useAppSelector(selectIsEnglishActiveLang);
 
   const [isEditingDistrict, setIsEditingDistrict] = useState(false);
 
   const [localDistrictName, setLocalDistrictName] = useState(districtName);
   const [localDistrictPhotoURL, setLocalDistrictPhotoURL] = useState(districtPhotoURL);
-  const isEng = useAppSelector(selectIsEnglishActiveLang);
 
   const setIsEditingDistrictTrue = useCallback(() => setIsEditingDistrict(true), []);
 
   const isInputDisabled = !isEditingDistrict;
   const isEditButtonDisabled = isEditingDistrict;
   const isSubmitDisabled =
-    !localDistrictName?.trim() || !localDistrictPhotoURL?.trim() || !activeLang;
-  const $isFirstEdit = !edited && !isEng;
+    !localDistrictName?.trim() ||
+    !localDistrictPhotoURL?.trim() ||
+    !activeLangCode ||
+    !activeDBLangCode;
+  const $isFirstEdit = !isEdited(createdAt, updatedAt) && !isEng;
 
   const handleSubmitEditDistrict = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -60,9 +71,10 @@ export const EditDistrictForm = ({
     //   return;
     // }
 
-    const updatedDistrict = {
+    const updatedDistrict: EditDistrict = {
       stateId,
       cityId,
+      cityInternational, // TODO: check if it arrives
 
       _id,
       districtName: districtNameTrimmed,
@@ -70,11 +82,12 @@ export const EditDistrictForm = ({
       districtInternational:
         !districtInternational && isEng ? districtNameTrimmed : districtInternational,
       districtCode,
-      edited: Number(edited) + 1,
 
-      cityInternational, // TODO: check if it arrives
-      langCode: activeLang.code,
-      dbLangCode: activeLang.dbLangCode,
+      langCode: activeLangCode,
+      dbLangCode: activeDBLangCode,
+
+      createdAt,
+      updatedAt,
     };
 
     try {

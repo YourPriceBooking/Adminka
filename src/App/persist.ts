@@ -1,7 +1,8 @@
+import { api } from 'features/api';
 import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import sessionStorage from 'redux-persist/lib/storage/session';
-import { api } from './apis';
-import { rootReducer } from './reducers/rootReducer';
+
+import { rootReducer } from './rootReducer';
 
 const rootPersistConfig = {
   key: 'root',
