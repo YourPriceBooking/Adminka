@@ -6,27 +6,48 @@ import { isEdited } from 'common/utils';
 
 import { EditButton } from 'components/pages/AddCountryPage/AddCountries/EditButton/EditButton';
 
+import type { EditCity } from 'types/apis';
 import { selectIsEnglishActiveLang } from 'features/languages';
+import type { CityItemProps } from '../CitiesList/CityItem';
 import { EditCityFormStyled, CityInfo, EditCityPhotoURLInput } from './EditCityForm.styled';
-import type { EditCityItemType } from '../EditCitiesList/EditCityItem';
-import { SubmitAddLocationButton } from '../../State/EditStateForm/EditStateForm.styled';
+import { SubmitAddLocationButton } from '../../States/EditStateForm/EditStateForm.styled';
 
-export const EditCityForm = ({
-  city: {
+const cityItem: EditCity = {
+  stateId: '12345stateId',
+
+  _id: 'test',
+  cityName: 'test',
+  cityPhotoURL: 'test',
+  cityInternational: 'test',
+  cityCode: 'test',
+
+  langCode: 'test',
+
+  createdAt: 'test',
+  updatedAt: 'test',
+};
+
+const useSelectCity = (cityId: string) => {
+  console.log('useSelectCity ~ cityId', cityId);
+
+  return cityItem;
+};
+
+export const EditCityForm = ({ cityId }: CityItemProps) => {
+  const {
     stateId,
-    _id,
+    _id: id,
     cityName,
     cityPhotoURL,
     cityInternational,
     cityCode,
 
     langCode,
-    stateInternational,
 
     createdAt,
     updatedAt,
-  },
-}: EditCityItemType) => {
+  } = useSelectCity(cityId);
+
   const [isEditingCity, setIsEditingCity] = useState(false);
 
   const [localCityName, setLocalCityName] = useState(cityName);
@@ -58,14 +79,13 @@ export const EditCityForm = ({
 
     const updatedCity = {
       stateId,
-      _id,
+      _id: id,
       cityName: cityNameTrimmed,
       cityPhotoURL: cityPhotoURLTrimmed,
       cityInternational: !cityInternational && isEng ? cityNameTrimmed : cityInternational,
       cityCode,
 
       langCode,
-      stateInternational,
 
       createdAt,
       updatedAt,

@@ -1,17 +1,17 @@
 import { useAppSelector } from 'App';
 import { isEdited } from 'common/utils';
 import {
-  selectActiveLangCode,
   selectActiveDBLangCode,
+  selectActiveLangCode,
   selectIsEnglishActiveLang,
 } from 'features/languages';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import type { EditDistrict } from 'types/apis';
-import type { EditDistrictItemType } from '../EditDistrictsList/EditDistrictItem';
 
 import { EditButton } from '../../../AddCountries/EditButton/EditButton';
-import { SubmitAddLocationButton } from '../../State/EditStateForm/EditStateForm.styled';
+import { SubmitAddLocationButton } from '../../States/EditStateForm/EditStateForm.styled';
+import type { DistrictItemProps } from '../DistrictsList/DistrictItem';
 
 import {
   EditDistrictFormStyled,
@@ -19,21 +19,42 @@ import {
   EditDistrictPhotoURLInput,
 } from './EditDistrictForm.styled';
 
-export const EditDistrictForm = ({
-  district: {
-    stateId,
+const districtItem: EditDistrict = {
+  cityId: '12345SCityId',
+  cityInternational: 'test',
+
+  _id: 'test',
+  districtName: 'test',
+  districtPhotoURL: 'test',
+  districtInternational: 'test',
+  districtCode: 'test',
+
+  langCode: 'test',
+  dbLangCode: 'test',
+
+  createdAt: 'test',
+  updatedAt: 'test',
+};
+
+const useSelectDistrict = (districtId: string) => {
+  console.log('useSelectDistrict ~ districtId', districtId);
+  return districtItem;
+};
+
+export const EditDistrictForm = ({ districtId }: DistrictItemProps) => {
+  const {
     cityId,
     cityInternational,
 
-    _id,
+    _id: id,
     districtName,
     districtPhotoURL,
     districtInternational,
     districtCode,
     createdAt,
     updatedAt,
-  },
-}: EditDistrictItemType) => {
+  } = useSelectDistrict(districtId);
+
   const activeLangCode = useAppSelector(selectActiveLangCode);
   const activeDBLangCode = useAppSelector(selectActiveDBLangCode);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
@@ -72,11 +93,10 @@ export const EditDistrictForm = ({
     // }
 
     const updatedDistrict: EditDistrict = {
-      stateId,
       cityId,
       cityInternational, // TODO: check if it arrives
 
-      _id,
+      _id: id,
       districtName: districtNameTrimmed,
       districtPhotoURL: districtPhotoURLTrimmed,
       districtInternational:

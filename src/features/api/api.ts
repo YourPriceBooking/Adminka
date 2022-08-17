@@ -1,6 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import './draft';
 
+/**
+ * 11. GET  `/api/language/${_id}`
+ * 12. GET  `/api/country/${_id}`
+ * 13. GET  `/api/location-state/${_id}`
+ * 14. GET  `/api/location-city/${_id}`
+ * 15. GET  `/api/location-district/${_id}`
+ */
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
@@ -16,6 +23,7 @@ export const api = createApi({
     //   return headers;
     // },
   }),
+  keepUnusedDataFor: 300,
   tagTypes: ['Language', 'Country', 'State', 'City', 'District'],
   endpoints: () => ({}),
 });

@@ -1,12 +1,12 @@
 import { FormEvent } from 'react';
-import type { EntityState } from '@reduxjs/toolkit';
+import type { EntityId, EntityState } from '@reduxjs/toolkit';
 import type { State } from './states';
 
 export type OnSubmitFormType = { onSubmit: (e: FormEvent<HTMLFormElement>) => void };
 export type OnSubmitType = (e: FormEvent<HTMLFormElement>) => void;
 
 export type ActiveCountry = {
-  _id: string;
+  _id: EntityId;
   international: string;
   country: string;
 
@@ -18,7 +18,7 @@ export type ActiveCountry = {
 };
 
 export type Country = {
-  _id: string;
+  _id: EntityId;
   international: string;
   country: string;
 
@@ -43,13 +43,13 @@ export type AddCountry = {
 };
 
 export type EditCountry = {
-  _id: string;
+  _id: EntityId;
   country: string;
   langCode: string;
   international: string;
-  activeLangId: string;
+  activeLangId: EntityId;
 };
 
 export type DeleteCountry = {
-  _id: string;
+  _id: EntityId;
 };

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from 'App/store';
+import type { RootState } from 'App/store';
 
 type ModalState = {
   openedModalCount: number;

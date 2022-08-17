@@ -1,5 +1,6 @@
+import type { EntityId } from '@reduxjs/toolkit';
+
 export type NewDistrictWithOutId = {
-  stateId: string;
   cityId: string;
   cityInternational: string;
 
@@ -13,11 +14,10 @@ export type NewDistrictWithOutId = {
 };
 
 export type District = {
-  stateId: string;
-  cityId: string;
+  cityId: EntityId;
   cityInternational: string;
 
-  _id: string;
+  _id: EntityId;
   districtName: string;
   districtInternational: string;
   districtCode: string;
@@ -25,16 +25,15 @@ export type District = {
 
   langCode: string;
   dbLangCode: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type EditDistrict = {
-  stateId: string;
-  cityId: string;
+  cityId: EntityId;
   cityInternational: string;
 
-  _id: string;
+  _id: EntityId;
   districtName: string;
   districtInternational: string;
   districtCode: string;
@@ -47,12 +46,12 @@ export type EditDistrict = {
 };
 
 export type DeleteDistrict = {
-  _id: string;
-  stateId: string;
-  cityId: string;
+  _id: EntityId;
+  cityId: EntityId;
 };
 
 export type FindDistrict = {
-  stateId: string;
-  cityId: string;
+  cityId: EntityId;
 };
+
+export type DistrictResponse = District[] | [];

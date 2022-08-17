@@ -1,8 +1,8 @@
 import styled from 'styled-components/macro';
 
-export const EditStatesListStyled = styled.ul``;
+export const StatesListStyled = styled.ul``;
 
-export const EditLocationsItemStyled = styled.li`
+export const LocationsItemStyled = styled.li`
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
@@ -22,13 +22,7 @@ export const EditLocationsItemStyled = styled.li`
   }
 `;
 
-export const TotalStatesIndicator = styled.p`
-  text-align: center;
-  width: 250px;
-  padding-top: 8px;
-`;
-
-export const City = styled.div`
+export const CitiesStyled = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;

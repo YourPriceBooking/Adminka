@@ -1,5 +1,5 @@
 import {
-  /*  createEntityAdapter, createSelector, type EntityId,  */
+  /*  createEntityAdapter, createSelector,    */
   nanoid,
 } from '@reduxjs/toolkit';
 // import type { RootState } from 'redux/store';
@@ -28,7 +28,6 @@ export const countriesApi = api.injectEndpoints({
     // getCountries: builder.query<CountriesResponse, void>({
     // getCountries: builder.query<CountriesAdapter, void>({
     //   query: () => '/countries',
-    //   keepUnusedDataFor: 300,
     //   // transformResponse: (result: InitCountriesResponse) => result?.data?.result,
     //   transformResponse: (countries: CountriesResponse) => {
     //     const loadedCountries = countries ?? emptyArray;
@@ -41,10 +40,9 @@ export const countriesApi = api.injectEndpoints({
     //   ],
     // }),
 
-    // getCountry: builder.query<CountriesAdapter, EntityId>({
+    // getCountry: builder.query<CountriesAdapter, string>({
     //   query: _id => `/countries/${_id}`,
     //   // query: _id => `/countries/?_id=${_id}`,
-    //   keepUnusedDataFor: 300,
     //   // transformResponse: (result: InitCountryResponse) => result?.data?.country,
     //   transformResponse: (country: Country) => {
     //     const loadedCountry = country ?? emptyArray;

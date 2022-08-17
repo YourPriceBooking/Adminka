@@ -1,8 +1,34 @@
-import type { AddState, EditState, State, StatesResponse } from 'types/apis';
+import { createEntityAdapter, EntityId } from '@reduxjs/toolkit';
+import type { AddState, EditState, State, StatesAdapter, StatesResponse } from 'types/apis';
 import { api } from '../api/api';
+
+const statesAdapter = createEntityAdapter<State>({
+  selectId: state => state._id,
+  sortComparer: (a, b) => b.createdAt?.localeCompare(a.createdAt),
+});
+
+const initialState = statesAdapter.getInitialState();
 
 export const statesApi = api.injectEndpoints({
   endpoints: builder => ({
+    getState: builder.query<StatesAdapter, EntityId>({
+      query: _id => ({
+        url: `/location-state/${_id}`,
+        method: 'GET',
+        // body: { state, stateInternational, langCode: 'EN' },
+      }),
+      // transformResponse: (result: { data: { state: State } }) => {
+      transformResponse: (state: State) => {
+        console.log('state', state);
+        // const states = result?.data?.state;
+        const adapter = statesAdapter.setOne(initialState, state);
+        console.log(adapter, statesAdapter);
+        return adapter;
+      },
+
+      providesTags: (_, __, id) => [{ type: 'State', id }],
+    }),
+
     addState: builder.mutation<State, AddState>({
       query: body => ({
         url: '/location-state',

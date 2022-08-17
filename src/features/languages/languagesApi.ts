@@ -1,4 +1,4 @@
-import { createEntityAdapter, createSelector, EntityId } from '@reduxjs/toolkit';
+import { type EntityId, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 import type {
   // InitLanguagesResponse,
   // AddLanguageResponse,
@@ -8,7 +8,6 @@ import type {
   // FindDistrict,
   Language,
   LanguagesAdapter,
-  LanguagesResponse,
 } from 'types/apis';
 import type { RootState } from 'App/store';
 
@@ -16,13 +15,17 @@ import { useAppSelector } from 'App';
 
 import { logRender } from 'common/utils';
 import { api, frozenArr } from 'features/api';
+import { normalize } from 'normalizr';
+import { languageSchema } from 'models';
+import { selectActiveLangId } from 'features/common';
+import { useMemo } from 'react';
 
 const languagesAdapter = createEntityAdapter<Language>({
   selectId: language => language._id,
   sortComparer: (a, b) => b.createdAt?.localeCompare(a.createdAt),
 });
 
-const languageAdapterInitialState = languagesAdapter.getInitialState();
+const initialState = languagesAdapter.getInitialState();
 
 /**
  * https://your-price-booking.herokuapp.com/api/languages
@@ -36,14 +39,18 @@ export const languagesApi = api.injectEndpoints({
   endpoints: builder => ({
     getLanguages: builder.query<LanguagesAdapter, void>({
       query: () => '/languages',
-      keepUnusedDataFor: 300,
 
       // transformResponse: (result: InitLanguagesResponse) => {
-      transformResponse: (languages: LanguagesResponse) => {
-        // const loadedLanguages = result?.data?.languages ?? frozenArr;  // for actual backend api
+      transformResponse: (languages: Language[]) => {
+        // const loadedLanguages = result?.data?.languages ?? frozenArr; // for actual backend api
         const loadedLanguages = languages ?? frozenArr;
+        console.log('loadedLanguages', loadedLanguages);
+        const normalized = normalize(loadedLanguages, languageSchema);
 
-        return languagesAdapter.setAll(languageAdapterInitialState, loadedLanguages);
+        const savedAdater = languagesAdapter.upsertMany(initialState, loadedLanguages);
+        console.log({ normalized, savedAdater });
+
+        return savedAdater;
       },
 
       providesTags: result => [
@@ -52,20 +59,20 @@ export const languagesApi = api.injectEndpoints({
       ],
     }),
 
-    getLanguage: builder.query<LanguagesAdapter, EntityId>({
+    getLanguage: builder.query<LanguagesAdapter, string>({
       query: _id => `/languages/${_id}`,
-      keepUnusedDataFor: 300,
+
       // transformResponse: (result: InitLanguagesResponse) => {
       transformResponse: (languages: Language) => {
         // const loadedLanguage = result?.data?.language ?? frozenArr;
         const loadedLanguage = languages ?? frozenArr;
 
-        return languagesAdapter.setOne(languageAdapterInitialState, loadedLanguage);
+        return languagesAdapter.upsertOne(languagesAdapter.getInitialState(), loadedLanguage);
       },
-      providesTags: (result, error, id) => [{ type: 'Language', id }],
+      providesTags: (_, __, id) => [{ type: 'Language', id }],
     }),
 
-    addLanguage: builder.mutation<Language, AddLanguage>({
+    addLanguage: builder.mutation<LanguagesAdapter, AddLanguage>({
       query: ({ lang, code }) => ({
         url: '/languages',
         method: 'POST',
@@ -73,7 +80,11 @@ export const languagesApi = api.injectEndpoints({
       }),
 
       // transformResponse: (result: AddLanguageResponse) => result.data.languages,
-      transformResponse: (language: Language) => language,
+      transformResponse: (language: Language) => {
+        const loadedLanguage = language;
+
+        return languagesAdapter.upsertOne(languagesAdapter.getInitialState(), loadedLanguage);
+      },
       invalidatesTags: ['Language'],
     }),
 
@@ -82,7 +93,7 @@ export const languagesApi = api.injectEndpoints({
         url: `/languages/${_id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (result, error, { _id }) => [{ type: 'Language', id: _id }],
+      invalidatesTags: (_, __, { _id }) => [{ type: 'Language', id: _id }],
     }),
   }),
 });
@@ -98,35 +109,63 @@ export const {
 const selectLanguagesResult = languagesApi.endpoints.getLanguages.select();
 
 // Creates memoized selector
-const selectLanguagesData = createSelector(
-  selectLanguagesResult,
-  languagesResult => languagesResult.data // normalized state object with ids and entities
-);
+const selectLanguagesData = createSelector(selectLanguagesResult, result => result.data);
+// normalized state object with ids and entities
 
 // getSelectors creates these selectors and we rename them with aliases using destructuring
 export const {
   selectAll: selectAllLanguages,
   selectById: selectLanguageById,
-  selectIds: selectLanguageIds,
-} = languagesAdapter.getSelectors(
-  (state: RootState) => selectLanguagesData(state) ?? languageAdapterInitialState
+  selectIds: selectLanguagesIds,
+} = languagesAdapter.getSelectors<RootState>(state => selectLanguagesData(state) ?? initialState);
+
+export const useSelectLanguagesIds = () => {
+  const languagesIds = useAppSelector(selectLanguagesIds);
+  logRender('useSelectLanguagesIds', languagesIds);
+  return languagesIds;
+};
+
+const selectState = (state: RootState) => state;
+
+const makeSelectLanguageById = () =>
+  createSelector(
+    selectState,
+    (_: RootState, languageId: EntityId) => languageId,
+    (state, languageId) => {
+      logRender('selectLanguageById - outputSelector');
+      return selectLanguageById(state, languageId);
+    }
+  );
+
+const selectActiveLanguage = createSelector(
+  [selectState, selectActiveLangId],
+  (state, activeLanguageId) => {
+    logRender('selectActiveLang - outputSelector');
+    if (!activeLanguageId) return undefined;
+    return selectLanguageById(state, activeLanguageId);
+  }
 );
-
-// const selectCountriesFromActiveLanguage = createSelector(
-//   selectLanguagesResult,
-//   (activeLanguageId: string) => activeLanguageId,
-//   (languages, activeLanguageId) =>
-//     languages?.find(language => language._id === activeLanguageId)?.countries
-// );
-
-const langWithoutCountries = createSelector([selectAllLanguages], languages => {
-  logRender('langWithoutCountries output selector');
-  return languages.map(({ countries, ...lang }) => lang);
+export const selectIsEnglishActiveLang = createSelector(selectActiveLanguage, activeLanguage => {
+  logRender('selectIsEnglishActiveLang - outputSelector');
+  return activeLanguage?.code === 'EN';
+});
+export const selectActiveLangCode = createSelector(selectActiveLanguage, activeLanguage => {
+  logRender('selectActiveLangCode - outputSelector');
+  return activeLanguage?.code;
+});
+export const selectActiveDBLangCode = createSelector(selectActiveLanguage, activeLanguage => {
+  logRender('selectActiveDBLangCode - outputSelector');
+  return activeLanguage?.dbLangCode;
+});
+export const selectActiveLangLang = createSelector(selectActiveLanguage, activeLanguage => {
+  logRender('selectActiveLangLang - outputSelector');
+  return activeLanguage?.lang;
 });
 
-export const useSelectLanguages = () => {
-  const allLanguages = useAppSelector(langWithoutCountries);
-  console.log('useSelectLanguages ~ allLanguages', allLanguages);
-  logRender('useSelectLanguages');
-  return allLanguages;
+// each call will return separate instance of memoized selector
+export const useSelectLanguageById = (languageId: EntityId) => {
+  const languageSelector = useMemo(makeSelectLanguageById, []);
+  const language = useAppSelector(state => languageSelector(state, languageId));
+  logRender('useSelectLanguageById', language);
+  return language;
 };

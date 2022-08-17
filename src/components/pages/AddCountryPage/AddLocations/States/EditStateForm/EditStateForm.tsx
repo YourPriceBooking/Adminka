@@ -13,15 +13,35 @@ import {
   ButtonsOverlay,
 } from './EditStateForm.styled';
 
-type EditStateFormType = {
-  stateItem: EditState;
+type EditStateFormProps = {
+  stateId: string;
 };
 
 const emptyArr: never[] = [];
 
-export const EditStateForm = ({
-  stateItem: {
-    _id,
+const stateItem: EditState = {
+  _id: '12345StateId',
+  stateName: 'test',
+  stateInternational: 'test',
+  statePhotoURL: 'test',
+  stateCode: 'test',
+
+  countryId: 'test',
+  international: 'test',
+  langCode: 'test',
+  dbLangCode: 'test',
+  createdAt: 'test',
+  updatedAt: 'test',
+};
+
+const useSelectState = (stateId: string) => {
+  console.log('useSelectState ~ stateId', stateId);
+  return stateItem;
+};
+
+export const EditStateForm = ({ stateId }: EditStateFormProps) => {
+  const {
+    _id: id,
     stateName,
     stateInternational,
     statePhotoURL,
@@ -33,8 +53,8 @@ export const EditStateForm = ({
     dbLangCode,
     createdAt,
     updatedAt,
-  },
-}: EditStateFormType) => {
+  } = useSelectState(stateId);
+
   const [isEditingState, setIsEditingState] = useState(false);
 
   const [localStateName, setLocalStateName] = useState(stateName);
@@ -64,7 +84,7 @@ export const EditStateForm = ({
       return;
     }
     const updatedState = {
-      _id,
+      _id: id,
       stateName: stateNameTrimmed,
       statePhotoURL: statePhotoURLTrimmed,
       stateInternational: !stateInternational && isEng ? stateNameTrimmed : stateInternational,

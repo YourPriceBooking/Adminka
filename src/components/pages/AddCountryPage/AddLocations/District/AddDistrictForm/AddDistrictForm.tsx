@@ -1,11 +1,11 @@
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import type { NewDistrictWithOutId } from 'types/apis';
-import { AddLocationButton } from '../../State/AddStateForm/AddStateForm.styled';
-import { SubmitAddLocationButton } from '../../State/EditStateForm/EditStateForm.styled';
+import { AddLocationButton } from '../../States/AddStateForm/AddStateForm.styled';
+import { SubmitAddLocationButton } from '../../States/EditStateForm/EditStateForm.styled';
 import { Row, AddDistrictFormStyled } from './AddDistrictForm.styled';
 
-export const AddDistrictForm = ({ stateId, cityId }: { stateId: string; cityId: string }) => {
+export const AddDistrictForm = ({ cityId }: { cityId: string }) => {
   // const selectMemoizedDistrictNames = useMemo(selectDistrictNamesForActiveStateAndCity, []);
 
   // const districtsNames = useAppSelector(state => selectMemoizedDistrictNames(state, stateId, cityId));
@@ -37,7 +37,6 @@ export const AddDistrictForm = ({ stateId, cityId }: { stateId: string; cityId: 
       // }
 
       const newDistrict: NewDistrictWithOutId = {
-        stateId,
         cityId,
         cityInternational: '',
 
@@ -59,7 +58,7 @@ export const AddDistrictForm = ({ stateId, cityId }: { stateId: string; cityId: 
         toast.error('District not added');
       }
     },
-    [isSubmitDisabled, stateId, cityId, setAddingDistrictTrue]
+    [isSubmitDisabled, cityId, setAddingDistrictTrue]
   );
 
   return (
