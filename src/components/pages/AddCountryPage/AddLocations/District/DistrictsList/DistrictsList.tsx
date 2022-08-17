@@ -1,3 +1,4 @@
+import { logRender } from 'common/utils';
 import { DistrictItem } from './DistrictItem';
 import { DistrictsListStyled } from './DistrictsList.styled';
 
@@ -8,7 +9,7 @@ type DistrictsListProps = {
 const districtIds = ['1', '2'];
 
 const useSelectDistrictsIds = (cityId: string) => {
-  console.log('useSelectDistrictsIds ~ cityId', cityId);
+  logRender('useSelectDistrictsIds ~ cityId', cityId);
 
   return districtIds;
 };

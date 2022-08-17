@@ -1,5 +1,5 @@
 import { useAppSelector } from 'App';
-import { isEdited } from 'common/utils';
+import { isEdited, logRender } from 'common/utils';
 import {
   selectActiveDBLangCode,
   selectActiveLangCode,
@@ -37,7 +37,7 @@ const districtItem: EditDistrict = {
 };
 
 const useSelectDistrict = (districtId: string) => {
-  console.log('useSelectDistrict ~ districtId', { districtId });
+  logRender('useSelectDistrict ~ districtId', districtId);
   return districtItem;
 };
 

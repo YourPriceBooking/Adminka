@@ -1,4 +1,4 @@
-import type { EntityId } from '@reduxjs/toolkit';
+import type { EntityId, EntityState } from '@reduxjs/toolkit';
 
 export type NewDistrictWithOutId = {
   cityId: string;
@@ -28,6 +28,8 @@ export type District = {
   createdAt?: string;
   updatedAt?: string;
 };
+
+export type DistrictsAdapter = EntityState<District>;
 
 export type EditDistrict = {
   cityId: EntityId;

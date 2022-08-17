@@ -44,13 +44,13 @@ export const languagesApi = api.injectEndpoints({
       transformResponse: (languages: Language[]) => {
         // const loadedLanguages = result?.data?.languages ?? frozenArr; // for actual backend api
         const loadedLanguages = languages ?? frozenArr;
-        console.log('loadedLanguages', loadedLanguages);
+
         const normalized = normalize(loadedLanguages, languageSchema);
 
-        const savedAdater = languagesAdapter.upsertMany(initialState, loadedLanguages);
-        console.log({ normalized, savedAdater });
+        const savedAdapter = languagesAdapter.upsertMany(initialState, loadedLanguages);
+        logRender('getLanguages', { loadedLanguages, normalized, savedAdapter }, true);
 
-        return savedAdater;
+        return savedAdapter;
       },
 
       providesTags: result => [

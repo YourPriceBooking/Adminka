@@ -11,6 +11,6 @@ export const logRender = (fnName: string, returned?: {} | [] | EntityId, showLog
   render[fnName] += 1;
 
   if (showLog) {
-    console.table([{ [fnName]: render[fnName], returned }]);
+    console.table([returned]);
   }
 };

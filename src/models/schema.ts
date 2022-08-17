@@ -1,6 +1,17 @@
 import { schema } from 'normalizr';
-import type { District, City, State, Country, Language } from 'types/apis';
-import { EntityState, EntityId } from '@reduxjs/toolkit';
+import type {
+  District,
+  City,
+  State,
+  Country,
+  Language,
+  LanguagesAdapter,
+  CountriesAdapter,
+  StatesAdapter,
+  CitiesAdapter,
+  DistrictsAdapter,
+} from 'types/apis';
+import { EntityId } from '@reduxjs/toolkit';
 
 type Todo = {
   _id: EntityId;
@@ -44,7 +55,8 @@ export const countrySchema = new schema.Entity<Country>(
 export const languageSchema = new schema.Entity<Language>(
   'languages',
   {
-    countries: [countrySchema],
+    suka: countrySchema,
+    countries: new schema.Array(countrySchema),
   },
   { idAttribute: '_id' }
 );
@@ -65,9 +77,9 @@ export type Chapter = {
 };
 
 export type NormalizedLanguages = {
-  languages: EntityState<Language>;
-  countries: EntityState<Country>;
-  states: EntityState<State>;
-  cities: EntityState<City>;
-  districts: EntityState<District>;
+  languages: LanguagesAdapter;
+  countries: CountriesAdapter;
+  states: StatesAdapter;
+  cities: CitiesAdapter;
+  districts: DistrictsAdapter;
 };

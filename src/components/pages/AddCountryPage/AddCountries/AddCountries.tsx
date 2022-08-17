@@ -2,6 +2,7 @@ import { RefObject, useCallback, useRef, useState } from 'react';
 import { useAppSelector } from 'App';
 
 import { selectActiveCountryName } from 'features/countries';
+import { logRender } from 'common/utils';
 import { AddCountriesStyled, CountryEditorWrapper, ShowEditorButton } from './AddCountries.styled';
 import { Dropdown } from './Drowdown';
 
@@ -20,12 +21,8 @@ const ActiveCountryButton = ({ toggleCountiesList, toggleButtonRef }: ExpandButt
   );
 };
 
-const render = {
-  AddCountries: 0,
-};
-
 const SelectCountries = () => {
-  console.log({ AddCountries: (render.AddCountries += 1) });
+  logRender('SelectCountries');
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
   const [showCountries, setShowCountries] = useState(false);
   const closeCountriesList = useCallback(() => setShowCountries(false), []);

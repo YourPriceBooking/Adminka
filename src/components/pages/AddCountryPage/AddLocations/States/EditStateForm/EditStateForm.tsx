@@ -1,4 +1,5 @@
 import { useAppSelector } from 'App';
+import { logRender } from 'common/utils';
 import { selectIsEnglishActiveLang } from 'features/languages';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -35,7 +36,7 @@ const stateItem: EditState = {
 };
 
 const useSelectState = (stateId: string) => {
-  console.log('useSelectState ~ stateId', stateId);
+  logRender('useSelectState ~ stateId', stateId);
   return stateItem;
 };
 

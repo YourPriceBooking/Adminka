@@ -42,7 +42,7 @@ export const countriesApi = api.injectEndpoints({
 
         const savedCountries = countriesAdapter.upsertMany(initialState, loadedCountries);
 
-        console.log({ loadedCountries, normalizedCountries, savedCountries });
+        logRender('getCountries', { loadedCountries, normalizedCountries, savedCountries });
 
         return savedCountries;
       },
@@ -61,7 +61,7 @@ export const countriesApi = api.injectEndpoints({
         const normalizedCountry = normalize(loadedCountry, countrySchema);
 
         const savedCountry = countriesAdapter.upsertOne(initialState, loadedCountry);
-        console.log({ loadedCountry, normalizedCountry, savedCountry });
+        logRender('getCountry', { loadedCountry, normalizedCountry, savedCountry });
 
         return savedCountry;
       },
@@ -89,7 +89,7 @@ export const countriesApi = api.injectEndpoints({
         const normalizedCountry = normalize(loadedCountry, countrySchema);
 
         const savedCountry = countriesAdapter.upsertOne(initialState, loadedCountry);
-        console.log({ loadedCountry, normalizedCountry, savedCountry });
+        logRender('addCountryEng', { loadedCountry, normalizedCountry, savedCountry });
 
         return savedCountry;
       },
@@ -110,7 +110,7 @@ export const countriesApi = api.injectEndpoints({
         const normalizedCountry = normalize(loadedCountry, countrySchema);
 
         const savedCountry = countriesAdapter.upsertOne(initialState, loadedCountry);
-        console.log({ loadedCountry, normalizedCountry, savedCountry });
+        logRender('editCountry', { loadedCountry, normalizedCountry, savedCountry });
 
         return savedCountry;
       },

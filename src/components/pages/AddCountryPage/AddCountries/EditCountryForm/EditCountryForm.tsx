@@ -7,6 +7,7 @@ import {
   setActiveCountryId,
   useDeleteCountryMutation,
   useEditCountryMutation,
+  useSelectCountryById,
 } from 'features/countries';
 import { selectActiveLangId } from 'features/common';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
@@ -53,11 +54,9 @@ export const EditCountryForm = ({
     langCode = '',
     // createdAt = '',
     // updatedAt = '',
-  } = emptyObj;
+  } = useSelectCountryById(countryId) ?? emptyObj;
 
   const formRef = useRef<HTMLFormElement>(null);
-
-  console.log(countryId);
 
   const activeLangId = useAppSelector(selectActiveLangId);
   const activeLangCode = useAppSelector(selectActiveLangCode);

@@ -32,7 +32,7 @@ const DevModeStats = () => {
 const arr = ['1', '2'];
 const defaultArr = ['3', '4'];
 const selectStatesIds = (state: RootState, activeLangId: EntityId) => {
-  console.log(state, activeLangId);
+  logRender('selectStatesIds', activeLangId);
   return arr;
 };
 
@@ -52,14 +52,14 @@ const useSelectStatesIds = () => {
 export const StatesList = () => {
   const statesIds = useSelectStatesIds();
 
-  logRender('StatesList');
+  logRender('StatesList', statesIds);
   return (
     <>
       <DevModeStats />
 
       <StatesListStyled>
         {statesIds.map((stateId: string) => {
-          logRender(' StateItem');
+          logRender(' StateItem', stateId);
 
           return <StateItem key={stateId} stateId={stateId} />;
         })}

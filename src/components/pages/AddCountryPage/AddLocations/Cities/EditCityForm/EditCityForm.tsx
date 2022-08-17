@@ -2,7 +2,7 @@ import { useAppSelector } from 'App';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { isEdited } from 'common/utils';
+import { isEdited, logRender } from 'common/utils';
 
 import { EditButton } from 'components/pages/AddCountryPage/AddCountries/EditButton/EditButton';
 
@@ -28,7 +28,7 @@ const cityItem: EditCity = {
 };
 
 const useSelectCity = (cityId: string) => {
-  console.log('useSelectCity ~ cityId', cityId);
+  logRender('useSelectCity ~ cityId', cityId);
 
   return cityItem;
 };
