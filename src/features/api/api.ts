@@ -1,4 +1,6 @@
+import type { EntityId } from '@reduxjs/toolkit';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import type { RootState } from 'App/store';
 import './draft';
 
 /**
@@ -29,3 +31,6 @@ export const api = createApi({
 });
 
 export const frozenArr = Object.freeze([]);
+
+export const selectState = (state: RootState) => state;
+export const selectEntityId = (_: RootState, id: EntityId) => id;

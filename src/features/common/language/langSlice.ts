@@ -1,10 +1,10 @@
-import { createSlice, EntityId, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // import { languagesApi } from 'redux/apis';
 import type { SelectLanguageType } from 'types/apis';
 import type { RootState } from 'App/store';
 
 type LanguageState = {
-  activeLangId: EntityId | undefined;
+  activeLangId: SelectLanguageType;
 };
 
 export const initialState: LanguageState = {
@@ -16,7 +16,7 @@ export const langSlice = createSlice({
   initialState,
 
   reducers: {
-    setActiveLangId(state, action: PayloadAction<SelectLanguageType | undefined>) {
+    setActiveLangId(state, action: PayloadAction<SelectLanguageType>) {
       state.activeLangId = action.payload;
     },
   },

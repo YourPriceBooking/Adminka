@@ -2,6 +2,7 @@ import { FormEvent } from 'react';
 import type { EntityId, EntityState } from '@reduxjs/toolkit';
 import type { State } from './states';
 
+export type SelectCountryType = EntityId | undefined;
 export type OnSubmitFormType = { onSubmit: (e: FormEvent<HTMLFormElement>) => void };
 export type OnSubmitType = (e: FormEvent<HTMLFormElement>) => void;
 

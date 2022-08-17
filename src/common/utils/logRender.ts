@@ -6,7 +6,11 @@ type FnNames = {
 
 const render: FnNames = {};
 
-export const logRender = (fnName: string, returned?: {} | [] | EntityId) => {
+export const logRender = (fnName: string, returned?: {} | [] | EntityId, showLog = false) => {
   render[fnName] ??= 0;
-  console.log({ [fnName]: (render[fnName] += 1), returned });
+  render[fnName] += 1;
+
+  if (showLog) {
+    console.table([{ [fnName]: render[fnName], returned }]);
+  }
 };

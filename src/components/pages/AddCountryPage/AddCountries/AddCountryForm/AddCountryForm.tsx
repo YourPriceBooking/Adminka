@@ -1,5 +1,5 @@
 import { useAppDispatch } from 'App';
-import { setActiveCountry, useAddCountryEngMutation } from 'features/countries';
+import { setActiveCountryId, useAddCountryEngMutation } from 'features/countries';
 import { selectIsEnglishActiveLang } from 'features/languages';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -56,7 +56,13 @@ export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
         const addedCountry = await addCountryEng(newCountry).unwrap();
 
         if (addedCountry) {
-          appDispatch(setActiveCountry(addedCountry));
+          const newActiveCountryId = Object.values(addedCountry.entities).find(
+            countryObj => countryObj?.international === country
+          )?._id;
+
+          if (newActiveCountryId) {
+            appDispatch(setActiveCountryId(newActiveCountryId));
+          }
         }
       } catch (error) {
         toast.error("Country not added. Let's try again");

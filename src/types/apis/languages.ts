@@ -1,7 +1,7 @@
 import type { EntityId, EntityState } from '@reduxjs/toolkit';
 import type { Country } from './countries';
 
-export type SelectLanguageType = EntityId;
+export type SelectLanguageType = EntityId | undefined;
 
 export type LanguageWithoutCountries = SelectLanguageType[];
 

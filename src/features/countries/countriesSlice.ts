@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from 'App/store';
-import type { ActiveCountry } from 'types/apis';
+import type { SelectCountryType } from 'types/apis';
 
 type CountryState = {
-  activeCountry: ActiveCountry | null;
+  activeCountryId: SelectCountryType;
   showDev: boolean;
 };
 
 const initialState: CountryState = {
-  activeCountry: null,
+  activeCountryId: undefined,
   showDev: false,
 };
 
@@ -18,8 +18,8 @@ const countriesSlice = createSlice({
   initialState,
 
   reducers: {
-    setActiveCountry(state, { payload }: PayloadAction<ActiveCountry | null>) {
-      state.activeCountry = payload;
+    setActiveCountryId(state, { payload }: PayloadAction<SelectCountryType>) {
+      state.activeCountryId = payload;
     },
 
     toggleDev(state) {
@@ -40,13 +40,7 @@ const countriesSlice = createSlice({
   },
 });
 
-export const { setActiveCountry, toggleDev } = countriesSlice.actions;
+export const { setActiveCountryId, toggleDev } = countriesSlice.actions;
 export const countriesReducer = countriesSlice.reducer;
-export const selectActiveCountryId = (state: RootState) => state.countries.activeCountry?._id;
-
-export const selectActiveCountryName = (state: RootState) => state.countries.activeCountry?.country;
-export const selectActiveCountryInternational = (state: RootState) =>
-  state.countries.activeCountry?.international;
-
-export const selectActiveCountry = (state: RootState) => state.countries.activeCountry;
+export const selectActiveCountryId = (state: RootState) => state.countries.activeCountryId;
 export const selectDev = (state: RootState) => state.countries.showDev;

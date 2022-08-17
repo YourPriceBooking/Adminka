@@ -37,7 +37,7 @@ const districtItem: EditDistrict = {
 };
 
 const useSelectDistrict = (districtId: string) => {
-  console.log('useSelectDistrict ~ districtId', districtId);
+  console.log('useSelectDistrict ~ districtId', { districtId });
   return districtItem;
 };
 

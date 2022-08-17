@@ -14,7 +14,7 @@ import type { RootState } from 'App/store';
 import { useAppSelector } from 'App';
 
 import { logRender } from 'common/utils';
-import { api, frozenArr } from 'features/api';
+import { api, frozenArr, selectEntityId, selectState } from 'features/api';
 import { normalize } from 'normalizr';
 import { languageSchema } from 'models';
 import { selectActiveLangId } from 'features/common';
@@ -125,42 +125,12 @@ export const useSelectLanguagesIds = () => {
   return languagesIds;
 };
 
-const selectState = (state: RootState) => state;
-
 const makeSelectLanguageById = () =>
-  createSelector(
-    selectState,
-    (_: RootState, languageId: EntityId) => languageId,
-    (state, languageId) => {
-      logRender('selectLanguageById - outputSelector');
-      return selectLanguageById(state, languageId);
-    }
-  );
-
-const selectActiveLanguage = createSelector(
-  [selectState, selectActiveLangId],
-  (state, activeLanguageId) => {
-    logRender('selectActiveLang - outputSelector');
-    if (!activeLanguageId) return undefined;
-    return selectLanguageById(state, activeLanguageId);
-  }
-);
-export const selectIsEnglishActiveLang = createSelector(selectActiveLanguage, activeLanguage => {
-  logRender('selectIsEnglishActiveLang - outputSelector');
-  return activeLanguage?.code === 'EN';
-});
-export const selectActiveLangCode = createSelector(selectActiveLanguage, activeLanguage => {
-  logRender('selectActiveLangCode - outputSelector');
-  return activeLanguage?.code;
-});
-export const selectActiveDBLangCode = createSelector(selectActiveLanguage, activeLanguage => {
-  logRender('selectActiveDBLangCode - outputSelector');
-  return activeLanguage?.dbLangCode;
-});
-export const selectActiveLangLang = createSelector(selectActiveLanguage, activeLanguage => {
-  logRender('selectActiveLangLang - outputSelector');
-  return activeLanguage?.lang;
-});
+  createSelector([selectState, selectEntityId], (state, languageId) => {
+    const language = selectLanguageById(state, languageId);
+    logRender('makeSelectLanguageById - outputSelector', language);
+    return language;
+  });
 
 // each call will return separate instance of memoized selector
 export const useSelectLanguageById = (languageId: EntityId) => {
@@ -169,3 +139,27 @@ export const useSelectLanguageById = (languageId: EntityId) => {
   logRender('useSelectLanguageById', language);
   return language;
 };
+
+const selectActiveLanguage = createSelector(
+  [selectState, selectActiveLangId],
+  (state, activeLanguageId) => {
+    if (!activeLanguageId) return undefined;
+    return selectLanguageById(state, activeLanguageId);
+  }
+);
+export const selectActiveDBLangCode = createSelector(
+  selectActiveLanguage,
+  language => language?.dbLangCode
+);
+export const selectActiveLangLang = createSelector(
+  selectActiveLanguage,
+  language => language?.lang
+);
+export const selectActiveLangCode = createSelector(
+  selectActiveLanguage,
+  language => language?.code
+);
+export const selectIsEnglishActiveLang = createSelector(
+  selectActiveLangCode,
+  code => code === 'EN'
+);
