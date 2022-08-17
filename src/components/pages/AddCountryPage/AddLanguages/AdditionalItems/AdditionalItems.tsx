@@ -1,5 +1,6 @@
 import { useAppSelector } from 'App';
-import { selectActiveLangCode, selectActiveLangName } from 'features/languages';
+import { selectActiveLangCode, selectActiveLangLang } from 'features/languages';
+
 import slang from '../AddLanguages.module.scss';
 import { ShowLanguagesButton } from '../AddLanguages.styled';
 
@@ -9,13 +10,13 @@ export type ButtonSelectLanguageType = {
 
 export const ButtonSelectLanguage = ({ openModal }: ButtonSelectLanguageType) => {
   const activeLangCode = useAppSelector(selectActiveLangCode);
-  const activeLangName = useAppSelector(selectActiveLangName);
+  const activeLangLang = useAppSelector(selectActiveLangLang);
 
   return (
     <ShowLanguagesButton onClick={openModal} type="button">
       {activeLangCode && (
         <>
-          <p className={slang.block_lang_p}>{activeLangName}</p>
+          <p className={slang.block_lang_p}>{activeLangLang}</p>
           <p className={slang.block_lang_p2}>{activeLangCode}</p>
         </>
       )}

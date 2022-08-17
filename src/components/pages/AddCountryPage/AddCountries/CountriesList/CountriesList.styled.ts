@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 
-export const CountryList = styled.ul`
+export const CountryListStyled = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,7 +15,7 @@ export const CountryList = styled.ul`
   }
 `;
 
-export const EditCountryItem = styled.li`
+export const CountryItemStyled = styled.li`
   scroll-snap-align: start;
   scroll-snap-stop: always;
 `;

@@ -1,16 +1,20 @@
-import type { LanguageWithoutCountries, SelectLangType } from 'types/apis';
+import { useSelectLanguagesIds } from 'features/languages';
+import type { SelectLangType } from 'types/apis';
 import slang from '../AddLanguages.module.scss';
 import { LanguageItem } from './SelectLangItem';
 
-type SelectLangListType = {
-  selectLang: SelectLangType;
-  languages?: LanguageWithoutCountries;
+type SelectLangListProps = {
+  setActiveLanguage: SelectLangType;
 };
 
-export const SelectLangList = ({ languages, selectLang }: SelectLangListType) => (
-  <ul className={slang.block_lang_ul}>
-    {languages?.map(language => (
-      <LanguageItem key={language._id} languageItem={{ language, selectLang }} />
-    ))}
-  </ul>
-);
+export const SelectLangList = ({ setActiveLanguage }: SelectLangListProps) => {
+  const languagesIds = useSelectLanguagesIds();
+
+  return (
+    <ul className={slang.block_lang_ul}>
+      {languagesIds?.map(languageId => (
+        <LanguageItem key={languageId} languageItem={{ languageId, setActiveLanguage }} />
+      ))}
+    </ul>
+  );
+};

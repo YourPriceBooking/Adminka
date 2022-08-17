@@ -1,25 +1,17 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
-import type { EntityId } from '@reduxjs/toolkit';
 import { useAppSelector } from 'App';
-
 import { selectIsEnglishActiveLang } from 'features/languages';
 import { DropdownStyled } from './Drowdown.styled';
-import { EditCountriesList } from '../EditCountriesList/EditCountriesList';
 import { AddCountryForm } from '../AddCountryForm/AddCountryForm';
+import { CountriesList } from '../CountriesList/CountriesList';
 
 type DropdownType = {
-  countryIds: EntityId[] | [] | undefined | null;
   closeCountriesList: () => void;
   isLoading: boolean;
   toggleButtonRef: RefObject<HTMLButtonElement>;
 };
 
-export const Dropdown = ({
-  countryIds,
-  closeCountriesList,
-  isLoading,
-  toggleButtonRef,
-}: DropdownType) => {
+export const Dropdown = ({ closeCountriesList, isLoading, toggleButtonRef }: DropdownType) => {
   const isEng = useAppSelector(selectIsEnglishActiveLang);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isEditingCountry, setIsEditingCountry] = useState(false);
@@ -41,15 +33,12 @@ export const Dropdown = ({
 
   return (
     <DropdownStyled ref={dropdownRef}>
-      {countryIds?.length ? (
-        <EditCountriesList
-          countryIds={countryIds}
-          isEditingCountry={isEditingCountry}
-          setIsEditingCountry={setIsEditingCountry}
-          closeCountriesList={closeCountriesList}
-          isLoading={isLoading}
-        />
-      ) : null}
+      <CountriesList
+        isEditingCountry={isEditingCountry}
+        setIsEditingCountry={setIsEditingCountry}
+        closeCountriesList={closeCountriesList}
+        isLoading={isLoading}
+      />
 
       {isEng && <AddCountryForm isLoading={isLoading} />}
     </DropdownStyled>

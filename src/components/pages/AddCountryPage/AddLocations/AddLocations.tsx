@@ -1,25 +1,11 @@
-import { AddLocationsWrapper, AddLocationsContent } from './AddLocations.styled';
+import { AddLocationsWrapper } from './AddLocations.styled';
 import { HeadingsList } from './HeadingsList/HeadingsList';
+import { States } from './States';
 
-import { EditStatesList } from './State/EditStatesList/EditStatesList';
-import { AddStateForm } from './State/AddStateForm/AddStateForm';
+export const AddLocations = () => (
+  <AddLocationsWrapper>
+    <HeadingsList />
 
-const arr: never[] = [];
-
-export const AddLocations = () => {
-  // const states = useAppSelector(selectStates);
-
-  const states = arr;
-
-  return (
-    <AddLocationsWrapper>
-      <HeadingsList />
-
-      <AddLocationsContent>
-        {states && <EditStatesList editLocationsList={states} />}
-
-        <AddStateForm />
-      </AddLocationsContent>
-    </AddLocationsWrapper>
-  );
-};
+    <States />
+  </AddLocationsWrapper>
+);

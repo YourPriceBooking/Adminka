@@ -1,4 +1,4 @@
-import type { AddLanguage, Language } from 'types/apis';
+import type { AddLanguage, SelectLangType } from 'types/apis';
 import { FormEvent, useState } from 'react';
 
 import { toast } from 'react-toastify';
@@ -7,10 +7,10 @@ import slang from '../AddLanguages.module.scss';
 
 type AddLanguageFormProps = {
   closeModal: () => void;
-  selectLang: (activeLang: Language) => void;
+  setActiveLanguage: SelectLangType;
 };
 
-export const AddLanguageForm = ({ closeModal, selectLang }: AddLanguageFormProps) => {
+export const AddLanguageForm = ({ closeModal, setActiveLanguage }: AddLanguageFormProps) => {
   const [addLanguage, { isLoading: isAddingLanguage }] = useAddLanguageMutation();
 
   const [localNewLangName, setLocalNewLangName] = useState('');
@@ -33,8 +33,14 @@ export const AddLanguageForm = ({ closeModal, selectLang }: AddLanguageFormProps
       console.log({ payload });
 
       if (payload) {
-        selectLang(payload);
-        toast.success(`${newLanguage.lang} language added`);
+        const newLangId = Object.values(payload.entities).find(
+          language => language?.code === code
+        )?._id;
+
+        if (newLangId) {
+          setActiveLanguage(newLangId);
+          toast.success(`${newLanguage.lang} language added`);
+        }
       }
     } catch (error: any) {
       toast.error(`Language not added ${error?.data?.message}`);

@@ -2,19 +2,14 @@ import { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from
 import { useAppDispatch, useAppSelector } from 'App';
 import { toast } from 'react-toastify';
 import type { ActiveCountry, EditCountry } from 'types/apis';
-
-import type { EntityId } from '@reduxjs/toolkit';
 import {
   selectDev,
   setActiveCountry,
   useDeleteCountryMutation,
   useEditCountryMutation,
 } from 'features/countries';
-import {
-  selectActiveLangCode,
-  selectActiveLangId,
-  selectIsEnglishActiveLang,
-} from 'features/languages';
+import { selectActiveLangId } from 'features/common';
+import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import {
   CountryInputLabel,
   EditCountryFormStyled,
@@ -24,8 +19,8 @@ import {
 import { EditButton } from '../EditButton/EditButton';
 
 export type EditCountryFormType = {
-  countryId: EntityId;
   countryItem: {
+    countryId: string;
     closeCountriesList: () => void;
     setIsEditingCountry: (arg: boolean) => void;
     isEditingCountry: boolean;
@@ -34,16 +29,15 @@ export type EditCountryFormType = {
 };
 
 export const EditCountryForm = ({
-  countryId,
-  countryItem: { closeCountriesList, isEditingCountry, setIsEditingCountry, isLoading },
+  countryItem: { countryId, closeCountriesList, isEditingCountry, setIsEditingCountry, isLoading },
 }: EditCountryFormType) => {
   const [editCountry, { isLoading: isLoadingEditedCountry }] = useEditCountryMutation();
   const [deleteCountry, { isLoading: isDeletingCountry }] = useDeleteCountryMutation();
   const appDispatch = useAppDispatch();
   const {
     country = '',
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    _id = '',
+
+    _id: id = '',
     langCode = '',
     dbLangCode = '',
     international = '',
@@ -79,7 +73,7 @@ export const EditCountryForm = ({
     const editedCountryName = localCountryName.trim();
 
     const editedCountry: EditCountry = {
-      _id,
+      _id: id,
       country: editedCountryName,
       langCode: activeLangCode,
       international,
@@ -104,13 +98,13 @@ export const EditCountryForm = ({
 
   const onDeleteCountry = useCallback(async () => {
     try {
-      await deleteCountry({ _id }).unwrap();
+      await deleteCountry({ _id: id }).unwrap();
       appDispatch(setActiveCountry(null));
       toast.success(`Country deleted`);
     } catch (error) {
-      toast.error(`Error while deleting country with _id: ${_id}`);
+      toast.error(`Error while deleting country with _id: ${id}`);
     }
-  }, [_id, appDispatch, deleteCountry]);
+  }, [id, appDispatch, deleteCountry]);
 
   const startEditing = useCallback(() => {
     if (isEditingCountry) return;
@@ -135,7 +129,7 @@ export const EditCountryForm = ({
     if (isEditingCountry) return;
 
     const newActiveCountry: ActiveCountry = {
-      _id,
+      _id: id,
       international,
       country,
       langCode,
@@ -148,7 +142,7 @@ export const EditCountryForm = ({
     closeCountriesList();
   }, [
     isEditingCountry,
-    _id,
+    id,
     international,
     country,
     langCode,

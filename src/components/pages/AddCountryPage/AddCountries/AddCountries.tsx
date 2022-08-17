@@ -1,6 +1,6 @@
 import { RefObject, useCallback, useRef, useState } from 'react';
 import { useAppSelector } from 'App';
-import { EntityId } from '@reduxjs/toolkit';
+
 import { selectActiveCountryName } from 'features/countries';
 import { AddCountriesStyled, CountryEditorWrapper, ShowEditorButton } from './AddCountries.styled';
 import { Dropdown } from './Drowdown';
@@ -24,11 +24,7 @@ const render = {
   AddCountries: 0,
 };
 
-type SelectCountriesProps = {
-  countryIds: EntityId[] | undefined;
-};
-
-const SelectCountries = ({ countryIds }: SelectCountriesProps) => {
+const SelectCountries = () => {
   console.log({ AddCountries: (render.AddCountries += 1) });
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
   const [showCountries, setShowCountries] = useState(false);
@@ -49,7 +45,6 @@ const SelectCountries = ({ countryIds }: SelectCountriesProps) => {
 
         {showCountries && (
           <Dropdown
-            countryIds={countryIds}
             closeCountriesList={closeCountriesList}
             isLoading={isLoading}
             toggleButtonRef={toggleButtonRef}
@@ -60,8 +55,4 @@ const SelectCountries = ({ countryIds }: SelectCountriesProps) => {
   );
 };
 
-export const AddCountries = () => {
-  const countryIds = undefined;
-
-  return <SelectCountries countryIds={countryIds} />;
-};
+export const AddCountries = () => <SelectCountries />;

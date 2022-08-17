@@ -1,16 +1,16 @@
 import { useCallback } from 'react';
 import { useAppDispatch } from 'App';
 import type { SelectLanguageType } from 'types/apis';
-import { setActiveLang } from 'features/languages';
+import { setActiveLangId } from 'features/common';
 
-export const useSelectLanguage = (closeModal: () => void) => {
+export const useSetActiveLanguage = (closeModal: () => void) => {
   const appDispatch = useAppDispatch();
 
-  const selectLang = useCallback(
-    (activeLang: SelectLanguageType) => {
-      if (!activeLang) return;
+  const setActiveLanguage = useCallback(
+    (newActiveLangId: SelectLanguageType) => {
+      if (!newActiveLangId) return;
 
-      appDispatch(setActiveLang(activeLang));
+      appDispatch(setActiveLangId(newActiveLangId));
 
       // if (activeLang.code === 'EN') { refetch() }
 
@@ -19,5 +19,5 @@ export const useSelectLanguage = (closeModal: () => void) => {
     [appDispatch, closeModal]
   );
 
-  return selectLang;
+  return setActiveLanguage;
 };

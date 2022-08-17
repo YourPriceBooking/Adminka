@@ -1,10 +1,12 @@
+import type { EntityId } from '@reduxjs/toolkit';
+
 type FnNames = {
   [key: string]: number;
 };
 
 const render: FnNames = {};
 
-export const logRender = (fnName: string) => {
+export const logRender = (fnName: string, returned?: {} | [] | EntityId) => {
   render[fnName] ??= 0;
-  console.log({ [fnName]: (render[fnName] += 1) });
+  console.log({ [fnName]: (render[fnName] += 1), returned });
 };

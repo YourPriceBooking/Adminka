@@ -1,56 +1,49 @@
 import { Modal } from 'components/shared/Modal/Modal';
-import { useModal, useSelectLanguage } from 'common/hooks';
-import type { LanguageWithoutCountries } from 'types/apis';
+import { useModal, useSetActiveLanguage } from 'common/hooks';
 import { logRender } from 'common/utils';
-import { useGetLanguagesQuery, useSelectLanguages } from 'features/languages';
+import { useGetLanguagesQuery } from 'features/languages';
 import slang from './AddLanguages.module.scss';
 import { AddLanguageForm } from './AddLanguageForm/AddLanguageForm';
 import { SelectLangList } from './SelectLangList/SelectLangList';
 import { ActiveLangButtonContainer } from './AdditionalItems';
 
-type AddLanguageModalContentType = {
+type ModalContentProps = {
   closeModal: () => void;
-  languages: LanguageWithoutCountries;
 };
 
-const AddLanguageModalContent = ({ closeModal, languages }: AddLanguageModalContentType) => {
-  const selectLang = useSelectLanguage(closeModal);
+const AddLanguageModalContent = ({ closeModal }: ModalContentProps) => {
+  const setActiveLanguage = useSetActiveLanguage(closeModal);
+
   logRender('AddLanguageModalContent');
   return (
     <div className={slang.container_add_lang}>
       <div className={slang.block_lang}>
-        <SelectLangList languages={languages} selectLang={selectLang} />
+        <SelectLangList setActiveLanguage={setActiveLanguage} />
       </div>
 
-      <AddLanguageForm selectLang={selectLang} closeModal={closeModal} />
+      <AddLanguageForm setActiveLanguage={setActiveLanguage} closeModal={closeModal} />
     </div>
   );
 };
 
-type AddLanguagesProps = {
-  languages: LanguageWithoutCountries;
-};
-
-const AddLanguages = ({ languages }: AddLanguagesProps) => {
+const SelectLanguages = () => {
   const { showModal, openModal, closeModal } = useModal();
 
-  logRender('AddLanguages');
+  logRender('SelectLanguages');
   return (
     <>
       <ActiveLangButtonContainer openModal={openModal} />
 
       {showModal && (
         <Modal closeModal={closeModal}>
-          <AddLanguageModalContent closeModal={closeModal} languages={languages} />
+          <AddLanguageModalContent closeModal={closeModal} />
         </Modal>
       )}
     </>
   );
 };
 
-export const LanguagesWithoutCountries = () => {
+export const AddLanguages = () => {
   useGetLanguagesQuery();
-  const languages = useSelectLanguages();
-
-  return <AddLanguages languages={languages} />;
+  return <SelectLanguages />;
 };

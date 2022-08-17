@@ -1,8 +1,13 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import { api } from 'features/api';
-import { authReducer, counterSliceReducer, modalSliceReducer, themeReducer } from 'features/common';
+import {
+  authReducer,
+  counterSliceReducer,
+  modalSliceReducer,
+  themeReducer,
+  langReducer,
+} from 'features/common';
 import { countriesReducer } from 'features/countries';
-import { langReducer } from 'features/languages';
 
 export const rootReducer = combineReducers({
   // server state
