@@ -2,8 +2,8 @@ import { RefObject, useEffect, useRef, useState } from 'react';
 import { useAppSelector } from 'App';
 import { selectIsEnglishActiveLang } from 'features/languages';
 import { DropdownStyled } from './Drowdown.styled';
-import { AddCountryForm } from '../AddCountryForm/AddCountryForm';
-import { CountriesList } from '../CountriesList/CountriesList';
+import { CountriesList } from '../CountriesList';
+import { AddCountryForm } from '../AddCountryForm';
 
 type DropdownType = {
   closeCountriesList: () => void;

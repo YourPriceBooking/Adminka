@@ -49,7 +49,6 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
         cityInternational: cityName,
         cityCode: cityName.slice(0, 4).toUpperCase(),
 
-        languageId: activeLangId,
         langCode: 'EN',
       };
 
@@ -62,7 +61,7 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
         toast.error('City not added');
       }
     },
-    [activeLangId, isSubmitDisabled, stateId]
+    [isSubmitDisabled, stateId]
   );
 
   return (

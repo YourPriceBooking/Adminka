@@ -1,5 +1,5 @@
 import { useAppSelector } from 'App';
-import { selectActiveLangId } from 'features/common';
+import { selectVisibleCountriesIds } from 'features/languages';
 import { CountryListStyled } from './CountriesList.styled';
 import { CountryItem } from './CountryItem';
 
@@ -10,25 +10,17 @@ type CountriesListProps = {
   closeCountriesList: () => void;
 };
 
-const ids = ['1', '2'];
-const useSelectCountriesIds = () => {
-  const languageId = useAppSelector(selectActiveLangId);
-  console.log('useSelectCountriesIds ~ languageId', languageId);
-
-  return ids;
-};
-
 export const CountriesList = ({
   isEditingCountry, // 1
   isLoading,
   setIsEditingCountry,
   closeCountriesList,
 }: CountriesListProps) => {
-  const countryIds = useSelectCountriesIds();
+  const countriesIds = useAppSelector(selectVisibleCountriesIds);
 
   return (
     <CountryListStyled>
-      {countryIds.map(countryId => (
+      {countriesIds?.map(countryId => (
         <CountryItem
           key={countryId}
           countryItem={{

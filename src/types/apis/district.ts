@@ -1,59 +1,31 @@
 import type { EntityId, EntityState } from '@reduxjs/toolkit';
 
-export type NewDistrictWithOutId = {
-  cityId: string;
-  cityInternational: string;
-
-  districtName: string;
-  districtInternational: string;
-  districtCode: string;
-  districtPhotoURL: string;
-
-  langCode: string;
-  dbLangCode: string;
-};
-
 export type District = {
-  cityId: EntityId;
-  cityInternational: string;
+  cityId: EntityId; // +
+  cityInternational: string; // +
 
-  _id: EntityId;
-  districtName: string;
-  districtInternational: string;
-  districtCode: string;
-  districtPhotoURL: string;
+  _id: EntityId; // +
+  districtName: string; // +
+  districtInternational: string; // +
+  districtCode: string; // +
+  districtPhotoURL: string; // +
 
-  langCode: string;
-  dbLangCode: string;
-  createdAt?: string;
-  updatedAt?: string;
+  langCode: string; // +
+  dbLangCode: string; // +
+  createdAt?: string; // +
+  updatedAt?: string; // +
 };
+
+export type AddDistrict = Omit<District, '_id' | 'createdAt' | 'updatedAt'>;
+export type EditDistrict = Omit<District, 'createdAt' | 'updatedAt' | 'dbLangCode'>;
+
+export type DeleteDistrict = Pick<District, '_id' | 'cityId'>;
 
 export type DistrictsAdapter = EntityState<District>;
 
-export type EditDistrict = {
-  cityId: EntityId;
-  cityInternational: string;
+export type ManyDistricts = { data?: { districts?: District[] } };
+export type OneDistrict = { district?: District };
 
-  _id: EntityId;
-  districtName: string;
-  districtInternational: string;
-  districtCode: string;
-  districtPhotoURL: string;
-
-  langCode: string;
-  dbLangCode: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type DeleteDistrict = {
-  _id: EntityId;
-  cityId: EntityId;
-};
-
-export type FindDistrict = {
-  cityId: EntityId;
-};
+export type FindDistrict = Pick<District, 'cityId'>;
 
 export type DistrictResponse = District[] | [];

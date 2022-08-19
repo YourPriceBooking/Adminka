@@ -18,7 +18,6 @@ export const rootReducer = combineReducers({
   counter: counterSliceReducer,
   modal: modalSliceReducer,
   theme: themeReducer,
-
   lang: langReducer,
   countries: countriesReducer,
 });

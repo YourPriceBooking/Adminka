@@ -10,12 +10,23 @@ import './draft';
  * 14. GET  `/api/location-city/${_id}`
  * 15. GET  `/api/location-district/${_id}`
  */
+
+const config = {
+  backend: {
+    heroku: 'https://your-price-booking.herokuapp.com/api' as const,
+    localhost: 'http://localhost:3500' as const,
+  },
+  qty: { one: 'one' as const, many: 'many' as const },
+};
+
+const localhost = true;
+const baseUrl = localhost ? config.backend.localhost : config.backend.heroku;
+
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
-    // baseUrl: 'https://your-price-booking.herokuapp.com/api',
-    baseUrl: 'http://localhost:3500',
-    // http://localhost:3500/countries/?_id=62f559a8edd52743fb6684e6
+    baseUrl,
+
     // prepareHeaders: (headers, { getState }) => {
     //   const token = getState().auth.token;
     //   if (token) {

@@ -1,4 +1,5 @@
-import { useSelectLanguagesIds } from 'features/languages';
+import { useAppSelector } from 'App';
+import { selectLanguagesIds } from 'features/languages';
 import type { SelectLangType } from 'types/apis';
 import slang from '../AddLanguages.module.scss';
 import { LanguageItem } from './SelectLangItem';
@@ -8,7 +9,7 @@ type SelectLangListProps = {
 };
 
 export const SelectLangList = ({ setActiveLanguage }: SelectLangListProps) => {
-  const languagesIds = useSelectLanguagesIds();
+  const languagesIds = useAppSelector(selectLanguagesIds);
 
   return (
     <ul className={slang.block_lang_ul}>

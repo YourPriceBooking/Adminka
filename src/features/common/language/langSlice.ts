@@ -7,7 +7,7 @@ type LanguageState = {
   activeLangId: SelectLanguageType;
 };
 
-export const initialState: LanguageState = {
+const initialState: LanguageState = {
   activeLangId: undefined,
 };
 

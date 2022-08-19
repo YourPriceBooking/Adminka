@@ -1,7 +1,5 @@
-import { createEntityAdapter, createSelector, EntityId, nanoid } from '@reduxjs/toolkit';
-import { api, frozenArr, selectEntityId, selectState } from 'features/api';
-import { countrySchema } from 'models';
-import { normalize } from 'normalizr';
+import { createEntityAdapter, createSelector } from '@reduxjs/toolkit';
+import { api } from 'features/api';
 
 import type { RootState } from 'App/store';
 
@@ -9,18 +7,13 @@ import type {
   AddCountry,
   CountriesResponse,
   Country,
-  CountriesAdapter,
   EditCountry,
   DeleteCountry,
-  // InitCountriesResponse,
-  // InitCountryResponse,
+  GetCountry,
+  MaybeCountriesState,
 } from 'types/apis';
 
-import { useAppSelector } from 'App';
 import { logRender } from 'common/utils';
-import { useMemo } from 'react';
-import { languagesApi } from '../languages/languagesApi';
-import { selectActiveCountryId } from './countriesSlice';
 
 const countriesAdapter = createEntityAdapter<Country>({
   selectId: country => country._id,
@@ -29,47 +22,40 @@ const countriesAdapter = createEntityAdapter<Country>({
 
 const initialState = countriesAdapter.getInitialState();
 
+/** @returns Saved to redux countries from countriesAdapter */
+export const saveManyCountries = (data?: CountriesResponse) => {
+  if (!data) return undefined;
+  return countriesAdapter.setAll(initialState, data);
+};
+
+/** @returns Saved to redux country from countriesAdapter */
+export const saveCountry = (data?: Country) => {
+  if (!data) return undefined;
+  return countriesAdapter.upsertOne(initialState, data);
+};
+
 export const countriesApi = api.injectEndpoints({
-  endpoints: builder => ({
-    // getCountries: builder.query<CountriesResponse, void>({
-    getCountries: builder.query<CountriesAdapter, void>({
+  endpoints: build => ({
+    // getCountries: build.query<MaybeCountriesState, void>({
+    getCountries: build.query<MaybeCountriesState, void>({
       query: () => '/countries',
-      // transformResponse: (result: InitCountriesResponse) => result?.data?.result,
-      transformResponse: (countries: CountriesResponse) => {
-        const loadedCountries = countries ?? frozenArr;
-
-        const normalizedCountries = normalize(countries, countrySchema);
-
-        const savedCountries = countriesAdapter.upsertMany(initialState, loadedCountries);
-
-        logRender('getCountries', { loadedCountries, normalizedCountries, savedCountries });
-
-        return savedCountries;
-      },
+      // transformResponse: (result: InitCountriesResponse) => result?.data?.countries,
+      transformResponse: (data?: CountriesResponse) => saveManyCountries(data),
       providesTags: result => [
         { type: 'Country', id: 'LIST' },
         ...(result ? result.ids.map(id => ({ type: 'Country' as const, id })) : []),
       ],
     }),
 
-    getCountry: builder.query<CountriesAdapter, EntityId>({
-      query: _id => `/countries/${_id}`,
+    getCountry: build.query<MaybeCountriesState, GetCountry>({
+      query: id => `/countries/${id}`,
       // transformResponse: (result: InitCountryResponse) => result?.data?.country,
-      transformResponse: (country: Country) => {
-        const loadedCountry = country ?? frozenArr;
-
-        const normalizedCountry = normalize(loadedCountry, countrySchema);
-
-        const savedCountry = countriesAdapter.upsertOne(initialState, loadedCountry);
-        logRender('getCountry', { loadedCountry, normalizedCountry, savedCountry });
-
-        return savedCountry;
-      },
-      providesTags: (result, error, _id) => [{ type: 'Country', id: _id }],
+      transformResponse: (country: Country) => saveCountry(country),
+      providesTags: (result, error, id) => [{ type: 'Country', id }],
     }),
 
-    // addCountryEng: builder.mutation<CountryResponse, AddCountry>({
-    addCountryEng: builder.mutation<CountriesAdapter, AddCountry>({
+    // addCountryEng: build.mutation<MaybeCountriesState, AddCountry>({
+    addCountryEng: build.mutation<MaybeCountriesState, AddCountry>({
       query: ({ country, international }) => ({
         url: '/countries',
         method: 'POST',
@@ -79,49 +65,29 @@ export const countriesApi = api.injectEndpoints({
           international,
           langCode: 'EN',
           dbLangCode: 'EN',
-          _id: nanoid(),
         },
       }),
       // transformResponse: (result: AddCountryResponse) => result.data.country,
-      transformResponse: (country: Country) => {
-        const loadedCountry = country ?? frozenArr;
-
-        const normalizedCountry = normalize(loadedCountry, countrySchema);
-
-        const savedCountry = countriesAdapter.upsertOne(initialState, loadedCountry);
-        logRender('addCountryEng', { loadedCountry, normalizedCountry, savedCountry });
-
-        return savedCountry;
-      },
+      transformResponse: (country: Country) => saveCountry(country),
       invalidatesTags: [{ type: 'Country', id: 'LIST' }],
     }),
 
-    // editCountry: builder.mutation<CountryResponse, EditCountry>({
-    editCountry: builder.mutation<CountriesAdapter, EditCountry>({
-      query: ({ _id, country, langCode, international }) => ({
+    // editCountry: build.mutation<MaybeCountriesState, EditCountry>({
+    editCountry: build.mutation<MaybeCountriesState, EditCountry>({
+      query: ({ _id, country, langCode }) => ({
         url: `/countries/${_id}`,
         method: 'PATCH',
-        body: { country, langCode, international },
+        body: { country, langCode },
       }),
       // transformResponse: (result: { data: { result: Country } }) => result.data.result,
-      transformResponse: (country: Country) => {
-        const loadedCountry = country ?? frozenArr;
-
-        const normalizedCountry = normalize(loadedCountry, countrySchema);
-
-        const savedCountry = countriesAdapter.upsertOne(initialState, loadedCountry);
-        logRender('editCountry', { loadedCountry, normalizedCountry, savedCountry });
-
-        return savedCountry;
-      },
+      transformResponse: (country: Country) => saveCountry(country),
 
       // optimistic updates
-      async onQueryStarted({ _id, activeLangId, ...patch }, { dispatch, queryFulfilled }) {
+      // photURL + name country
+      async onQueryStarted({ _id, ...patch }, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
-          languagesApi.util.updateQueryData('getLanguages', undefined, draft => {
-            const editedCountry = draft.entities[activeLangId]?.countries?.find(
-              country => country._id === _id
-            );
+          countriesApi.util.updateQueryData('getCountries', undefined, draft => {
+            const editedCountry = draft?.entities[_id];
 
             if (editedCountry) {
               Object.assign(editedCountry, patch);
@@ -133,7 +99,7 @@ export const countriesApi = api.injectEndpoints({
           await queryFulfilled;
         } catch (error) {
           dispatch(
-            languagesApi.util.patchQueryData('getLanguages', undefined, patchResult.inversePatches)
+            countriesApi.util.patchQueryData('getCountries', undefined, patchResult.inversePatches)
           );
         }
       },
@@ -142,12 +108,22 @@ export const countriesApi = api.injectEndpoints({
       // invalidatesTags: (result, error, { _id }) => [{ type: 'Country', id: _id }],
     }),
 
-    deleteCountry: builder.mutation<void, DeleteCountry>({
-      query: ({ _id }) => ({
-        url: `/countries/${_id}`,
+    deleteCountry: build.mutation<MaybeCountriesState, DeleteCountry>({
+      query: id => ({
+        url: `/countries/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: (result, error, { _id }) => [{ type: 'Country', id: _id }],
+
+      transformResponse(_, __, id) {
+        // const deletedCountry = result.data.country ?? frozenArr;
+        const deletedCountry = id;
+
+        const savedCountryAdapter = countriesAdapter.removeOne(initialState, deletedCountry);
+        logRender('editCountry', { deletedCountry, savedCountryAdapter }, true);
+
+        return savedCountryAdapter;
+      },
+      invalidatesTags: (result, error, id) => [{ type: 'Country', id }],
     }),
   }),
 });
@@ -163,51 +139,11 @@ export const {
 const selectCountriesResult = countriesApi.endpoints.getCountries.select();
 
 // Creates memoized selector
-const selectCountriesData = createSelector(selectCountriesResult, result => result.data); // normalized state object with ids and entities
+const selectCountriesData = createSelector(selectCountriesResult, result => result.data);
+// normalized state object with ids and entities
 
 export const {
   selectAll: selectAllCountries,
   selectById: selectCountryById,
   selectIds: selectCountriesIds,
 } = countriesAdapter.getSelectors<RootState>(state => selectCountriesData(state) ?? initialState);
-
-export const useSelectCountriesIds = () => {
-  const countriesIds = useAppSelector(selectCountriesIds);
-  logRender('useSelectCountriesIds', countriesIds);
-  return countriesIds;
-};
-
-const makeSelectCountryById = () =>
-  createSelector([selectState, selectEntityId], (state, id) => {
-    const country = selectCountryById(state, id);
-    logRender('makeSelectCountryById - outputSelector', country);
-    return country;
-  });
-
-// each call will return separate instance of memoized selector
-export const useSelectCountryById = (countryId: EntityId) => {
-  const countrySelector = useMemo(makeSelectCountryById, []);
-  const country = useAppSelector(state => countrySelector(state, countryId));
-  logRender('useSelectCountryById', country);
-  return country;
-};
-
-const selectActiveCountry = createSelector(
-  [selectState, selectActiveCountryId],
-  (state, activeCountryId) => {
-    if (!activeCountryId) return undefined;
-    return selectCountryById(state, activeCountryId);
-  }
-);
-export const selectActiveCountryName = createSelector(
-  selectActiveCountry,
-  country => country?.country
-);
-export const selectActiveCountryInternational = createSelector(
-  selectActiveCountry,
-  country => country?.international
-);
-// export const selectActiv = createSelector(
-//   selectActiveCountry,
-//   country => country?.
-// );

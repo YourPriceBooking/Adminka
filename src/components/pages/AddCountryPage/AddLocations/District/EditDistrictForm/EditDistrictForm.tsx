@@ -1,5 +1,5 @@
 import { useAppSelector } from 'App';
-import { isEdited, logRender } from 'common/utils';
+import { logRender } from 'common/utils';
 import {
   selectActiveDBLangCode,
   selectActiveLangCode,
@@ -30,10 +30,6 @@ const districtItem: EditDistrict = {
   districtCode: 'test',
 
   langCode: 'test',
-  dbLangCode: 'test',
-
-  createdAt: 'test',
-  updatedAt: 'test',
 };
 
 const useSelectDistrict = (districtId: string) => {
@@ -51,8 +47,8 @@ export const EditDistrictForm = ({ districtId }: DistrictItemProps) => {
     districtPhotoURL,
     districtInternational,
     districtCode,
-    createdAt,
-    updatedAt,
+
+    langCode,
   } = useSelectDistrict(districtId);
 
   const activeLangCode = useAppSelector(selectActiveLangCode);
@@ -73,11 +69,11 @@ export const EditDistrictForm = ({ districtId }: DistrictItemProps) => {
     !localDistrictPhotoURL?.trim() ||
     !activeLangCode ||
     !activeDBLangCode;
-  const $isFirstEdit = !isEdited(createdAt, updatedAt) && !isEng;
+  const $isFirstEdit = langCode === 'EN' && !isEng;
 
   const handleSubmitEditDistrict = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isSubmitDisabled) return;
+    if (isSubmitDisabled || !activeDBLangCode || !activeDBLangCode) return;
 
     const districtPhotoURLTrimmed = localDistrictPhotoURL?.trim();
     const districtNameTrimmed = localDistrictName?.trim();
@@ -104,10 +100,6 @@ export const EditDistrictForm = ({ districtId }: DistrictItemProps) => {
       districtCode,
 
       langCode: activeLangCode,
-      dbLangCode: activeDBLangCode,
-
-      createdAt,
-      updatedAt,
     };
 
     try {

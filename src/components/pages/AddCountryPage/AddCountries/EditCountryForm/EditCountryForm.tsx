@@ -3,15 +3,17 @@ import { useAppDispatch, useAppSelector } from 'App';
 import { toast } from 'react-toastify';
 import type { EditCountry } from 'types/apis';
 import {
+  selectCountryById,
   selectDev,
   setActiveCountryId,
   useDeleteCountryMutation,
   useEditCountryMutation,
-  useSelectCountryById,
 } from 'features/countries';
 import { selectActiveLangId } from 'features/common';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 // import { isEdited } from 'common/utils';
+import type { EntityId } from '@reduxjs/toolkit';
+
 import {
   CountryInputLabel,
   EditCountryFormStyled,
@@ -22,39 +24,22 @@ import { EditButton } from '../EditButton/EditButton';
 
 export type EditCountryFormType = {
   countryItem: {
-    countryId: string;
+    countryId: EntityId;
     closeCountriesList: () => void;
     setIsEditingCountry: (arg: boolean) => void;
     isEditingCountry: boolean;
     isLoading: boolean;
   };
 };
-const emptyObj = {
-  _id: '',
 
-  country: '',
-  international: '',
-
-  langCode: '',
-  createdAt: '',
-  updatedAt: '',
-};
 export const EditCountryForm = ({
   countryItem: { countryId, closeCountriesList, isEditingCountry, setIsEditingCountry, isLoading },
 }: EditCountryFormType) => {
   const [editCountry, { isLoading: isLoadingEditedCountry }] = useEditCountryMutation();
   const [deleteCountry, { isLoading: isDeletingCountry }] = useDeleteCountryMutation();
   const appDispatch = useAppDispatch();
-  const {
-    _id: id = '',
 
-    country = '',
-    international = '',
-
-    langCode = '',
-    // createdAt = '',
-    // updatedAt = '',
-  } = useSelectCountryById(countryId) ?? emptyObj;
+  const countryObj = useAppSelector(state => selectCountryById(state, countryId));
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -63,15 +48,17 @@ export const EditCountryForm = ({
   const isEng = useAppSelector(selectIsEnglishActiveLang);
   const showDev = useAppSelector(selectDev);
 
-  const [localCountryName, setLocalCountryName] = useState(country);
+  const [localCountryName, setLocalCountryName] = useState(countryObj?.country);
   const [inputDisabled, setInputDisabled] = useState(true);
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
 
   const isPending = isLoading || isLoadingEditedCountry || isDeletingCountry;
   const isDisabledEdit = !inputDisabled || isPending;
   const isDisabledSubmit =
+    !countryObj ||
+    !countryObj.country ||
     isSubmitButtonDisabled ||
-    !localCountryName.trim() ||
+    !localCountryName?.trim() ||
     isPending ||
     !activeLangId ||
     !activeLangCode;
@@ -79,14 +66,13 @@ export const EditCountryForm = ({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isDisabledSubmit) return;
-    const editedCountryName = localCountryName.trim();
+    const editedCountryName = localCountryName?.trim();
+    if (!editedCountryName) return;
 
     const editedCountry: EditCountry = {
-      _id: id,
+      _id: countryObj?._id,
       country: editedCountryName,
       langCode: activeLangCode,
-      international,
-      activeLangId,
     };
 
     try {
@@ -94,11 +80,11 @@ export const EditCountryForm = ({
       console.log('editedResponse', editedResponse);
 
       if (editedResponse) {
-        toast.success(`${editedResponse.entities[id]?.country} country updated!`);
+        toast.success(`${editedResponse.entities[countryObj._id]?.country} country updated!`);
       }
     } catch (error) {
       toast.error(JSON.stringify(error));
-      setLocalCountryName(country);
+      setLocalCountryName(countryObj.country);
     } finally {
       setInputDisabled(true);
       setIsSubmitButtonDisabled(true);
@@ -106,18 +92,19 @@ export const EditCountryForm = ({
   };
 
   const onDeleteCountry = useCallback(async () => {
+    if (!countryObj?._id) return;
+
     try {
-      await deleteCountry({ _id: id }).unwrap();
+      await deleteCountry(countryObj?._id).unwrap();
       appDispatch(setActiveCountryId());
       toast.success(`Country deleted`);
     } catch (error) {
-      toast.error(`Error while deleting country with _id: ${id}`);
+      toast.error(`Error while deleting country with _id: ${countryObj?._id}`);
     }
-  }, [id, appDispatch, deleteCountry]);
+  }, [countryObj?._id, appDispatch, deleteCountry]);
 
   const startEditing = useCallback(() => {
     if (isEditingCountry) return;
-    // console.log('editing');
 
     setIsEditingCountry(true);
     setInputDisabled(false);
@@ -137,12 +124,11 @@ export const EditCountryForm = ({
   const selectActiveCountry = useCallback(async () => {
     if (isEditingCountry) return;
 
-    appDispatch(setActiveCountryId(id));
+    appDispatch(setActiveCountryId(countryObj?._id));
     closeCountriesList();
-  }, [isEditingCountry, id, appDispatch, closeCountriesList]);
+  }, [isEditingCountry, appDispatch, countryObj?._id, closeCountriesList]);
 
-  // const isFirstEdit = isEdited(createdAt, updatedAt);
-  const isFirstEdit = langCode?.toUpperCase() === 'EN' && !isEng;
+  const isFirstEdit = countryObj?.langCode?.toUpperCase() === 'EN' && !isEng;
 
   useEffect(() => {
     if (inputDisabled) return () => {};
@@ -154,7 +140,7 @@ export const EditCountryForm = ({
 
       formRef.current?.reset();
       stopEditing();
-      setLocalCountryName(country);
+      setLocalCountryName(countryObj?.country);
     };
 
     const timer = setTimeout(() => {
@@ -168,7 +154,7 @@ export const EditCountryForm = ({
     };
 
     return clearGarbage;
-  }, [country, inputDisabled, stopEditing]);
+  }, [countryObj?.country, inputDisabled, stopEditing]);
 
   return (
     <EditCountryFormStyled onSubmit={handleSubmit} ref={formRef}>

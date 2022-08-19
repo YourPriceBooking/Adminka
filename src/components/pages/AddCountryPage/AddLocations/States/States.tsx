@@ -1,16 +1,11 @@
-import { logRender } from 'common/utils';
 import { AddStateForm } from './AddStateForm';
 import { StatesStyled } from './States.styled';
 import { StatesList } from './StatesList/StatesList';
 
-export const States = () => {
-  logRender('States');
+export const States = () => (
+  <StatesStyled>
+    <StatesList />
 
-  return (
-    <StatesStyled>
-      <StatesList />
-
-      <AddStateForm />
-    </StatesStyled>
-  );
-};
+    <AddStateForm />
+  </StatesStyled>
+);

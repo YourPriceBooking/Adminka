@@ -1,6 +1,6 @@
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import type { NewDistrictWithOutId } from 'types/apis';
+import type { AddDistrict } from 'types/apis';
 import { AddLocationButton } from '../../States/AddStateForm/AddStateForm.styled';
 import { SubmitAddLocationButton } from '../../States/EditStateForm/EditStateForm.styled';
 import { Row, AddDistrictFormStyled } from './AddDistrictForm.styled';
@@ -36,7 +36,7 @@ export const AddDistrictForm = ({ cityId }: { cityId: string }) => {
       //   return;
       // }
 
-      const newDistrict: NewDistrictWithOutId = {
+      const newDistrict: AddDistrict = {
         cityId,
         cityInternational: '',
 

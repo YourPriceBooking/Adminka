@@ -2,7 +2,7 @@ import { useAppSelector } from 'App';
 import { selectActiveCountryId } from 'features/countries';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import type { NewStateWithOutId } from 'types/apis';
+import type { AddState } from 'types/apis';
 import { SubmitAddLocationButton } from '../EditStateForm/EditStateForm.styled';
 
 import { Row, AddLocationButton, AddStateFormStyled } from './AddStateForm.styled';
@@ -39,7 +39,7 @@ export const AddStateForm = () => {
         return;
       }
 
-      const newState: NewStateWithOutId = {
+      const newState: AddState = {
         stateName,
         stateInternational: stateName,
         stateCode: stateName.slice(0, 5).toUpperCase(),

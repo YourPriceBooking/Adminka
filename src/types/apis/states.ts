@@ -1,51 +1,8 @@
 import type { EntityId, EntityState } from '@reduxjs/toolkit';
-import type { City } from './cities';
-
-export type AddState = {
-  countryId: EntityId;
-  international: string;
-
-  stateName: string;
-  stateInternational: string;
-  stateCode: string;
-  statePhotoURL: string;
-
-  langCode: string;
-  dbLangCode: string;
-};
-
-export type EditState = {
-  countryId: EntityId;
-  international: string;
-
-  _id: EntityId;
-  stateName: string;
-  stateInternational: string;
-  stateCode: string;
-  statePhotoURL: string;
-
-  langCode: string;
-  dbLangCode: string;
-
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type NewStateWithOutId = {
-  countryId: EntityId;
-  international: string;
-
-  stateName: string;
-  stateInternational: string;
-  stateCode: string;
-  statePhotoURL: string;
-
-  langCode: string;
-  dbLangCode: string;
-};
+import type { ChangeTypeOfKeys, City } from './cities';
 
 export type State = {
-  countryId: EntityId;
+  countryId: EntityId; //+
   international: string;
 
   _id: EntityId;
@@ -62,11 +19,16 @@ export type State = {
   updatedAt: string;
 };
 
-export type StatesAdapter = EntityState<State>;
+export type AddState = Omit<State, '_id' | 'cities' | 'createdAt' | 'updatedAt'>;
+export type EditState = Omit<State, 'cities'>;
 
-export type DeleteState = {
-  _id: EntityId;
-};
+export type StatesAdapter = EntityState<State>;
+export type NormalizedState = ChangeTypeOfKeys<State, 'cities', EntityId[]>;
+
+export type ManyStates = { data?: { states?: State[] } };
+export type OneState = { state?: State };
+
+export type DeleteState = EntityId;
 
 export type StatesResponse = State[] | [];
 /**

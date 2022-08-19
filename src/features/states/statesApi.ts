@@ -1,5 +1,15 @@
 import { createEntityAdapter, EntityId } from '@reduxjs/toolkit';
-import type { AddState, EditState, State, StatesAdapter, StatesResponse } from 'types/apis';
+import { logRender } from 'common/utils';
+import { stateSchema, statesListSchema } from 'models';
+import { normalize } from 'normalizr';
+import type {
+  AddState,
+  DeleteState,
+  EditState,
+  State,
+  StatesAdapter,
+  StatesResponse,
+} from 'types/apis';
 import { api } from '../api/api';
 
 const statesAdapter = createEntityAdapter<State>({
@@ -11,6 +21,28 @@ const initialState = statesAdapter.getInitialState();
 
 export const statesApi = api.injectEndpoints({
   endpoints: builder => ({
+    getStates: builder.query<StatesAdapter, void>({
+      query: () => 'location-state',
+      // transformResponse: (result: { data: { state: State } }) => {
+      transformResponse: (states: StatesResponse) => {
+        // const loadedStates = result?.data?.state;
+        const loadedStates = states;
+
+        const normalizedStates = normalize(loadedStates, statesListSchema);
+
+        const savedStatesAdapter = statesAdapter.upsertMany(initialState, states);
+
+        logRender('getStates', { loadedStates, normalizedStates, savedStatesAdapter });
+
+        return savedStatesAdapter;
+      },
+
+      providesTags: result => [
+        { type: 'State', id: 'LIST' },
+        ...(result ? result.ids.map(id => ({ type: 'State' as const, id })) : []),
+      ],
+    }),
+
     getState: builder.query<StatesAdapter, EntityId>({
       query: _id => ({
         url: `/location-state/${_id}`,
@@ -20,16 +52,22 @@ export const statesApi = api.injectEndpoints({
       // transformResponse: (result: { data: { state: State } }) => {
       transformResponse: (state: State) => {
         console.log('state', state);
-        // const states = result?.data?.state;
-        const adapter = statesAdapter.setOne(initialState, state);
-        console.log(adapter, statesAdapter);
-        return adapter;
+        // const loadedState = result?.data?.state;
+        const loadedState = state;
+
+        const normalizedState = normalize(loadedState, stateSchema);
+
+        const savedStateAdapter = statesAdapter.upsertOne(initialState, loadedState);
+
+        logRender('getStates', { loadedState, normalizedState, savedStateAdapter });
+
+        return savedStateAdapter;
       },
 
       providesTags: (_, __, id) => [{ type: 'State', id }],
     }),
 
-    addState: builder.mutation<State, AddState>({
+    addState: builder.mutation<StatesAdapter, AddState>({
       query: body => ({
         url: '/location-state',
         method: 'POST',
@@ -37,27 +75,68 @@ export const statesApi = api.injectEndpoints({
         body,
       }),
 
+      // transformResponse: (result: { data: { state: State } }) => {
+      transformResponse: (state: State) => {
+        console.log('state', state);
+        // const loadedState = result?.data?.state;
+        const loadedState = state;
+
+        const normalizedState = normalize(loadedState, stateSchema);
+
+        const savedStateAdapter = statesAdapter.upsertOne(initialState, loadedState);
+
+        logRender('getStates', { loadedState, normalizedState, savedStateAdapter });
+
+        return savedStateAdapter;
+      },
+
       invalidatesTags: [{ type: 'State', id: 'LIST' }],
     }),
 
-    editState: builder.mutation<StatesResponse, EditState>({
+    editState: builder.mutation<StatesAdapter, EditState>({
       query: ({ _id, stateCode, stateName, statePhotoURL, stateInternational }) => ({
         url: `/location-state/${_id}`,
         method: 'PUT',
         body: { stateCode, stateName, statePhotoURL, stateInternational },
       }),
 
-      invalidatesTags: (result, error, { _id }) => [{ type: 'State', id: _id }],
+      // transformResponse: (result: { data: { state: State } }) => {
+      transformResponse: (state: State) => {
+        console.log('state', state);
+        // const loadedState = result?.data?.state;
+        const loadedState = state;
+
+        const normalizedState = normalize(loadedState, stateSchema);
+
+        const savedStateAdapter = statesAdapter.upsertOne(initialState, loadedState);
+
+        logRender('getStates', { loadedState, normalizedState, savedStateAdapter });
+
+        return savedStateAdapter;
+      },
+
+      invalidatesTags: (_, __, { _id }) => [{ type: 'State', id: _id }],
     }),
 
-    deleteState: builder.mutation<StatesResponse, EditState>({
-      query: ({ _id }) => ({
-        url: `/location-state/${_id}`,
+    deleteState: builder.mutation<StatesAdapter, DeleteState>({
+      query: id => ({
+        url: `/location-state/${id}`,
         method: 'DELETE',
-        body: { _id },
       }),
 
-      invalidatesTags: (result, error, { _id }) => [{ type: 'State', id: _id }],
+      // transformResponse: (result: { data: { state: State } }) => {
+      transformResponse: (_, __, id) => {
+        // const removedState = result?.data?.state;
+        const removedState = id;
+
+        const savedStateAdapter = statesAdapter.removeOne(initialState, removedState);
+
+        logRender('getStates', { removedState, savedStateAdapter });
+
+        return savedStateAdapter;
+      },
+
+      invalidatesTags: (result, error, id) => [{ type: 'State', id }],
     }),
   }),
 });

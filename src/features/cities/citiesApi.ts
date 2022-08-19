@@ -13,10 +13,10 @@ export const citiesAdapter = createEntityAdapter<City>({
 const initialState = citiesAdapter.getInitialState();
 
 export const citiesApi = api.injectEndpoints({
-  endpoints: builder => ({
-    getCities: builder.query<CitiesAdapter, void>({
+  endpoints: build => ({
+    getCities: build.query<CitiesAdapter, void>({
       query: () => '/location-city',
-      transformResponse: (cities: City[]) => {
+      transformResponse(cities: City[]) {
         console.log(cities);
         const normalizedCities = normalize(cities, citySchema);
         console.log({ normalizedCities });
@@ -32,10 +32,10 @@ export const citiesApi = api.injectEndpoints({
       ],
     }),
 
-    getCity: builder.query<CitiesAdapter, EntityId>({
+    getCity: build.query<CitiesAdapter, EntityId>({
       query: _id => `/location-city/${_id}`,
 
-      transformResponse: (city: City) => {
+      transformResponse(city: City) {
         console.log(city);
         const normalizedCity = normalize(city, citySchema);
         console.log({ normalizedCity });
@@ -49,7 +49,7 @@ export const citiesApi = api.injectEndpoints({
       providesTags: (_, __, _id) => [{ type: 'City', id: _id }],
     }),
 
-    addCity: builder.mutation<CitiesAdapter, AddCity>({
+    addCity: build.mutation<CitiesAdapter, AddCity>({
       query: body => ({
         url: '/location-city',
         method: 'POST',
@@ -58,7 +58,7 @@ export const citiesApi = api.injectEndpoints({
       }),
 
       // transformResponse: (response: AddCityResponse) => {
-      transformResponse: (city: City) => {
+      transformResponse(city: City) {
         // response?.data?.city;
         console.log(city);
         const normalizedCity = normalize(city, citySchema);
@@ -73,14 +73,14 @@ export const citiesApi = api.injectEndpoints({
       invalidatesTags: [{ type: 'City', id: 'LIST' }],
     }),
 
-    editCity: builder.mutation<CitiesAdapter, EditCity>({
+    editCity: build.mutation<CitiesAdapter, EditCity>({
       query: ({ _id, ...body }) => ({
         url: `/location-city/${_id}`,
         method: 'PATCH',
         body,
       }),
 
-      transformResponse: (city: City) => {
+      transformResponse(city: City) {
         console.log(city);
 
         const normalizedCity = normalize(city, citySchema);
@@ -95,14 +95,14 @@ export const citiesApi = api.injectEndpoints({
       invalidatesTags: (result, error, { _id }) => [{ type: 'City', id: _id }],
     }),
 
-    deleteCity: builder.mutation<CitiesAdapter, EditCity>({
+    deleteCity: build.mutation<CitiesAdapter, EditCity>({
       query: ({ _id }) => ({
         url: `/location-city/${_id}`,
         method: 'DELETE',
         body: { _id },
       }),
 
-      transformResponse: (city: City) => {
+      transformResponse(city: City) {
         console.log(city);
 
         const normalizedDeletedCity = normalize(city, citySchema);

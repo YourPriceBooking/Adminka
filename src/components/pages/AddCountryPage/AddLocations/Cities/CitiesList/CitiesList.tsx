@@ -2,17 +2,15 @@ import { logRender } from 'common/utils';
 import { CitiesListStyled } from './CitiesList.styled';
 import { CityItem } from './CityItem';
 
-const useSelectCitiesIds = (stateId: string) => {
-  logRender('useSelectCitiesIds ~ stateId', stateId);
-  return ['cityId1', 'cityId2'];
-};
-
 type CitiesListProps = {
   stateId: string;
 };
 
+const arr = ['1', '2'];
+
 export const CitiesList = ({ stateId }: CitiesListProps) => {
-  const citiesIds = useSelectCitiesIds(stateId);
+  const citiesIds = arr;
+  logRender('CitiesList', stateId);
 
   return (
     <CitiesListStyled>
