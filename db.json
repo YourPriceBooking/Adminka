@@ -375,7 +375,11 @@
       "country": "Germany",
       "langCode": "EN",
       "dbLangCode": "UK",
-      "states": ["62eec5abd26c6872771b5dd7", "62eec5bbd26c6872771b5ddb", "62eec5cfd26c6872771b5ddf"]
+      "states": [
+        "62eec5abd26c6872771b5dd7",
+        "62eec5bbd26c6872771b5ddb",
+        "62eec5cfd26c6872771b5ddf"
+      ]
     },
     {
       "_id": "62eecad6d26c6872771b5e40",
@@ -383,7 +387,11 @@
       "country": "Canada",
       "langCode": "EN",
       "dbLangCode": "UK",
-      "states": ["62eec6a2d26c6872771b5df3", "62eec6b1d26c6872771b5df7", "62eec6c6d26c6872771b5dfb"]
+      "states": [
+        "62eec6a2d26c6872771b5df3",
+        "62eec6b1d26c6872771b5df7",
+        "62eec6c6d26c6872771b5dfb"
+      ]
     },
     {
       "_id": "62eecad6d26c6872771b5e3c",
@@ -403,8 +411,8 @@
     {
       "_id": "62eecad6d26c6872771b5e3b",
       "international": "USA",
-      "country": "USA",
-      "langCode": "EN",
+      "country": "USAUKR",
+      "langCode": "UK",
       "dbLangCode": "UK",
       "states": [
         "62eec31ad26c6872771b5da9",
@@ -480,8 +488,8 @@
     {
       "_id": "62f2b9aabf938ee9f52f1c8b",
       "international": "USA",
-      "country": "USA",
-      "langCode": "EN",
+      "country": "USA2",
+      "langCode": "PL",
       "dbLangCode": "PL",
       "states": []
     },
@@ -520,7 +528,7 @@
     {
       "_id": "62f2b9acbf938ee9f52f1cae",
       "international": "Tailand",
-      "country": "Tailand2",
+      "country": "Tailand4",
       "langCode": "PL",
       "dbLangCode": "PL",
       "states": []
@@ -625,7 +633,11 @@
       "country": "Canada",
       "langCode": "EN",
       "dbLangCode": "NL",
-      "states": ["62eec6a2d26c6872771b5df3", "62eec6b1d26c6872771b5df7", "62eec6c6d26c6872771b5dfb"]
+      "states": [
+        "62eec6a2d26c6872771b5df3",
+        "62eec6b1d26c6872771b5df7",
+        "62eec6c6d26c6872771b5dfb"
+      ]
     },
     {
       "_id": "62f56206b27f74ad3a2b8bb8",
@@ -738,7 +750,7 @@
       "_id": "7wBBS7w"
     }
   ],
-  "states": [
+  "location-state": [
     {
       "_id": "62eec3d4d26c6872771b5dbb",
       "stateName": "Neveda State",
@@ -1550,7 +1562,7 @@
       "createdAt": "2022-08-06T19:41:46.890Z"
     }
   ],
-  "cities": [
+  "location-city": [
     {
       "_id": "62eec899d26c6872771b5e16",
       "stateId": "62eec3d4d26c6872771b5dbb",
@@ -1720,7 +1732,7 @@
       "createdAt": "2022-08-06T20:03:23.019Z"
     }
   ],
-  "districts": [
+  "location-district": [
     {
       "_id": "62eecb8ad26c6872771b5e69",
       "stateId": "62eec3fad26c6872771b5dbf",

@@ -18,7 +18,7 @@ export type City = {
 };
 
 export type AddCity = Omit<City, '_id' | 'districts' | 'createdAt' | 'updatedAt'>;
-export type EditCity = Omit<City, 'districts'>;
+export type EditCity = Pick<City, '_id' | 'cityName' | 'cityPhotoURL' | 'langCode'>;
 export type DeleteCity = Pick<City, '_id' | 'stateId'>;
 
 /**
@@ -33,7 +33,7 @@ export type ChangeTypeOfKeys<T extends object, Keys extends keyof T, NewType> = 
 
 export type CitiesResponse = City[] | [];
 
-export type CitiesAdapter = EntityState<City>;
+export type MaybeCitiesEntity = EntityState<City> | undefined;
 export type NormalizedCity = ChangeTypeOfKeys<City, 'districts', EntityId[]>;
 
 export type ManyCities = { data?: { cities?: City[] } };

@@ -1,9 +1,10 @@
+import type { EntityId } from '@reduxjs/toolkit';
 import { logRender } from 'common/utils';
 import { CitiesListStyled } from './CitiesList.styled';
 import { CityItem } from './CityItem';
 
 type CitiesListProps = {
-  stateId: string;
+  stateId: EntityId;
 };
 
 const arr = ['1', '2'];

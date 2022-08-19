@@ -1,6 +1,6 @@
-import { HeadingsListStyled, HeadingsItem, HeadingsText } from './HeadingsList.styled';
+import { HeadingsListStyled, HeadingsItem, HeadingsText } from './TableHeader.styled';
 
-export const HeadingsList = () => (
+export const TableHeader = () => (
   <HeadingsListStyled>
     <HeadingsItem>
       <HeadingsText>register 3</HeadingsText>

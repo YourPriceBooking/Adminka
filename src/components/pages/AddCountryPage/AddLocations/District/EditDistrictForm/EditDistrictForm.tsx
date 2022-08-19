@@ -1,10 +1,6 @@
 import { useAppSelector } from 'App';
 import { logRender } from 'common/utils';
-import {
-  selectActiveDBLangCode,
-  selectActiveLangCode,
-  selectIsEnglishActiveLang,
-} from 'features/languages';
+import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import type { EditDistrict } from 'types/apis';
@@ -52,7 +48,7 @@ export const EditDistrictForm = ({ districtId }: DistrictItemProps) => {
   } = useSelectDistrict(districtId);
 
   const activeLangCode = useAppSelector(selectActiveLangCode);
-  const activeDBLangCode = useAppSelector(selectActiveDBLangCode);
+
   const isEng = useAppSelector(selectIsEnglishActiveLang);
 
   const [isEditingDistrict, setIsEditingDistrict] = useState(false);
@@ -62,18 +58,21 @@ export const EditDistrictForm = ({ districtId }: DistrictItemProps) => {
 
   const setIsEditingDistrictTrue = useCallback(() => setIsEditingDistrict(true), []);
 
+  if (!activeLangCode) return null;
+
   const isInputDisabled = !isEditingDistrict;
   const isEditButtonDisabled = isEditingDistrict;
-  const isSubmitDisabled =
-    !localDistrictName?.trim() ||
-    !localDistrictPhotoURL?.trim() ||
-    !activeLangCode ||
-    !activeDBLangCode;
+  const isLoading = false;
+
   const $isFirstEdit = langCode === 'EN' && !isEng;
 
   const handleSubmitEditDistrict = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isSubmitDisabled || !activeDBLangCode || !activeDBLangCode) return;
+
+    const isSubmitDisabled =
+      isLoading || !localDistrictName?.trim() || !localDistrictPhotoURL?.trim();
+
+    if (isSubmitDisabled) return;
 
     const districtPhotoURLTrimmed = localDistrictPhotoURL?.trim();
     const districtNameTrimmed = localDistrictName?.trim();
@@ -153,11 +152,7 @@ export const EditDistrictForm = ({ districtId }: DistrictItemProps) => {
         />
       )}
 
-      {isEditingDistrict && (
-        <SubmitAddLocationButton type="submit" disabled={isSubmitDisabled}>
-          Done
-        </SubmitAddLocationButton>
-      )}
+      {isEditingDistrict && <SubmitAddLocationButton type="submit">Done</SubmitAddLocationButton>}
     </EditDistrictFormStyled>
   );
 };

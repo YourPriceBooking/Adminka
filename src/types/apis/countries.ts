@@ -1,6 +1,5 @@
 import { FormEvent } from 'react';
 import type { EntityId, EntityState } from '@reduxjs/toolkit';
-import type { State } from './states';
 import { ChangeTypeOfKeys } from './cities';
 
 export type SelectCountryType = EntityId | undefined;
@@ -15,7 +14,7 @@ export type Country = {
   langCode: string; //
   dbLangCode: string;
 
-  states: State[];
+  states: EntityId[];
   createdAt: string;
   updatedAt: string;
 };

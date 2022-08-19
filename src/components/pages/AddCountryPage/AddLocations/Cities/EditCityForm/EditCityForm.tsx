@@ -2,63 +2,34 @@ import { useAppSelector } from 'App';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { isEdited, logRender } from 'common/utils';
-
 import { EditButton } from 'components/pages/AddCountryPage/AddCountries/EditButton/EditButton';
 
 import type { EditCity } from 'types/apis';
 import { selectIsEnglishActiveLang } from 'features/languages';
+import { selectCityById } from 'features/cities';
 import type { CityItemProps } from '../CitiesList/CityItem';
 import { EditCityFormStyled, CityInfo, EditCityPhotoURLInput } from './EditCityForm.styled';
 import { SubmitAddLocationButton } from '../../States/EditStateForm/EditStateForm.styled';
 
-const cityItem: EditCity = {
-  stateId: '12345stateId',
-
-  _id: 'test',
-  cityName: 'test',
-  cityPhotoURL: 'test',
-  cityInternational: 'test',
-  cityCode: 'test',
-
-  langCode: 'test',
-
-  createdAt: 'test',
-  updatedAt: 'test',
-};
-
-const useSelectCity = (cityId: string) => {
-  logRender('useSelectCity ~ cityId', cityId);
-
-  return cityItem;
-};
-
 export const EditCityForm = ({ cityId }: CityItemProps) => {
-  const {
-    stateId,
-    _id: id,
-    cityName,
-    cityPhotoURL,
-    cityInternational,
-    cityCode,
-
-    langCode,
-
-    createdAt,
-    updatedAt,
-  } = useSelectCity(cityId);
+  const city = useAppSelector(state => selectCityById(state, cityId));
 
   const [isEditingCity, setIsEditingCity] = useState(false);
 
-  const [localCityName, setLocalCityName] = useState(cityName);
-  const [localCityPhotoURL, setLocalCityPhotoURL] = useState(cityPhotoURL);
+  const [localCityName, setLocalCityName] = useState(() => city?.cityName);
+  const [localCityPhotoURL, setLocalCityPhotoURL] = useState(() => city?.cityPhotoURL);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
-
   const setIsEditingCityTrue = useCallback(() => setIsEditingCity(true), []);
+
+  if (!city) return null;
+
+  const { _id: id, langCode } = city;
+
   const isInputDisabled = !isEditingCity;
   const isEditButtonDisabled = isEditingCity;
-  const isSubmitDisabled = !localCityName?.trim() || !localCityPhotoURL?.trim();
-  const $isFirstEdit = !isEdited(createdAt, updatedAt) && !isEng;
+  const isLoading = false;
+  const isSubmitDisabled = isLoading || !localCityName?.trim() || !localCityPhotoURL?.trim();
+  const $isFirstEdit = langCode === 'EN' && !isEng;
 
   const handleSubmitEditCity = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -77,18 +48,11 @@ export const EditCityForm = ({ cityId }: CityItemProps) => {
     //   return;
     // }
 
-    const updatedCity = {
-      stateId,
+    const updatedCity: EditCity = {
       _id: id,
       cityName: cityNameTrimmed,
       cityPhotoURL: cityPhotoURLTrimmed,
-      cityInternational: !cityInternational && isEng ? cityNameTrimmed : cityInternational,
-      cityCode,
-
       langCode,
-
-      createdAt,
-      updatedAt,
     };
 
     try {

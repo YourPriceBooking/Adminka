@@ -11,12 +11,12 @@ type AddLanguageFormProps = {
 };
 
 export const AddLanguageForm = ({ closeModal, setActiveLanguage }: AddLanguageFormProps) => {
-  const [addLanguage, { isLoading: isAddingLanguage }] = useAddLanguageMutation();
+  const [addLanguage, { isLoading }] = useAddLanguageMutation();
 
   const [localNewLangName, setLocalNewLangName] = useState('');
   const [localNewLangCode, setLocalNewLangCode] = useState('');
 
-  const isSubmitDisabled = !localNewLangName.trim() || !localNewLangCode.trim() || isAddingLanguage;
+  const isSubmitDisabled = isLoading || !localNewLangName.trim() || !localNewLangCode.trim();
 
   const onSubmitAddLanguage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

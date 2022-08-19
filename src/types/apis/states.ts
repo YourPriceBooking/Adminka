@@ -20,9 +20,9 @@ export type State = {
 };
 
 export type AddState = Omit<State, '_id' | 'cities' | 'createdAt' | 'updatedAt'>;
-export type EditState = Omit<State, 'cities'>;
+export type EditState = Pick<State, '_id' | 'stateName' | 'statePhotoURL'>;
 
-export type StatesAdapter = EntityState<State>;
+export type MaybeStatesEntity = EntityState<State> | undefined;
 export type NormalizedState = ChangeTypeOfKeys<State, 'cities', EntityId[]>;
 
 export type ManyStates = { data?: { states?: State[] } };

@@ -1,16 +1,16 @@
-import { createEntityAdapter, EntityId } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSelector, type EntityId } from '@reduxjs/toolkit';
+import type { RootState } from 'App/store';
 import { logRender } from 'common/utils';
-import { stateSchema, statesListSchema } from 'models';
-import { normalize } from 'normalizr';
+
 import type {
   AddState,
   DeleteState,
   EditState,
   State,
-  StatesAdapter,
+  MaybeStatesEntity,
   StatesResponse,
 } from 'types/apis';
-import { api } from '../api/api';
+import { api, endpoints, frozenArr } from '../api/api';
 
 const statesAdapter = createEntityAdapter<State>({
   selectId: state => state._id,
@@ -21,19 +21,13 @@ const initialState = statesAdapter.getInitialState();
 
 export const statesApi = api.injectEndpoints({
   endpoints: builder => ({
-    getStates: builder.query<StatesAdapter, void>({
-      query: () => 'location-state',
+    getStates: builder.query<MaybeStatesEntity, void>({
+      query: () => endpoints.locationState,
       // transformResponse: (result: { data: { state: State } }) => {
-      transformResponse: (states: StatesResponse) => {
+      transformResponse: (states?: StatesResponse) => {
         // const loadedStates = result?.data?.state;
-        const loadedStates = states;
-
-        const normalizedStates = normalize(loadedStates, statesListSchema);
-
-        const savedStatesAdapter = statesAdapter.upsertMany(initialState, states);
-
-        logRender('getStates', { loadedStates, normalizedStates, savedStatesAdapter });
-
+        const savedStatesAdapter = statesAdapter.upsertMany(initialState, states ?? frozenArr);
+        logRender('getStates', { savedStatesAdapter }, true);
         return savedStatesAdapter;
       },
 
@@ -43,23 +37,18 @@ export const statesApi = api.injectEndpoints({
       ],
     }),
 
-    getState: builder.query<StatesAdapter, EntityId>({
+    getState: builder.query<MaybeStatesEntity, EntityId>({
       query: _id => ({
-        url: `/location-state/${_id}`,
+        url: `${endpoints.locationState}/${_id}`,
         method: 'GET',
-        // body: { state, stateInternational, langCode: 'EN' },
       }),
       // transformResponse: (result: { data: { state: State } }) => {
-      transformResponse: (state: State) => {
-        console.log('state', state);
+      transformResponse: (data?: State) => {
         // const loadedState = result?.data?.state;
-        const loadedState = state;
+        if (!data) return undefined;
 
-        const normalizedState = normalize(loadedState, stateSchema);
-
-        const savedStateAdapter = statesAdapter.upsertOne(initialState, loadedState);
-
-        logRender('getStates', { loadedState, normalizedState, savedStateAdapter });
+        const savedStateAdapter = statesAdapter.upsertOne(initialState, data);
+        logRender('getStates', { data, savedStateAdapter }, true);
 
         return savedStateAdapter;
       },
@@ -67,72 +56,57 @@ export const statesApi = api.injectEndpoints({
       providesTags: (_, __, id) => [{ type: 'State', id }],
     }),
 
-    addState: builder.mutation<StatesAdapter, AddState>({
+    addState: builder.mutation<MaybeStatesEntity, AddState>({
       query: body => ({
-        url: '/location-state',
+        url: endpoints.locationState,
         method: 'POST',
         // body: { state, stateInternational, langCode: 'EN' },
         body,
       }),
 
       // transformResponse: (result: { data: { state: State } }) => {
-      transformResponse: (state: State) => {
-        console.log('state', state);
+      transformResponse: (data: State) => {
         // const loadedState = result?.data?.state;
-        const loadedState = state;
+        if (!data) return undefined;
 
-        const normalizedState = normalize(loadedState, stateSchema);
-
-        const savedStateAdapter = statesAdapter.upsertOne(initialState, loadedState);
-
-        logRender('getStates', { loadedState, normalizedState, savedStateAdapter });
-
+        const savedStateAdapter = statesAdapter.addOne(initialState, data);
+        logRender('getStates', { data, savedStateAdapter }, true);
         return savedStateAdapter;
       },
 
       invalidatesTags: [{ type: 'State', id: 'LIST' }],
     }),
 
-    editState: builder.mutation<StatesAdapter, EditState>({
-      query: ({ _id, stateCode, stateName, statePhotoURL, stateInternational }) => ({
-        url: `/location-state/${_id}`,
+    editState: builder.mutation<MaybeStatesEntity, EditState>({
+      query: ({ _id, stateName, statePhotoURL }) => ({
+        url: `${endpoints.locationState}/${_id}`,
         method: 'PUT',
-        body: { stateCode, stateName, statePhotoURL, stateInternational },
+        body: { stateName, statePhotoURL },
       }),
 
       // transformResponse: (result: { data: { state: State } }) => {
-      transformResponse: (state: State) => {
-        console.log('state', state);
+      transformResponse: (data: State) => {
         // const loadedState = result?.data?.state;
-        const loadedState = state;
-
-        const normalizedState = normalize(loadedState, stateSchema);
-
-        const savedStateAdapter = statesAdapter.upsertOne(initialState, loadedState);
-
-        logRender('getStates', { loadedState, normalizedState, savedStateAdapter });
-
+        const savedStateAdapter = statesAdapter.upsertOne(initialState, data);
+        logRender('getStates', { data, savedStateAdapter }, true);
         return savedStateAdapter;
       },
 
       invalidatesTags: (_, __, { _id }) => [{ type: 'State', id: _id }],
     }),
 
-    deleteState: builder.mutation<StatesAdapter, DeleteState>({
+    deleteState: builder.mutation<MaybeStatesEntity, DeleteState>({
       query: id => ({
-        url: `/location-state/${id}`,
+        url: `${endpoints.locationState}/${id}`,
         method: 'DELETE',
+        body: { _id: id },
       }),
 
       // transformResponse: (result: { data: { state: State } }) => {
       transformResponse: (_, __, id) => {
         // const removedState = result?.data?.state;
-        const removedState = id;
-
-        const savedStateAdapter = statesAdapter.removeOne(initialState, removedState);
-
-        logRender('getStates', { removedState, savedStateAdapter });
-
+        const savedStateAdapter = statesAdapter.removeOne(initialState, id);
+        logRender('getStates', { id, savedStateAdapter }, true);
         return savedStateAdapter;
       },
 
@@ -141,14 +115,19 @@ export const statesApi = api.injectEndpoints({
   }),
 });
 
-// {
-//   stateName: 'Tomato State',
-//   stateInternational: 'Tomato State',
-//   stateCode: 'Tomato',
-//   international: 'Potrugeese',
-//   statePhotoURL: 'https://Tomato.states.ua/photos/lviv-state.webp',
-//   langCode: 'EN',
-//   countryId: '62ed6c467958f1e97fd32cc7',
-// }
+const selectStatesResult = statesApi.endpoints.getStates.select();
 
-export const { useAddStateMutation, useEditStateMutation, useDeleteStateMutation } = statesApi;
+const selectStatesData = createSelector(selectStatesResult, result => result.data);
+
+export const {
+  //
+  selectById: selectStateById,
+  selectIds: selectStatesIds,
+} = statesAdapter.getSelectors<RootState>(state => selectStatesData(state) ?? initialState);
+
+export const {
+  useGetStatesQuery,
+  useAddStateMutation,
+  useEditStateMutation,
+  useDeleteStateMutation,
+} = statesApi;

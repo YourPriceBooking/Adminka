@@ -37,20 +37,19 @@ export const EditCountryForm = ({
 }: EditCountryFormType) => {
   const [editCountry, { isLoading: isLoadingEditedCountry }] = useEditCountryMutation();
   const [deleteCountry, { isLoading: isDeletingCountry }] = useDeleteCountryMutation();
-  const appDispatch = useAppDispatch();
 
   const countryObj = useAppSelector(state => selectCountryById(state, countryId));
-
-  const formRef = useRef<HTMLFormElement>(null);
-
   const activeLangId = useAppSelector(selectActiveLangId);
   const activeLangCode = useAppSelector(selectActiveLangCode);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
   const showDev = useAppSelector(selectDev);
-
   const [localCountryName, setLocalCountryName] = useState(countryObj?.country);
   const [inputDisabled, setInputDisabled] = useState(true);
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const appDispatch = useAppDispatch();
 
   const isPending = isLoading || isLoadingEditedCountry || isDeletingCountry;
   const isDisabledEdit = !inputDisabled || isPending;
@@ -158,31 +157,33 @@ export const EditCountryForm = ({
 
   return (
     <EditCountryFormStyled onSubmit={handleSubmit} ref={formRef}>
-      <CountryInputLabel onClick={selectActiveCountry}>
-        <EditCountryInput
-          type="text"
-          value={localCountryName}
-          onChange={onChange}
-          disabled={inputDisabled}
-          name="editedCountryName"
-        />
-      </CountryInputLabel>
+      <>
+        <CountryInputLabel onClick={selectActiveCountry}>
+          <EditCountryInput
+            type="text"
+            value={localCountryName}
+            onChange={onChange}
+            disabled={inputDisabled}
+            name="editedCountryName"
+          />
+        </CountryInputLabel>
 
-      {inputDisabled && (
-        <EditButton onClick={startEditing} $isFirstEdit={isFirstEdit} disabled={isDisabledEdit} />
-      )}
+        {inputDisabled && (
+          <EditButton onClick={startEditing} $isFirstEdit={isFirstEdit} disabled={isDisabledEdit} />
+        )}
 
-      {!isSubmitButtonDisabled && (
-        <button type="submit" disabled={isDisabledSubmit}>
-          Done
-        </button>
-      )}
+        {!isSubmitButtonDisabled && (
+          <button type="submit" disabled={isDisabledSubmit}>
+            Done
+          </button>
+        )}
 
-      {showDev && (
-        <button type="button" onClick={onDeleteCountry}>
-          Delete
-        </button>
-      )}
+        {showDev && (
+          <button type="button" onClick={onDeleteCountry}>
+            Delete
+          </button>
+        )}
+      </>
     </EditCountryFormStyled>
   );
 };

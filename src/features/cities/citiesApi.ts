@@ -1,9 +1,7 @@
-import { createEntityAdapter, createSelector, EntityId } from '@reduxjs/toolkit';
+import { type EntityId, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 import type { RootState } from 'App/store';
-import { citySchema } from 'models';
-import { normalize } from 'normalizr';
-import type { AddCity, EditCity, City, CitiesAdapter } from 'types/apis';
-import { api } from '../api/api';
+import type { AddCity, EditCity, City, MaybeCitiesEntity } from 'types/apis';
+import { api, endpoints } from '../api/api';
 
 export const citiesAdapter = createEntityAdapter<City>({
   selectId: city => city._id,
@@ -14,12 +12,10 @@ const initialState = citiesAdapter.getInitialState();
 
 export const citiesApi = api.injectEndpoints({
   endpoints: build => ({
-    getCities: build.query<CitiesAdapter, void>({
-      query: () => '/location-city',
+    getCities: build.query<MaybeCitiesEntity, void>({
+      query: () => endpoints.locationCity,
       transformResponse(cities: City[]) {
-        console.log(cities);
-        const normalizedCities = normalize(cities, citySchema);
-        console.log({ normalizedCities });
+        console.log({ cities });
 
         const savedCities = citiesAdapter.upsertMany(initialState, cities);
         console.log({ savedCities });
@@ -32,13 +28,11 @@ export const citiesApi = api.injectEndpoints({
       ],
     }),
 
-    getCity: build.query<CitiesAdapter, EntityId>({
-      query: _id => `/location-city/${_id}`,
+    getCity: build.query<MaybeCitiesEntity, EntityId>({
+      query: id => `${endpoints.locationCity}/${id}`,
 
       transformResponse(city: City) {
-        console.log(city);
-        const normalizedCity = normalize(city, citySchema);
-        console.log({ normalizedCity });
+        console.log({ city });
 
         const savedCity = citiesAdapter.upsertOne(initialState, city);
         console.log({ savedCity });
@@ -46,12 +40,12 @@ export const citiesApi = api.injectEndpoints({
         return savedCity;
       },
 
-      providesTags: (_, __, _id) => [{ type: 'City', id: _id }],
+      providesTags: (_, __, id) => [{ type: 'City', id }],
     }),
 
-    addCity: build.mutation<CitiesAdapter, AddCity>({
+    addCity: build.mutation<MaybeCitiesEntity, AddCity>({
       query: body => ({
-        url: '/location-city',
+        url: endpoints.locationCity,
         method: 'POST',
         // body: { state, stateInternational, langCode: 'EN' },
         body,
@@ -60,9 +54,7 @@ export const citiesApi = api.injectEndpoints({
       // transformResponse: (response: AddCityResponse) => {
       transformResponse(city: City) {
         // response?.data?.city;
-        console.log(city);
-        const normalizedCity = normalize(city, citySchema);
-        console.log({ normalizedCity });
+        console.log({ city });
 
         const savedCity = citiesAdapter.upsertOne(initialState, city);
         console.log({ savedCity });
@@ -73,18 +65,15 @@ export const citiesApi = api.injectEndpoints({
       invalidatesTags: [{ type: 'City', id: 'LIST' }],
     }),
 
-    editCity: build.mutation<CitiesAdapter, EditCity>({
+    editCity: build.mutation<MaybeCitiesEntity, EditCity>({
       query: ({ _id, ...body }) => ({
-        url: `/location-city/${_id}`,
+        url: `${endpoints.locationCity}/${_id}`,
         method: 'PATCH',
         body,
       }),
 
       transformResponse(city: City) {
-        console.log(city);
-
-        const normalizedCity = normalize(city, citySchema);
-        console.log({ normalizedCity });
+        console.log({ city });
 
         const savedCity = citiesAdapter.upsertOne(initialState, city);
         console.log({ savedCity });
@@ -95,18 +84,15 @@ export const citiesApi = api.injectEndpoints({
       invalidatesTags: (result, error, { _id }) => [{ type: 'City', id: _id }],
     }),
 
-    deleteCity: build.mutation<CitiesAdapter, EditCity>({
-      query: ({ _id }) => ({
-        url: `/location-city/${_id}`,
+    deleteCity: build.mutation<MaybeCitiesEntity, EditCity>({
+      query: id => ({
+        url: `${endpoints.locationCity}/${id}`,
         method: 'DELETE',
-        body: { _id },
+        body: { _id: id },
       }),
 
       transformResponse(city: City) {
-        console.log(city);
-
-        const normalizedDeletedCity = normalize(city, citySchema);
-        console.log({ normalizedDeletedCity });
+        console.log({ city });
 
         const adapterWithDeletedCity = citiesAdapter.removeOne(initialState, city._id);
         console.log({ adapterWithDeletedCity });

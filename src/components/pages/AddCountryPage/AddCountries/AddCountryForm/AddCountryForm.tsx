@@ -29,7 +29,7 @@ export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
 
   const [localNewCountryName, setLocalNewCountryName] = useState('');
 
-  const isSubmitDisabled = !localNewCountryName.trim() || isLoading || isAddingCountry;
+  const isSubmitDisabled = isLoading || !localNewCountryName.trim() || isAddingCountry;
 
   const isEngActive = useSelector(selectIsEnglishActiveLang);
 

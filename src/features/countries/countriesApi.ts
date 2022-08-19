@@ -1,5 +1,5 @@
 import { createEntityAdapter, createSelector } from '@reduxjs/toolkit';
-import { api } from 'features/api';
+import { api, endpoints } from 'features/api';
 
 import type { RootState } from 'App/store';
 
@@ -11,11 +11,12 @@ import type {
   DeleteCountry,
   GetCountry,
   MaybeCountriesState,
+  NormalizedCountry,
 } from 'types/apis';
 
 import { logRender } from 'common/utils';
 
-const countriesAdapter = createEntityAdapter<Country>({
+const countriesAdapter = createEntityAdapter<NormalizedCountry>({
   selectId: country => country._id,
   sortComparer: (a, b) => b.createdAt?.localeCompare(a.createdAt),
 });
@@ -38,7 +39,7 @@ export const countriesApi = api.injectEndpoints({
   endpoints: build => ({
     // getCountries: build.query<MaybeCountriesState, void>({
     getCountries: build.query<MaybeCountriesState, void>({
-      query: () => '/countries',
+      query: () => endpoints.countries,
       // transformResponse: (result: InitCountriesResponse) => result?.data?.countries,
       transformResponse: (data?: CountriesResponse) => saveManyCountries(data),
       providesTags: result => [
@@ -48,7 +49,7 @@ export const countriesApi = api.injectEndpoints({
     }),
 
     getCountry: build.query<MaybeCountriesState, GetCountry>({
-      query: id => `/countries/${id}`,
+      query: id => `${endpoints.countries}/${id}`,
       // transformResponse: (result: InitCountryResponse) => result?.data?.country,
       transformResponse: (country: Country) => saveCountry(country),
       providesTags: (result, error, id) => [{ type: 'Country', id }],
@@ -57,7 +58,7 @@ export const countriesApi = api.injectEndpoints({
     // addCountryEng: build.mutation<MaybeCountriesState, AddCountry>({
     addCountryEng: build.mutation<MaybeCountriesState, AddCountry>({
       query: ({ country, international }) => ({
-        url: '/countries',
+        url: endpoints.countries,
         method: 'POST',
         // body: { country, international, langCode: 'EN', dbLangCode: 'EN' }
         body: {
@@ -75,7 +76,7 @@ export const countriesApi = api.injectEndpoints({
     // editCountry: build.mutation<MaybeCountriesState, EditCountry>({
     editCountry: build.mutation<MaybeCountriesState, EditCountry>({
       query: ({ _id, country, langCode }) => ({
-        url: `/countries/${_id}`,
+        url: `${endpoints.countries}/${_id}`,
         method: 'PATCH',
         body: { country, langCode },
       }),
@@ -110,16 +111,16 @@ export const countriesApi = api.injectEndpoints({
 
     deleteCountry: build.mutation<MaybeCountriesState, DeleteCountry>({
       query: id => ({
-        url: `/countries/${id}`,
+        url: `${endpoints.countries}/${id}`,
         method: 'DELETE',
+        body: { _id: id },
       }),
 
       transformResponse(_, __, id) {
         // const deletedCountry = result.data.country ?? frozenArr;
-        const deletedCountry = id;
 
-        const savedCountryAdapter = countriesAdapter.removeOne(initialState, deletedCountry);
-        logRender('editCountry', { deletedCountry, savedCountryAdapter }, true);
+        const savedCountryAdapter = countriesAdapter.removeOne(initialState, id);
+        logRender('editCountry', { id, savedCountryAdapter }, true);
 
         return savedCountryAdapter;
       },

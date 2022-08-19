@@ -115,7 +115,7 @@ $color_hover_background: #e5e5e5;
   // position: absolute;
   // top: 128px;
   // right: 120px;
-  width: 369px;
+  width: 368px;
 
   overflow: hidden;
   background: #ffffff;
@@ -124,8 +124,8 @@ $color_hover_background: #e5e5e5;
   z-index: 90;
 }
 .block_lang {
-  height: 183px;
-  width: 369px;
+  height: 332px;
+  width: 368px;
 
   @extend %scroll-container;
 }

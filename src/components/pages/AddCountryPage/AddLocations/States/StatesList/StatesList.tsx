@@ -1,10 +1,8 @@
 import { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from 'App';
-import { incrementCounter, selectCounterValue, selectActiveLangId } from 'features/common';
+import { incrementCounter, selectCounterValue } from 'features/common';
 import { logRender } from 'common/utils';
-import { selectDev } from 'features/countries';
-import type { RootState } from 'App/store';
-import type { EntityId } from '@reduxjs/toolkit';
+import { selectActiveCountryId, selectCountryById, selectDev } from 'features/countries';
 import { StateItem } from './StateItem';
 import { StatesListStyled } from './StatesList.styled';
 
@@ -29,36 +27,22 @@ const DevModeStats = () => {
   );
 };
 
-const arr = ['1', '2'];
-const defaultArr = ['3', '4'];
-const selectStatesIds = (state: RootState, activeLangId: EntityId) => {
-  logRender('selectStatesIds', activeLangId);
-  return arr;
-};
+export const StatesList = () => {
+  console.log('StatesList');
 
-const useSelectStatesIds = () => {
-  const activeLangId = useAppSelector(selectActiveLangId);
+  // active country -> array of ids
+  const countryId = useAppSelector(selectActiveCountryId);
   const statesIds = useAppSelector(state => {
-    if (activeLangId) {
-      return selectStatesIds(state, activeLangId);
-    }
-
-    return defaultArr;
+    if (!countryId) return undefined;
+    return selectCountryById(state, countryId)?.states;
   });
 
-  return statesIds;
-};
-
-export const StatesList = () => {
-  const statesIds = useSelectStatesIds();
-
-  logRender('StatesList', statesIds);
   return (
     <>
       <DevModeStats />
 
       <StatesListStyled>
-        {statesIds.map((stateId: string) => {
+        {statesIds?.map(stateId => {
           logRender(' StateItem', stateId);
 
           return <StateItem key={stateId} stateId={stateId} />;

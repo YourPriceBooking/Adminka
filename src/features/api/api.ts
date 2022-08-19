@@ -41,6 +41,14 @@ export const api = createApi({
   endpoints: () => ({}),
 });
 
+export const endpoints = {
+  locationDistrict: '/location-district' as const,
+  locationCity: '/location-city' as const,
+  locationState: '/location-state' as const,
+  countries: '/countries' as const,
+  languages: '/languages' as const,
+};
+
 export const frozenArr = Object.freeze([]);
 
 export const selectState = (state: RootState) => state;

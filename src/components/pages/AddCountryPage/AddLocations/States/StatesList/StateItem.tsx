@@ -1,10 +1,11 @@
+import type { EntityId } from '@reduxjs/toolkit';
 import { Cities } from '../../Cities';
 import { EditStateForm } from '../EditStateForm/EditStateForm';
 
 import { LocationsItemStyled } from './StatesList.styled';
 
 type StateItemType = {
-  stateId: string;
+  stateId: EntityId;
 };
 
 export const StateItem = ({ stateId }: StateItemType) => (

@@ -1,11 +1,16 @@
+import { useGetStatesQuery } from 'features/states';
 import { AddStateForm } from './AddStateForm';
 import { StatesStyled } from './States.styled';
 import { StatesList } from './StatesList/StatesList';
 
-export const States = () => (
-  <StatesStyled>
-    <StatesList />
+export const States = () => {
+  useGetStatesQuery();
 
-    <AddStateForm />
-  </StatesStyled>
-);
+  return (
+    <StatesStyled>
+      <StatesList />
+
+      <AddStateForm />
+    </StatesStyled>
+  );
+};

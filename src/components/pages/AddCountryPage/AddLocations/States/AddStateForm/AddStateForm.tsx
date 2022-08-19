@@ -7,11 +7,13 @@ import { SubmitAddLocationButton } from '../EditStateForm/EditStateForm.styled';
 
 import { Row, AddLocationButton, AddStateFormStyled } from './AddStateForm.styled';
 
-const emptyArr: never[] = [];
+// type AddStateFormProps = { countryId: EntityId };
 
 export const AddStateForm = () => {
   const activeCountryId = useAppSelector(selectActiveCountryId);
-  const statesNames = emptyArr;
+
+  //  const statesNames = useAppSelector(state => selectStateById(state, countryId));
+
   const [isAddingState, setIsAddingState] = useState(false);
   const setAddingStateTrue = useCallback(() => setIsAddingState(true), []);
 
@@ -34,10 +36,10 @@ export const AddStateForm = () => {
         return;
       }
 
-      if (statesNames.find(existingStateName => existingStateName === stateName)) {
-        toast.info(`${stateName} exists. Fill new 'name'`);
-        return;
-      }
+      // if (statesNames.find(existingStateName => existingStateName === stateName)) {
+      //   toast.info(`${stateName} exists. Fill new 'name'`);
+      //   return;
+      // }
 
       const newState: AddState = {
         stateName,
@@ -59,7 +61,7 @@ export const AddStateForm = () => {
         toast.error('State not added');
       }
     },
-    [activeCountryId, isSubmitDisabled, statesNames]
+    [activeCountryId, isSubmitDisabled]
   );
 
   return (

@@ -9,7 +9,7 @@ import type {
 } from 'types/apis';
 import type { RootState } from 'App/store';
 import { logRender } from 'common/utils';
-import { api, selectState } from 'features/api';
+import { api, endpoints, selectState } from 'features/api';
 import { selectActiveLangId } from 'features/common';
 
 const languagesAdapter = createEntityAdapter<Language>({
@@ -36,7 +36,7 @@ export const saveLanguage = (data?: Language) => {
 export const languagesApi = api.injectEndpoints({
   endpoints: build => ({
     getLanguages: build.query<MaybeLanguagesState, void>({
-      query: () => '/languages',
+      query: () => endpoints.languages,
 
       // transformResponse: (data: ManyLanguages) => {
       transformResponse: (data?: LanguagesResponse) => saveManyLanguages(data),
@@ -49,7 +49,7 @@ export const languagesApi = api.injectEndpoints({
     }),
 
     getLanguage: build.query<MaybeLanguagesState, GetLanguage>({
-      query: id => `/languages/${id}`,
+      query: id => `${endpoints.languages}/${id}`,
 
       // transformResponse: (result: InitLanguagesResponse) => {
       transformResponse: (data?: Language) => saveLanguage(data),
@@ -60,7 +60,7 @@ export const languagesApi = api.injectEndpoints({
 
     addLanguage: build.mutation<MaybeLanguagesState, AddLanguage>({
       query: ({ lang, code }) => ({
-        url: '/languages',
+        url: endpoints.languages,
         method: 'POST',
         body: { lang, code },
       }),
@@ -72,7 +72,7 @@ export const languagesApi = api.injectEndpoints({
 
     deleteLanguage: build.mutation<MaybeLanguagesState, DeleteLanguage>({
       query: id => ({
-        url: `/languages/${id}`,
+        url: `${endpoints.languages}/${id}`,
         method: 'DELETE',
         body: { _id: id },
       }),
@@ -94,16 +94,16 @@ export const {
   useDeleteLanguageMutation,
 } = languagesApi;
 
-// returns the query result object
+/** returns the query result object */
 const selectLanguagesResult = languagesApi.endpoints.getLanguages.select();
 
-// Creates memoized selector
+/** Creates memoized selector
+ * @returns normalized state object with ids and entities */
 const selectLanguagesData = createSelector(selectLanguagesResult, result => result.data);
-// normalized state object with ids and entities
 
-// getSelectors creates these selectors and we rename them with aliases using destructuring
+/** getSelectors creates selectors and we rename them with aliases using destructuring */
 export const {
-  selectAll: selectAllLanguages,
+  //
   selectById: selectLanguageById,
   selectIds: selectLanguagesIds,
 } = languagesAdapter.getSelectors<RootState>(state => selectLanguagesData(state) ?? initialState);
@@ -116,7 +116,7 @@ const selectActiveLanguage = createSelector(
   }
 );
 export const selectVisibleCountriesIds = createSelector(selectActiveLanguage, language =>
-  language?.countries?.map(({ _id }) => _id)
+  language?.countries.map(({ _id }) => _id)
 );
 export const selectActiveDBLangCode = createSelector(
   selectActiveLanguage,

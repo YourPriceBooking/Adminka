@@ -1,3 +1,4 @@
+import type { EntityId } from '@reduxjs/toolkit';
 import { useAppSelector } from 'App';
 import { selectActiveLangId } from 'features/common';
 import { FormEvent, useCallback, useState } from 'react';
@@ -9,7 +10,7 @@ import { SubmitAddLocationButton } from '../../States/EditStateForm/EditStateFor
 import { Row, AddCityFormStyled } from './AddCityForm.styled';
 
 type AddCityFormProps = {
-  stateId: string;
+  stateId: EntityId;
 };
 
 export const AddCityForm = ({ stateId }: AddCityFormProps) => {
