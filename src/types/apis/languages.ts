@@ -1,5 +1,4 @@
 import type { EntityId, EntityState } from '@reduxjs/toolkit';
-import { ChangeTypeOfKeys } from './cities';
 import type { Country } from './countries';
 
 export type SelectLanguageType = EntityId | undefined;
@@ -19,12 +18,8 @@ export type Language = {
 
 export type LanguagesEntity = EntityState<Language>;
 export type MaybeLanguagesEntity = LanguagesEntity | undefined;
-export type NormalizedLanguage = ChangeTypeOfKeys<Language, 'countries', EntityId[]>;
 
 export type LanguagesResponse = Language[] | [];
-export type ManyLanguages = { data?: { languages?: Language[] } };
-export type OneLanguage = { language?: Language };
-export type RemoveOneLanguage = { language?: Pick<Language, '_id'> };
 
 export type AddLanguage = Pick<Language, 'lang' | 'code'>;
 export type EditLanguage = Pick<Language, '_id' | 'lang' | 'code'>;

@@ -7,29 +7,29 @@ import type {
   OneLanguage,
 } from 'types/apis';
 import { api, endpoints, tag, tagList } from 'features/api';
-import { saveLanguage, removeLanguage, saveLanguages } from './languagesAdapter';
+import { saveOneLanguage, removeLanguage, saveManyLanguages } from './languagesAdapter';
 
 export const languagesApi = api.injectEndpoints({
   endpoints: build => ({
     getLanguages: build.query<MaybeLanguagesEntity, void>({
       query: () => endpoints.languages,
-      transformResponse: (result?: ManyLanguages) => saveLanguages(result),
+      transformResponse: (result?: ManyLanguages) => saveManyLanguages(result),
       providesTags: result => tagList(result, 'Language'),
     }),
 
     getLanguage: build.query<MaybeLanguagesEntity, GetLanguage>({
       query: id => `${endpoints.languages}/${id}`,
-      transformResponse: (result?: OneLanguage) => saveLanguage(result),
+      transformResponse: (result?: OneLanguage) => saveOneLanguage(result),
       providesTags: (_, __, id) => tag(id, 'Language'),
     }),
 
     addLanguage: build.mutation<MaybeLanguagesEntity, AddLanguage>({
-      query: ({ lang, code }) => ({
+      query: body => ({
         url: endpoints.languages,
         method: 'POST',
-        body: { lang, code },
+        body,
       }),
-      transformResponse: (result?: OneLanguage) => saveLanguage(result),
+      transformResponse: (result?: OneLanguage) => saveOneLanguage(result),
       invalidatesTags: () => tag('LIST', 'Language'),
     }),
 

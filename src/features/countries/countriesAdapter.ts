@@ -1,8 +1,8 @@
 import { createEntityAdapter } from '@reduxjs/toolkit';
+import { getManyCountries, getOneCountry, getOneCountryId } from 'features/api';
+import type { Country, ManyCountries, OneCountry } from 'types/apis';
 
-import type { NormalizedCountry, ManyCountries, OneCountry } from 'types/apis';
-
-export const countriesAdapter = createEntityAdapter<NormalizedCountry>({
+export const countriesAdapter = createEntityAdapter<Country>({
   selectId: country => country._id,
   sortComparer: (a, b) => b.createdAt?.localeCompare(a.createdAt),
 });
@@ -10,22 +10,19 @@ export const countriesAdapter = createEntityAdapter<NormalizedCountry>({
 export const countriesInitialState = countriesAdapter.getInitialState();
 
 /** @returns Saved to redux countries from countriesAdapter */
-export const saveCountries = (result?: ManyCountries) => {
-  const countries = result?.data?.countries;
-  if (!countries) return undefined;
-  return countriesAdapter.setAll(countriesInitialState, countries);
+export const saveManyCountries = (result?: ManyCountries) => {
+  const countries = getManyCountries(result);
+  return countries ? countriesAdapter.setAll(countriesInitialState, countries) : undefined;
 };
 
 /** @returns Saved to redux countries from countriesAdapter */
-export const saveCountry = (result?: OneCountry) => {
-  const country = result?.country;
-  if (!country) return undefined;
-  return countriesAdapter.upsertOne(countriesInitialState, country);
+export const saveOneCountry = (result?: OneCountry) => {
+  const country = getOneCountry(result);
+  return country ? countriesAdapter.upsertOne(countriesInitialState, country) : undefined;
 };
 
 /** @returns Saved to redux countries from countriesAdapter */
 export const removeCountry = (result?: OneCountry) => {
-  const deletedId = result?.country?._id;
-  if (!deletedId) return undefined;
-  return countriesAdapter.removeOne(countriesInitialState, deletedId);
+  const id = getOneCountryId(result);
+  return id ? countriesAdapter.removeOne(countriesInitialState, id) : undefined;
 };

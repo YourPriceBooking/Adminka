@@ -8,39 +8,39 @@ import type {
   OneCountry,
 } from 'types/apis';
 import { api, endpoints, tag, tagList } from 'features/api';
-import { removeCountry, saveCountries, saveCountry } from './countriesAdapter';
+import { removeCountry, saveManyCountries, saveOneCountry } from './countriesAdapter';
 
 export const countriesApi = api.injectEndpoints({
   endpoints: build => ({
     getCountries: build.query<MaybeCountriesEntity, void>({
       query: () => endpoints.countries,
-      transformResponse: (result?: ManyCountries) => saveCountries(result),
+      transformResponse: (result?: ManyCountries) => saveManyCountries(result),
       providesTags: result => tagList(result, 'Country'),
     }),
 
     getCountry: build.query<MaybeCountriesEntity, GetCountry>({
       query: id => `${endpoints.countries}/${id}`,
-      transformResponse: (result?: OneCountry) => saveCountry(result),
+      transformResponse: (result?: OneCountry) => saveOneCountry(result),
       providesTags: (_, __, id) => tag(id, 'Country'),
     }),
 
     addCountryEng: build.mutation<MaybeCountriesEntity, AddCountry>({
-      query: ({ country, international }) => ({
+      query: body => ({
         url: endpoints.countries,
         method: 'POST',
-        body: { country, international, langCode: 'EN', dbLangCode: 'EN' },
+        body,
       }),
-      transformResponse: (result: OneCountry) => saveCountry(result),
+      transformResponse: (result: OneCountry) => saveOneCountry(result),
       invalidatesTags: () => tag('LIST', 'Country'),
     }),
 
     editCountry: build.mutation<MaybeCountriesEntity, EditCountry>({
-      query: ({ _id, country, langCode }) => ({
+      query: ({ _id, ...body }) => ({
         url: `${endpoints.countries}/${_id}`,
         method: 'PATCH',
-        body: { country, langCode },
+        body,
       }),
-      transformResponse: (result?: OneCountry) => saveCountry(result),
+      transformResponse: (result?: OneCountry) => saveOneCountry(result),
 
       // optimistic updates (country + langCode)
       async onQueryStarted({ _id, ...patch }, { dispatch, queryFulfilled }) {

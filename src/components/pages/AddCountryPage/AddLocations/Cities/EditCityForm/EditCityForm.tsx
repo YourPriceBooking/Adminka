@@ -1,9 +1,7 @@
 import { useAppSelector } from 'App';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-
 import { EditButton } from 'components/pages/AddCountryPage/AddCountries/EditButton/EditButton';
-
 import type { EditCity } from 'types/apis';
 import { selectIsEnglishActiveLang } from 'features/languages';
 import { selectCityById } from 'features/cities';

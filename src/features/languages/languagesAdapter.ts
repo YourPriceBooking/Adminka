@@ -1,6 +1,6 @@
 import { createEntityAdapter } from '@reduxjs/toolkit';
-
-import type { Language, ManyLanguages, OneLanguage, RemoveOneLanguage } from 'types/apis';
+import { getManyLanguages, getOneLanguage, getOneLanguageId } from 'features/api';
+import type { Language, ManyLanguages, OneLanguage } from 'types/apis';
 
 export const languagesAdapter = createEntityAdapter<Language>({
   selectId: language => language._id,
@@ -10,19 +10,19 @@ export const languagesAdapter = createEntityAdapter<Language>({
 export const langInitState = languagesAdapter.getInitialState();
 
 /** @returns object { ids; entities } saved to RTK Query endpoint via languagesAdapter.setAll */
-export const saveLanguages = (result?: ManyLanguages) => {
-  const languages = result?.data?.languages;
+export const saveManyLanguages = (result?: ManyLanguages) => {
+  const languages = getManyLanguages(result);
   return languages ? languagesAdapter?.setAll(langInitState, languages) : undefined;
 };
 
 /** @returns object { ids; entities } saved to RTK Query endpoint via languagesAdapter.upsertOne */
-export const saveLanguage = (result?: OneLanguage) => {
-  const language = result?.language;
+export const saveOneLanguage = (result?: OneLanguage) => {
+  const language = getOneLanguage(result);
   return language ? languagesAdapter.upsertOne(langInitState, language) : undefined;
 };
 
 /** @returns object { ids; entities } saved to RTK Query endpoint via languagesAdapter.removeOne */
-export const removeLanguage = (result?: RemoveOneLanguage) => {
-  const id = result?.language?._id;
+export const removeLanguage = (result?: OneLanguage) => {
+  const id = getOneLanguageId(result);
   return id ? languagesAdapter.removeOne(langInitState, id) : undefined;
 };

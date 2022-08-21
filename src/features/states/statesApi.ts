@@ -1,48 +1,21 @@
-import { createEntityAdapter, createSelector, type EntityId } from '@reduxjs/toolkit';
-import type { RootState } from 'App/store';
-import { logRender } from 'common/utils';
-
+import { type EntityId } from '@reduxjs/toolkit';
 import type {
   AddState,
   DeleteState,
   EditState,
-  State,
-  MaybeStatesEntity,
   ManyStates,
+  MaybeStatesEntity,
   OneState,
 } from 'types/apis';
-
-import { api, endpoints, frozenArr } from '../api/api';
-
-const statesAdapter = createEntityAdapter<State>({
-  selectId: state => state._id,
-  sortComparer: (a, b) => b.createdAt?.localeCompare(a.createdAt),
-});
-
-const initialState = statesAdapter.getInitialState();
-
-export const saveStates = (result?: ManyStates) => {
-  const states = result?.data?.states ?? frozenArr;
-  if (!states) return undefined;
-  return statesAdapter.setAll(initialState, states);
-};
-
-export const saveState = (result?: OneState) => {
-  const state = result?.state;
-  if (!state) return undefined;
-  return statesAdapter.upsertOne(initialState, state);
-};
+import { api, endpoints, tag, tagList } from '../api/api';
+import { removeState, saveOneState, saveManyStates } from './statesAdapter';
 
 export const statesApi = api.injectEndpoints({
   endpoints: builder => ({
     getStates: builder.query<MaybeStatesEntity, void>({
       query: () => endpoints.locationState,
-      transformResponse: (result?: ManyStates) => saveStates(result),
-
-      providesTags: result => [
-        { type: 'State', id: 'LIST' },
-        ...(result ? result.ids.map(id => ({ type: 'State' as const, id })) : []),
-      ],
+      transformResponse: (result?: ManyStates) => saveManyStates(result),
+      providesTags: result => tagList(result, 'State'),
     }),
 
     getState: builder.query<MaybeStatesEntity, EntityId>({
@@ -50,38 +23,18 @@ export const statesApi = api.injectEndpoints({
         url: `${endpoints.locationState}/${_id}`,
         method: 'GET',
       }),
-      // transformResponse: (result: { data: { state: State } }) => {
-      transformResponse: (result?: OneState) => {
-        const state = result?.state;
-        if (!state) return undefined;
-
-        const savedStateAdapter = statesAdapter.upsertOne(initialState, state);
-        logRender('getStates', { state, savedStateAdapter }, true);
-
-        return savedStateAdapter;
-      },
-
-      providesTags: (_, __, id) => [{ type: 'State', id }],
+      transformResponse: (result?: OneState) => saveOneState(result),
+      providesTags: (_, __, id) => tag(id, 'State'),
     }),
 
     addState: builder.mutation<MaybeStatesEntity, AddState>({
-      query: ({ stateName, stateInternational, stateCode, statePhotoURL }) => ({
+      query: body => ({
         url: endpoints.locationState,
         method: 'POST',
-        body: { stateName, stateInternational, stateCode, statePhotoURL, langCode: 'EN' },
+        body,
       }),
-
-      // transformResponse: (result: { data: { state: State } }) => {
-      transformResponse: (result?: OneState) => {
-        const state = result?.state;
-        if (!state) return undefined;
-
-        const savedStateAdapter = statesAdapter.addOne(initialState, state);
-        logRender('getStates', { state, savedStateAdapter }, true);
-        return savedStateAdapter;
-      },
-
-      invalidatesTags: [{ type: 'State', id: 'LIST' }],
+      transformResponse: (result?: OneState) => saveOneState(result),
+      invalidatesTags: () => tag('LIST', 'State'),
     }),
 
     editState: builder.mutation<MaybeStatesEntity, EditState>({
@@ -90,16 +43,8 @@ export const statesApi = api.injectEndpoints({
         method: 'PATCH',
         body,
       }),
-
-      transformResponse: (result?: OneState) => {
-        const state = result?.state;
-        if (!state) return undefined;
-        const savedStateAdapter = statesAdapter.upsertOne(initialState, state);
-        logRender('getStates', { state, savedStateAdapter }, true);
-        return savedStateAdapter;
-      },
-
-      invalidatesTags: (_, __, { _id }) => [{ type: 'State', id: _id }],
+      transformResponse: (result?: OneState) => saveOneState(result),
+      invalidatesTags: (_, __, { _id }) => tag(_id, 'State'),
     }),
 
     deleteState: builder.mutation<MaybeStatesEntity, DeleteState>({
@@ -108,31 +53,11 @@ export const statesApi = api.injectEndpoints({
         method: 'DELETE',
         body: { _id: id },
       }),
-
-      // transformResponse: (result: { data: { state: State } }) => {
-      transformResponse: (data, __, id) => {
-        // const removedState = result?.data?.state;
-        if (!data) return undefined;
-
-        const savedStateAdapter = statesAdapter.removeOne(initialState, id);
-        logRender('getStates', { id, savedStateAdapter }, true);
-        return savedStateAdapter;
-      },
-
-      invalidatesTags: (result, error, id) => [{ type: 'State', id }],
+      transformResponse: (result?: OneState) => removeState(result),
+      invalidatesTags: (_, __, id) => tag(id, 'State'),
     }),
   }),
 });
-
-const selectStatesResult = statesApi.endpoints.getStates.select();
-
-const selectStatesData = createSelector(selectStatesResult, result => result.data);
-
-export const {
-  //
-  selectById: selectStateById,
-  selectIds: selectStatesIds,
-} = statesAdapter.getSelectors<RootState>(state => selectStatesData(state) ?? initialState);
 
 export const {
   useGetStatesQuery,
@@ -141,4 +66,4 @@ export const {
   useDeleteStateMutation,
 } = statesApi;
 
-statesAdapter.removeAll(statesAdapter.getInitialState());
+export const selectStatesResult = statesApi.endpoints.getStates.select();

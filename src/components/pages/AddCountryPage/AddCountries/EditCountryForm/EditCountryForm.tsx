@@ -9,9 +9,13 @@ import {
   useDeleteCountryMutation,
   useEditCountryMutation,
 } from 'features/countries';
-import { selectActiveLangId } from 'features/common';
+
 import type { EntityId } from '@reduxjs/toolkit';
-import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
+import {
+  selectActiveLangCode,
+  selectActiveLanguageId,
+  selectIsEnglishActiveLang,
+} from 'features/languages';
 import {
   CountryInputLabel,
   EditCountryFormStyled,
@@ -36,7 +40,7 @@ export const EditCountryForm = ({
   const [deleteCountry, { isLoading: isDeletingCountry }] = useDeleteCountryMutation();
 
   const countryObj = useAppSelector(state => selectCountryById(state, countryId));
-  const activeLangId = useAppSelector(selectActiveLangId);
+  const activeLangId = useAppSelector(selectActiveLanguageId);
   const activeLangCode = useAppSelector(selectActiveLangCode);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
   const showDev = useAppSelector(selectDev);

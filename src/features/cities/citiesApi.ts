@@ -1,68 +1,37 @@
-import { type EntityId, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
-import type { RootState } from 'App/store';
-import type { AddCity, EditCity, City, MaybeCitiesEntity } from 'types/apis';
-import { api, endpoints } from '../api/api';
-
-export const citiesAdapter = createEntityAdapter<City>({
-  selectId: city => city._id,
-  sortComparer: (a, b) => b.createdAt?.localeCompare(a.createdAt),
-});
-
-const initialState = citiesAdapter.getInitialState();
+import { type EntityId } from '@reduxjs/toolkit';
+import { api, endpoints, tag, tagList } from 'features/api';
+import type {
+  AddCity,
+  EditCity,
+  MaybeCitiesEntity,
+  DeleteCity,
+  ManyCities,
+  OneCity,
+} from 'types/apis';
+import { removeCity, saveManyCities, saveOneCity } from './citiesAdapter';
 
 export const citiesApi = api.injectEndpoints({
   endpoints: build => ({
     getCities: build.query<MaybeCitiesEntity, void>({
       query: () => endpoints.locationCity,
-      transformResponse(cities: City[]) {
-        console.log({ cities });
-
-        const savedCities = citiesAdapter.upsertMany(initialState, cities);
-        console.log({ savedCities });
-
-        return savedCities;
-      },
-      providesTags: result => [
-        'City',
-        ...(result ? result.ids.map(id => ({ type: 'City' as const, id })) : []),
-      ],
+      transformResponse: (result: ManyCities) => saveManyCities(result),
+      providesTags: result => tagList(result, 'City'),
     }),
 
     getCity: build.query<MaybeCitiesEntity, EntityId>({
       query: id => `${endpoints.locationCity}/${id}`,
-
-      transformResponse(city: City) {
-        console.log({ city });
-
-        const savedCity = citiesAdapter.upsertOne(initialState, city);
-        console.log({ savedCity });
-
-        return savedCity;
-      },
-
-      providesTags: (_, __, id) => [{ type: 'City', id }],
+      transformResponse: (result: OneCity) => saveOneCity(result),
+      providesTags: (_, __, id) => tag(id, 'City'),
     }),
 
     addCity: build.mutation<MaybeCitiesEntity, AddCity>({
       query: body => ({
         url: endpoints.locationCity,
         method: 'POST',
-        // body: { state, stateInternational, langCode: 'EN' },
         body,
       }),
-
-      // transformResponse: (response: AddCityResponse) => {
-      transformResponse(city: City) {
-        // response?.data?.city;
-        console.log({ city });
-
-        const savedCity = citiesAdapter.upsertOne(initialState, city);
-        console.log({ savedCity });
-
-        return savedCity;
-      },
-
-      invalidatesTags: [{ type: 'City', id: 'LIST' }],
+      transformResponse: (result: OneCity) => saveOneCity(result),
+      invalidatesTags: tag('LIST', 'City'),
     }),
 
     editCity: build.mutation<MaybeCitiesEntity, EditCity>({
@@ -71,48 +40,22 @@ export const citiesApi = api.injectEndpoints({
         method: 'PATCH',
         body,
       }),
-
-      transformResponse(city: City) {
-        console.log({ city });
-
-        const savedCity = citiesAdapter.upsertOne(initialState, city);
-        console.log({ savedCity });
-
-        return savedCity;
-      },
-
-      invalidatesTags: (result, error, { _id }) => [{ type: 'City', id: _id }],
+      transformResponse: (result: OneCity) => saveOneCity(result),
+      invalidatesTags: (_, __, { _id }) => tag(_id, 'City'),
     }),
 
-    deleteCity: build.mutation<MaybeCitiesEntity, EditCity>({
+    deleteCity: build.mutation<MaybeCitiesEntity, DeleteCity>({
       query: id => ({
         url: `${endpoints.locationCity}/${id}`,
         method: 'DELETE',
         body: { _id: id },
       }),
-
-      transformResponse(city: City) {
-        console.log({ city });
-
-        const adapterWithDeletedCity = citiesAdapter.removeOne(initialState, city._id);
-        console.log({ adapterWithDeletedCity });
-
-        return adapterWithDeletedCity;
-      },
-
-      invalidatesTags: (result, error, { _id }) => [{ type: 'City', id: _id }],
+      transformResponse: (result: OneCity) => removeCity(result),
+      invalidatesTags: (_, __, id) => tag(id, 'City'),
     }),
   }),
 });
 
 export const { useAddCityMutation, useEditCityMutation, useDeleteCityMutation } = citiesApi;
 
-const selectCitiesResult = citiesApi.endpoints.getCities.select();
-
-const selectCitiesData = createSelector(selectCitiesResult, result => result.data);
-
-export const {
-  // selectAll: selectAllCities,
-  selectById: selectCityById,
-  selectIds: selectCitiesIds,
-} = citiesAdapter.getSelectors<RootState>(state => selectCitiesData(state) ?? initialState);
+export const selectCitiesResult = citiesApi.endpoints.getCities.select();

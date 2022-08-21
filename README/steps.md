@@ -68,3 +68,9 @@ yarn upgrade
 yarn add -D @babel/core @testing-library/dom @babel/plugin-syntax-flow @babel/plugin-transform-react-jsx
 yarn add yup date-fns redux react-is
 ```
+
+### 🔟 2022-08-21 12:02
+
+```bash
+yarn remove normalizr
+```

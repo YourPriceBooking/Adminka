@@ -1,3 +1,4 @@
+import type { AddCountry } from 'types/apis';
 import { useAppDispatch } from 'App';
 import { setActiveCountryId, useAddCountryEngMutation } from 'features/countries';
 import { selectIsEnglishActiveLang } from 'features/languages';
@@ -50,7 +51,7 @@ export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
         return;
       }
 
-      const newCountry = { country, international: country };
+      const newCountry: AddCountry = { country, international: country, langCode: 'EN' };
 
       try {
         const addedCountry = await addCountryEng(newCountry).unwrap();

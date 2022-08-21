@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from 'App/store';
-import { selectActiveLangId } from 'features/common';
+import { selectActiveLanguageId } from './languageSlice';
 import { langInitState, languagesAdapter } from './languagesAdapter';
 import { selectLanguagesResult } from './languagesApi';
 
@@ -17,7 +17,7 @@ export const {
 
 export const selectActiveLanguage = createSelector(
   selectLanguagesEntities,
-  selectActiveLangId,
+  selectActiveLanguageId,
   (languages, id) => (id ? languages[id] : undefined)
 );
 

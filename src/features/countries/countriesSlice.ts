@@ -13,7 +13,7 @@ const initialState: CountryState = {
 };
 
 const countriesSlice = createSlice({
-  name: 'countries',
+  name: 'country',
 
   initialState,
 
@@ -29,6 +29,6 @@ const countriesSlice = createSlice({
 });
 
 export const { setActiveCountryId, toggleDev } = countriesSlice.actions;
-export const countriesReducer = countriesSlice.reducer;
-export const selectActiveCountryId = (state: RootState) => state.global.countries.activeCountryId;
-export const selectDev = (state: RootState) => state.global.countries.showDev;
+export const countryReducer = countriesSlice.reducer;
+export const selectActiveCountryId = (state: RootState) => state.global.country.activeCountryId;
+export const selectDev = (state: RootState) => state.global.country.showDev;

@@ -1,62 +1,58 @@
-import { schema } from 'normalizr';
-import type {
-  District,
-  State,
-  Country,
-  Language,
-  // LanguagesAdapter,
-  // CountriesAdapter,
-  // StatesAdapter,
-  // CitiesAdapter,
-  // DistrictsAdapter,
-  City,
-} from 'types/apis';
+// import { schema } from 'normalizr';
+// import type {
+// District,
+// State,
+// Country,
+// Language,
+// LanguagesAdapter,
+// CountriesAdapter,
+// StatesAdapter,
+// CitiesAdapter,
+// DistrictsAdapter,
+// City,
+// } from 'types/apis';
 
-export const districtSchema = new schema.Entity<District>('districts', {}, { idAttribute: '_id' });
-export const districtsListSchema = [districtSchema];
+// export const districtSchema = new schema.Entity<District>('districts', {}, { idAttribute: '_id' });
+// export const districtsListSchema = [districtSchema];
 
-export const citySchema = new schema.Entity<City>(
-  'cities',
-  { districts: districtsListSchema },
-  { idAttribute: '_id' }
-);
-// processStrategy: ({ districts, ...value }: NormalizedCity) => ({
-//   ...value,
-//   districtsIds: districts,
-// }),
+// export const citySchema = new schema.Entity<City>(
+//   'cities',
+//   { districts: districtsListSchema },
+//   { idAttribute: '_id' }
+// );
 
-export const citiesListSchema = [citySchema];
+// export const citiesListSchema = [citySchema];
 
-export const stateSchema = new schema.Entity<State>(
-  'states',
-  { cities: citiesListSchema },
-  { idAttribute: '_id' }
-);
+// export const stateSchema = new schema.Entity<State>(
+//   'states',
+//   { cities: citiesListSchema },
+//   { idAttribute: '_id' }
+// );
 
-export const statesListSchema = [stateSchema];
+// export const statesListSchema = [stateSchema];
 
-export const countrySchema = new schema.Entity<Country>(
-  'countries',
-  { states: statesListSchema },
-  { idAttribute: '_id' }
-);
+// export const countrySchema = new schema.Entity<Country>(
+//   'countries',
+//   { states: statesListSchema },
+//   { idAttribute: '_id' }
+// );
 
-export const countriesListSchema = [countrySchema];
+// export const countriesListSchema = [countrySchema];
 
-export const languageSchema = new schema.Entity<Language>(
-  'languages',
-  { countries: countriesListSchema },
-  { idAttribute: '_id' }
-);
+// export const languageSchema = new schema.Entity<Language>(
+//   'languages',
+//   { countries: countriesListSchema },
+//   { idAttribute: '_id' }
+// );
 
-export const languagesListSchema = [languageSchema];
+// export const languagesListSchema = [languageSchema];
 
-export type Now = {
-  languages: {
-    entities: Language[];
-    ids: ['langId1', 'langId2', 'langId3'];
-  };
-};
+// export type Now = {
+//   languages: {
+//     entities: Language[];
+//     ids: ['langId1', 'langId2', 'langId3'];
+//   };
+// };
 
 // type NormalizedCity = City;
 
@@ -140,3 +136,4 @@ export type Now = {
 // };
 
 // fetchQuestions();
+export {};

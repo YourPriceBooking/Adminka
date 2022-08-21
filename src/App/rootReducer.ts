@@ -1,21 +1,16 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import { api } from 'features/api';
-import {
-  authReducer,
-  counterSliceReducer,
-  modalSliceReducer,
-  themeReducer,
-  langReducer,
-} from 'features/common';
-import { countriesReducer } from 'features/countries';
+import { authReducer, counterSliceReducer, modalSliceReducer, themeReducer } from 'features/common';
+import { countryReducer } from 'features/countries';
+import { languagesReducer } from 'features/languages';
 
 const globalReducer = combineReducers({
   auth: authReducer,
   counter: counterSliceReducer,
   modal: modalSliceReducer,
   theme: themeReducer,
-  lang: langReducer,
-  countries: countriesReducer,
+  language: languagesReducer,
+  country: countryReducer,
 });
 
 export const rootReducer = combineReducers({

@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-// import { StrictMode } from 'react';
+import { StrictMode } from 'react';
 import { Provider } from 'react-redux';
 import { store, persistor } from 'App/store';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -12,15 +12,15 @@ const { rootRef } = getRefs();
 
 const root = createRoot(rootRef);
 root.render(
-  // <StrictMode>
-  <Provider store={store}>
-    <PersistGate persistor={persistor} loading={<AppLoading />}>
-      <BrowserRouter>
-        <AppRouter />
-      </BrowserRouter>
-    </PersistGate>
-  </Provider>
-  // </StrictMode>
+  <StrictMode>
+    <Provider store={store}>
+      <PersistGate persistor={persistor} loading={<AppLoading />}>
+        <BrowserRouter>
+          <AppRouter />
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
+  </StrictMode>
 );
 
 // import reportWebVitals from './tests/reportWebVitals';

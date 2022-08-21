@@ -1,5 +1,4 @@
 import type { EntityId, EntityState } from '@reduxjs/toolkit';
-import type { District } from './district';
 
 export type City = {
   stateId: EntityId;
@@ -12,31 +11,20 @@ export type City = {
 
   langCode: string;
 
-  districts: District[];
+  districts: EntityId[];
   createdAt: string;
   updatedAt: string;
 };
+export type AddCity = Pick<
+  City,
+  'stateId' | 'cityName' | 'cityInternational' | 'cityCode' | 'cityPhotoURL' | 'langCode'
+>;
 
-export type AddCity = Omit<City, '_id' | 'districts' | 'createdAt' | 'updatedAt'>;
 export type EditCity = Pick<City, '_id' | 'cityName' | 'cityPhotoURL' | 'langCode'>;
-export type DeleteCity = Pick<City, '_id' | 'stateId'>;
-
-/**
- * Change the type of Keys of T from NewType
- */
-export type ChangeTypeOfKeys<T extends object, Keys extends keyof T, NewType> = {
-  // Loop to every key. We gonna check if the key
-  // is assignable to Keys. If yes, change the type.
-  // Else, retain the type.
-  [key in keyof T]: key extends Keys ? NewType : T[key];
-};
+export type DeleteCity = EntityId;
 
 export type CitiesResponse = City[] | [];
 
 export type MaybeCitiesEntity = EntityState<City> | undefined;
-export type NormalizedCity = ChangeTypeOfKeys<City, 'districts', EntityId[]>;
-
-export type ManyCities = { data?: { cities?: City[] } };
-export type OneCity = { city?: City };
 
 export type FindCity = { stateId: string };

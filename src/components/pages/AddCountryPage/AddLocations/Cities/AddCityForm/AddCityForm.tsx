@@ -1,6 +1,6 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import { useAppSelector } from 'App';
-import { selectActiveLangId } from 'features/common';
+import { selectActiveLanguageId } from 'features/languages';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -17,7 +17,7 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
   const [isAddingCity, setIsAddingCity] = useState(false);
   const setAddingCityTrue = useCallback(() => setIsAddingCity(true), []);
 
-  const activeLangId = useAppSelector(selectActiveLangId);
+  const activeLangId = useAppSelector(selectActiveLanguageId);
 
   const isLoading = false;
   const isSubmitDisabled = isLoading || !activeLangId;

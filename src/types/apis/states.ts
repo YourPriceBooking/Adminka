@@ -1,5 +1,4 @@
 import type { EntityId, EntityState } from '@reduxjs/toolkit';
-import type { ChangeTypeOfKeys, City } from './cities';
 
 export type State = {
   countryId: EntityId; //+
@@ -11,7 +10,7 @@ export type State = {
   stateCode: string;
   statePhotoURL: string;
 
-  cities: City[];
+  cities: EntityId[];
   langCode: string;
   dbLangCode: string;
 
@@ -21,10 +20,12 @@ export type State = {
 
 export type AddState = Pick<
   State,
-  'countryId' | 'stateName' | 'stateInternational' | 'stateCode' | 'statePhotoURL'
+  'countryId' | 'stateName' | 'stateInternational' | 'stateCode' | 'statePhotoURL' | 'langCode'
 >;
+
 export type EditState = Pick<
   State,
+  | 'countryId'
   | '_id'
   | 'stateName'
   | 'statePhotoURL'
@@ -35,22 +36,4 @@ export type EditState = Pick<
 >;
 
 export type MaybeStatesEntity = EntityState<State> | undefined;
-export type NormalizedState = ChangeTypeOfKeys<State, 'cities', EntityId[]>;
-
-export type ManyStates = { data?: { states?: State[] } };
-export type OneState = { state?: State };
-
 export type DeleteState = EntityId;
-
-export type StatesResponse = State[] | [];
-/**
-     * {
-       "stateId": "62e15c9739727a5c277dd2e1",
-       "cityName": "Nokia",
-       "cityInternational": "Nokia",
-       "cityCode": "Nokia",
-       "cityPhotoURL": "https://Nokian.city.ua/photos/kyiv-city.webp",
-       "stateInternational": "Hanto2 State",
-       "langCode": "EN"
-     }
-     */
