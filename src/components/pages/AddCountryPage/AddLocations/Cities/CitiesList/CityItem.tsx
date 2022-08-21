@@ -10,7 +10,7 @@ export type CityItemProps = {
 
 type DistrictsProps = CityItemProps;
 
-const Districts = ({ cityId }: DistrictsProps) => (
+export const Districts = ({ cityId }: DistrictsProps) => (
   <DistrictsStyled>
     <DistrictsList cityId={cityId} />
 
@@ -22,6 +22,6 @@ export const CityItem = ({ cityId }: CityItemProps) => (
   <CityItemStyled>
     <EditCityForm cityId={cityId} />
 
-    <Districts cityId={cityId} />
+    {/* <Districts cityId={cityId} /> */}
   </CityItemStyled>
 );

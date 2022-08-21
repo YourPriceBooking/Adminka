@@ -1,7 +1,7 @@
 import { RefObject, useCallback, useRef, useState } from 'react';
 import { useAppSelector } from 'App';
 
-import { selectActiveCountryId, selectCountryById, useGetCountriesQuery } from 'features/countries';
+import { selectActiveCountryName, useGetCountriesQuery } from 'features/countries';
 import { AddCountriesStyled, CountryEditorWrapper, ShowEditorButton } from './AddCountries.styled';
 import { Dropdown } from './Drowdown';
 
@@ -11,12 +11,11 @@ type ExpandButtonProps = {
 };
 
 const ActiveCountryButton = ({ toggleCountiesList, toggleButtonRef }: ExpandButtonProps) => {
-  const id = useAppSelector(selectActiveCountryId) ?? '';
-  const activeCountry = useAppSelector(state => selectCountryById(state, id));
+  const activeCountryName = useAppSelector(selectActiveCountryName) ?? 'Select country';
 
   return (
     <ShowEditorButton type="button" ref={toggleButtonRef} onClick={toggleCountiesList}>
-      {activeCountry?.country || 'Select country'}
+      {activeCountryName}
     </ShowEditorButton>
   );
 };
@@ -29,6 +28,14 @@ const SelectCountries = () => {
 
   const isLoading = false;
 
+  const dropdownContent = showCountries && (
+    <Dropdown
+      closeCountriesList={closeCountriesList}
+      isLoading={isLoading}
+      toggleButtonRef={toggleButtonRef}
+    />
+  );
+
   return (
     <AddCountriesStyled>
       <CountryEditorWrapper>
@@ -37,13 +44,7 @@ const SelectCountries = () => {
           toggleButtonRef={toggleButtonRef}
         />
 
-        {showCountries && (
-          <Dropdown
-            closeCountriesList={closeCountriesList}
-            isLoading={isLoading}
-            toggleButtonRef={toggleButtonRef}
-          />
-        )}
+        {dropdownContent}
       </CountryEditorWrapper>
     </AddCountriesStyled>
   );

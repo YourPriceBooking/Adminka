@@ -1,158 +1,148 @@
-import { useAppSelector } from 'App';
-import { logRender } from 'common/utils';
-import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
-import { FormEvent, useCallback, useState } from 'react';
-import { toast } from 'react-toastify';
-import type { EditDistrict } from 'types/apis';
+// import { useAppSelector } from 'App';
+// import { logRender } from 'common/utils';
 
-import { EditButton } from '../../../AddCountries/EditButton/EditButton';
-import { SubmitAddLocationButton } from '../../States/EditStateForm/EditStateForm.styled';
+// import { FormEvent, useCallback, useState } from 'react';
+// import { toast } from 'react-toastify';
+// import type { EditDistrict } from 'types/apis';
+
+// import { EditButton } from '../../../AddCountries/EditButton/EditButton';
+// import { SubmitAddLocationButton } from '../../States/EditStateForm/EditStateForm.styled';
 import type { DistrictItemProps } from '../DistrictsList/DistrictItem';
 
-import {
-  EditDistrictFormStyled,
-  DistrictInfo,
-  EditDistrictPhotoURLInput,
-} from './EditDistrictForm.styled';
-
-const districtItem: EditDistrict = {
-  cityId: '12345SCityId',
-  cityInternational: 'test',
-
-  _id: 'test',
-  districtName: 'test',
-  districtPhotoURL: 'test',
-  districtInternational: 'test',
-  districtCode: 'test',
-
-  langCode: 'test',
-};
-
-const useSelectDistrict = (districtId: string) => {
-  logRender('useSelectDistrict ~ districtId', districtId);
-  return districtItem;
-};
+// import {
+//   EditDistrictFormStyled,
+//   DistrictInfo,
+//   EditDistrictPhotoURLInput,
+// } from './EditDistrictForm.styled';
 
 export const EditDistrictForm = ({ districtId }: DistrictItemProps) => {
-  const {
-    cityId,
-    cityInternational,
+  // const {
+  //   cityId,
+  //   cityInternational,
 
-    _id: id,
-    districtName,
-    districtPhotoURL,
-    districtInternational,
-    districtCode,
+  //   _id: id,
+  //   districtName,
+  //   districtPhotoURL,
+  //   districtInternational,
+  //   districtCode,
 
-    langCode,
-  } = useSelectDistrict(districtId);
+  //   langCode,
+  // } = useSelectDistrict(districtId);
 
-  const activeLangCode = useAppSelector(selectActiveLangCode);
+  // const activeLangCode = useAppSelector(selectActiveLangCode);
 
-  const isEng = useAppSelector(selectIsEnglishActiveLang);
+  // const isEng = useAppSelector(selectIsEnglishActiveLang);
 
-  const [isEditingDistrict, setIsEditingDistrict] = useState(false);
+  // const [isEditingDistrict, setIsEditingDistrict] = useState(false);
 
-  const [localDistrictName, setLocalDistrictName] = useState(districtName);
-  const [localDistrictPhotoURL, setLocalDistrictPhotoURL] = useState(districtPhotoURL);
+  // const [localDistrictName, setLocalDistrictName] = useState(districtName);
+  // const [localDistrictPhotoURL, setLocalDistrictPhotoURL] = useState(districtPhotoURL);
 
-  const setIsEditingDistrictTrue = useCallback(() => setIsEditingDistrict(true), []);
+  // const setIsEditingDistrictTrue = useCallback(() => setIsEditingDistrict(true), []);
 
-  if (!activeLangCode) return null;
+  // if (!activeLangCode) return null;
+  console.log({ districtId });
 
-  const isInputDisabled = !isEditingDistrict;
-  const isEditButtonDisabled = isEditingDistrict;
-  const isLoading = false;
+  return null;
 
-  const $isFirstEdit = langCode === 'EN' && !isEng;
+  // const isInputDisabled = !isEditingDistrict;
+  // const isEditButtonDisabled = isEditingDistrict;
+  // const isLoading = false;
 
-  const handleSubmitEditDistrict = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // const $isFirstEdit = langCode === 'EN' && !isEng;
 
-    const isSubmitDisabled =
-      isLoading || !localDistrictName?.trim() || !localDistrictPhotoURL?.trim();
+  // const handleSubmitEditDistrict = async (e: FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
 
-    if (isSubmitDisabled) return;
+  //   const isSubmitDisabled =
+  //     isLoading || !localDistrictName?.trim() || !localDistrictPhotoURL?.trim();
 
-    const districtPhotoURLTrimmed = localDistrictPhotoURL?.trim();
-    const districtNameTrimmed = localDistrictName?.trim();
+  //   if (isSubmitDisabled) return;
 
-    if (!districtPhotoURLTrimmed || !districtNameTrimmed) {
-      toast('Please provide photo url and District name');
-      return;
-    }
+  //   if (!activeLangCode) {
+  //     toast('Please select language');
+  //     return;
+  //   }
 
-    // if (districtNames?.find(existingDistrictName => existingDistrictName === districtNameTrimmed)) {
-    //   toast.info(`${districtNameTrimmed} exists. Try another 'name'`);
-    //   return;
-    // }
+  //   const districtPhotoURLTrimmed = localDistrictPhotoURL?.trim();
+  //   const districtNameTrimmed = localDistrictName?.trim();
 
-    const updatedDistrict: EditDistrict = {
-      cityId,
-      cityInternational, // TODO: check if it arrives
+  //   if (!districtPhotoURLTrimmed || !districtNameTrimmed) {
+  //     toast('Please provide photo url and District name');
+  //     return;
+  //   }
 
-      _id: id,
-      districtName: districtNameTrimmed,
-      districtPhotoURL: districtPhotoURLTrimmed,
-      districtInternational:
-        !districtInternational && isEng ? districtNameTrimmed : districtInternational,
-      districtCode,
+  //   // if (districtNames?.find(existingDistrictName => existingDistrictName === districtNameTrimmed)) {
+  //   //   toast.info(`${districtNameTrimmed} exists. Try another 'name'`);
+  //   //   return;
+  //   // }
 
-      langCode: activeLangCode,
-    };
+  //   const updatedDistrict: EditDistrict = {
+  //     cityId,
+  //     cityInternational, // TODO: check if it arrives
 
-    try {
-      // appDispatch(editDistrict(updatedDistrict));
-      console.log('handleSubmitEditDistrict ~ updatedDistrict', updatedDistrict);
-      setIsEditingDistrict(false);
-      // toast.success('District updated');
-    } catch (error) {
-      toast.error('District not updated');
-    }
-  };
+  //     _id: id,
+  //     districtName: districtNameTrimmed,
+  //     districtPhotoURL: districtPhotoURLTrimmed,
+  //     districtInternational:
+  //       !districtInternational && isEng ? districtNameTrimmed : districtInternational,
+  //     districtCode,
 
-  return (
-    <EditDistrictFormStyled onSubmit={handleSubmitEditDistrict}>
-      <DistrictInfo>
-        <label>
-          <span>District name</span>
-          <input
-            type="text"
-            name="districtName"
-            value={localDistrictName}
-            onChange={e => setLocalDistrictName(e.currentTarget.value)}
-            disabled={isInputDisabled}
-            maxLength={30}
-            minLength={2}
-            required
-          />
-        </label>
+  //     langCode: activeLangCode,
+  //   };
 
-        <label>
-          <span>District photo URL</span>
-          <EditDistrictPhotoURLInput
-            type="url"
-            name="districtPhotoURL"
-            value={localDistrictPhotoURL}
-            onChange={e => setLocalDistrictPhotoURL(e.currentTarget.value)}
-            disabled={isInputDisabled}
-            maxLength={300}
-            minLength={8}
-            required
-            title={localDistrictPhotoURL}
-          />
-        </label>
-      </DistrictInfo>
+  //   try {
+  //     // appDispatch(editDistrict(updatedDistrict));
+  //     console.log('handleSubmitEditDistrict ~ updatedDistrict', updatedDistrict);
+  //     setIsEditingDistrict(false);
+  //     // toast.success('District updated');
+  //   } catch (error) {
+  //     toast.error('District not updated');
+  //   }
+  // };
 
-      {!isEditingDistrict && (
-        <EditButton
-          $isFirstEdit={$isFirstEdit}
-          onClick={setIsEditingDistrictTrue}
-          disabled={isEditButtonDisabled}
-        />
-      )}
+  // return (
+  //   <EditDistrictFormStyled onSubmit={handleSubmitEditDistrict}>
+  //     <DistrictInfo>
+  //       <label>
+  //         <span>District name</span>
+  //         <input
+  //           type="text"
+  //           name="districtName"
+  //           value={localDistrictName}
+  //           onChange={e => setLocalDistrictName(e.currentTarget.value)}
+  //           disabled={isInputDisabled}
+  //           maxLength={30}
+  //           minLength={2}
+  //           required
+  //         />
+  //       </label>
 
-      {isEditingDistrict && <SubmitAddLocationButton type="submit">Done</SubmitAddLocationButton>}
-    </EditDistrictFormStyled>
-  );
+  //       <label>
+  //         <span>District photo URL</span>
+  //         <EditDistrictPhotoURLInput
+  //           type="url"
+  //           name="districtPhotoURL"
+  //           value={localDistrictPhotoURL}
+  //           onChange={e => setLocalDistrictPhotoURL(e.currentTarget.value)}
+  //           disabled={isInputDisabled}
+  //           maxLength={300}
+  //           minLength={8}
+  //           required
+  //           title={localDistrictPhotoURL}
+  //         />
+  //       </label>
+  //     </DistrictInfo>
+
+  //     {!isEditingDistrict && (
+  //       <EditButton
+  //         $isFirstEdit={$isFirstEdit}
+  //         onClick={setIsEditingDistrictTrue}
+  //         disabled={isEditButtonDisabled}
+  //       />
+  //     )}
+
+  //     {isEditingDistrict && <SubmitAddLocationButton type="submit">Done</SubmitAddLocationButton>}
+  //   </EditDistrictFormStyled>
+  // );
 };

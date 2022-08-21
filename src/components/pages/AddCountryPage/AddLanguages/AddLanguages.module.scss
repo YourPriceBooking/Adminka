@@ -30,7 +30,6 @@ $color_hover_background: #e5e5e5;
 }
 %scroll-container {
   overflow-y: scroll;
-  scroll-snap-type: y mandatory;
   &::-webkit-scrollbar {
     width: 8px;
   }
@@ -137,9 +136,6 @@ $color_hover_background: #e5e5e5;
   @extend %language-text-style-block-addlang;
 }
 .block_lang_li {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-
   @extend %language-text-style-block-li;
 
   display: flex;

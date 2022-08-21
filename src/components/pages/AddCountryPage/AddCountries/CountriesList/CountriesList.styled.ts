@@ -15,7 +15,4 @@ export const CountryListStyled = styled.ul`
   }
 `;
 
-export const CountryItemStyled = styled.li`
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-`;
+export const CountryItemStyled = styled.li``;

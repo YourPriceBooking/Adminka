@@ -18,7 +18,6 @@
               "stateInternational": "Florida State",
               "stateCode": "Florida",
               "international": "USA",
-              "edited": 0,
               "langCode": "EN",
               "dbLangCode": "EN",
               "statePhotoURL": "https://Florida.states.ua/photos/lviv-state.webp",
@@ -90,120 +89,7 @@
       "createdAt": "2022-08-06T20:11:03.606Z",
       "updatedAt": "2022-08-13T19:03:29.558Z"
     },
-    {
-      "_id": "62f2b9aabf938ee9f52f1c87",
-      "lang": "Polskiy",
-      "code": "PL",
-      "countries": [
-        {
-          "_id": "62f2b9aabf938ee9f52f1c8b",
-          "international": "USA",
-          "country": "USA",
-          "langCode": "EN",
-          "dbLangCode": "PL",
-          "states": []
-        },
-        {
-          "_id": "62f2b9aabf938ee9f52f1c8d",
-          "international": "Ukraine",
-          "country": "Ukraine",
-          "langCode": "EN",
-          "dbLangCode": "PL",
-          "states": []
-        },
-        {
-          "_id": "62f2b9abbf938ee9f52f1c8f",
-          "international": "Poland",
-          "country": "Poland",
-          "langCode": "EN",
-          "dbLangCode": "PL",
-          "states": []
-        },
-        {
-          "_id": "62f2b9acbf938ee9f52f1caa",
-          "international": "Germany",
-          "country": "Germany",
-          "langCode": "EN",
-          "dbLangCode": "PL",
-          "states": []
-        },
-        {
-          "_id": "62f2b9acbf938ee9f52f1cac",
-          "international": "Canada",
-          "country": "Canada",
-          "langCode": "EN",
-          "dbLangCode": "PL",
-          "states": []
-        },
-        {
-          "_id": "62f2b9acbf938ee9f52f1cae",
-          "international": "Tailand",
-          "country": "Tailand",
-          "langCode": "EN",
-          "dbLangCode": "PL",
-          "states": []
-        }
-      ],
-      "createdAt": "2022-08-09T19:46:50.808Z",
-      "updatedAt": "2022-08-13T19:03:30.552Z"
-    },
-    {
-      "_id": "62f2bb248455b759142b28ac",
-      "lang": "French",
-      "code": "FR",
-      "countries": [
-        {
-          "_id": "62f2bb248455b759142b28b0",
-          "international": "USA",
-          "country": "USA",
-          "langCode": "EN",
-          "dbLangCode": "FR",
-          "states": []
-        },
-        {
-          "_id": "62f2bb248455b759142b28ca",
-          "international": "Ukraine",
-          "country": "Ukraine",
-          "langCode": "EN",
-          "dbLangCode": "FR",
-          "states": []
-        },
-        {
-          "_id": "62f2bb258455b759142b28cd",
-          "international": "Poland",
-          "country": "Poland",
-          "langCode": "EN",
-          "dbLangCode": "FR",
-          "states": []
-        },
-        {
-          "_id": "62f2bb258455b759142b28d0",
-          "international": "Germany",
-          "country": "Germany",
-          "langCode": "EN",
-          "dbLangCode": "FR",
-          "states": []
-        },
-        {
-          "_id": "62f2bb258455b759142b28e0",
-          "international": "Canada",
-          "country": "Canada",
-          "langCode": "EN",
-          "dbLangCode": "FR",
-          "states": []
-        },
-        {
-          "_id": "62f2bb258455b759142b28e2",
-          "international": "Tailand",
-          "country": "Tailand",
-          "langCode": "EN",
-          "dbLangCode": "FR",
-          "states": []
-        }
-      ],
-      "createdAt": "2022-08-09T19:53:08.598Z",
-      "updatedAt": "2022-08-13T19:03:31.054Z"
-    },
+
     {
       "_id": "62faa7974ff0bb2c6a0d5587",
       "lang": "TEST",
@@ -375,11 +261,7 @@
       "country": "Germany",
       "langCode": "EN",
       "dbLangCode": "UK",
-      "states": [
-        "62eec5abd26c6872771b5dd7",
-        "62eec5bbd26c6872771b5ddb",
-        "62eec5cfd26c6872771b5ddf"
-      ]
+      "states": ["62eec5abd26c6872771b5dd7", "62eec5bbd26c6872771b5ddb", "62eec5cfd26c6872771b5ddf"]
     },
     {
       "_id": "62eecad6d26c6872771b5e40",
@@ -387,11 +269,7 @@
       "country": "Canada",
       "langCode": "EN",
       "dbLangCode": "UK",
-      "states": [
-        "62eec6a2d26c6872771b5df3",
-        "62eec6b1d26c6872771b5df7",
-        "62eec6c6d26c6872771b5dfb"
-      ]
+      "states": ["62eec6a2d26c6872771b5df3", "62eec6b1d26c6872771b5df7", "62eec6c6d26c6872771b5dfb"]
     },
     {
       "_id": "62eecad6d26c6872771b5e3c",
@@ -421,158 +299,7 @@
         "62eec3fad26c6872771b5dbf"
       ]
     },
-    {
-      "_id": "62f119e042d4d6dc1b7ec8c1",
-      "international": "Tailand",
-      "country": "Tailand",
-      "langCode": "EN",
-      "dbLangCode": "EN",
-      "states": []
-    },
-    {
-      "_id": "62f119e042d4d6dc1b7ec8c5",
-      "international": "Tailand",
-      "country": "Тайланд",
-      "langCode": "UK",
-      "dbLangCode": "UK",
-      "states": []
-    },
-    {
-      "_id": "62f2b608bf938ee9f52f1c5e",
-      "international": "USA",
-      "country": "USA",
-      "langCode": "EN",
-      "dbLangCode": "RU",
-      "states": []
-    },
-    {
-      "_id": "62f2b608bf938ee9f52f1c61",
-      "international": "Ukraine",
-      "country": "Ukraine",
-      "langCode": "EN",
-      "dbLangCode": "RU",
-      "states": []
-    },
-    {
-      "_id": "62f2b609bf938ee9f52f1c64",
-      "international": "Poland",
-      "country": "Poland",
-      "langCode": "EN",
-      "dbLangCode": "RU",
-      "states": []
-    },
-    {
-      "_id": "62f2b609bf938ee9f52f1c74",
-      "international": "Germany",
-      "country": "Germany",
-      "langCode": "EN",
-      "dbLangCode": "RU",
-      "states": []
-    },
-    {
-      "_id": "62f2b609bf938ee9f52f1c76",
-      "international": "Canada",
-      "country": "Canada",
-      "langCode": "EN",
-      "dbLangCode": "RU",
-      "states": []
-    },
-    {
-      "_id": "62f2b609bf938ee9f52f1c78",
-      "international": "Tailand",
-      "country": "Tailand",
-      "langCode": "EN",
-      "dbLangCode": "RU",
-      "states": []
-    },
-    {
-      "_id": "62f2b9aabf938ee9f52f1c8b",
-      "international": "USA",
-      "country": "USA2",
-      "langCode": "PL",
-      "dbLangCode": "PL",
-      "states": []
-    },
-    {
-      "_id": "62f2b9aabf938ee9f52f1c8d",
-      "international": "Ukraine",
-      "country": "Ukraine",
-      "langCode": "EN",
-      "dbLangCode": "PL",
-      "states": []
-    },
-    {
-      "_id": "62f2b9abbf938ee9f52f1c8f",
-      "international": "Poland",
-      "country": "Poland",
-      "langCode": "EN",
-      "dbLangCode": "PL",
-      "states": []
-    },
-    {
-      "_id": "62f2b9acbf938ee9f52f1caa",
-      "international": "Germany",
-      "country": "Germany",
-      "langCode": "EN",
-      "dbLangCode": "PL",
-      "states": []
-    },
-    {
-      "_id": "62f2b9acbf938ee9f52f1cac",
-      "international": "Canada",
-      "country": "Canada",
-      "langCode": "EN",
-      "dbLangCode": "PL",
-      "states": []
-    },
-    {
-      "_id": "62f2b9acbf938ee9f52f1cae",
-      "international": "Tailand",
-      "country": "Tailand4",
-      "langCode": "PL",
-      "dbLangCode": "PL",
-      "states": []
-    },
-    {
-      "_id": "62f2bb248455b759142b28b0",
-      "international": "USA",
-      "country": "USA",
-      "langCode": "EN",
-      "dbLangCode": "FR",
-      "states": []
-    },
-    {
-      "_id": "62f2bb248455b759142b28ca",
-      "international": "Ukraine",
-      "country": "Ukraine",
-      "langCode": "EN",
-      "dbLangCode": "FR",
-      "states": []
-    },
-    {
-      "_id": "62f2bb258455b759142b28cd",
-      "international": "Poland",
-      "country": "Poland",
-      "langCode": "EN",
-      "dbLangCode": "FR",
-      "states": []
-    },
-    {
-      "_id": "62f2bb258455b759142b28d0",
-      "international": "Germany",
-      "country": "Germany",
-      "langCode": "EN",
-      "dbLangCode": "FR",
-      "states": []
-    },
-    {
-      "_id": "62f2bb258455b759142b28e0",
-      "international": "Canada",
-      "country": "CanadaFR",
-      "langCode": "FR",
-      "dbLangCode": "FR",
-      "states": []
-    },
+
     {
       "_id": "62f56206b27f74ad3a2b8bb3",
       "international": "USA",
@@ -633,20 +360,9 @@
       "country": "Canada",
       "langCode": "EN",
       "dbLangCode": "NL",
-      "states": [
-        "62eec6a2d26c6872771b5df3",
-        "62eec6b1d26c6872771b5df7",
-        "62eec6c6d26c6872771b5dfb"
-      ]
+      "states": ["62eec6a2d26c6872771b5df3", "62eec6b1d26c6872771b5df7", "62eec6c6d26c6872771b5dfb"]
     },
-    {
-      "_id": "62f56206b27f74ad3a2b8bb8",
-      "international": "Tailand",
-      "country": "Tailand",
-      "langCode": "EN",
-      "dbLangCode": "NL",
-      "states": []
-    },
+
     {
       "_id": "62faa7974ff0bb2c6a0d558e",
       "international": "USA",
@@ -757,7 +473,6 @@
       "stateInternational": "Neveda State",
       "stateCode": "Neveda",
       "international": "USA",
-      "edited": 0,
       "langCode": "EN",
       "dbLangCode": "EN",
       "statePhotoURL": "https://Neveda.states.ua/photos/lviv-state.webp",
@@ -801,7 +516,6 @@
       "stateInternational": "Florida State",
       "stateCode": "Florida",
       "international": "USA",
-      "edited": 0,
       "langCode": "EN",
       "dbLangCode": "EN",
       "statePhotoURL": "https://Florida.states.ua/photos/lviv-state.webp",
@@ -873,7 +587,6 @@
       "stateInternational": "Neveda State",
       "stateCode": "Neveda",
       "international": "USA",
-      "edited": 0,
       "langCode": "EN",
       "dbLangCode": "UK",
       "statePhotoURL": "https://Neveda.states.ua/photos/lviv-state.webp",
@@ -917,7 +630,6 @@
       "stateInternational": "Florida State",
       "stateCode": "Florida",
       "international": "USA",
-      "edited": 0,
       "langCode": "EN",
       "dbLangCode": "UK",
       "statePhotoURL": "https://Florida.states.ua/photos/lviv-state.webp",
@@ -989,7 +701,6 @@
       "stateInternational": "Florida State",
       "stateCode": "Florida",
       "international": "USA",
-      "edited": 0,
       "langCode": "EN",
       "dbLangCode": "RU",
       "statePhotoURL": "https://Florida.states.ua/photos/lviv-state.webp",
@@ -1061,7 +772,6 @@
       "stateInternational": "Neveda State",
       "stateCode": "Neveda",
       "international": "USA",
-      "edited": 0,
       "langCode": "EN",
       "dbLangCode": "RU",
       "statePhotoURL": "https://Neveda.states.ua/photos/lviv-state.webp",
@@ -1105,7 +815,6 @@
       "stateInternational": "Neveda State",
       "stateCode": "Neveda",
       "international": "USA",
-      "edited": 0,
       "langCode": "EN",
       "dbLangCode": "PL",
       "statePhotoURL": "https://Neveda.states.ua/photos/lviv-state.webp",
@@ -1149,7 +858,6 @@
       "stateInternational": "Florida State",
       "stateCode": "Florida",
       "international": "USA",
-      "edited": 0,
       "langCode": "EN",
       "dbLangCode": "PL",
       "statePhotoURL": "https://Florida.states.ua/photos/lviv-state.webp",
@@ -1221,7 +929,6 @@
       "stateInternational": "Neveda State",
       "stateCode": "Neveda",
       "international": "USA",
-      "edited": 0,
       "langCode": "EN",
       "dbLangCode": "FR",
       "statePhotoURL": "https://Neveda.states.ua/photos/lviv-state.webp",
@@ -1265,7 +972,6 @@
       "stateInternational": "Florida State",
       "stateCode": "Florida",
       "international": "USA",
-      "edited": 0,
       "langCode": "EN",
       "dbLangCode": "FR",
       "statePhotoURL": "https://Florida.states.ua/photos/lviv-state.webp",
@@ -1337,7 +1043,6 @@
       "stateInternational": "Neveda State",
       "stateCode": "Neveda",
       "international": "USA",
-      "edited": 0,
       "langCode": "EN",
       "dbLangCode": "NL",
       "statePhotoURL": "https://Neveda.states.ua/photos/lviv-state.webp",
@@ -1381,7 +1086,6 @@
       "stateInternational": "Florida State",
       "stateCode": "Florida",
       "international": "USA",
-      "edited": 0,
       "langCode": "EN",
       "dbLangCode": "NL",
       "statePhotoURL": "https://Florida.states.ua/photos/lviv-state.webp",

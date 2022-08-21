@@ -21,7 +21,8 @@ export type EditDistrict = Omit<District, 'createdAt' | 'updatedAt' | 'dbLangCod
 
 export type DeleteDistrict = Pick<District, '_id' | 'cityId'>;
 
-export type DistrictsAdapter = EntityState<District>;
+export type DistrictsEntity = EntityState<District>;
+export type MaybeDistrictsEntity = DistrictsEntity | undefined;
 
 export type ManyDistricts = { data?: { districts?: District[] } };
 export type OneDistrict = { district?: District };

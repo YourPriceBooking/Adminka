@@ -1,7 +1,7 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { useAppSelector } from 'App';
 import { selectIsEnglishActiveLang } from 'features/languages';
-import { DropdownStyled } from './Drowdown.styled';
+import { DropdownStyled } from './Dropdown.styled';
 import { CountriesList } from '../CountriesList';
 import { AddCountryForm } from '../AddCountryForm';
 

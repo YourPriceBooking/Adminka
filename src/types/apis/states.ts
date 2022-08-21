@@ -19,8 +19,20 @@ export type State = {
   updatedAt: string;
 };
 
-export type AddState = Omit<State, '_id' | 'cities' | 'createdAt' | 'updatedAt'>;
-export type EditState = Pick<State, '_id' | 'stateName' | 'statePhotoURL'>;
+export type AddState = Pick<
+  State,
+  'countryId' | 'stateName' | 'stateInternational' | 'stateCode' | 'statePhotoURL'
+>;
+export type EditState = Pick<
+  State,
+  | '_id'
+  | 'stateName'
+  | 'statePhotoURL'
+  | 'langCode'
+  | 'stateInternational'
+  | 'stateCode'
+  | 'international'
+>;
 
 export type MaybeStatesEntity = EntityState<State> | undefined;
 export type NormalizedState = ChangeTypeOfKeys<State, 'cities', EntityId[]>;

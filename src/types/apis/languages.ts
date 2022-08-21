@@ -17,13 +17,14 @@ export type Language = {
   updatedAt: string;
 };
 
-export type LanguagesState = EntityState<Language>;
-export type MaybeLanguagesState = LanguagesState | undefined;
+export type LanguagesEntity = EntityState<Language>;
+export type MaybeLanguagesEntity = LanguagesEntity | undefined;
 export type NormalizedLanguage = ChangeTypeOfKeys<Language, 'countries', EntityId[]>;
 
 export type LanguagesResponse = Language[] | [];
 export type ManyLanguages = { data?: { languages?: Language[] } };
 export type OneLanguage = { language?: Language };
+export type RemoveOneLanguage = { language?: Pick<Language, '_id'> };
 
 export type AddLanguage = Pick<Language, 'lang' | 'code'>;
 export type EditLanguage = Pick<Language, '_id' | 'lang' | 'code'>;

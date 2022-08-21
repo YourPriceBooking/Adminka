@@ -8,8 +8,10 @@ import type {
   EditState,
   State,
   MaybeStatesEntity,
-  StatesResponse,
+  ManyStates,
+  OneState,
 } from 'types/apis';
+
 import { api, endpoints, frozenArr } from '../api/api';
 
 const statesAdapter = createEntityAdapter<State>({
@@ -19,17 +21,23 @@ const statesAdapter = createEntityAdapter<State>({
 
 const initialState = statesAdapter.getInitialState();
 
+export const saveStates = (result?: ManyStates) => {
+  const states = result?.data?.states ?? frozenArr;
+  if (!states) return undefined;
+  return statesAdapter.setAll(initialState, states);
+};
+
+export const saveState = (result?: OneState) => {
+  const state = result?.state;
+  if (!state) return undefined;
+  return statesAdapter.upsertOne(initialState, state);
+};
+
 export const statesApi = api.injectEndpoints({
   endpoints: builder => ({
     getStates: builder.query<MaybeStatesEntity, void>({
       query: () => endpoints.locationState,
-      // transformResponse: (result: { data: { state: State } }) => {
-      transformResponse: (states?: StatesResponse) => {
-        // const loadedStates = result?.data?.state;
-        const savedStatesAdapter = statesAdapter.upsertMany(initialState, states ?? frozenArr);
-        logRender('getStates', { savedStatesAdapter }, true);
-        return savedStatesAdapter;
-      },
+      transformResponse: (result?: ManyStates) => saveStates(result),
 
       providesTags: result => [
         { type: 'State', id: 'LIST' },
@@ -43,12 +51,12 @@ export const statesApi = api.injectEndpoints({
         method: 'GET',
       }),
       // transformResponse: (result: { data: { state: State } }) => {
-      transformResponse: (data?: State) => {
-        // const loadedState = result?.data?.state;
-        if (!data) return undefined;
+      transformResponse: (result?: OneState) => {
+        const state = result?.state;
+        if (!state) return undefined;
 
-        const savedStateAdapter = statesAdapter.upsertOne(initialState, data);
-        logRender('getStates', { data, savedStateAdapter }, true);
+        const savedStateAdapter = statesAdapter.upsertOne(initialState, state);
+        logRender('getStates', { state, savedStateAdapter }, true);
 
         return savedStateAdapter;
       },
@@ -57,20 +65,19 @@ export const statesApi = api.injectEndpoints({
     }),
 
     addState: builder.mutation<MaybeStatesEntity, AddState>({
-      query: body => ({
+      query: ({ stateName, stateInternational, stateCode, statePhotoURL }) => ({
         url: endpoints.locationState,
         method: 'POST',
-        // body: { state, stateInternational, langCode: 'EN' },
-        body,
+        body: { stateName, stateInternational, stateCode, statePhotoURL, langCode: 'EN' },
       }),
 
       // transformResponse: (result: { data: { state: State } }) => {
-      transformResponse: (data: State) => {
-        // const loadedState = result?.data?.state;
-        if (!data) return undefined;
+      transformResponse: (result?: OneState) => {
+        const state = result?.state;
+        if (!state) return undefined;
 
-        const savedStateAdapter = statesAdapter.addOne(initialState, data);
-        logRender('getStates', { data, savedStateAdapter }, true);
+        const savedStateAdapter = statesAdapter.addOne(initialState, state);
+        logRender('getStates', { state, savedStateAdapter }, true);
         return savedStateAdapter;
       },
 
@@ -78,17 +85,17 @@ export const statesApi = api.injectEndpoints({
     }),
 
     editState: builder.mutation<MaybeStatesEntity, EditState>({
-      query: ({ _id, stateName, statePhotoURL }) => ({
+      query: ({ _id, ...body }) => ({
         url: `${endpoints.locationState}/${_id}`,
-        method: 'PUT',
-        body: { stateName, statePhotoURL },
+        method: 'PATCH',
+        body,
       }),
 
-      // transformResponse: (result: { data: { state: State } }) => {
-      transformResponse: (data: State) => {
-        // const loadedState = result?.data?.state;
-        const savedStateAdapter = statesAdapter.upsertOne(initialState, data);
-        logRender('getStates', { data, savedStateAdapter }, true);
+      transformResponse: (result?: OneState) => {
+        const state = result?.state;
+        if (!state) return undefined;
+        const savedStateAdapter = statesAdapter.upsertOne(initialState, state);
+        logRender('getStates', { state, savedStateAdapter }, true);
         return savedStateAdapter;
       },
 
@@ -103,8 +110,10 @@ export const statesApi = api.injectEndpoints({
       }),
 
       // transformResponse: (result: { data: { state: State } }) => {
-      transformResponse: (_, __, id) => {
+      transformResponse: (data, __, id) => {
         // const removedState = result?.data?.state;
+        if (!data) return undefined;
+
         const savedStateAdapter = statesAdapter.removeOne(initialState, id);
         logRender('getStates', { id, savedStateAdapter }, true);
         return savedStateAdapter;
@@ -131,3 +140,5 @@ export const {
   useEditStateMutation,
   useDeleteStateMutation,
 } = statesApi;
+
+statesAdapter.removeAll(statesAdapter.getInitialState());

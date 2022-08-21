@@ -20,15 +20,15 @@ export type Country = {
 };
 
 export type AddCountry = Pick<Country, 'country' | 'international'>;
-export type EditCountry = Pick<Country, '_id' | 'country' | 'langCode'>;
+export type EditCountry = Pick<Country, '_id' | 'country' | 'langCode' | 'international'>;
 
 export type ManyCountries = { data?: { countries?: Country[] } };
 export type OneCountry = { country?: Country };
 
 export type CountriesResponse = Country[] | [];
 
-export type CountriesState = EntityState<Country>;
-export type MaybeCountriesState = CountriesState | undefined;
+export type CountriesEntity = EntityState<Country>;
+export type MaybeCountriesEntity = CountriesEntity | undefined;
 
 export type NormalizedCountry = ChangeTypeOfKeys<Country, 'states', EntityId[]>;
 

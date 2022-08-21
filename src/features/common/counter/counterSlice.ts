@@ -22,4 +22,4 @@ const counterSlice = createSlice({
 
 export const { incrementCounter } = counterSlice.actions;
 export const counterSliceReducer = counterSlice.reducer;
-export const selectCounterValue = (state: RootState) => state.counter.value;
+export const selectCounterValue = (state: RootState) => state.global.counter.value;

@@ -10,16 +10,13 @@ import {
   useEditCountryMutation,
 } from 'features/countries';
 import { selectActiveLangId } from 'features/common';
-import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
-// import { isEdited } from 'common/utils';
 import type { EntityId } from '@reduxjs/toolkit';
-
+import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import {
   CountryInputLabel,
   EditCountryFormStyled,
   EditCountryInput,
 } from './EditCountryForm.styled';
-
 import { EditButton } from '../EditButton/EditButton';
 
 export type EditCountryFormType = {
@@ -51,45 +48,6 @@ export const EditCountryForm = ({
 
   const appDispatch = useAppDispatch();
 
-  const isPending = isLoading || isLoadingEditedCountry || isDeletingCountry;
-  const isDisabledEdit = !inputDisabled || isPending;
-  const isDisabledSubmit =
-    !countryObj ||
-    !countryObj.country ||
-    isSubmitButtonDisabled ||
-    !localCountryName?.trim() ||
-    isPending ||
-    !activeLangId ||
-    !activeLangCode;
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (isDisabledSubmit) return;
-    const editedCountryName = localCountryName?.trim();
-    if (!editedCountryName) return;
-
-    const editedCountry: EditCountry = {
-      _id: countryObj?._id,
-      country: editedCountryName,
-      langCode: activeLangCode,
-    };
-
-    try {
-      const editedResponse = await editCountry(editedCountry).unwrap();
-      console.log('editedResponse', editedResponse);
-
-      if (editedResponse) {
-        toast.success(`${editedResponse.entities[countryObj._id]?.country} country updated!`);
-      }
-    } catch (error) {
-      toast.error(JSON.stringify(error));
-      setLocalCountryName(countryObj.country);
-    } finally {
-      setInputDisabled(true);
-      setIsSubmitButtonDisabled(true);
-    }
-  };
-
   const onDeleteCountry = useCallback(async () => {
     if (!countryObj?._id) return;
 
@@ -118,16 +76,12 @@ export const EditCountryForm = ({
     setIsSubmitButtonDisabled(true);
   }, [isEditingCountry, setIsEditingCountry]);
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => setLocalCountryName(e.currentTarget.value);
-
-  const selectActiveCountry = useCallback(async () => {
+  const onClickSetActiveCountryId = useCallback(async () => {
     if (isEditingCountry) return;
 
     appDispatch(setActiveCountryId(countryObj?._id));
     closeCountriesList();
   }, [isEditingCountry, appDispatch, countryObj?._id, closeCountriesList]);
-
-  const isFirstEdit = countryObj?.langCode?.toUpperCase() === 'EN' && !isEng;
 
   useEffect(() => {
     if (inputDisabled) return () => {};
@@ -155,10 +109,58 @@ export const EditCountryForm = ({
     return clearGarbage;
   }, [countryObj?.country, inputDisabled, stopEditing]);
 
+  if (!countryObj) return null;
+  const { _id: id, country, international } = countryObj;
+
+  const isPending = isLoading || isLoadingEditedCountry || isDeletingCountry;
+  const isDisabledEdit = !inputDisabled || isPending;
+  const isDisabledSubmit =
+    !country ||
+    !international ||
+    isSubmitButtonDisabled ||
+    isPending ||
+    !activeLangId ||
+    !activeLangCode;
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isDisabledSubmit || !localCountryName?.trim()) return;
+    const editedCountryName = localCountryName?.trim();
+    if (!editedCountryName) return;
+
+    const editedCountry: EditCountry = {
+      _id: id,
+      country: editedCountryName,
+      langCode: activeLangCode,
+      international,
+    };
+
+    try {
+      const editedResponse = await editCountry(editedCountry).unwrap();
+      console.log('editedResponse', editedResponse);
+
+      if (editedResponse) {
+        toast.success(`${editedResponse.entities[countryObj._id]?.country} country updated!`);
+      }
+    } catch (error) {
+      toast.error(JSON.stringify(error));
+      setLocalCountryName(countryObj.country);
+    } finally {
+      setInputDisabled(true);
+      setIsSubmitButtonDisabled(true);
+    }
+  };
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => setLocalCountryName(e.currentTarget.value);
+
+  const isFirstEdit = countryObj?.langCode?.toUpperCase() === 'EN' && !isEng;
+
+  // countryObj
+
   return (
     <EditCountryFormStyled onSubmit={handleSubmit} ref={formRef}>
       <>
-        <CountryInputLabel onClick={selectActiveCountry}>
+        <CountryInputLabel onClick={onClickSetActiveCountryId}>
           <EditCountryInput
             type="text"
             value={localCountryName}

@@ -17,6 +17,7 @@ export const CountriesList = ({
   closeCountriesList,
 }: CountriesListProps) => {
   const countriesIds = useAppSelector(selectVisibleCountriesIds);
+  console.log('countriesIds', countriesIds);
 
   return (
     <CountryListStyled>

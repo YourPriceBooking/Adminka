@@ -1,5 +1,6 @@
 import { useAppSelector } from 'App';
 import { selectActiveCountryId } from 'features/countries';
+import { useAddStateMutation } from 'features/states';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import type { AddState } from 'types/apis';
@@ -10,14 +11,13 @@ import { Row, AddLocationButton, AddStateFormStyled } from './AddStateForm.style
 // type AddStateFormProps = { countryId: EntityId };
 
 export const AddStateForm = () => {
+  const [addState, { isLoading }] = useAddStateMutation();
+
   const activeCountryId = useAppSelector(selectActiveCountryId);
-
   //  const statesNames = useAppSelector(state => selectStateById(state, countryId));
-
   const [isAddingState, setIsAddingState] = useState(false);
   const setAddingStateTrue = useCallback(() => setIsAddingState(true), []);
 
-  const isLoading = false;
   const isSubmitDisabled = isLoading || !activeCountryId;
 
   const handleSubmitAddState = useCallback(
@@ -42,26 +42,32 @@ export const AddStateForm = () => {
       // }
 
       const newState: AddState = {
+        countryId: activeCountryId,
+
         stateName,
         stateInternational: stateName,
         stateCode: stateName.slice(0, 5).toUpperCase(),
-        international: '',
-        langCode: 'EN',
-        dbLangCode: 'EN',
+
         statePhotoURL,
-        countryId: activeCountryId,
       };
 
       try {
-        // appDispatch(addState(newState));
-        console.log('newState', newState);
+        const addedState = await addState(newState).unwrap();
+        console.log({ addedState });
         setIsAddingState(false);
-        // toast.success(`State ${stateName} added`);
+        toast.success(
+          `State ${
+            addedState &&
+            Object.values(addedState?.entities).find(
+              state => state?.stateInternational === stateName
+            )?.stateName
+          } added`
+        );
       } catch (error) {
         toast.error('State not added');
       }
     },
-    [activeCountryId, isSubmitDisabled]
+    [activeCountryId, addState, isSubmitDisabled]
   );
 
   return (

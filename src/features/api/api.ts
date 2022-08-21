@@ -1,6 +1,13 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { RootState } from 'App/store';
+import {
+  MaybeCitiesEntity,
+  MaybeCountriesEntity,
+  MaybeDistrictsEntity,
+  MaybeLanguagesEntity,
+  MaybeStatesEntity,
+} from 'types/apis';
 import './draft';
 
 /**
@@ -10,7 +17,6 @@ import './draft';
  * 14. GET  `/api/location-city/${_id}`
  * 15. GET  `/api/location-district/${_id}`
  */
-
 const config = {
   backend: {
     heroku: 'https://your-price-booking.herokuapp.com/api' as const,
@@ -19,7 +25,7 @@ const config = {
   qty: { one: 'one' as const, many: 'many' as const },
 };
 
-const localhost = true;
+const localhost = 0;
 const baseUrl = localhost ? config.backend.localhost : config.backend.heroku;
 
 export const api = createApi({
@@ -51,5 +57,28 @@ export const endpoints = {
 
 export const frozenArr = Object.freeze([]);
 
-export const selectState = (state: RootState) => state;
 export const selectEntityId = (_: RootState, id: EntityId) => id;
+
+export type Result =
+  | MaybeLanguagesEntity
+  | MaybeCountriesEntity
+  | MaybeStatesEntity
+  | MaybeCitiesEntity
+  | MaybeDistrictsEntity;
+
+export type Type = 'Language' | 'Country' | 'State' | 'City' | 'District';
+export type KeysSelect = 'languages' | 'countries' | 'states' | 'cities' | 'districts';
+export enum Keys {
+  languages = 'languages',
+  countries = 'countries',
+  states = 'states',
+  cities = 'cities',
+  districts = 'districts',
+}
+
+export const tagList = (result: Result, type: Type) => [
+  { type, id: 'LIST' },
+  ...(result ? result.ids.map(id => ({ type, id })) : []),
+];
+
+export const tag = (id: EntityId | 'LIST', type: Type) => [{ type, id }];

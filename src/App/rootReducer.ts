@@ -9,15 +9,19 @@ import {
 } from 'features/common';
 import { countriesReducer } from 'features/countries';
 
-export const rootReducer = combineReducers({
-  // server state
-  [api.reducerPath]: api.reducer,
-
-  // global app state
+const globalReducer = combineReducers({
   auth: authReducer,
   counter: counterSliceReducer,
   modal: modalSliceReducer,
   theme: themeReducer,
   lang: langReducer,
   countries: countriesReducer,
+});
+
+export const rootReducer = combineReducers({
+  // server state
+  [api.reducerPath]: api.reducer,
+
+  // global app state
+  global: globalReducer,
 });

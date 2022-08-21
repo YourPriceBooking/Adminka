@@ -25,22 +25,10 @@ const countriesSlice = createSlice({
     toggleDev(state) {
       state.showDev = !state.showDev;
     },
-
-    // addCountry: {
-    //   reducer: (state, action: PayloadAction<CountryInterface>) =>
-    //     void state.entities.push(action.payload),
-    //   prepare: ({ name }: { name: string }) => ({ payload: { id: nanoid(), name } }),
-    // },
-
-    // editCountry(state, { payload }: PayloadAction<CountryInterface>) {
-    //   state.entities = state.entities.map(country =>
-    //     country.id === payload.id ? { ...country, ...payload } : country
-    //   );
-    // },
   },
 });
 
 export const { setActiveCountryId, toggleDev } = countriesSlice.actions;
 export const countriesReducer = countriesSlice.reducer;
-export const selectActiveCountryId = (state: RootState) => state.countries.activeCountryId;
-export const selectDev = (state: RootState) => state.countries.showDev;
+export const selectActiveCountryId = (state: RootState) => state.global.countries.activeCountryId;
+export const selectDev = (state: RootState) => state.global.countries.showDev;

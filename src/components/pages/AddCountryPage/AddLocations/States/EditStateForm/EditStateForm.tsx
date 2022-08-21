@@ -1,6 +1,7 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import { useAppSelector } from 'App';
-import { selectIsEnglishActiveLang } from 'features/languages';
+import { isEdited } from 'common/utils';
+import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { selectStateById, useEditStateMutation } from 'features/states';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -22,7 +23,9 @@ type EditStateFormProps = {
 export const EditStateForm = ({ stateId }: EditStateFormProps) => {
   const [editState, { isLoading }] = useEditStateMutation();
   const stateObj = useAppSelector(state => selectStateById(state, stateId));
+  const activeLangCode = useAppSelector(selectActiveLangCode);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
+
   // const statesNames = emptyArr;
 
   const [isEditingState, setIsEditingState] = useState(false);
@@ -43,17 +46,20 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
 
   if (!stateObj) return null;
 
-  const { _id: id, createdAt, updatedAt } = stateObj;
+  const { _id: id, international, createdAt, updatedAt, stateInternational, stateCode } = stateObj;
 
   const isInputDisabled = !isEditingState;
   const isEditButtonDisabled = isEditingState;
-  const isSubmitDisabled =
-    isLoading || !localStateName?.trim() || !localStatePhotoURL?.trim() || isLoading;
-  const $isFirstEdit = new Date(updatedAt).getTime() > new Date(createdAt).getTime() && !isEng;
+  const isSubmitDisabled = isLoading;
+  const $isFirstEdit = !isEdited(createdAt, updatedAt) && !isEng;
 
   const handleSubmitEditState = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isSubmitDisabled) return;
+    if (!activeLangCode) {
+      toast('Please select language');
+      return;
+    }
 
     const stateNameTrimmed = localStateName?.trim();
     const statePhotoURLTrimmed = localStatePhotoURL?.trim();
@@ -65,20 +71,26 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
     //   toast.info(`${stateNameTrimmed} exists. Try another 'name'`);
     //   return;
     // }
+
     const updatedState: EditState = {
       _id: id,
+      international,
+
       stateName: stateNameTrimmed,
       statePhotoURL: statePhotoURLTrimmed,
+      langCode: activeLangCode,
+      stateInternational,
+      stateCode,
     };
 
     try {
-      const a = await editState(updatedState).unwrap();
+      const edited = await editState(updatedState).unwrap();
 
-      toast.success(`${a?.entities[id]?.stateName} state updated!`);
+      toast.success(`${edited?.entities[id]?.stateName} state updated!`);
       console.log('handleSubmitEditState ~ updatedState', updatedState);
       setIsEditingState(false);
     } catch (error) {
-      toast.error('State is not edited');
+      toast.error('Cannot save the State now');
     }
   };
 

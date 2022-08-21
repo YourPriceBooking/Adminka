@@ -29,12 +29,12 @@ const DevModeStats = () => {
 
 export const StatesList = () => {
   console.log('StatesList');
-
   // active country -> array of ids
   const countryId = useAppSelector(selectActiveCountryId);
   const statesIds = useAppSelector(state => {
     if (!countryId) return undefined;
-    return selectCountryById(state, countryId)?.states;
+    const country = selectCountryById(state, countryId);
+    return country?.states;
   });
 
   return (

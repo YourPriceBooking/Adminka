@@ -1,90 +1,48 @@
-import { createEntityAdapter, createSelector } from '@reduxjs/toolkit';
-import { api, endpoints } from 'features/api';
-
-import type { RootState } from 'App/store';
-
 import type {
   AddCountry,
-  CountriesResponse,
-  Country,
   EditCountry,
   DeleteCountry,
   GetCountry,
-  MaybeCountriesState,
-  NormalizedCountry,
+  MaybeCountriesEntity,
+  ManyCountries,
+  OneCountry,
 } from 'types/apis';
-
-import { logRender } from 'common/utils';
-
-const countriesAdapter = createEntityAdapter<NormalizedCountry>({
-  selectId: country => country._id,
-  sortComparer: (a, b) => b.createdAt?.localeCompare(a.createdAt),
-});
-
-const initialState = countriesAdapter.getInitialState();
-
-/** @returns Saved to redux countries from countriesAdapter */
-export const saveManyCountries = (data?: CountriesResponse) => {
-  if (!data) return undefined;
-  return countriesAdapter.setAll(initialState, data);
-};
-
-/** @returns Saved to redux country from countriesAdapter */
-export const saveCountry = (data?: Country) => {
-  if (!data) return undefined;
-  return countriesAdapter.upsertOne(initialState, data);
-};
+import { api, endpoints, tag, tagList } from 'features/api';
+import { removeCountry, saveCountries, saveCountry } from './countriesAdapter';
 
 export const countriesApi = api.injectEndpoints({
   endpoints: build => ({
-    // getCountries: build.query<MaybeCountriesState, void>({
-    getCountries: build.query<MaybeCountriesState, void>({
+    getCountries: build.query<MaybeCountriesEntity, void>({
       query: () => endpoints.countries,
-      // transformResponse: (result: InitCountriesResponse) => result?.data?.countries,
-      transformResponse: (data?: CountriesResponse) => saveManyCountries(data),
-      providesTags: result => [
-        { type: 'Country', id: 'LIST' },
-        ...(result ? result.ids.map(id => ({ type: 'Country' as const, id })) : []),
-      ],
+      transformResponse: (result?: ManyCountries) => saveCountries(result),
+      providesTags: result => tagList(result, 'Country'),
     }),
 
-    getCountry: build.query<MaybeCountriesState, GetCountry>({
+    getCountry: build.query<MaybeCountriesEntity, GetCountry>({
       query: id => `${endpoints.countries}/${id}`,
-      // transformResponse: (result: InitCountryResponse) => result?.data?.country,
-      transformResponse: (country: Country) => saveCountry(country),
-      providesTags: (result, error, id) => [{ type: 'Country', id }],
+      transformResponse: (result?: OneCountry) => saveCountry(result),
+      providesTags: (_, __, id) => tag(id, 'Country'),
     }),
 
-    // addCountryEng: build.mutation<MaybeCountriesState, AddCountry>({
-    addCountryEng: build.mutation<MaybeCountriesState, AddCountry>({
+    addCountryEng: build.mutation<MaybeCountriesEntity, AddCountry>({
       query: ({ country, international }) => ({
         url: endpoints.countries,
         method: 'POST',
-        // body: { country, international, langCode: 'EN', dbLangCode: 'EN' }
-        body: {
-          country,
-          international,
-          langCode: 'EN',
-          dbLangCode: 'EN',
-        },
+        body: { country, international, langCode: 'EN', dbLangCode: 'EN' },
       }),
-      // transformResponse: (result: AddCountryResponse) => result.data.country,
-      transformResponse: (country: Country) => saveCountry(country),
-      invalidatesTags: [{ type: 'Country', id: 'LIST' }],
+      transformResponse: (result: OneCountry) => saveCountry(result),
+      invalidatesTags: () => tag('LIST', 'Country'),
     }),
 
-    // editCountry: build.mutation<MaybeCountriesState, EditCountry>({
-    editCountry: build.mutation<MaybeCountriesState, EditCountry>({
+    editCountry: build.mutation<MaybeCountriesEntity, EditCountry>({
       query: ({ _id, country, langCode }) => ({
         url: `${endpoints.countries}/${_id}`,
         method: 'PATCH',
         body: { country, langCode },
       }),
-      // transformResponse: (result: { data: { result: Country } }) => result.data.result,
-      transformResponse: (country: Country) => saveCountry(country),
+      transformResponse: (result?: OneCountry) => saveCountry(result),
 
-      // optimistic updates
-      // photURL + name country
+      // optimistic updates (country + langCode)
       async onQueryStarted({ _id, ...patch }, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
           countriesApi.util.updateQueryData('getCountries', undefined, draft => {
@@ -109,22 +67,14 @@ export const countriesApi = api.injectEndpoints({
       // invalidatesTags: (result, error, { _id }) => [{ type: 'Country', id: _id }],
     }),
 
-    deleteCountry: build.mutation<MaybeCountriesState, DeleteCountry>({
+    deleteCountry: build.mutation<MaybeCountriesEntity, DeleteCountry>({
       query: id => ({
         url: `${endpoints.countries}/${id}`,
         method: 'DELETE',
         body: { _id: id },
       }),
-
-      transformResponse(_, __, id) {
-        // const deletedCountry = result.data.country ?? frozenArr;
-
-        const savedCountryAdapter = countriesAdapter.removeOne(initialState, id);
-        logRender('editCountry', { id, savedCountryAdapter }, true);
-
-        return savedCountryAdapter;
-      },
-      invalidatesTags: (result, error, id) => [{ type: 'Country', id }],
+      transformResponse: (result: OneCountry) => removeCountry(result),
+      invalidatesTags: (_, __, id) => tag(id, 'Country'),
     }),
   }),
 });
@@ -137,14 +87,4 @@ export const {
   useDeleteCountryMutation,
 } = countriesApi;
 
-const selectCountriesResult = countriesApi.endpoints.getCountries.select();
-
-// Creates memoized selector
-const selectCountriesData = createSelector(selectCountriesResult, result => result.data);
-// normalized state object with ids and entities
-
-export const {
-  selectAll: selectAllCountries,
-  selectById: selectCountryById,
-  selectIds: selectCountriesIds,
-} = countriesAdapter.getSelectors<RootState>(state => selectCountriesData(state) ?? initialState);
+export const selectCountriesResult = countriesApi.endpoints.getCountries.select();
