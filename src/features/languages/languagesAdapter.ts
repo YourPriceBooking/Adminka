@@ -7,22 +7,22 @@ export const languagesAdapter = createEntityAdapter<Language>({
   sortComparer: (a, b) => b.createdAt?.localeCompare(a.createdAt),
 });
 
-export const langInitState = languagesAdapter.getInitialState();
+export const languagesInitState = languagesAdapter.getInitialState();
 
 /** @returns object { ids; entities } saved to RTK Query endpoint via languagesAdapter.setAll */
 export const saveManyLanguages = (result?: ManyLanguages) => {
   const languages = getManyLanguages(result);
-  return languages ? languagesAdapter?.setAll(langInitState, languages) : undefined;
+  return languages ? languagesAdapter?.setAll(languagesInitState, languages) : undefined;
 };
 
 /** @returns object { ids; entities } saved to RTK Query endpoint via languagesAdapter.upsertOne */
 export const saveOneLanguage = (result?: OneLanguage) => {
   const language = getOneLanguage(result);
-  return language ? languagesAdapter.upsertOne(langInitState, language) : undefined;
+  return language ? languagesAdapter.upsertOne(languagesInitState, language) : undefined;
 };
 
 /** @returns object { ids; entities } saved to RTK Query endpoint via languagesAdapter.removeOne */
 export const removeLanguage = (result?: OneLanguage) => {
   const id = getOneLanguageId(result);
-  return id ? languagesAdapter.removeOne(langInitState, id) : undefined;
+  return id ? languagesAdapter.removeOne(languagesInitState, id) : undefined;
 };

@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from 'App/store';
 import { selectActiveLanguageId } from './languageSlice';
-import { langInitState, languagesAdapter } from './languagesAdapter';
+import { languagesInitState, languagesAdapter } from './languagesAdapter';
 import { selectLanguagesResult } from './languagesApi';
 
 /** Creates memoized selector
@@ -13,7 +13,9 @@ export const {
   selectEntities: selectLanguagesEntities,
   selectById: selectLanguageById,
   selectIds: selectLanguagesIds,
-} = languagesAdapter.getSelectors<RootState>(state => selectLanguagesData(state) ?? langInitState);
+} = languagesAdapter.getSelectors<RootState>(
+  state => selectLanguagesData(state) ?? languagesInitState
+);
 
 export const selectActiveLanguage = createSelector(
   selectLanguagesEntities,

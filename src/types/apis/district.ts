@@ -12,14 +12,14 @@ export type District = {
 
   langCode: string;
   dbLangCode: string;
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type GetDistrict = EntityId;
 export type AddDistrict = Omit<District, '_id' | 'createdAt' | 'updatedAt'>;
 export type EditDistrict = Omit<District, 'createdAt' | 'updatedAt' | 'dbLangCode'>;
-export type DeleteDistrict = Pick<District, '_id' | 'cityId'>;
+export type DeleteDistrict = EntityId;
 
 export type DistrictsEntity = EntityState<District>;
 export type MaybeDistrictsEntity = DistrictsEntity | undefined;

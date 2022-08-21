@@ -6,7 +6,7 @@ import { selectStatesResult } from './statesApi';
 const selectStatesData = createSelector(selectStatesResult, result => result.data);
 
 export const {
-  //
+  selectEntities: selectStatesEntities,
   selectById: selectStateById,
   selectIds: selectStatesIds,
 } = statesAdapter.getSelectors<RootState>(state => selectStatesData(state) ?? statesInitialState);
