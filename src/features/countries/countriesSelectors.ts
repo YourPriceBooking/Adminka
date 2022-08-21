@@ -28,6 +28,11 @@ export const selectActiveCountryName = createSelector(
   activeCountry => activeCountry?.country
 );
 
+export const selectActiveCountryInternational = createSelector(
+  selectActiveCountry,
+  activeCountry => activeCountry?.international
+);
+
 // export const selectActiveCountryLangCode = createSelector(
 //   selectActiveCountry,
 //   activeCountry => activeCountry?.langCode

@@ -1,7 +1,8 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import { useAppSelector } from 'App';
 import { selectActiveLanguageId } from 'features/languages';
-import { FormEvent, useCallback, useState } from 'react';
+import { makeSelectStateInternational } from 'features/states';
+import { FormEvent, useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import type { AddCity } from 'types/apis';
@@ -18,6 +19,8 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
   const setAddingCityTrue = useCallback(() => setIsAddingCity(true), []);
 
   const activeLangId = useAppSelector(selectActiveLanguageId);
+  const selectStateInternational = useMemo(() => makeSelectStateInternational(stateId), [stateId]);
+  const stateInternational = useAppSelector(selectStateInternational);
 
   const isLoading = false;
   const isSubmitDisabled = isLoading || !activeLangId;
@@ -25,7 +28,7 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
   const handleSubmitAddCity = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      if (isSubmitDisabled) return;
+      if (isSubmitDisabled || !stateInternational) return;
       const form = e.currentTarget;
 
       const content = new FormData(form);
@@ -44,6 +47,7 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
 
       const newCity: AddCity = {
         stateId,
+        stateInternational,
 
         cityName,
         cityPhotoURL,
@@ -62,39 +66,43 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
         toast.error('City not added');
       }
     },
-    [isSubmitDisabled, stateId]
+    [isSubmitDisabled, stateId, stateInternational]
+  );
+
+  const showAddLocationButton = !isAddingCity && (
+    <AddLocationButton type="button" onClick={setAddingCityTrue}>
+      +2
+    </AddLocationButton>
+  );
+
+  const showAddLocationFormInterface = isAddingCity && (
+    <Row>
+      <label>
+        <input
+          type="url"
+          name="cityPhotoURL"
+          minLength={8}
+          maxLength={300}
+          required
+          title="https://my-location.com/photo.jpg"
+        />
+        <span>add a link to the photo</span>
+      </label>
+
+      <label>
+        <input type="text" name="cityName" minLength={3} maxLength={50} required />
+        <span>add the name of the city</span>
+      </label>
+
+      <SubmitAddLocationButton type="submit">Add Loc 2</SubmitAddLocationButton>
+    </Row>
   );
 
   return (
     <AddCityFormStyled onSubmit={handleSubmitAddCity}>
-      {!isAddingCity && (
-        <AddLocationButton type="button" onClick={setAddingCityTrue}>
-          +2
-        </AddLocationButton>
-      )}
+      {showAddLocationButton}
 
-      {isAddingCity && (
-        <Row>
-          <label>
-            <input
-              type="url"
-              name="cityPhotoURL"
-              minLength={8}
-              maxLength={300}
-              required
-              title="https://my-location.com/photo.jpg"
-            />
-            <span>add a link to the photo</span>
-          </label>
-
-          <label>
-            <input type="text" name="cityName" minLength={3} maxLength={50} required />
-            <span>add the name of the city</span>
-          </label>
-
-          <SubmitAddLocationButton type="submit">Add Loc 2</SubmitAddLocationButton>
-        </Row>
-      )}
+      {showAddLocationFormInterface}
     </AddCityFormStyled>
   );
 };

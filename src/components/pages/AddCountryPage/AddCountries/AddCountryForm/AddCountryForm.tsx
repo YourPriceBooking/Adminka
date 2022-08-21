@@ -51,7 +51,11 @@ export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
         return;
       }
 
-      const newCountry: AddCountry = { country, international: country, langCode: 'EN' };
+      const newCountry: AddCountry = {
+        country,
+        international: country,
+        langCode: 'EN',
+      };
 
       try {
         const addedCountry = await addCountryEng(newCountry).unwrap();

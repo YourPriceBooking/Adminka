@@ -2,6 +2,7 @@ import type { EntityId, EntityState } from '@reduxjs/toolkit';
 
 export type City = {
   stateId: EntityId;
+  stateInternational: string;
 
   _id: EntityId;
   cityName: string;
@@ -17,7 +18,13 @@ export type City = {
 };
 export type AddCity = Pick<
   City,
-  'stateId' | 'cityName' | 'cityInternational' | 'cityCode' | 'cityPhotoURL' | 'langCode'
+  | 'stateId'
+  | 'cityName'
+  | 'cityInternational'
+  | 'cityCode'
+  | 'cityPhotoURL'
+  | 'langCode'
+  | 'stateInternational'
 >;
 
 export type EditCity = Pick<City, '_id' | 'cityName' | 'cityPhotoURL' | 'langCode'>;

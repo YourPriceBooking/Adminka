@@ -1,5 +1,5 @@
 import { useAppSelector } from 'App';
-import { selectActiveCountryId } from 'features/countries';
+import { selectActiveCountryId, selectActiveCountryInternational } from 'features/countries';
 import { useAddStateMutation } from 'features/states';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -14,11 +14,12 @@ export const AddStateForm = () => {
   const [addState, { isLoading }] = useAddStateMutation();
 
   const activeCountryId = useAppSelector(selectActiveCountryId);
+  const activeCountryInternational = useAppSelector(selectActiveCountryInternational);
   //  const statesNames = useAppSelector(state => selectStateById(state, countryId));
   const [isAddingState, setIsAddingState] = useState(false);
   const setAddingStateTrue = useCallback(() => setIsAddingState(true), []);
 
-  const isSubmitDisabled = isLoading || !activeCountryId;
+  const isSubmitDisabled = isLoading || !activeCountryId || !activeCountryInternational;
 
   const handleSubmitAddState = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
@@ -43,6 +44,7 @@ export const AddStateForm = () => {
 
       const newState: AddState = {
         countryId: activeCountryId,
+        international: activeCountryInternational,
 
         stateName,
         stateInternational: stateName,
@@ -68,7 +70,7 @@ export const AddStateForm = () => {
         toast.error('State not added');
       }
     },
-    [activeCountryId, addState, isSubmitDisabled]
+    [activeCountryId, activeCountryInternational, addState, isSubmitDisabled]
   );
 
   const showAddLocationButton = !isAddingState && (

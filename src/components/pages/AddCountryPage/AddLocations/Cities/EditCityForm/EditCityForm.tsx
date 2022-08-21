@@ -62,54 +62,62 @@ export const EditCityForm = ({ cityId }: CityItemProps) => {
     }
   };
 
+  const showEditCityFormInterface = (
+    <CityInfo>
+      <label>
+        <span>City name</span>
+
+        <input
+          type="text"
+          name="cityName"
+          value={localCityName}
+          onChange={e => setLocalCityName(e.currentTarget.value)}
+          disabled={isInputDisabled}
+          maxLength={30}
+          minLength={2}
+          required
+        />
+      </label>
+
+      <label>
+        <span>City photo URL</span>
+
+        <EditCityPhotoURLInput
+          type="url"
+          name="cityPhotoURL"
+          value={localCityPhotoURL}
+          onChange={e => setLocalCityPhotoURL(e.currentTarget.value)}
+          disabled={isInputDisabled}
+          maxLength={300}
+          minLength={8}
+          required
+          title={localCityPhotoURL}
+        />
+      </label>
+    </CityInfo>
+  );
+
+  const showEditButton = !isEditingCity && (
+    <EditButton
+      $isFirstEdit={$isFirstEdit}
+      onClick={setIsEditingCityTrue}
+      disabled={isEditButtonDisabled}
+    />
+  );
+
+  const showSubmitButton = isEditingCity && (
+    <SubmitAddLocationButton type="submit" disabled={isSubmitDisabled}>
+      Done
+    </SubmitAddLocationButton>
+  );
+
   return (
     <EditCityFormStyled onSubmit={handleSubmitEditCity}>
-      <CityInfo>
-        <label>
-          <span>City name</span>
+      {showEditCityFormInterface}
 
-          <input
-            type="text"
-            name="cityName"
-            value={localCityName}
-            onChange={e => setLocalCityName(e.currentTarget.value)}
-            disabled={isInputDisabled}
-            maxLength={30}
-            minLength={2}
-            required
-          />
-        </label>
+      {showEditButton}
 
-        <label>
-          <span>City photo URL</span>
-
-          <EditCityPhotoURLInput
-            type="url"
-            name="cityPhotoURL"
-            value={localCityPhotoURL}
-            onChange={e => setLocalCityPhotoURL(e.currentTarget.value)}
-            disabled={isInputDisabled}
-            maxLength={300}
-            minLength={8}
-            required
-            title={localCityPhotoURL}
-          />
-        </label>
-      </CityInfo>
-
-      {!isEditingCity && (
-        <EditButton
-          $isFirstEdit={$isFirstEdit}
-          onClick={setIsEditingCityTrue}
-          disabled={isEditButtonDisabled}
-        />
-      )}
-
-      {isEditingCity && (
-        <SubmitAddLocationButton type="submit" disabled={isSubmitDisabled}>
-          Done
-        </SubmitAddLocationButton>
-      )}
+      {showSubmitButton}
     </EditCityFormStyled>
   );
 };

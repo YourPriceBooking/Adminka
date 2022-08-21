@@ -73,4 +73,5 @@ yarn add yup date-fns redux react-is
 
 ```bash
 yarn remove normalizr
+yarn add react-content-loader # 16:41
 ```

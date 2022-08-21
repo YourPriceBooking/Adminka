@@ -20,7 +20,13 @@ export type State = {
 
 export type AddState = Pick<
   State,
-  'countryId' | 'stateName' | 'stateInternational' | 'stateCode' | 'statePhotoURL' | 'langCode'
+  | 'countryId'
+  | 'international'
+  | 'stateName'
+  | 'stateInternational'
+  | 'stateCode'
+  | 'statePhotoURL'
+  | 'langCode'
 >;
 
 export type EditState = Pick<

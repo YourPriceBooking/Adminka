@@ -1,4 +1,5 @@
 import { useAppSelector } from 'App';
+import { ListLoader } from 'components/shared/Loader/Loader';
 import { selectLanguagesIds } from 'features/languages';
 import type { SelectLangType } from 'types/apis';
 import slang from '../AddLanguages.module.scss';
@@ -11,11 +12,13 @@ type SelectLangListProps = {
 export const SelectLangList = ({ setActiveLanguage }: SelectLangListProps) => {
   const languagesIds = useAppSelector(selectLanguagesIds);
 
-  return (
-    <ul className={slang.block_lang_ul}>
-      {languagesIds?.map(languageId => (
-        <LanguageItem key={languageId} languageItem={{ languageId, setActiveLanguage }} />
-      ))}
-    </ul>
+  const showLanguagesList = !languagesIds?.length ? (
+    <ListLoader height={320} />
+  ) : (
+    languagesIds.map(languageId => (
+      <LanguageItem key={languageId} languageItem={{ languageId, setActiveLanguage }} />
+    ))
   );
+
+  return <ul className={slang.block_lang_ul}>{showLanguagesList}</ul>;
 };

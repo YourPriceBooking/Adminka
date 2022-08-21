@@ -2,7 +2,8 @@ import type { AddLanguage, SelectLangType } from 'types/apis';
 import { FormEvent, useState } from 'react';
 
 import { toast } from 'react-toastify';
-import { useAddLanguageMutation } from 'features/languages';
+import { selectAllLanguagesCodes, useAddLanguageMutation } from 'features/languages';
+import { useAppSelector } from 'App';
 import slang from '../AddLanguages.module.scss';
 
 type AddLanguageFormProps = {
@@ -12,6 +13,7 @@ type AddLanguageFormProps = {
 
 export const AddLanguageForm = ({ closeModal, setActiveLanguage }: AddLanguageFormProps) => {
   const [addLanguage, { isLoading }] = useAddLanguageMutation();
+  const allLanguagesCodes = useAppSelector(selectAllLanguagesCodes);
 
   const [localNewLangName, setLocalNewLangName] = useState('');
   const [localNewLangCode, setLocalNewLangCode] = useState('');
@@ -26,14 +28,19 @@ export const AddLanguageForm = ({ closeModal, setActiveLanguage }: AddLanguageFo
     const code = localNewLangCode.trim().toUpperCase();
     if (!lang || !code) return;
 
+    if (allLanguagesCodes?.includes(code)) {
+      toast.info(`Code ${code} exists. Enter a new one`);
+      return;
+    }
+
     const newLanguage: AddLanguage = { lang, code };
 
     try {
-      const payload = await addLanguage(newLanguage).unwrap();
-      console.log({ payload });
+      const addedLanguage = await addLanguage(newLanguage).unwrap();
+      console.log({ addedLanguage });
 
-      if (payload) {
-        const newLangId = Object.values(payload.entities).find(
+      if (addedLanguage) {
+        const newLangId = Object.values(addedLanguage.entities).find(
           language => language?.code === code
         )?._id;
 

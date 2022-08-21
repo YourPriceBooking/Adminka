@@ -10,6 +10,7 @@ const selectLanguagesData = createSelector(selectLanguagesResult, result => resu
 
 /** getSelectors creates selectors and we rename them with aliases using destructuring */
 export const {
+  selectAll: selectAllLanguages,
   selectEntities: selectLanguagesEntities,
   selectById: selectLanguageById,
   selectIds: selectLanguagesIds,
@@ -40,4 +41,8 @@ export const selectIsEnglishActiveLang = createSelector(
 
 export const selectVisibleCountriesIds = createSelector(selectActiveLanguage, activeLanguage =>
   activeLanguage?.countries?.map(({ _id }) => _id)
+);
+
+export const selectAllLanguagesCodes = createSelector(selectAllLanguages, allLanguages =>
+  allLanguages ? allLanguages.map(({ code }) => code) : undefined
 );
