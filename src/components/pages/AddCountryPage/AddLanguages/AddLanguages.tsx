@@ -1,6 +1,8 @@
 import { Modal } from 'components/shared/Modal/Modal';
 import { useModal, useSetActiveLanguage } from 'common/hooks';
 import { useGetLanguagesQuery } from 'features/languages';
+import { logRender } from 'common/utils';
+import { ReactNode } from 'react';
 import slang from './AddLanguages.module.scss';
 import { AddLanguageForm } from './AddLanguageForm/AddLanguageForm';
 import { SelectLangList } from './SelectLangList/SelectLangList';
@@ -24,9 +26,10 @@ const AddLanguageModalContent = ({ closeModal }: ModalContentProps) => {
   );
 };
 
-const SelectLanguages = () => {
+export const SelectLanguages = () => {
   const { showModal, openModal, closeModal } = useModal();
 
+  logRender('SelectLanguages', undefined, true);
   return (
     <>
       <ActiveLangButtonContainer openModal={openModal} />
@@ -40,7 +43,8 @@ const SelectLanguages = () => {
   );
 };
 
-export const AddLanguages = () => {
+export const AddLanguages = ({ children }: { children?: ReactNode }) => {
   useGetLanguagesQuery();
-  return <SelectLanguages />;
+
+  return <div>{children}</div>;
 };

@@ -1,14 +1,20 @@
 import { BackButton } from '../BackButton';
-import { AddCountries } from '../AddCountries';
-import { AddLanguages } from '../../AddLanguages';
+import { AddCountries, SelectCountries } from '../AddCountries';
+import { AddLanguages, SelectLanguages } from '../../AddLanguages';
 import { DevelopModeButton } from './DevelopModeButton';
 import { AddCountriesHeaderStyled } from './AddCountriesHeader.styled';
 
 export const AddCountriesHeader = () => (
   <AddCountriesHeaderStyled>
     <BackButton />
-    <AddCountries />
-    <AddLanguages />
+
+    <AddCountries>
+      <SelectCountries />
+    </AddCountries>
+
+    <AddLanguages>
+      <SelectLanguages />
+    </AddLanguages>
 
     <DevelopModeButton />
   </AddCountriesHeaderStyled>

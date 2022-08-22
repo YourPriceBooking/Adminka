@@ -28,7 +28,6 @@ const DevModeStats = () => {
 };
 
 export const StatesList = () => {
-  console.log('StatesList');
   // active country -> array of ids
   const countryId = useAppSelector(selectActiveCountryId);
   const statesIds = useAppSelector(state => {
@@ -36,6 +35,8 @@ export const StatesList = () => {
     const country = selectCountryById(state, countryId);
     return country?.states;
   });
+
+  logRender('StatesList', { countryId, statesIds }, true);
 
   return (
     <>

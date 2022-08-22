@@ -46,7 +46,7 @@ export const languagesApi = api.injectEndpoints({
 
 export const {
   useGetLanguagesQuery,
-  useGetLanguageQuery,
+  useLazyGetLanguageQuery,
   useAddLanguageMutation,
   useDeleteLanguageMutation,
 } = languagesApi;

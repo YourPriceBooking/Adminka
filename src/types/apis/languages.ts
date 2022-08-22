@@ -16,7 +16,18 @@ export type Language = {
   updatedAt: string;
 };
 
-export type LanguagesEntity = EntityState<Language>;
+export type LanguageWithCountriesIds = {
+  _id: EntityId;
+  lang: string;
+  code: string;
+  dbLangCode: string;
+
+  countries: EntityId[];
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type LanguagesEntity = EntityState<LanguageWithCountriesIds>;
 export type MaybeLanguagesEntity = LanguagesEntity | undefined;
 
 export type LanguagesResponse = Language[] | [];

@@ -1,3 +1,6 @@
+import { useAppSelector } from 'App';
+import { generateDistrictCode, logRender } from 'common/utils';
+import { selectIsEnglishActiveLang } from 'features/languages';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import type { AddDistrict } from 'types/apis';
@@ -12,9 +15,10 @@ export const AddDistrictForm = ({ cityId }: { cityId: string }) => {
 
   const [isAddingDistrict, setIsAddingDistrict] = useState(false);
   const setAddingDistrictTrue = useCallback(() => setIsAddingDistrict(true), []);
+  const isEng = useAppSelector(selectIsEnglishActiveLang);
 
   const isLoading = false;
-  const isSubmitDisabled = isLoading;
+  const isSubmitDisabled = !isEng || isLoading;
 
   const handleSubmitAddDistrict = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
@@ -43,7 +47,7 @@ export const AddDistrictForm = ({ cityId }: { cityId: string }) => {
         districtName,
         districtPhotoURL,
         districtInternational: districtName,
-        districtCode: districtName.slice(0, 4).toUpperCase(),
+        districtCode: generateDistrictCode(districtName),
 
         langCode: 'EN',
         dbLangCode: 'EN',
@@ -51,7 +55,7 @@ export const AddDistrictForm = ({ cityId }: { cityId: string }) => {
 
       try {
         // appDispatch(addDistrict(newDistrict));
-        console.log('newDistrict', newDistrict);
+        logRender('addNewDistrict', newDistrict);
         setAddingDistrictTrue();
         toast.success(`District ${districtName} added`);
       } catch (error) {
@@ -61,36 +65,40 @@ export const AddDistrictForm = ({ cityId }: { cityId: string }) => {
     [isSubmitDisabled, cityId, setAddingDistrictTrue]
   );
 
+  const showSubmitButton = isEng && !isAddingDistrict && (
+    <AddLocationButton type="button" onClick={setAddingDistrictTrue}>
+      +1
+    </AddLocationButton>
+  );
+
+  const showAddDistrictForm = isAddingDistrict && (
+    <Row>
+      <label>
+        <input
+          type="url"
+          name="districtPhotoURL"
+          minLength={8}
+          maxLength={300}
+          required
+          title="https://my-location.com/photo.jpg"
+        />
+        <p>add a link to the photo</p>
+      </label>
+
+      <label>
+        <input type="text" name="districtName" minLength={3} maxLength={50} required />
+        <p>add the name of the district</p>
+      </label>
+
+      <SubmitAddLocationButton type="submit">Add Loc 1</SubmitAddLocationButton>
+    </Row>
+  );
+
   return (
     <AddDistrictFormStyled onSubmit={handleSubmitAddDistrict}>
-      {!isAddingDistrict && (
-        <AddLocationButton type="button" onClick={setAddingDistrictTrue}>
-          +1
-        </AddLocationButton>
-      )}
+      {showSubmitButton}
 
-      {isAddingDistrict && (
-        <Row>
-          <label>
-            <input
-              type="url"
-              name="districtPhotoURL"
-              minLength={8}
-              maxLength={300}
-              required
-              title="https://my-location.com/photo.jpg"
-            />
-            <p>add a link to the photo</p>
-          </label>
-
-          <label>
-            <input type="text" name="districtName" minLength={3} maxLength={50} required />
-            <p>add the name of the district</p>
-          </label>
-
-          <SubmitAddLocationButton type="submit">Add Loc 1</SubmitAddLocationButton>
-        </Row>
-      )}
+      {showAddDistrictForm}
     </AddDistrictFormStyled>
   );
 };

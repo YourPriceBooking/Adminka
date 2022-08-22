@@ -1,16 +1,9 @@
 import { useGetStatesQuery } from 'features/states';
-import { AddStateForm } from './AddStateForm';
+import type { ReactNode } from 'react';
 import { StatesStyled } from './States.styled';
-import { StatesList } from './StatesList/StatesList';
 
-export const States = () => {
+export const States = ({ children }: { children?: ReactNode }) => {
   useGetStatesQuery();
 
-  return (
-    <StatesStyled>
-      <StatesList />
-
-      <AddStateForm />
-    </StatesStyled>
-  );
+  return <StatesStyled>{children}</StatesStyled>;
 };

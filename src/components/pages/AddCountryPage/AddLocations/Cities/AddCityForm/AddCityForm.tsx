@@ -1,6 +1,7 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import { useAppSelector } from 'App';
-import { selectActiveLanguageId } from 'features/languages';
+import { generateCityCode, logRender } from 'common/utils';
+import { selectActiveLanguageId, selectIsEnglishActiveLang } from 'features/languages';
 import { makeSelectStateInternational } from 'features/states';
 import { FormEvent, useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -18,12 +19,13 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
   const [isAddingCity, setIsAddingCity] = useState(false);
   const setAddingCityTrue = useCallback(() => setIsAddingCity(true), []);
 
-  const activeLangId = useAppSelector(selectActiveLanguageId);
   const selectStateInternational = useMemo(() => makeSelectStateInternational(stateId), [stateId]);
   const stateInternational = useAppSelector(selectStateInternational);
+  const activeLangId = useAppSelector(selectActiveLanguageId);
+  const isEng = useAppSelector(selectIsEnglishActiveLang);
 
   const isLoading = false;
-  const isSubmitDisabled = isLoading || !activeLangId;
+  const isSubmitDisabled = !activeLangId || !isEng || isLoading;
 
   const handleSubmitAddCity = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
@@ -52,14 +54,15 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
         cityName,
         cityPhotoURL,
         cityInternational: cityName,
-        cityCode: cityName.slice(0, 4).toUpperCase(),
+        cityCode: generateCityCode(cityName),
 
         langCode: 'EN',
       };
 
       try {
         // appDispatch(addCity(newCity));
-        console.log('newCity', newCity);
+        logRender('addCity', newCity);
+
         setIsAddingCity(false);
         toast.success(`City ${cityName} added`);
       } catch (error) {
@@ -69,7 +72,7 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
     [isSubmitDisabled, stateId, stateInternational]
   );
 
-  const showAddLocationButton = !isAddingCity && (
+  const showAddLocationButton = isEng && !isAddingCity && (
     <AddLocationButton type="button" onClick={setAddingCityTrue}>
       +2
     </AddLocationButton>

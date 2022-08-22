@@ -2,7 +2,12 @@ import type { AddLanguage, SelectLangType } from 'types/apis';
 import { FormEvent, useState } from 'react';
 
 import { toast } from 'react-toastify';
-import { selectAllLanguagesCodes, useAddLanguageMutation } from 'features/languages';
+import {
+  selectAllLanguagesCodes,
+  selectLanguageId,
+  useAddLanguageMutation,
+  useLazyGetLanguageQuery,
+} from 'features/languages';
 import { useAppSelector } from 'App';
 import slang from '../AddLanguages.module.scss';
 
@@ -12,13 +17,15 @@ type AddLanguageFormProps = {
 };
 
 export const AddLanguageForm = ({ closeModal, setActiveLanguage }: AddLanguageFormProps) => {
-  const [addLanguage, { isLoading }] = useAddLanguageMutation();
+  const [addLanguage, { isLoading: isAddingLanguage }] = useAddLanguageMutation();
   const allLanguagesCodes = useAppSelector(selectAllLanguagesCodes);
+  const [getLanguage, { isLoading: isFetchingLanguage }] = useLazyGetLanguageQuery();
 
   const [localNewLangName, setLocalNewLangName] = useState('');
   const [localNewLangCode, setLocalNewLangCode] = useState('');
 
-  const isSubmitDisabled = isLoading || !localNewLangName.trim() || !localNewLangCode.trim();
+  const isSubmitDisabled =
+    isAddingLanguage || isFetchingLanguage || !localNewLangName.trim() || !localNewLangCode.trim();
 
   const onSubmitAddLanguage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,18 +44,15 @@ export const AddLanguageForm = ({ closeModal, setActiveLanguage }: AddLanguageFo
 
     try {
       const addedLanguage = await addLanguage(newLanguage).unwrap();
-      console.log({ addedLanguage });
 
-      if (addedLanguage) {
-        const newLangId = Object.values(addedLanguage.entities).find(
-          language => language?.code === code
-        )?._id;
+      if (!addedLanguage) return;
+      const newLangId = selectLanguageId(addedLanguage, code);
 
-        if (newLangId) {
-          setActiveLanguage(newLangId);
-          toast.success(`${newLanguage.lang} language added`);
-        }
-      }
+      if (!newLangId) return;
+      await getLanguage(newLangId);
+
+      setActiveLanguage(newLangId);
+      toast.success(`${addedLanguage.entities[newLangId]?.lang} language added`);
     } catch (error: any) {
       toast.error(`Language not added ${error?.data?.message}`);
     } finally {

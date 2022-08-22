@@ -1,34 +1,35 @@
-import { RefObject, useCallback, useRef, useState } from 'react';
+import { ReactNode, RefObject, useCallback, useRef, useState } from 'react';
 import { useAppSelector } from 'App';
 
 import { selectActiveCountryName, useGetCountriesQuery } from 'features/countries';
+import { logRender } from 'common/utils';
 import { AddCountriesStyled, CountryEditorWrapper, ShowEditorButton } from './AddCountries.styled';
 import { Dropdown } from './Drowdown';
 
 type ExpandButtonProps = {
-  toggleCountiesList: () => void;
+  toggleCountriesList: () => void;
   toggleButtonRef: RefObject<HTMLButtonElement>;
 };
 
-const ActiveCountryButton = ({ toggleCountiesList, toggleButtonRef }: ExpandButtonProps) => {
+const ActiveCountryButton = ({ toggleCountriesList, toggleButtonRef }: ExpandButtonProps) => {
   const activeCountryName = useAppSelector(selectActiveCountryName) ?? 'Select country';
 
   return (
-    <ShowEditorButton type="button" ref={toggleButtonRef} onClick={toggleCountiesList}>
+    <ShowEditorButton type="button" ref={toggleButtonRef} onClick={toggleCountriesList}>
       {activeCountryName}
     </ShowEditorButton>
   );
 };
 
-const SelectCountries = () => {
+export const SelectCountries = () => {
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
   const [showCountries, setShowCountries] = useState(false);
   const closeCountriesList = useCallback(() => setShowCountries(false), []);
-  const toggleCountiesList = useCallback(() => setShowCountries(show => !show), []);
+  const toggleCountriesList = useCallback(() => setShowCountries(show => !show), []);
 
   const isLoading = false;
 
-  const dropdownContent = showCountries && (
+  const showDropdown = showCountries && (
     <Dropdown
       closeCountriesList={closeCountriesList}
       isLoading={isLoading}
@@ -36,22 +37,24 @@ const SelectCountries = () => {
     />
   );
 
+  logRender('SelectCountries', undefined, true);
+
   return (
     <AddCountriesStyled>
       <CountryEditorWrapper>
         <ActiveCountryButton
-          toggleCountiesList={toggleCountiesList}
+          toggleCountriesList={toggleCountriesList}
           toggleButtonRef={toggleButtonRef}
         />
 
-        {dropdownContent}
+        {showDropdown}
       </CountryEditorWrapper>
     </AddCountriesStyled>
   );
 };
 
-export const AddCountries = () => {
+export const AddCountries = ({ children }: { children?: ReactNode }) => {
   useGetCountriesQuery();
 
-  return <SelectCountries />;
+  return <div>{children}</div>;
 };

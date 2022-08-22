@@ -8,7 +8,7 @@ import type {
   OneCity,
   OneState,
   OneCountry,
-  Language,
+  LanguageWithCountriesIds,
 } from 'types/apis';
 import { frozenArr } from './api';
 
@@ -21,7 +21,7 @@ export const getManyCities = ({ data: { cities } = {} }: ManyCities = {}) => cit
 export const getManyDistricts = ({ data: { districts } = {} }: ManyDistricts = {}) =>
   districts ?? frozenArr;
 
-export type OneLanguageInArray = { data?: { language?: Language[] } };
+export type OneLanguageInArray = { data?: { language?: LanguageWithCountriesIds[] } };
 export const getOneLanguage = ({ data: { language } = {} }: OneLanguageInArray = {}) =>
   language?.[0];
 export const getOneCountry = ({ data: { country } = {} }: OneCountry = {}) => country;

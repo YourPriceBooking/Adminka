@@ -1,5 +1,7 @@
 import { useAppSelector } from 'App';
+import { generateStateCode } from 'common/utils';
 import { selectActiveCountryId, selectActiveCountryInternational } from 'features/countries';
+import { selectIsEnglishActiveLang } from 'features/languages';
 import { useAddStateMutation } from 'features/states';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -15,11 +17,13 @@ export const AddStateForm = () => {
 
   const activeCountryId = useAppSelector(selectActiveCountryId);
   const activeCountryInternational = useAppSelector(selectActiveCountryInternational);
+  const isEng = useAppSelector(selectIsEnglishActiveLang);
+
   //  const statesNames = useAppSelector(state => selectStateById(state, countryId));
   const [isAddingState, setIsAddingState] = useState(false);
   const setAddingStateTrue = useCallback(() => setIsAddingState(true), []);
 
-  const isSubmitDisabled = isLoading || !activeCountryId || !activeCountryInternational;
+  const isSubmitDisabled = !isEng || isLoading || !activeCountryId || !activeCountryInternational;
 
   const handleSubmitAddState = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
@@ -48,7 +52,7 @@ export const AddStateForm = () => {
 
         stateName,
         stateInternational: stateName,
-        stateCode: stateName.slice(0, 5).toUpperCase(),
+        stateCode: generateStateCode(stateName),
         statePhotoURL,
 
         langCode: 'EN',
@@ -56,7 +60,7 @@ export const AddStateForm = () => {
 
       try {
         const addedState = await addState(newState).unwrap();
-        console.log({ addedState });
+
         setIsAddingState(false);
         toast.success(
           `State ${
@@ -73,7 +77,7 @@ export const AddStateForm = () => {
     [activeCountryId, activeCountryInternational, addState, isSubmitDisabled]
   );
 
-  const showAddLocationButton = !isAddingState && (
+  const showAddLocationButton = isEng && !isAddingState && (
     <AddLocationButton type="button" onClick={setAddingStateTrue}>
       +3
     </AddLocationButton>

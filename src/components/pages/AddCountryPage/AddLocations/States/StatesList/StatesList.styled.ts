@@ -2,7 +2,7 @@ import styled from 'styled-components/macro';
 
 export const StatesListStyled = styled.ul``;
 
-export const LocationsItemStyled = styled.li`
+export const StateItemStyled = styled.li`
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
