@@ -1,7 +1,7 @@
 import type { AddCountry } from 'types/apis';
 import { useAppDispatch } from 'App';
 import { setActiveCountryId, useAddCountryEngMutation } from 'features/countries';
-import { selectIsEnglishActiveLang } from 'features/languages';
+import { selectIsEnglishActiveLang, useLazyGetLanguagesQuery } from 'features/languages';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -19,6 +19,7 @@ type AddCountryFormProps = { isLoading: boolean };
 export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
   const [addCountryEng, { isLoading: isAddingCountry, error: addCountryEngMutationError }] =
     useAddCountryEngMutation();
+  const [getLanguages, { isLoading: isFetchingLanguages }] = useLazyGetLanguagesQuery();
 
   const appDispatch = useAppDispatch();
 
@@ -30,7 +31,8 @@ export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
 
   const [localNewCountryName, setLocalNewCountryName] = useState('');
 
-  const isSubmitDisabled = isLoading || !localNewCountryName.trim() || isAddingCountry;
+  const isSubmitDisabled =
+    isFetchingLanguages || isLoading || isAddingCountry || !localNewCountryName.trim();
 
   const isEngActive = useSelector(selectIsEnglishActiveLang);
 
@@ -67,6 +69,9 @@ export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
 
           if (newActiveCountryId) {
             appDispatch(setActiveCountryId(newActiveCountryId));
+            setTimeout(async () => {
+              await getLanguages();
+            }, 1200);
           }
         }
       } catch (error) {
@@ -75,7 +80,7 @@ export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
         form.reset();
       }
     },
-    [addCountryEng, appDispatch, isEngActive, isSubmitDisabled]
+    [addCountryEng, appDispatch, getLanguages, isEngActive, isSubmitDisabled]
   );
 
   return (

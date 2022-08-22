@@ -6,9 +6,10 @@ import {
   selectAllLanguagesCodes,
   selectLanguageId,
   useAddLanguageMutation,
-  useLazyGetLanguageQuery,
+  useLazyGetLanguagesQuery,
 } from 'features/languages';
-import { useAppSelector } from 'App';
+import { useAppDispatch, useAppSelector } from 'App';
+import { setActiveCountryId } from 'features/countries';
 import slang from '../AddLanguages.module.scss';
 
 type AddLanguageFormProps = {
@@ -19,13 +20,14 @@ type AddLanguageFormProps = {
 export const AddLanguageForm = ({ closeModal, setActiveLanguage }: AddLanguageFormProps) => {
   const [addLanguage, { isLoading: isAddingLanguage }] = useAddLanguageMutation();
   const allLanguagesCodes = useAppSelector(selectAllLanguagesCodes);
-  const [getLanguage, { isLoading: isFetchingLanguage }] = useLazyGetLanguageQuery();
+  const [getLanguages, { isLoading: isFetchingLanguages }] = useLazyGetLanguagesQuery();
 
   const [localNewLangName, setLocalNewLangName] = useState('');
   const [localNewLangCode, setLocalNewLangCode] = useState('');
+  const appDispatch = useAppDispatch();
 
   const isSubmitDisabled =
-    isAddingLanguage || isFetchingLanguage || !localNewLangName.trim() || !localNewLangCode.trim();
+    isAddingLanguage || isFetchingLanguages || !localNewLangName.trim() || !localNewLangCode.trim();
 
   const onSubmitAddLanguage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -49,9 +51,13 @@ export const AddLanguageForm = ({ closeModal, setActiveLanguage }: AddLanguageFo
       const newLangId = selectLanguageId(addedLanguage, code);
 
       if (!newLangId) return;
-      await getLanguage(newLangId);
+
+      setTimeout(async () => {
+        await getLanguages();
+      }, 1500);
 
       setActiveLanguage(newLangId);
+      appDispatch(setActiveCountryId());
       toast.success(`${addedLanguage.entities[newLangId]?.lang} language added`);
     } catch (error: any) {
       toast.error(`Language not added ${error?.data?.message}`);

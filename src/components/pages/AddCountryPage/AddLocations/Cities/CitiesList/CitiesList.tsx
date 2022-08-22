@@ -7,7 +7,7 @@ type CitiesListProps = {
   stateId: EntityId;
 };
 
-const arr = ['1', '2'];
+const arr: never[] = [];
 
 export const CitiesList = ({ stateId }: CitiesListProps) => {
   const citiesIds = arr;

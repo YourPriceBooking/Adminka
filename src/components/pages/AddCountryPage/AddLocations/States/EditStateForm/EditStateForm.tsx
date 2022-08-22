@@ -1,6 +1,5 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import { useAppSelector } from 'App';
-import { isEdited } from 'common/utils';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { selectStateById, useEditStateMutation } from 'features/states';
 
@@ -50,18 +49,19 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
     countryId,
     _id: id,
     international,
-    createdAt,
-    updatedAt,
+    // createdAt,
+    // updatedAt,
     stateName,
     stateInternational,
     stateCode,
     statePhotoURL,
+    langCode,
   } = stateObj;
 
   const isInputDisabled = !isEditingState;
   const isEditButtonDisabled = isEditingState;
   const isSubmitDisabled = isLoading;
-  const $isFirstEdit = !isEdited(createdAt, updatedAt) && !isEng;
+  const $isFirstEdit = langCode === 'EN' && !isEng;
 
   const handleSubmitEditState = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

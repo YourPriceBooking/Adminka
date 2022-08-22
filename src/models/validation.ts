@@ -1,4 +1,5 @@
-import { object, string } from 'yup';
+import { MaybeLanguagesEntity } from 'types/apis';
+import { array, object, string } from 'yup';
 
 export const addStateSchema = object({
   stateName: string()
@@ -14,3 +15,20 @@ export const addStateSchema = object({
   //   .min(new Date(2022, 8, 16), 'min 2000 year')
   //   .default(() => new Date()),
 });
+
+export const normalizedLanguageSchema = object({
+  ids: array().of(string().min(1).max(1024)),
+  entities: object({
+    _id: string().min(1).max(1024, '_id is too long').required('_id is required'),
+    lang: string().min(1).max(30).required(),
+    code: string().min(1).max(20).required(),
+    dbLangCode: string().optional(),
+
+    countries: array().of(string().min(1).max(1024)).optional(),
+    createdAt: string().min(1).max(1024).optional(),
+    updatedAt: string().min(1).max(1024).optional(),
+  }),
+});
+
+export const isLanguage = async (arg: MaybeLanguagesEntity) =>
+  normalizedLanguageSchema.validate(arg);

@@ -15,8 +15,8 @@ export const languageSlice = createSlice({
   initialState,
 
   reducers: {
-    setActiveLanguageId(state, action: PayloadAction<SelectLanguageType>) {
-      state.activeLanguageId = action.payload;
+    setActiveLanguageId(state, { payload }: PayloadAction<SelectLanguageType>) {
+      state.activeLanguageId = payload;
     },
   },
 });
@@ -24,4 +24,4 @@ export const languageSlice = createSlice({
 export const { setActiveLanguageId } = languageSlice.actions;
 export const languagesReducer = languageSlice.reducer;
 
-export const selectActiveLanguageId = (state: RootState) => state.global.language.activeLanguageId;
+export const selectActiveLanguageId = (state: RootState) => state.language.activeLanguageId;

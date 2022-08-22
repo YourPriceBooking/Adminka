@@ -3,7 +3,7 @@ import type { SelectLangType } from 'types/apis';
 import { useAppDispatch, useAppSelector } from 'App';
 import { useCallback } from 'react';
 import { toast } from 'react-toastify';
-import { selectDev } from 'features/countries';
+import { selectDev, setActiveCountryId } from 'features/countries';
 import {
   selectLanguageById,
   setActiveLanguageId,
@@ -32,6 +32,8 @@ export const LanguageItem = ({
     if (!language) return;
     deleteLanguage(language._id);
     appDispatch(setActiveLanguageId());
+    appDispatch(setActiveCountryId());
+
     toast.success('Language deleted');
   }, [appDispatch, deleteLanguage, language]);
 
