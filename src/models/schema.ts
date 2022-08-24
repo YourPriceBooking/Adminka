@@ -136,4 +136,5 @@
 // };
 
 // fetchQuestions();
-export {};
+
+export const schema = {};

@@ -75,3 +75,9 @@ yarn add yup date-fns redux react-is
 yarn remove normalizr
 yarn add react-content-loader # 16:41
 ```
+
+### 11 2022-08-24 22:32
+
+```bash
+yarn add react-window
+```
