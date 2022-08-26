@@ -3,11 +3,10 @@ import { useModal, useSetActiveLanguage } from 'common/hooks';
 import { useGetLanguagesQuery } from 'features/languages';
 import { logRender } from 'common/utils';
 import { ReactNode } from 'react';
-
-import slang from './AddLanguages.module.scss';
-import { AddLanguageForm } from './AddLanguageForm/AddLanguageForm';
-import { SelectLangList } from './SelectLangList/SelectLangList';
 import { ActiveLangButtonContainer } from './AdditionalItems';
+import { LanguagesList } from './LanguagesList';
+import { AddLanguageForm } from './AddLanguageForm';
+import slang from './AddLanguages.module.scss';
 
 type ModalContentProps = {
   closeModal: () => void;
@@ -19,7 +18,7 @@ const AddLanguageModalContent = ({ closeModal }: ModalContentProps) => {
   return (
     <div className={slang.container_add_lang}>
       <div className={slang.block_lang}>
-        <SelectLangList setActiveLanguage={setActiveLanguage} />
+        <LanguagesList setActiveLanguage={setActiveLanguage} />
       </div>
 
       <AddLanguageForm setActiveLanguage={setActiveLanguage} closeModal={closeModal} />

@@ -4,12 +4,8 @@ import { useAppDispatch, useAppSelector } from 'App';
 import { useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { selectDev, setActiveCountryId } from 'features/countries';
-import {
-  selectLanguageById,
-  setActiveLanguageId,
-  useDeleteLanguageMutation,
-} from 'features/languages';
-import { DeleteButton, DeleteIcon, SelectButton } from './SelectLangItem.styled';
+import { selectLanguageById, chooseLanguage, useDeleteLanguageMutation } from 'features/languages';
+import { DeleteButton, DeleteIcon, SelectButton } from './LanguageItem.styled';
 import slang from '../AddLanguages.module.scss';
 
 type LanguageItemProps = {
@@ -31,7 +27,7 @@ export const LanguageItem = ({
   const onDeleteLanguage = useCallback(() => {
     if (!language) return;
     deleteLanguage(language._id);
-    appDispatch(setActiveLanguageId());
+    appDispatch(chooseLanguage(undefined));
     appDispatch(setActiveCountryId());
 
     toast.success('Language deleted');

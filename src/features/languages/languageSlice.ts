@@ -15,13 +15,13 @@ export const languageSlice = createSlice({
   initialState,
 
   reducers: {
-    setActiveLanguageId(state, { payload }: PayloadAction<SelectLanguageType>) {
+    chooseLanguage(state, { payload }: PayloadAction<SelectLanguageType>) {
       state.activeLanguageId = payload;
     },
   },
 });
 
-export const { setActiveLanguageId } = languageSlice.actions;
+export const { chooseLanguage } = languageSlice.actions;
 export const languagesReducer = languageSlice.reducer;
 
 export const selectActiveLanguageId = (state: RootState) => state.language.activeLanguageId;

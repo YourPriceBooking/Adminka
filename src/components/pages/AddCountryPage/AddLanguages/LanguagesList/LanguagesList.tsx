@@ -3,13 +3,13 @@ import { ListLoader } from 'components/shared/Loader/Loader';
 import { selectLanguagesIds } from 'features/languages';
 import type { SelectLangType } from 'types/apis';
 import slang from '../AddLanguages.module.scss';
-import { LanguageItem } from './SelectLangItem';
+import { LanguageItem } from './LanguageItem';
 
-type SelectLangListProps = {
+type LanguagesListProps = {
   setActiveLanguage: SelectLangType;
 };
 
-export const SelectLangList = ({ setActiveLanguage }: SelectLangListProps) => {
+export const LanguagesList = ({ setActiveLanguage }: LanguagesListProps) => {
   const languagesIds = useAppSelector(selectLanguagesIds);
 
   const showLanguagesList = !languagesIds?.length ? (
