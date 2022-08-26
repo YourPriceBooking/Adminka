@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from 'App';
 import { incrementCounter, selectCounterValue } from 'features/common';
-import { logRender } from 'common/utils';
 import { selectActiveCountryId, selectCountryById, selectDev } from 'features/countries';
 import { StateItem } from './StateItem';
 import { StatesListStyled } from './StatesList.styled';
@@ -31,24 +30,18 @@ const DevModeStats = () => {
 export const StatesList = () => {
   // active country -> array of ids
   const countryId = useAppSelector(selectActiveCountryId);
-  const statesIds = useAppSelector(state => {
-    if (!countryId) return undefined;
-    const country = selectCountryById(state, countryId);
-    return country?.states;
-  });
-
-  logRender('StatesList', { countryId, statesIds }, true);
+  const statesIds = useAppSelector(state =>
+    countryId ? selectCountryById(state, countryId)?.states : undefined
+  );
 
   return (
     <>
       <DevModeStats />
 
       <StatesListStyled>
-        {statesIds?.map(stateId => {
-          logRender(' StateItem', stateId);
-
-          return <StateItem key={stateId} stateId={stateId} />;
-        })}
+        {statesIds?.map(stateId => (
+          <StateItem key={stateId} stateId={stateId} />
+        ))}
       </StatesListStyled>
     </>
   );

@@ -20,7 +20,16 @@ export const EditCityForm = ({ cityId }: CityItemProps) => {
 
   if (!city) return null;
 
-  const { _id: id, langCode, cityName, cityPhotoURL } = city;
+  const {
+    stateId,
+    stateInternational,
+    _id: id,
+    langCode,
+    cityName,
+    cityInternational,
+    cityPhotoURL,
+    cityCode,
+  } = city;
 
   const isInputDisabled = !isEditingCity;
   const isEditButtonDisabled = isEditingCity;
@@ -35,11 +44,11 @@ export const EditCityForm = ({ cityId }: CityItemProps) => {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
-    const cityPhotoURLTrimmed = formData.get('localCityPhotoURL')?.toString().trim();
-    const cityNameTrimmed = formData.get('localCityName')?.toString().trim();
+    const cityPhotoURLTrimmed = formData.get('cityPhotoURL')?.toString().trim();
+    const cityNameTrimmed = formData.get('cityName')?.toString().trim();
 
     if (!cityPhotoURLTrimmed || !cityNameTrimmed) {
-      toast('Please provide photo url and City name');
+      toast.info('Please provide photo url and City name');
       return;
     }
 
@@ -49,9 +58,15 @@ export const EditCityForm = ({ cityId }: CityItemProps) => {
     // }
 
     const updatedCity: EditCity = {
+      stateId,
+      stateInternational,
+
       _id: id,
       cityName: cityNameTrimmed,
+      cityInternational,
       cityPhotoURL: cityPhotoURLTrimmed,
+      cityCode,
+
       langCode,
     };
 

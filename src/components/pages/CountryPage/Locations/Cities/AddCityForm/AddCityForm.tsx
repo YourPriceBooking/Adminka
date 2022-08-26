@@ -1,8 +1,10 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import { useAppSelector } from 'App';
-import { generateCityCode, logRender } from 'common/utils';
+import { generateCityCode } from 'common/utils';
+import { Spinner } from 'components/shared/Loader';
+import { useAddCityMutation, useLazyGetCitiesQuery } from 'features/cities';
 import { selectActiveLanguageId, selectIsEnglishActiveLang } from 'features/languages';
-import { makeSelectStateInternational } from 'features/states';
+import { makeSelectStateInternational, useLazyGetStatesQuery } from 'features/states';
 import { FormEvent, useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -16,68 +18,72 @@ type AddCityFormProps = {
 };
 
 export const AddCityForm = ({ stateId }: AddCityFormProps) => {
-  const [isAddingCity, setIsAddingCity] = useState(false);
-  const setAddingCityTrue = useCallback(() => setIsAddingCity(true), []);
+  const [addCity, { isLoading: isAddingL2 }] = useAddCityMutation();
+  const [getStates, { isLoading: isRefetchingStates }] = useLazyGetStatesQuery();
+  const [getCities, { isLoading: isRefetchingCities }] = useLazyGetCitiesQuery();
 
   const selectStateInternational = useMemo(() => makeSelectStateInternational(stateId), [stateId]);
   const stateInternational = useAppSelector(selectStateInternational);
   const activeLangId = useAppSelector(selectActiveLanguageId);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
 
-  const isLoading = false;
-  const isSubmitDisabled = !activeLangId || !isEng || isLoading;
+  const [isAddingCity, setIsAddingCity] = useState(false);
+  const setAddingCityTrue = useCallback(() => setIsAddingCity(true), []);
 
-  const handleSubmitAddCity = useCallback(
-    async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (isSubmitDisabled || !stateInternational) return;
-      const form = e.currentTarget;
+  const isPending = isAddingL2 || isRefetchingStates || isRefetchingCities;
+  const isSubmitDisabled = !activeLangId || !isEng || isPending;
 
-      const content = new FormData(form);
-      const cityPhotoURL = content.get('cityPhotoURL')?.toString().trim();
-      const cityName = content.get('cityName')?.toString().trim();
+  const handleSubmitAddCity = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isSubmitDisabled || !stateInternational) return;
+    const form = e.currentTarget;
 
-      if (!cityPhotoURL || !cityName) {
-        toast('Please provide photo url and City name');
-        return;
-      }
+    const content = new FormData(form);
+    const cityPhotoURL = content.get('cityPhotoURL')?.toString().trim();
+    const cityName = content.get('cityName')?.toString().trim();
 
-      // if (citiesNames?.find(existingCityName => existingCityName === cityName)) {
-      //   toast.info(`${cityName} exists. Fill new 'name'`);
-      //   return;
-      // }
+    if (!cityPhotoURL || !cityName) {
+      toast('Please provide photo url and City name');
+      return;
+    }
 
-      const newCity: AddCity = {
-        stateId,
-        stateInternational,
+    // if (citiesNames?.find(existingCityName => existingCityName === cityName)) {
+    //   toast.info(`${cityName} exists. Fill new 'name'`);
+    //   return;
+    // }
 
-        cityName,
-        cityPhotoURL,
-        cityInternational: cityName,
-        cityCode: generateCityCode(cityName),
+    const newCity: AddCity = {
+      stateId,
+      stateInternational,
 
-        langCode: 'EN',
-      };
+      cityName,
+      cityPhotoURL,
+      cityInternational: cityName,
+      cityCode: generateCityCode(cityName),
 
-      try {
-        // appDispatch(addCity(newCity));
-        logRender('addCity', newCity);
+      langCode: 'EN',
+    };
 
-        setIsAddingCity(false);
+    try {
+      const addedCity = await addCity(newCity).unwrap();
+      const addedName = addedCity?.entities?.[addedCity?.ids?.[0]]?.cityName;
+
+      if (addedName === cityName) {
         toast.success(`City ${cityName} added`);
-      } catch (error) {
-        toast.error('City not added');
       }
-    },
-    [isSubmitDisabled, stateId, stateInternational]
-  );
 
-  const showAddLocationButton = isEng && !isAddingCity && (
-    <AddLocationButton type="button" onClick={setAddingCityTrue}>
-      +2
-    </AddLocationButton>
-  );
+      setTimeout(async () => {
+        await getStates();
+        await getCities();
+      }, 1500);
+    } catch (error) {
+      toast.error('City not added');
+    } finally {
+      setIsAddingCity(false);
+    }
+  };
 
+  const submitAddCityButtonLabel = isPending ? <Spinner /> : 'Add Loc 2';
   const showAddLocationFormInterface = isAddingCity && (
     <Row>
       <label>
@@ -97,15 +103,23 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
         <span>add the name of the city</span>
       </label>
 
-      <SubmitAddLocationButton type="submit">Add Loc 2</SubmitAddLocationButton>
+      <SubmitAddLocationButton type="submit" disabled={isPending}>
+        {submitAddCityButtonLabel}
+      </SubmitAddLocationButton>
     </Row>
+  );
+
+  const addLocationButtonLabel = isPending ? <Spinner /> : '+2';
+  const showAddLocationButton = isEng && !isAddingCity && !isPending && stateId && (
+    <AddLocationButton type="button" onClick={setAddingCityTrue}>
+      {addLocationButtonLabel}
+    </AddLocationButton>
   );
 
   return (
     <AddCityFormStyled onSubmit={handleSubmitAddCity}>
-      {showAddLocationButton}
-
       {showAddLocationFormInterface}
+      {showAddLocationButton}
     </AddCityFormStyled>
   );
 };

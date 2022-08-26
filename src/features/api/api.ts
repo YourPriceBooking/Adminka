@@ -8,7 +8,6 @@ import {
   MaybeLanguagesEntity,
   MaybeStatesEntity,
 } from 'types/apis';
-import './draft';
 
 /**
  * 11. GET  `/api/language/${_id}`

@@ -2,18 +2,18 @@
 
 ## `Get FLOW`
 
-1. [ ] Languages
-   - [ ] Get all languages
-   - [ ] languagesAdapter -> Normalize languages
-2. [ ] Countries
-   - [ ] Get all countries
-   - [ ] countriesAdapter -> Normalize countries
-3. [ ] LanguagesList
-   - [ ] Select languages ids from normalized languages
-   - [ ] Render languages ids
-4. [ ] LanguageItem
-   - [ ] Select language by id from normalized languages
-   - [ ] Render language by id
+1. [x] Languages
+   - [x] Get all languages
+   - [x] languagesAdapter -> Normalize languages
+2. [x] Countries
+   - [x] Get all countries
+   - [x] countriesAdapter -> Normalize countries
+3. [x] LanguagesList
+   - [x] Select languages ids from normalized languages
+   - [x] Render languages ids
+4. [x] LanguageItem
+   - [x] Select language by id from normalized languages
+   - [x] Render language by id
 5. [ ] LanguagesList -> Choose "EN" language id by default from normalized languages
 6. [ ] `Admin` -> Choose active language id
 7. CountriesList ->

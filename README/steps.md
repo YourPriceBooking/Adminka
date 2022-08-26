@@ -81,3 +81,9 @@ yarn add react-content-loader # 16:41
 ```bash
 yarn add react-window
 ```
+
+### 12 2022-08-26 18:50
+
+```bash
+yarn add react-loader-spinner
+```

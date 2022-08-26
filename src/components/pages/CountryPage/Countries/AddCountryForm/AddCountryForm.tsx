@@ -5,6 +5,7 @@ import { selectIsEnglishActiveLang, useLazyGetLanguagesQuery } from 'features/la
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { Spinner } from 'components/shared/Loader';
 import {
   AddCountryButton,
   AddCountryFormStyled,
@@ -36,7 +37,7 @@ export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
   const isSubmitDisabled =
     isFetchingLanguages || isPending || isAddingCountry || !localNewCountryName.trim();
 
-  const addCountryButtonLabel = isPending ? 'Loading...' : 'Add country';
+  const addCountryButtonLabel = isPending ? <Spinner /> : 'Add country';
 
   const onSubmitAddCountry = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {

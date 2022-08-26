@@ -1,7 +1,26 @@
 import type { EntityId, EntityState } from '@reduxjs/toolkit';
+import { City } from './cities';
 
 export type State = {
-  countryId: EntityId; //+
+  countryId: EntityId;
+  international: string;
+
+  _id: EntityId;
+  stateName: string;
+  stateInternational: string;
+  stateCode: string;
+  statePhotoURL: string;
+
+  cities: City[];
+  langCode: string;
+  dbLangCode: string;
+
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type StateWithCitiesIds = {
+  countryId: EntityId;
   international: string;
 
   _id: EntityId;
@@ -41,5 +60,5 @@ export type EditState = Pick<
   | 'international'
 >;
 
-export type MaybeStatesEntity = EntityState<State> | undefined;
+export type MaybeStatesEntity = EntityState<StateWithCitiesIds> | undefined;
 export type DeleteState = EntityId;

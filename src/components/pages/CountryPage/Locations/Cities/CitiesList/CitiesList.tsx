@@ -1,5 +1,6 @@
 import type { EntityId } from '@reduxjs/toolkit';
-import { logRender } from 'common/utils';
+import { useAppSelector } from 'App';
+import { selectStateById } from 'features/states';
 import { CitiesListStyled } from './CitiesList.styled';
 import { CityItem } from './CityItem';
 
@@ -7,15 +8,13 @@ type CitiesListProps = {
   stateId: EntityId;
 };
 
-const arr: never[] = [];
-
 export const CitiesList = ({ stateId }: CitiesListProps) => {
-  const citiesIds = arr;
-  logRender('CitiesList', stateId);
+  const citiesIds = useAppSelector(state => selectStateById(state, stateId)?.cities);
+  console.log('CitiesList ~ citiesIds', citiesIds);
 
   return (
     <CitiesListStyled>
-      {citiesIds.map(cityId => (
+      {citiesIds?.map(cityId => (
         <CityItem key={cityId} cityId={cityId} />
       ))}
     </CitiesListStyled>

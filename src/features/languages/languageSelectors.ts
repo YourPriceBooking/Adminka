@@ -19,6 +19,11 @@ export const {
   state => selectLanguagesData(state) ?? languagesInitState
 );
 
+export const selectEnglishLanguageId = createSelector(
+  selectAllLanguages,
+  languages => languages?.find(language => language?.code === 'EN')?._id
+);
+
 export const selectActiveLanguage = createSelector(
   selectLanguagesEntities,
   selectActiveLanguageId,

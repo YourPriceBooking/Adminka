@@ -1,6 +1,7 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import { useAppSelector } from 'App';
-import { generateDistrictCode, logRender } from 'common/utils';
+import { generateDistrictCode } from 'common/utils';
+import { useAddDistrictMutation } from 'features/districts';
 import { selectIsEnglishActiveLang } from 'features/languages';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -10,63 +11,64 @@ import { SubmitAddLocationButton } from '../../States/EditStateForm/EditStateFor
 import { Row, AddDistrictFormStyled } from './AddDistrictForm.styled';
 
 export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
-  // const selectMemoizedDistrictNames = useMemo(selectDistrictNamesForActiveStateAndCity, []);
+  const [addDistrict, { isLoading: isAddingL1 }] = useAddDistrictMutation();
 
+  const isEng = useAppSelector(selectIsEnglishActiveLang);
+  const [isAddingDistrict, setIsAddingDistrict] = useState(false);
   // const districtsNames = useAppSelector(state => selectMemoizedDistrictNames(state, stateId, cityId));
 
-  const [isAddingDistrict, setIsAddingDistrict] = useState(false);
   const setAddingDistrictTrue = useCallback(() => setIsAddingDistrict(true), []);
-  const isEng = useAppSelector(selectIsEnglishActiveLang);
 
-  const isLoading = false;
+  const isLoading = isAddingL1;
   const isSubmitDisabled = !isEng || isLoading;
 
-  const handleSubmitAddDistrict = useCallback(
-    async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (isSubmitDisabled) return;
-      const form = e.currentTarget;
+  const handleSubmitAddDistrict = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isSubmitDisabled) return;
+    const form = e.currentTarget;
 
-      const content = new FormData(form);
-      const districtPhotoURL = content.get('districtPhotoURL')?.toString().trim();
-      const districtName = content.get('districtName')?.toString().trim();
+    const content = new FormData(form);
+    const districtPhotoURL = content.get('districtPhotoURL')?.toString().trim();
+    const districtName = content.get('districtName')?.toString().trim();
 
-      if (!districtPhotoURL || !districtName) {
-        toast('Please provide photo url and District name');
-        return;
-      }
+    if (!districtPhotoURL || !districtName) {
+      toast('Please provide photo url and District name');
+      return;
+    }
 
-      // if (districtsNames?.find(existingDistrictName => existingDistrictName === districtName)) {
-      //   toast.info(`${districtName} exists. Fill new 'name'`);
-      //   return;
-      // }
+    // if (districtsNames?.find(existingDistrictName => existingDistrictName === districtName)) {
+    //   toast.info(`${districtName} exists. Fill new 'name'`);
+    //   return;
+    // }
 
-      const newDistrict: AddDistrict = {
-        cityId,
-        cityInternational: '',
+    const newDistrict: AddDistrict = {
+      cityId,
+      cityInternational: '',
 
-        districtName,
-        districtPhotoURL,
-        districtInternational: districtName,
-        districtCode: generateDistrictCode(districtName),
+      districtName,
+      districtPhotoURL,
+      districtInternational: districtName,
+      districtCode: generateDistrictCode(districtName),
 
-        langCode: 'EN',
-        dbLangCode: 'EN',
-      };
+      langCode: 'EN',
+      dbLangCode: 'EN',
+    };
 
-      try {
-        // appDispatch(addDistrict(newDistrict));
-        logRender('addNewDistrict', newDistrict);
-        setAddingDistrictTrue();
+    try {
+      const addedDistrict = await addDistrict(newDistrict).unwrap();
+      const addedDistrictName = addedDistrict?.entities?.[addedDistrict?.ids?.[0]]?.districtName;
+
+      if (addedDistrictName) {
         toast.success(`District ${districtName} added`);
-      } catch (error) {
-        toast.error('District not added');
       }
-    },
-    [isSubmitDisabled, cityId, setAddingDistrictTrue]
-  );
 
-  const showSubmitButton = isEng && !isAddingDistrict && (
+      setAddingDistrictTrue();
+    } catch (error) {
+      toast.error('District not added');
+    }
+  };
+
+  const showSubmitButton = isEng && !isAddingDistrict && cityId && (
     <AddLocationButton type="button" onClick={setAddingDistrictTrue}>
       +1
     </AddLocationButton>

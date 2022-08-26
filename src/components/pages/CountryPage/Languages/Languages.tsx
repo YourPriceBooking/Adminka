@@ -1,8 +1,8 @@
 import { Modal } from 'components/shared/Modal/Modal';
 import { useModal, useSetActiveLanguage } from 'common/hooks';
-import { useGetLanguagesQuery } from 'features/languages';
-import { logRender } from 'common/utils';
-import { ReactNode } from 'react';
+import { chooseLanguage, selectEnglishLanguageId, useGetLanguagesQuery } from 'features/languages';
+import { ReactNode, useEffect, useRef } from 'react';
+import { useAppDispatch, useAppSelector } from 'App';
 import { ActiveLangButtonContainer } from './AdditionalItems';
 import { LanguagesList } from './LanguagesList';
 import { AddLanguageForm } from './AddLanguageForm';
@@ -29,8 +29,6 @@ const LanguageModalContent = ({ closeModal }: ModalContentProps) => {
 export const SelectLanguages = () => {
   const { showModal, openModal, closeModal } = useModal();
 
-  logRender('SelectLanguages', undefined, true);
-
   const isModalOpen = showModal && (
     <Modal closeModal={closeModal}>
       <LanguageModalContent closeModal={closeModal} />
@@ -48,6 +46,17 @@ export const SelectLanguages = () => {
 
 export const Languages = ({ children }: { children?: ReactNode }) => {
   useGetLanguagesQuery();
+
+  const appDispatch = useAppDispatch();
+  const englishId = useAppSelector(selectEnglishLanguageId);
+  const isDefaultSelected = useRef(false);
+
+  useEffect(() => {
+    if (isDefaultSelected.current || !englishId) return;
+    appDispatch(chooseLanguage(englishId));
+
+    isDefaultSelected.current = true;
+  }, [appDispatch, englishId]);
 
   return <div>{children}</div>;
 };

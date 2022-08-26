@@ -1,8 +1,13 @@
 import { useAppSelector } from 'App';
 import { generateStateCode } from 'common/utils';
-import { selectActiveCountryId, selectActiveCountryInternational } from 'features/countries';
+import { Spinner } from 'components/shared/Loader';
+import {
+  selectActiveCountryId,
+  selectActiveCountryInternational,
+  useLazyGetCountriesQuery,
+} from 'features/countries';
 import { selectIsEnglishActiveLang } from 'features/languages';
-import { useAddStateMutation } from 'features/states';
+import { useAddStateMutation, useLazyGetStatesQuery } from 'features/states';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import type { AddState } from 'types/apis';
@@ -13,73 +18,87 @@ import { Row, AddLocationButton, AddStateFormStyled } from './AddStateForm.style
 // type AddStateFormProps = { countryId: EntityId };
 
 export const AddStateForm = () => {
-  const [addState, { isLoading }] = useAddStateMutation();
+  const [addState, { isLoading: isAddingLoc3 }] = useAddStateMutation();
+  const [getCountries, { isLoading: isLoadingStates }] = useLazyGetStatesQuery();
+  const [getStates, { isLoading: isLoadingCountries }] = useLazyGetCountriesQuery();
 
   const activeCountryId = useAppSelector(selectActiveCountryId);
   const activeCountryInternational = useAppSelector(selectActiveCountryInternational);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
 
   //  const statesNames = useAppSelector(state => selectStateById(state, countryId));
+  const [isRefetchingCountries, setIsRefetchingCountries] = useState(false);
   const [isAddingState, setIsAddingState] = useState(false);
   const setAddingStateTrue = useCallback(() => setIsAddingState(true), []);
 
-  const isSubmitDisabled = !isEng || isLoading || !activeCountryId || !activeCountryInternational;
+  const isPending = isLoadingStates || isAddingLoc3 || isLoadingCountries || isRefetchingCountries;
 
-  const handleSubmitAddState = useCallback(
-    async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (isSubmitDisabled) return;
+  const isSubmitDisabled = !isEng || isPending || !activeCountryId || !activeCountryInternational;
 
-      const form = e.currentTarget;
+  const handleSubmitAddState = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isSubmitDisabled) return;
 
-      const content = new FormData(form);
-      const statePhotoURL = content.get('statePhotoURL')?.toString().trim();
-      const stateName = content.get('stateName')?.toString().trim();
+    const form = e.currentTarget;
 
-      if (!statePhotoURL || !stateName) {
-        toast('Please provide photo url and State name');
-        return;
-      }
+    const content = new FormData(form);
+    const statePhotoURL = content.get('statePhotoURL')?.toString().trim();
+    const stateName = content.get('stateName')?.toString().trim();
 
-      // if (statesNames.find(existingStateName => existingStateName === stateName)) {
-      //   toast.info(`${stateName} exists. Fill new 'name'`);
-      //   return;
-      // }
+    if (!statePhotoURL || !stateName) {
+      toast('Please provide photo url and State name');
+      return;
+    }
 
-      const newState: AddState = {
-        countryId: activeCountryId,
-        international: activeCountryInternational,
+    // if (statesNames.find(existingStateName => existingStateName === stateName)) {
+    //   toast.info(`${stateName} exists. Fill new 'name'`);
+    //   return;
+    // }
 
-        stateName,
-        stateInternational: stateName,
-        stateCode: generateStateCode(stateName),
-        statePhotoURL,
+    const newState: AddState = {
+      countryId: activeCountryId,
+      international: activeCountryInternational,
 
-        langCode: 'EN',
-      };
+      stateName,
+      stateInternational: stateName,
+      stateCode: generateStateCode(stateName),
+      statePhotoURL,
 
-      try {
-        const addedState = await addState(newState).unwrap();
+      langCode: 'EN',
+    };
 
-        setIsAddingState(false);
+    try {
+      const addedStateEntities = (await addState(newState).unwrap())?.entities;
+
+      if (addedStateEntities) {
         toast.success(
           `State ${
-            addedState &&
-            Object.values(addedState?.entities)?.find(
+            Object.values(addedStateEntities)?.find(
               state => state?.stateInternational === stateName
             )?.stateName
           } added`
         );
-      } catch (error) {
-        toast.error('State not added');
       }
-    },
-    [activeCountryId, activeCountryInternational, addState, isSubmitDisabled]
-  );
 
-  const showAddLocationButton = isEng && !isAddingState && (
+      setIsRefetchingCountries(true);
+
+      await setTimeout(async () => {
+        await getCountries();
+        await getStates();
+        setIsRefetchingCountries(false);
+      }, 1500);
+    } catch (error) {
+      toast.error('State not added');
+    } finally {
+      setIsAddingState(false);
+    }
+  };
+
+  const addLocationButtonLabel = isPending ? <Spinner /> : '+3';
+
+  const showAddStateButton = isEng && !isAddingState && activeCountryId && (
     <AddLocationButton type="button" onClick={setAddingStateTrue}>
-      +3
+      {addLocationButtonLabel}
     </AddLocationButton>
   );
 
@@ -110,7 +129,7 @@ export const AddStateForm = () => {
 
   return (
     <AddStateFormStyled onSubmit={handleSubmitAddState}>
-      {showAddLocationButton}
+      {showAddStateButton}
 
       {showAddStateForm}
     </AddStateFormStyled>

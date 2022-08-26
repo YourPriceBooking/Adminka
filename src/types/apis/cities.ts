@@ -27,7 +27,17 @@ export type AddCity = Pick<
   | 'stateInternational'
 >;
 
-export type EditCity = Pick<City, '_id' | 'cityName' | 'cityPhotoURL' | 'langCode'>;
+export type EditCity = Pick<
+  City,
+  | 'stateId'
+  | 'stateInternational'
+  | '_id'
+  | 'cityName'
+  | 'cityInternational'
+  | 'cityPhotoURL'
+  | 'cityCode'
+  | 'langCode'
+>;
 export type DeleteCity = EntityId;
 
 export type CitiesResponse = City[] | [];

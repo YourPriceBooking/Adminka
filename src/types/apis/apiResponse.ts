@@ -1,6 +1,6 @@
 import { District } from './district';
 import { City } from './cities';
-import { State } from './states';
+import { State, StateWithCitiesIds } from './states';
 import { Country } from './countries';
 import { Language } from './languages';
 
@@ -12,6 +12,6 @@ export type ManyLanguages = { data?: { languages?: Language[] } };
 
 export type OneDistrict = { data?: { district?: District } };
 export type OneCity = { data?: { city?: City } };
-export type OneState = { data?: { state?: State } };
+export type OneState = { data?: { state?: StateWithCitiesIds } };
 export type OneCountry = { data?: { country?: Country } };
 export type OneLanguage = { data?: { language?: Language } };

@@ -21,14 +21,19 @@ export const Dropdown = ({ closeCountriesList, isLoading, toggleButtonRef }: Dro
       const { target } = e;
 
       if (!(target instanceof Node)) return;
-      if (dropdownRef.current?.contains(target)) return;
+      if (!dropdownRef.current || !toggleButtonRef.current) return;
+      if (dropdownRef.current.contains(target)) return;
       if (toggleButtonRef.current === target) return;
 
       closeCountriesList();
     };
 
-    document.addEventListener('click', isClickOutsideDropdown, { passive: true, capture: true });
-    return () => document.removeEventListener('click', isClickOutsideDropdown, { capture: true });
+    document.addEventListener('mousedown', isClickOutsideDropdown, {
+      passive: true,
+      capture: true,
+    });
+    return () =>
+      document.removeEventListener('mousedown', isClickOutsideDropdown, { capture: true });
   }, [toggleButtonRef, closeCountriesList]);
 
   return (

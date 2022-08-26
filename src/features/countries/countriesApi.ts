@@ -2,7 +2,6 @@ import type {
   AddCountry,
   EditCountry,
   DeleteCountry,
-  GetCountry,
   MaybeCountriesEntity,
   ManyCountries,
   OneCountry,
@@ -18,11 +17,11 @@ export const countriesApi = api.injectEndpoints({
       providesTags: result => tagList(result, 'Country'),
     }),
 
-    getCountry: build.query<MaybeCountriesEntity, GetCountry>({
-      query: id => `${endpoints.countries}/${id}`,
-      transformResponse: (result?: OneCountry) => saveOneCountry(result),
-      providesTags: (_, __, id) => tag(id, 'Country'),
-    }),
+    // getCountry: build.query<MaybeCountriesEntity, GetCountry>({
+    //   query: id => `${endpoints.countries}/${id}`,
+    //   transformResponse: (result?: OneCountry) => saveOneCountry(result),
+    //   providesTags: (_, __, id) => tag(id, 'Country'),
+    // }),
 
     addCountryEng: build.mutation<MaybeCountriesEntity, AddCountry>({
       query: body => ({
@@ -81,7 +80,7 @@ export const countriesApi = api.injectEndpoints({
 
 export const {
   useGetCountriesQuery,
-  useGetCountryQuery,
+  useLazyGetCountriesQuery,
   useAddCountryEngMutation,
   useEditCountryMutation,
   useDeleteCountryMutation,
