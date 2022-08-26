@@ -1,7 +1,6 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import { Cities } from '../../Cities';
-import { EditStateForm } from '../EditStateForm/EditStateForm';
-
+import { EditStateForm } from '../EditStateForm';
 import { StateItemStyled } from './StatesList.styled';
 
 type StateItemType = {
