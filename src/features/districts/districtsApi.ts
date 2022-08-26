@@ -53,7 +53,7 @@ const districtsApi = api.injectEndpoints({
 });
 
 export const {
-  useGetDistrictsQuery,
+  useLazyGetDistrictsQuery,
   useAddDistrictMutation,
   useEditDistrictMutation,
   useDeleteDistrictMutation,

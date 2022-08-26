@@ -56,6 +56,11 @@ export const citiesApi = api.injectEndpoints({
   }),
 });
 
-export const { useAddCityMutation, useEditCityMutation, useDeleteCityMutation } = citiesApi;
+export const {
+  useLazyGetCitiesQuery,
+  useAddCityMutation,
+  useEditCityMutation,
+  useDeleteCityMutation,
+} = citiesApi;
 
 export const selectCitiesResult = citiesApi.endpoints.getCities.select();

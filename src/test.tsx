@@ -5,8 +5,6 @@ export const Calendar = () => {
 
   const newObject = useMemo(() => ({}), []);
   useEffect(() => {
-    console.log(newObject);
-
     stableFunction();
   }, [newObject]);
 

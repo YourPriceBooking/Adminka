@@ -717,6 +717,27 @@
     }
   },
 
+  /* V3 */
+  "PATCH one Language test2": {
+    "status": "success",
+    "code": 200,
+    "data": {
+      "language": {
+        "_id": "63078a9292b17f3f87d749c3",
+        "lang": "Italiana",
+        "code": "IT",
+        "countries": [
+          "63078ae792b17f3f87d749ef",
+          "63078ae892b17f3f87d749f7",
+          "63078b0292b17f3f87d74a03",
+          "63078b0b92b17f3f87d74a0d"
+        ],
+        "createdAt": "2022-08-25T14:43:30.617Z",
+        "updatedAt": "2022-08-26T10:44:21.351Z"
+      }
+    }
+  },
+
   /* DELETE one language
       /api/languages/63023d4259419b487ba8d729
   */

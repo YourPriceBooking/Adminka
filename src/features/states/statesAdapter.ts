@@ -17,7 +17,6 @@ export const saveManyStates = (result?: ManyStates) => {
 export const saveOneState = (result?: OneState) => {
   const state = getOneState(result);
   const saved = state ? statesAdapter.upsertOne(statesInitialState, state) : undefined;
-  console.log({ state, saved });
   return saved;
 };
 

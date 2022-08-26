@@ -5,4 +5,4 @@ import { lazy } from 'react';
 
 export const LoginPage = lazy(() => import('./LoginPage'));
 export const MenuPage = lazy(() => import('./MenuPage'));
-export const AddCountryPage = lazy(() => import('./AddCountryPage'));
+export const CountryPage = lazy(() => import('./CountryPage'));
