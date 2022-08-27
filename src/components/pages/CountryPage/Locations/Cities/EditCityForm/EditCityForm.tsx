@@ -4,7 +4,7 @@ import { useAppSelector } from 'App';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { EditButton } from 'components/pages/CountryPage/Countries/EditButton';
-import { selectIsEnglishActiveLang } from 'features/languages';
+import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { selectCityById, useEditCityMutation } from 'features/cities';
 import { EditCityFormStyled, CityInfo, EditCityPhotoURLInput } from './EditCityForm.styled';
 import { SubmitAddLocationButton } from '../../States/EditStateForm/EditStateForm.styled';
@@ -17,13 +17,14 @@ export const EditCityForm = ({ cityId }: EditCityFormProps) => {
   const [editCity, { isLoading }] = useEditCityMutation();
   const city = useAppSelector(state => selectCityById(state, cityId));
 
+  const activeLanguageCode = useAppSelector(selectActiveLangCode);
   const [isEditingCity, setIsEditingCity] = useState(false);
 
   const isEng = useAppSelector(selectIsEnglishActiveLang);
   // console.log('EditCityForm ~ isEng', isEng);
   const setIsEditingCityTrue = useCallback(() => setIsEditingCity(true), []);
 
-  if (!city) return null;
+  if (!city || !activeLanguageCode) return null;
 
   const {
     stateId,
@@ -74,7 +75,7 @@ export const EditCityForm = ({ cityId }: EditCityFormProps) => {
       cityPhotoURL: cityPhotoURLTrimmed,
       cityCode,
 
-      langCode,
+      langCode: activeLanguageCode,
     };
 
     try {
