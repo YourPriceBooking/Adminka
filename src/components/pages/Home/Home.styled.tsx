@@ -71,13 +71,12 @@ export const Link = styled(RouterLink)`
   flex-direction: column;
   flex-grow: 1;
 
-  font-family: ${({ theme }) => theme.fonts.roboto};
-  font-size: 27px;
   font-weight: 500;
+  font-size: 27px;
   line-height: 1.18;
+  font-family: ${({ theme }) => theme.fonts.roboto};
   color: ${({ theme }) => theme.colors.black};
   text-align: center;
-
   transition: color ${({ theme }) => theme.transition[110]};
 
   :hover,
@@ -87,21 +86,21 @@ export const Link = styled(RouterLink)`
 `;
 
 export const TextAccent = styled.p`
-  font-family: ${({ theme }) => theme.fonts.roboto};
-  font-size: 50px;
   font-weight: 300;
+  font-size: 50px;
   line-height: 1.18;
+  font-family: ${({ theme }) => theme.fonts.roboto};
   color: ${({ theme }) => theme.colors.textSecond};
   text-decoration: none;
   letter-spacing: 0.255em;
 `;
 
 export const TextSmall = styled.p`
-  font-family: ${({ theme }) => theme.fonts.roboto};
   font-weight: 300;
   font-size: 15px;
   line-height: 1.2;
-  color: ${({ theme }) => theme.colors.black}; ;
+  font-family: ${({ theme }) => theme.fonts.roboto};
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 export const TextNormal = styled(TextSmall)`
@@ -127,8 +126,10 @@ export const TextMedium = styled(TextSmall)`
 `;
 
 export const TextMediumAccent = styled(TextMedium)`
+  justify-content: center;
+
+  min-width: 40px;
+
   font-weight: 400;
   color: ${({ theme }) => theme.colors.textSecond};
-  min-width: 40px;
-  justify-content: center;
 `;

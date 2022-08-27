@@ -4,8 +4,9 @@ export const DevButtonStyled = styled.button`
   position: absolute;
   top: 0;
   left: 100%;
-  padding: 4px 12px;
+
   width: fit-content;
+  padding: 4px 12px;
 
   opacity: 0.1;
 

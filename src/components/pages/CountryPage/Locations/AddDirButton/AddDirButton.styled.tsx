@@ -12,16 +12,16 @@ export const AddDirButtonStyled = styled.button.attrs(
   width: 48px;
   height: 30px;
 
-  font-family: ${({ theme }) => theme.fonts.segoe};
-  font-size: 10px;
   font-weight: 700;
+  font-size: 10px;
   line-height: 1.3;
-  text-align: center;
+  font-family: ${({ theme }) => theme.fonts.segoe};
   color: ${({ theme }) => theme.colors.white};
-
+  text-align: center;
+  /* buttonAddDirHotelier */
   background-color: ${({ theme, $isEnabled }) =>
-    $isEnabled && theme.colors.bg.buttonAddDirHotelier};
-  background-color: transparent;
+    $isEnabled ? theme.colors.bg.buttonAddDirHotelier : 'transparent'};
+
   border: 1px solid transparent;
   border-radius: 2px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);

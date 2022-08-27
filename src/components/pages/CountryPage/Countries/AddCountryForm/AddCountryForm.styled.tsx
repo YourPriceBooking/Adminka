@@ -15,11 +15,11 @@ export const AddCountryFormStyled = styled.form`
 export const AddCountryText = styled.p`
   /* width: 150px; */
 
-  font-family: ${({ theme }) => theme.fonts.segoe};
   font-size: 24px;
   line-height: 1.33;
-  text-align: justify;
+  font-family: ${({ theme }) => theme.fonts.segoe};
   color: ${({ theme }) => theme.colors.textThird};
+  text-align: justify;
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     width: 272px;
@@ -49,20 +49,19 @@ export const AddCountryInput = styled.input`
 export const AddCountryButton = styled.button`
   display: flex;
   align-items: center;
-  justify-content: center;
   align-self: center;
+  justify-content: center;
 
   width: 154px;
   height: 42px;
 
-  font-family: ${({ theme }) => theme.fonts.segoe};
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
   line-height: 1.33;
-  text-align: center;
-
+  font-family: ${({ theme }) => theme.fonts.segoe};
   color: ${({ theme }) => theme.colors.white};
+  text-align: center;
 
   background-color: ${({ theme }) => theme.colors.bgTransparent.buttonSaveCountry};
   border: 1px solid transparent;
