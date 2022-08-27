@@ -161,12 +161,14 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
         disabled={isEditButtonDisabled}
       />
 
-      <AddDirButton onClick={addDir} disabled={addDirDisabled}>
-        Add Dir
+      <AddDirButton onClick={addDir} disabled={addDirDisabled} $isEnabled>
+        Add Dir <br />
+        Hotelier
       </AddDirButton>
 
       <AddDirButton onClick={addLoc} disabled={addLocDisabled}>
-        Add Loc
+        Add dir <br />
+        for Users
       </AddDirButton>
 
       {showDev && (

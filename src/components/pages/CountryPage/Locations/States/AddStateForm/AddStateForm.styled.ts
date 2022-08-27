@@ -26,7 +26,7 @@ export const AddLocationButton = styled.button`
 
   background: ${({ theme }) => theme.colors.bg.buttonAddLocation};
   box-shadow: ${({ theme }) => theme.shadows.buttonAddLocation};
-  border-radius: 1.66667px;
+  border-radius: 2px;
 
   border: none;
 `;

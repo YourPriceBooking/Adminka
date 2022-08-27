@@ -19,8 +19,7 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
 
   const setAddingDistrictTrue = useCallback(() => setIsAddingDistrict(true), []);
 
-  const isLoading = isAddingL1;
-  const isSubmitDisabled = !isEng || isLoading;
+  const isSubmitDisabled = !isEng || isAddingL1 || !isAddingDistrict;
 
   const handleSubmitAddDistrict = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -68,12 +67,6 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
     }
   };
 
-  const showSubmitButton = isEng && !isAddingDistrict && cityId && (
-    <AddLocationButton type="button" onClick={setAddingDistrictTrue}>
-      +1
-    </AddLocationButton>
-  );
-
   const showAddDistrictForm = isAddingDistrict && (
     <Row>
       <label>
@@ -97,11 +90,16 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
     </Row>
   );
 
+  const showAddDistrictButton = isEng && !isAddingDistrict && !isAddingL1 && cityId && (
+    <AddLocationButton type="button" onClick={setAddingDistrictTrue}>
+      +1
+    </AddLocationButton>
+  );
+
   return (
     <AddDistrictFormStyled onSubmit={handleSubmitAddDistrict}>
-      {showSubmitButton}
-
       {showAddDistrictForm}
+      {showAddDistrictButton}
     </AddDistrictFormStyled>
   );
 };

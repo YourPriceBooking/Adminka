@@ -71,7 +71,7 @@ const fonts = css`
 const styled = { createGlobalStyle };
 
 export const GlobalStyle = styled.createGlobalStyle`
-  ${fonts}
+  ${/* sc-tag */ fonts}
 
   html {
     box-sizing: border-box;

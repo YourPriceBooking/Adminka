@@ -12,14 +12,14 @@ type CellProps = {
 };
 
 const Cell = ({ columnIndex, rowIndex, style }: CellProps) => (
-  <div className={rowIndex % 2 === 0 ? 'GridItemOdd' : 'GridItemEven'} style={style}>
+  <div className={rowIndex % 2 === 0 ? 'gridItemOdd' : 'gridItemEven'} style={style}>
     r{rowIndex}, c{columnIndex}
   </div>
 );
 
 export const Grid = () => (
   <VariableSizeGrid
-    className="Grid"
+    className="grid"
     columnCount={3}
     columnWidth={index => columnWidths[index]}
     height={300}

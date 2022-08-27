@@ -28,11 +28,11 @@ export const ShowLanguagesButton = styled.button`
   border: 1px solid ${({ theme }) => theme.colors.border.list};
   border-radius: 10px;
 
-  &:hover:not(:disabled) {
+  &:active {
     border-color: ${({ theme }) => theme.colors.title};
   }
 
-  &:active {
+  &:hover:not(:disabled) {
     border-color: ${({ theme }) => theme.colors.title};
   }
 

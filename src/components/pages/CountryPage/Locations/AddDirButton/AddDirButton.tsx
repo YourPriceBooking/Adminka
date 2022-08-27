@@ -6,6 +6,7 @@ type AddDirButtonType = {
   disabled: boolean;
   type?: 'button' | 'submit' | 'reset' | undefined;
   children?: ReactNode;
+  $isEnabled?: boolean;
 };
 
 export const AddDirButton = ({
@@ -13,8 +14,9 @@ export const AddDirButton = ({
   disabled,
   type = 'button',
   children,
+  $isEnabled = false,
 }: AddDirButtonType) => (
-  <AddDirButtonStyled onClick={onClick} type={type} disabled={disabled}>
+  <AddDirButtonStyled onClick={onClick} type={type} disabled={disabled} $isEnabled={$isEnabled}>
     {children}
   </AddDirButtonStyled>
 );

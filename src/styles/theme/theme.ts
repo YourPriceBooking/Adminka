@@ -38,6 +38,7 @@ declare module 'styled-components' {
         buttonEdit: string;
         buttonAddLocation: string;
         buttonSubmitAddLocation: string;
+        buttonAddDirHotelier: string;
         hover: {
           buttonSelectLanguage: string;
         };
@@ -137,6 +138,7 @@ const permanent = {
   black: '#000000',
 };
 
+// not assigned - it means there is no color equivalent selected for dark mode.
 const currentlyNotAssigned = {
   active: '#2196f3',
   secondary: '#282c34',
@@ -176,6 +178,7 @@ const bgNotAssigned = {
   buttonEdit: '#dedede',
   buttonAddLocation: '#ebecfe',
   buttonSubmitAddLocation: '#c5c7ee',
+  buttonAddDirHotelier: '#6AFF79',
   hover: {
     buttonSelectLanguage: '#e5e5e5',
   },

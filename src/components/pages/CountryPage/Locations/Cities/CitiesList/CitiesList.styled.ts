@@ -15,12 +15,6 @@ export const CityItemStyled = styled.li`
   border-bottom: 1px solid ${({ theme }) => theme.colors.border.list};
 `;
 
-export const DistrictsStyled = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
 /*
   1200 * 1vw = 12px
   4px, 1200px *  = 20.4px, 20px

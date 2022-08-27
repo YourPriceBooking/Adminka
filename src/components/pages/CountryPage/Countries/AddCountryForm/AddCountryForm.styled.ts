@@ -15,7 +15,7 @@ export const AddCountryFormStyled = styled.form`
 export const AddCountryText = styled.p`
   /* width: 150px; */
 
-  font-family: 'Segoe UI';
+  font-family: ${({ theme }) => theme.fonts.segoe};
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
@@ -58,7 +58,7 @@ export const AddCountryButton = styled.button`
   width: 154px;
   height: 42.29px;
 
-  font-family: 'Segoe UI';
+  font-family: ${({ theme }) => theme.fonts.segoe};
   font-style: normal;
   font-weight: 700;
   font-size: 15px;

@@ -41,7 +41,7 @@ export const SubmitAddLocationButton = styled.button`
 
   background: ${({ theme }) => theme.colors.bg.buttonSubmitAddLocation};
   box-shadow: ${({ theme }) => theme.shadows.buttonAddLocation};
-  border-radius: 1.66667px;
+  border-radius: 2px;
 
   border: none;
 `;

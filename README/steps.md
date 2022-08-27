@@ -86,4 +86,11 @@ yarn add react-window
 
 ```bash
 yarn add react-loader-spinner
+## 2022-08-27  02:15
+(yarn add -D \
+  stylelint \
+  stylelint-config-styled-components \
+  stylelint-config-recommended \
+  stylelint-config-standard \
+  stylelint-config-prettier)
 ```

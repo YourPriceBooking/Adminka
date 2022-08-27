@@ -13,8 +13,9 @@ export const DistrictsList = ({ cityId }: DistrictsListProps) => {
 
   return (
     <DistrictsListStyled>
-      {districtsIds?.length &&
-        districtsIds.map(districtId => <DistrictItem key={districtId} districtId={districtId} />)}
+      {districtsIds?.map(districtId => (
+        <DistrictItem key={districtId} districtId={districtId} />
+      ))}
     </DistrictsListStyled>
   );
 };
