@@ -1,14 +1,13 @@
 import { api, endpoints, tag, tagList } from 'features/api';
 import type {
   AddDistrict,
-  DeleteDistrict,
   EditDistrict,
   GetDistrict,
   ManyDistricts,
   MaybeDistrictsEntity,
   OneDistrict,
 } from 'types/apis';
-import { removeDistrict, saveManyDistricts, saveOneDistrict } from './districtsAdapter';
+import { saveManyDistricts, saveOneDistrict } from './districtsAdapter';
 
 const districtsApi = api.injectEndpoints({
   endpoints: build => ({
@@ -39,15 +38,6 @@ const districtsApi = api.injectEndpoints({
       transformResponse: (result: OneDistrict) => saveOneDistrict(result),
       invalidatesTags: (_, __, { _id }) => tag(_id, 'District'),
     }),
-    deleteDistrict: build.mutation<MaybeDistrictsEntity, DeleteDistrict>({
-      query: id => ({
-        url: `${endpoints.locationDistrict}/${id}`,
-        method: 'DELETE',
-        body: { _id: id },
-      }),
-      transformResponse: (result: OneDistrict) => removeDistrict(result),
-      invalidatesTags: (_, __, id) => tag(id, 'District'),
-    }),
   }),
 });
 
@@ -56,7 +46,6 @@ export const {
   useLazyGetDistrictsQuery,
   useAddDistrictMutation,
   useEditDistrictMutation,
-  useDeleteDistrictMutation,
 } = districtsApi;
 
 export const selectDistrictsResult = districtsApi.endpoints.getDistricts.select();

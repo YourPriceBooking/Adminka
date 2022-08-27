@@ -1,14 +1,7 @@
 import { type EntityId } from '@reduxjs/toolkit';
 import { api, endpoints, tag, tagList } from 'features/api';
-import type {
-  AddCity,
-  EditCity,
-  MaybeCitiesEntity,
-  DeleteCity,
-  ManyCities,
-  OneCity,
-} from 'types/apis';
-import { removeCity, saveManyCities, saveOneCity } from './citiesAdapter';
+import type { AddCity, EditCity, MaybeCitiesEntity, ManyCities, OneCity } from 'types/apis';
+import { saveManyCities, saveOneCity } from './citiesAdapter';
 
 export const citiesApi = api.injectEndpoints({
   endpoints: build => ({
@@ -42,25 +35,10 @@ export const citiesApi = api.injectEndpoints({
       transformResponse: (result: OneCity) => saveOneCity(result),
       invalidatesTags: (_, __, { _id }) => tag(_id, 'City'),
     }),
-
-    deleteCity: build.mutation<MaybeCitiesEntity, DeleteCity>({
-      query: id => ({
-        url: `${endpoints.locationCity}/${id}`,
-        method: 'DELETE',
-        body: { _id: id },
-      }),
-      transformResponse: (result: OneCity) => removeCity(result),
-      invalidatesTags: (_, __, id) => tag(id, 'City'),
-    }),
   }),
 });
 
-export const {
-  useGetCitiesQuery,
-  useLazyGetCitiesQuery,
-  useAddCityMutation,
-  useEditCityMutation,
-  useDeleteCityMutation,
-} = citiesApi;
+export const { useGetCitiesQuery, useLazyGetCitiesQuery, useAddCityMutation, useEditCityMutation } =
+  citiesApi;
 
 export const selectCitiesResult = citiesApi.endpoints.getCities.select();

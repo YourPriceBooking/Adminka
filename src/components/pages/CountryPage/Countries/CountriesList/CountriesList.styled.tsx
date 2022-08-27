@@ -11,7 +11,7 @@ export const CountryListStyled = styled.ul`
   overflow-y: auto;
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    padding: 34px 40px 0px;
+    padding: 32px 40px 32px;
   }
 `;
 

@@ -4,12 +4,10 @@ import type { SelectCountryType } from 'types/apis';
 
 type CountryState = {
   activeCountryId: SelectCountryType;
-  showDev: boolean;
 };
 
 const initialState: CountryState = {
   activeCountryId: undefined,
-  showDev: false,
 };
 
 const countriesSlice = createSlice({
@@ -19,14 +17,9 @@ const countriesSlice = createSlice({
     setActiveCountryId(state, { payload }: PayloadAction<SelectCountryType>) {
       state.activeCountryId = payload;
     },
-
-    toggleDev(state) {
-      state.showDev = !state.showDev;
-    },
   },
 });
 
-export const { setActiveCountryId, toggleDev } = countriesSlice.actions;
+export const { setActiveCountryId } = countriesSlice.actions;
 export const countryReducer = countriesSlice.reducer;
 export const selectActiveCountryId = (state: RootState) => state.country.activeCountryId;
-export const selectDev = (state: RootState) => state.country.showDev;

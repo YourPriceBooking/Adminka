@@ -1,6 +1,6 @@
-import type { AddLanguage, DeleteLanguage, ManyLanguages, MaybeLanguagesEntity } from 'types/apis';
-import { api, endpoints, OneLanguageInArray, tag, tagList } from 'features/api';
-import { saveOneLanguage, removeLanguage, saveManyLanguages } from './languagesAdapter';
+import type { AddLanguage, EditLanguage, ManyLanguages, MaybeLanguagesEntity } from 'types/apis';
+import { api, endpoints, OneLanguageInArray, tagList } from 'features/api';
+import { saveOneLanguage, saveManyLanguages } from './languagesAdapter';
 
 export const languagesApi = api.injectEndpoints({
   endpoints: build => ({
@@ -23,15 +23,13 @@ export const languagesApi = api.injectEndpoints({
       }),
       transformResponse: (result?: OneLanguageInArray) => saveOneLanguage(result),
     }),
-
-    deleteLanguage: build.mutation<MaybeLanguagesEntity, DeleteLanguage>({
-      query: id => ({
-        url: `${endpoints.languages}/${id}`,
-        method: 'DELETE',
-        body: { _id: id },
+    editLanguage: build.mutation<MaybeLanguagesEntity, EditLanguage>({
+      query: ({ _id, ...body }) => ({
+        url: `${endpoints.languages}/${_id}`,
+        method: 'PATCH',
+        body,
       }),
-      transformResponse: (result?: OneLanguageInArray) => removeLanguage(result),
-      invalidatesTags: (_, __, id) => tag(id, 'Language'),
+      transformResponse: (result?: OneLanguageInArray) => saveOneLanguage(result),
     }),
   }),
 });
@@ -40,7 +38,7 @@ export const {
   useGetLanguagesQuery,
   useLazyGetLanguagesQuery,
   useAddLanguageMutation,
-  useDeleteLanguageMutation,
+  useEditLanguageMutation,
 } = languagesApi;
 
 /** returns the query result object */

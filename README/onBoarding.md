@@ -15,3 +15,4 @@ Hello 7;-)
     - (theme ✨) - `createSlice` @reduxjs/toolkit
     - (lang 🌐, currency💱) - `createAsyncThunk` ??? undefined :D
   - local UI state 🦋: (showModal) - `useState` and react hooks
+  - one reusable modal, which uses counter of opened modals in redux.

@@ -14,23 +14,21 @@
 4. [x] LanguageItem
    - [x] Select language by id from normalized languages
    - [x] Render language by id
-5. [ ] LanguagesList -> Choose "EN" language id by default from normalized languages
-6. [ ] `Admin` -> Choose active language id
+5. [x] LanguagesList -> Choose "EN" language id by default from normalized languages
+6. [x] `Admin` -> Choose active language id
 7. CountriesList ->
-   - [ ] Select active language
-   - [ ] Select countries ids from active language
-   - [ ] Render countries ids
+   - [x] Select active language
+   - [x] Select countries ids from active language
+   - [x] Render countries ids
 8. CountryItem ->
-   - [ ] Select country by id from normalized countries
-   - [ ] Render country by id
-9. [ ] `Admin` -> Choose active country id
-10. [ ] Get all states
-11. [ ] Normalize states
+   - [x] Select country by id from normalized countries
+   - [x] Render country by id
+9. [x] `Admin` -> Choose active country id
+10. [x] Get all states
+11. [x] Normalize states
 
-12. [ ] Get all cities
-13. [ ] Normalize cities
+12. [x] Get all cities
+13. [x] Normalize cities
 
-14. [ ] Get all districts
-15. [ ] Normalize districts
-16. [ ]
-17. [ ]
+14. [x] Get all districts
+15. [x] Normalize districts

@@ -1,10 +1,13 @@
 import type { AddCountry } from 'types/apis';
 import { useAppDispatch, useAppSelector } from 'App';
-import { setActiveCountryId, useAddCountryEngMutation } from 'features/countries';
+import {
+  setActiveCountryId,
+  useAddCountryEngMutation,
+  useLazyGetCountriesQuery,
+} from 'features/countries';
 import { selectIsEnglishActiveLang, useLazyGetLanguagesQuery } from 'features/languages';
-import { FormEvent, useCallback, useEffect } from 'react';
+import { FormEvent, useEffect } from 'react';
 import { toast } from 'react-toastify';
-
 import { Spinner } from 'components/shared/Loader';
 import {
   AddCountryButton,
@@ -19,7 +22,9 @@ type AddCountryFormProps = { isLoading: boolean };
 export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
   const [addCountryEng, { isLoading: isAddingCountry, error: addCountryEngMutationError }] =
     useAddCountryEngMutation();
-  const [getLanguages, { isLoading: isFetchingLanguages }] = useLazyGetLanguagesQuery();
+  const [getLanguages, { isLoading: isRefetchingLanguages }] = useLazyGetLanguagesQuery();
+  const [getCountries, { isLoading: isRefetchingCountries }] = useLazyGetCountriesQuery();
+
   const isEng = useAppSelector(selectIsEnglishActiveLang);
 
   const appDispatch = useAppDispatch();
@@ -30,59 +35,57 @@ export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
     toast.error(JSON.stringify(addCountryEngMutationError.data, null, 2));
   }, [addCountryEngMutationError]);
 
-  const isPending = isLoading || isAddingCountry || isFetchingLanguages;
+  const isPending = isLoading || isAddingCountry || isRefetchingLanguages || isRefetchingCountries;
 
-  const isSubmitDisabled = isFetchingLanguages || isPending || isAddingCountry;
+  const isSubmitDisabled = isPending || isAddingCountry;
 
   const addCountryButtonLabel = isPending ? <Spinner /> : 'Add country';
 
-  const onSubmitAddCountry = useCallback(
-    async (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (isSubmitDisabled) return;
+  const onSubmitAddCountry = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isSubmitDisabled) return;
 
-      const form = e.currentTarget;
-      const formData = new FormData(form);
-      const country = formData.get('newCountryName')?.toString().trim();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const country = formData.get('newCountryName')?.toString().trim();
 
-      if (!country) {
-        toast('Kindly provide country name');
-        return;
-      }
-      if (!isEng) {
-        toast('Please select English to add countries');
-        return;
-      }
+    if (!country) {
+      toast('Kindly provide country name');
+      return;
+    }
+    if (!isEng) {
+      toast('Please select English to add countries');
+      return;
+    }
 
-      const newCountry: AddCountry = {
-        country,
-        international: country,
-        langCode: 'EN',
-      };
+    const newCountry: AddCountry = {
+      country,
+      international: country,
+      langCode: 'EN',
+    };
 
-      try {
-        const addedCountry = await addCountryEng(newCountry).unwrap();
+    try {
+      const addedCountry = await addCountryEng(newCountry).unwrap();
 
-        if (addedCountry) {
-          const newActiveCountryId = Object.values(addedCountry.entities).find(
-            countryObj => countryObj?.international === country
-          )?._id;
+      if (addedCountry) {
+        const newActiveCountryId = Object.values(addedCountry.entities).find(
+          countryObj => countryObj?.international === country
+        )?._id;
 
-          if (newActiveCountryId) {
-            appDispatch(setActiveCountryId(newActiveCountryId));
-            setTimeout(async () => {
-              await getLanguages();
-            }, 1200);
-          }
+        if (newActiveCountryId) {
+          appDispatch(setActiveCountryId(newActiveCountryId));
+          setTimeout(async () => {
+            await getLanguages();
+            await getCountries();
+          }, 1000);
         }
-      } catch (error) {
-        toast.error("Country not added. Let's try again");
-      } finally {
-        form.reset();
       }
-    },
-    [addCountryEng, appDispatch, getLanguages, isEng, isSubmitDisabled]
-  );
+    } catch (error) {
+      toast.error("Country not added. Let's try again");
+    } finally {
+      form.reset();
+    }
+  };
 
   return (
     <AddCountryFormStyled onSubmit={onSubmitAddCountry}>
