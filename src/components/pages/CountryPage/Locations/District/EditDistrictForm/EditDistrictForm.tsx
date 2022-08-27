@@ -1,11 +1,7 @@
 import { EntityId } from '@reduxjs/toolkit';
 import { useAppSelector } from 'App';
 import { EditButton } from 'components/pages/CountryPage/Countries/EditButton';
-import {
-  selectDistrictById,
-  useDeleteDistrictMutation,
-  useEditDistrictMutation,
-} from 'features/districts';
+import { selectDistrictById, useEditDistrictMutation } from 'features/districts';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -23,7 +19,6 @@ type EditDistrictFormProps = {
 
 export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
   const [editDistrict, { isLoading: isEditingL1 }] = useEditDistrictMutation();
-  const [deleteDistrict, { isLoading: isDeletingDistrict }] = useDeleteDistrictMutation();
 
   const district = useAppSelector(state => selectDistrictById(state, districtId));
 
@@ -48,9 +43,8 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
 
     langCode,
   } = district;
-  console.log({ district });
 
-  const isPending = isEditingL1 || isDeletingDistrict;
+  const isPending = isEditingL1;
 
   const isInputDisabled = !isEditingDistrict || isPending;
   const isEditButtonDisabled = isEditingDistrict || isPending;
@@ -113,17 +107,6 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
     }
   };
 
-  const onDeleteDistrict = async () => {
-    if (!id) return;
-
-    try {
-      await deleteDistrict(id).unwrap();
-      toast.success(`District ${districtName} deleted`);
-    } catch (error) {
-      toast.error(`Error while deleting district with _id: ${id}`);
-    }
-  };
-
   const showEditDistrictFormInterface = (
     <DistrictInfo>
       <label>
@@ -156,22 +139,11 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
   );
 
   const showButtonsOverlay = !isEditingDistrict && (
-    <>
-      <EditButton
-        $isFirstEdit={$isFirstEdit}
-        onClick={setIsEditingDistrictTrue}
-        disabled={isEditButtonDisabled}
-      />
-
-      <button
-        type="button"
-        onClick={onDeleteDistrict}
-        style={{ borderRadius: '50%' }}
-        disabled={isPending}
-      >
-        X
-      </button>
-    </>
+    <EditButton
+      $isFirstEdit={$isFirstEdit}
+      onClick={setIsEditingDistrictTrue}
+      disabled={isEditButtonDisabled}
+    />
   );
 
   const showSubmitButton = isEditingDistrict && (
