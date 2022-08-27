@@ -15,13 +15,13 @@ export const EditStateFormStyled = styled.form`
   display: flex;
   align-items: flex-start;
 
-  @media screen and (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+  /* @media screen and (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     gap: 12px;
   }
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     gap: 20px;
-  }
+  } */
 `;
 
 export const SubmitAddLocationButton = styled.button`

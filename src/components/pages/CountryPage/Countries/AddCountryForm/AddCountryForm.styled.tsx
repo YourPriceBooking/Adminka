@@ -4,10 +4,15 @@ export const AddCountryFormStyled = styled.form`
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  height: 312px;
   padding: 16px;
 
+  background-color: ${({ theme }) => theme.colors.bgTransparent.bgFormAddCountry};
+  border-radius: 10px;
+
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    gap: 52px;
+    justify-content: space-between;
     padding: 20px 56px 28px;
   }
 `;
@@ -63,6 +68,7 @@ export const AddCountryButton = styled.button`
   color: ${({ theme }) => theme.colors.white};
   text-align: center;
 
+  cursor: pointer;
   background-color: ${({ theme }) => theme.colors.bgTransparent.buttonSaveCountry};
   border: 1px solid transparent;
   border-radius: 3px;

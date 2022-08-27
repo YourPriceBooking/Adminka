@@ -2,7 +2,7 @@ import type { AddCountry } from 'types/apis';
 import { useAppDispatch, useAppSelector } from 'App';
 import { setActiveCountryId, useAddCountryEngMutation } from 'features/countries';
 import { selectIsEnglishActiveLang, useLazyGetLanguagesQuery } from 'features/languages';
-import { FormEvent, useCallback, useEffect, useState } from 'react';
+import { FormEvent, useCallback, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 import { Spinner } from 'components/shared/Loader';
@@ -30,12 +30,9 @@ export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
     toast.error(JSON.stringify(addCountryEngMutationError.data, null, 2));
   }, [addCountryEngMutationError]);
 
-  const [localNewCountryName, setLocalNewCountryName] = useState('');
-
   const isPending = isLoading || isAddingCountry || isFetchingLanguages;
 
-  const isSubmitDisabled =
-    isFetchingLanguages || isPending || isAddingCountry || !localNewCountryName.trim();
+  const isSubmitDisabled = isFetchingLanguages || isPending || isAddingCountry;
 
   const addCountryButtonLabel = isPending ? <Spinner /> : 'Add country';
 
@@ -47,6 +44,7 @@ export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
       const form = e.currentTarget;
       const formData = new FormData(form);
       const country = formData.get('newCountryName')?.toString().trim();
+
       if (!country) {
         toast('Kindly provide country name');
         return;
@@ -92,13 +90,7 @@ export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
 
       <div>
         <AddCountryLabel>
-          <AddCountryInput
-            name="newCountryName"
-            type="text"
-            value={localNewCountryName}
-            onChange={e => setLocalNewCountryName(e.currentTarget.value)}
-            maxLength={20}
-          />
+          <AddCountryInput name="newCountryName" type="text" maxLength={20} />
         </AddCountryLabel>
 
         <p style={{ padding: '2px 0 0 8px' }}>name of the country in the English language</p>

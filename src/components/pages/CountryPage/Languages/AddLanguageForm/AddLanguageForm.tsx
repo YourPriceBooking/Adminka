@@ -54,7 +54,7 @@ export const AddLanguageForm = ({ closeModal, setActiveLanguage }: AddLanguageFo
 
       setTimeout(async () => {
         await getLanguages();
-      }, 1500);
+      }, 3000);
 
       setActiveLanguage(newLangId);
       appDispatch(setActiveCountryId());
