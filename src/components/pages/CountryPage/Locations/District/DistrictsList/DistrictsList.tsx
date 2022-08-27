@@ -9,7 +9,7 @@ type DistrictsListProps = {
 };
 
 export const DistrictsList = ({ cityId }: DistrictsListProps) => {
-  const districtsIds = useAppSelector(state => selectCityById(state, cityId)?.districts);
+  const districtsIds = useAppSelector(state => selectCityById(state, cityId))?.districts;
   console.log({ districtsIds });
 
   return (

@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from 'App';
 import { incrementCounter, selectCounterValue } from 'features/common';
-import { selectActiveCountryId, selectCountryById, selectDev } from 'features/countries';
+import { selectDev } from 'features/countries';
+import { selectStatesFromActiveCountry } from 'features/states';
 import { StateItem } from './StateItem';
 import { StatesListStyled } from './StatesList.styled';
 // import { Grid } from '../virtualList';
@@ -28,11 +29,7 @@ const DevModeStats = () => {
 };
 
 export const StatesList = () => {
-  // active country -> array of ids
-  const countryId = useAppSelector(selectActiveCountryId);
-  const statesIds = useAppSelector(state =>
-    countryId ? selectCountryById(state, countryId)?.states : undefined
-  );
+  const statesIds = useAppSelector(selectStatesFromActiveCountry);
 
   return (
     <>
