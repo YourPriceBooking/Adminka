@@ -10,6 +10,9 @@ import {
 } from 'features/languages';
 import { useAppDispatch, useAppSelector } from 'App';
 import { setActiveCountryId, useLazyGetCountriesQuery } from 'features/countries';
+import { useLazyGetStatesQuery } from 'features/states';
+import { useLazyGetCitiesQuery } from 'features/cities';
+import { useLazyGetDistrictsQuery } from 'features/districts';
 import slang from '../Languages.module.scss';
 
 type AddLanguageFormProps = {
@@ -20,14 +23,23 @@ type AddLanguageFormProps = {
 export const AddLanguageForm = ({ closeModal, setActiveLanguage }: AddLanguageFormProps) => {
   const [addLanguage, { isLoading: isAddingLanguage }] = useAddLanguageMutation();
   const allLanguagesCodes = useAppSelector(selectAllLanguagesCodes);
-  const [getLanguages, { isLoading: isFetchingLanguages }] = useLazyGetLanguagesQuery();
-  const [getCountries, { isLoading: isFetchingCountries }] = useLazyGetCountriesQuery();
+  const [getLanguages, { isLoading: isReFetchingLanguages }] = useLazyGetLanguagesQuery();
+  const [getCountries, { isLoading: isReFetchingCountries }] = useLazyGetCountriesQuery();
+  const [getStates, { isLoading: isReFetchingStates }] = useLazyGetStatesQuery();
+  const [getCities, { isLoading: isReFetchingCities }] = useLazyGetCitiesQuery();
+  const [getDistricts, { isLoading: isReFetchingDistrict }] = useLazyGetDistrictsQuery();
 
   const [localNewLangName, setLocalNewLangName] = useState('');
   const [localNewLangCode, setLocalNewLangCode] = useState('');
   const appDispatch = useAppDispatch();
 
-  const isSubmitDisabled = isAddingLanguage || isFetchingLanguages || isFetchingCountries;
+  const isSubmitDisabled =
+    isAddingLanguage ||
+    isReFetchingLanguages ||
+    isReFetchingCountries ||
+    isReFetchingStates ||
+    isReFetchingCities ||
+    isReFetchingDistrict;
 
   const onSubmitAddLanguage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -55,6 +67,9 @@ export const AddLanguageForm = ({ closeModal, setActiveLanguage }: AddLanguageFo
       setTimeout(async () => {
         await getLanguages();
         await getCountries();
+        await getStates();
+        await getCities();
+        await getDistricts();
       }, 1700);
 
       setActiveLanguage(newLangId);
