@@ -69,10 +69,8 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
     if (!id) return;
 
     try {
-      const deleteStateName = (await deleteState(id).unwrap())?.entities[id]?.stateName;
-      if (deleteStateName) {
-        toast.success(`State ${deleteStateName} deleted`);
-      }
+      await deleteState(id).unwrap();
+      toast.success(`State ${stateName} deleted`);
     } catch (error) {
       toast.error(`Error while deleting state with _id: ${id}`);
     }

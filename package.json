@@ -20,6 +20,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.2",
     "date-fns": "^2.29.1",
+    "modern-normalize": "^1.1.0",
     "polished": "^4.2.2",
     "react": "^18.1.0",
     "react-content-loader": "^6.2.0",

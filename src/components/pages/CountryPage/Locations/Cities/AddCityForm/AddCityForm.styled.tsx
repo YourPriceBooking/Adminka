@@ -6,5 +6,6 @@ export const AddCityFormStyled = styled.form`
 
 export const Row = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
 `;

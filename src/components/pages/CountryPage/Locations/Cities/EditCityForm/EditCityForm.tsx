@@ -1,15 +1,19 @@
+import type { EntityId } from '@reduxjs/toolkit';
+import type { EditCity } from 'types/apis';
 import { useAppSelector } from 'App';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { EditButton } from 'components/pages/CountryPage/Countries/EditButton';
-import type { EditCity } from 'types/apis';
 import { selectIsEnglishActiveLang } from 'features/languages';
 import { selectCityById, useEditCityMutation } from 'features/cities';
-import type { CityItemProps } from '../CitiesList/CityItem';
 import { EditCityFormStyled, CityInfo, EditCityPhotoURLInput } from './EditCityForm.styled';
 import { SubmitAddLocationButton } from '../../States/EditStateForm/EditStateForm.styled';
 
-export const EditCityForm = ({ cityId }: CityItemProps) => {
+type EditCityFormProps = {
+  cityId: EntityId;
+};
+
+export const EditCityForm = ({ cityId }: EditCityFormProps) => {
   const [editCity, { isLoading }] = useEditCityMutation();
   const city = useAppSelector(state => selectCityById(state, cityId));
 

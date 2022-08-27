@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components/macro';
 
+import 'modern-normalize/modern-normalize.css';
+
 import robotoLight from 'assets/fonts/roboto/roboto-lat-cyr-300.woff2';
 import robotoRegular from 'assets/fonts/roboto/roboto-lat-cyr-regular.woff2';
 import robotoMedium from 'assets/fonts/roboto/roboto-lat-cyr-500.woff2';

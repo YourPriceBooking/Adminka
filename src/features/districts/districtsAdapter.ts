@@ -12,7 +12,10 @@ export const districtsInitState = districtsAdapter.getInitialState();
 /** @returns object { ids; entities } saved to RTK Query endpoint via languagesAdapter.setAll */
 export const saveManyDistricts = (result: ManyDistricts) => {
   const districts = getManyDistricts(result);
-  return districts ? districtsAdapter.setAll(districtsInitState, districts) : undefined;
+  const result2 = districts ? districtsAdapter.setAll(districtsInitState, districts) : undefined;
+  console.log({ result2, districts });
+
+  return result2;
 };
 
 /** @returns object { ids; entities } saved to RTK Query endpoint via languagesAdapter.upsertOne */

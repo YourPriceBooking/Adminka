@@ -1,6 +1,7 @@
 import type { EntityId, EntityState } from '@reduxjs/toolkit';
 
 export type District = {
+  stateId: EntityId;
   cityId: EntityId;
   cityInternational: string;
 

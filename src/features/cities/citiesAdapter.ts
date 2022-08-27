@@ -1,8 +1,8 @@
 import { createEntityAdapter } from '@reduxjs/toolkit';
 import { getManyCities, getOneCity, getOneCityId } from 'features/api';
-import type { City, ManyCities, OneCity } from 'types/apis';
+import type { CityWithDistrictsIds, ManyCities, OneCity } from 'types/apis';
 
-export const citiesAdapter = createEntityAdapter<City>({
+export const citiesAdapter = createEntityAdapter<CityWithDistrictsIds>({
   selectId: city => city._id,
   sortComparer: (a, b) => b.createdAt?.localeCompare(a.createdAt),
 });
@@ -12,7 +12,17 @@ export const citiesInitState = citiesAdapter.getInitialState();
 /** @returns object { ids; entities } saved to RTK Query endpoint via citiesAdapter.setAll */
 export const saveManyCities = (result?: ManyCities) => {
   const cities = getManyCities(result);
-  return cities ? citiesAdapter?.setAll(citiesInitState, cities) : undefined;
+
+  const citiesWithoutNestedDistricts = cities?.map(({ districts, ...city }) => ({
+    ...city,
+    districts: districts.map(({ _id }) => _id),
+  }));
+
+  const saved = citiesWithoutNestedDistricts
+    ? citiesAdapter.setAll(citiesInitState, citiesWithoutNestedDistricts)
+    : undefined;
+
+  return saved;
 };
 
 /** @returns object { ids; entities } saved to RTK Query endpoint via citiesAdapter.upsertOne */

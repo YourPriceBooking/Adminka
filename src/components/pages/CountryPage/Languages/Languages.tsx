@@ -1,8 +1,14 @@
 import { Modal } from 'components/shared/Modal/Modal';
 import { useModal, useSetActiveLanguage } from 'common/hooks';
-import { chooseLanguage, selectEnglishLanguageId, useGetLanguagesQuery } from 'features/languages';
+import {
+  chooseLanguage,
+  selectEnglishLanguageId,
+  selectLanguagesIds,
+  useGetLanguagesQuery,
+} from 'features/languages';
 import { ReactNode, useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from 'App';
+import { EntityId } from '@reduxjs/toolkit';
 import { ActiveLangButtonContainer } from './AdditionalItems';
 import { LanguagesList } from './LanguagesList';
 import { AddLanguageForm } from './AddLanguageForm';
@@ -10,15 +16,16 @@ import slang from './Languages.module.scss';
 
 type ModalContentProps = {
   closeModal: () => void;
+  languagesIds: EntityId[];
 };
 
-const LanguageModalContent = ({ closeModal }: ModalContentProps) => {
+const LanguageModalContent = ({ closeModal, languagesIds }: ModalContentProps) => {
   const setActiveLanguage = useSetActiveLanguage(closeModal);
 
   return (
     <div className={slang.container_add_lang}>
       <div className={slang.block_lang}>
-        <LanguagesList setActiveLanguage={setActiveLanguage} />
+        <LanguagesList languagesIds={languagesIds} setActiveLanguage={setActiveLanguage} />
       </div>
 
       <AddLanguageForm setActiveLanguage={setActiveLanguage} closeModal={closeModal} />
@@ -28,10 +35,11 @@ const LanguageModalContent = ({ closeModal }: ModalContentProps) => {
 
 export const SelectLanguages = () => {
   const { showModal, openModal, closeModal } = useModal();
+  const languagesIds = useAppSelector(selectLanguagesIds);
 
   const isModalOpen = showModal && (
     <Modal closeModal={closeModal}>
-      <LanguageModalContent closeModal={closeModal} />
+      <LanguageModalContent languagesIds={languagesIds} closeModal={closeModal} />
     </Modal>
   );
 

@@ -60,6 +60,7 @@ export const statesApi = api.injectEndpoints({
 });
 
 export const {
+  useGetStatesQuery,
   useLazyGetStatesQuery,
   useAddStateMutation,
   useEditStateMutation,

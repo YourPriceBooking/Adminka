@@ -29,7 +29,7 @@ const districtsApi = api.injectEndpoints({
         body,
       }),
       transformResponse: (result: OneDistrict) => saveOneDistrict(result),
-      invalidatesTags: () => tag('LIST', 'District'),
+      // invalidatesTags: () => tag('LIST', 'District'),
     }),
     editDistrict: build.mutation<MaybeDistrictsEntity, EditDistrict>({
       query: ({ _id, ...body }) => ({
@@ -53,6 +53,7 @@ const districtsApi = api.injectEndpoints({
 });
 
 export const {
+  useGetDistrictsQuery,
   useLazyGetDistrictsQuery,
   useAddDistrictMutation,
   useEditDistrictMutation,

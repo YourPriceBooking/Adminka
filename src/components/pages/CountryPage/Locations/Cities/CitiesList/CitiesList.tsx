@@ -10,7 +10,6 @@ type CitiesListProps = {
 
 export const CitiesList = ({ stateId }: CitiesListProps) => {
   const citiesIds = useAppSelector(state => selectStateById(state, stateId)?.cities);
-  console.log('CitiesList ~ citiesIds', citiesIds);
 
   return (
     <CitiesListStyled>

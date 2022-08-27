@@ -5,7 +5,7 @@ import { Layout } from 'components/Layout';
 import { GlobalStyle } from 'styles/GlobalStyle';
 import { AppStyled, DevIndicator } from 'App/App.styled';
 
-import { Slide, ToastContainer } from 'react-toastify';
+import { Flip, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useAppSelector } from 'App';
@@ -28,7 +28,7 @@ export const App = () => {
         </AppStyled>
 
         {dev && showDev && <DevIndicator>DEV</DevIndicator>}
-        <ToastContainer position="bottom-center" autoClose={2800} transition={Slide} />
+        <ToastContainer position="bottom-center" autoClose={2800} transition={Flip} />
       </ScrollContainer>
     </ThemeProvider>
   );

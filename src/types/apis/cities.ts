@@ -1,6 +1,24 @@
 import type { EntityId, EntityState } from '@reduxjs/toolkit';
+import { District } from './district';
 
 export type City = {
+  stateId: EntityId;
+  stateInternational: string;
+
+  _id: EntityId;
+  cityName: string;
+  cityInternational: string;
+  cityCode: string;
+  cityPhotoURL: string;
+
+  langCode: string;
+
+  districts: District[];
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type CityWithDistrictsIds = {
   stateId: EntityId;
   stateInternational: string;
 
@@ -16,6 +34,7 @@ export type City = {
   createdAt: string;
   updatedAt: string;
 };
+
 export type AddCity = Pick<
   City,
   | 'stateId'
@@ -42,6 +61,6 @@ export type DeleteCity = EntityId;
 
 export type CitiesResponse = City[] | [];
 
-export type MaybeCitiesEntity = EntityState<City> | undefined;
+export type MaybeCitiesEntity = EntityState<CityWithDistrictsIds> | undefined;
 
 export type FindCity = { stateId: string };

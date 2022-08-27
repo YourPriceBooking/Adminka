@@ -1,7 +1,9 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import { useAppSelector } from 'App';
 import { generateDistrictCode } from 'common/utils';
-import { useAddDistrictMutation } from 'features/districts';
+import { Spinner } from 'components/shared/Loader';
+import { selectCityById, useLazyGetCitiesQuery } from 'features/cities';
+import { useAddDistrictMutation, useLazyGetDistrictsQuery } from 'features/districts';
 import { selectIsEnglishActiveLang } from 'features/languages';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -12,14 +14,24 @@ import { Row, AddDistrictFormStyled } from './AddDistrictForm.styled';
 
 export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
   const [addDistrict, { isLoading: isAddingL1 }] = useAddDistrictMutation();
+  const [getCities, { isLoading: isRefetchingCities }] = useLazyGetCitiesQuery();
+  const [getDistricts, { isLoading: isRefetchingDistricts }] = useLazyGetDistrictsQuery();
+
+  const city = useAppSelector(state => selectCityById(state, cityId));
 
   const isEng = useAppSelector(selectIsEnglishActiveLang);
   const [isAddingDistrict, setIsAddingDistrict] = useState(false);
   // const districtsNames = useAppSelector(state => selectMemoizedDistrictNames(state, stateId, cityId));
 
   const setAddingDistrictTrue = useCallback(() => setIsAddingDistrict(true), []);
+  const setAddingDistrictFalse = useCallback(() => setIsAddingDistrict(false), []);
 
-  const isSubmitDisabled = !isEng || isAddingL1 || !isAddingDistrict;
+  if (!city) return null;
+
+  const { stateId, cityInternational } = city;
+
+  const isPending = isAddingL1 || isRefetchingCities || isRefetchingDistricts;
+  const isSubmitDisabled = !isEng || !isAddingDistrict || isPending;
 
   const handleSubmitAddDistrict = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,8 +53,9 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
     // }
 
     const newDistrict: AddDistrict = {
+      stateId,
       cityId,
-      cityInternational: '',
+      cityInternational,
 
       districtName,
       districtPhotoURL,
@@ -55,17 +68,26 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
 
     try {
       const addedDistrict = await addDistrict(newDistrict).unwrap();
-      const addedDistrictName = addedDistrict?.entities?.[addedDistrict?.ids?.[0]]?.districtName;
+      const addedDistrictName =
+        addedDistrict?.entities?.[addedDistrict?.ids?.[0]]?.districtName === districtName;
 
       if (addedDistrictName) {
-        toast.success(`District ${districtName} added`);
+        toast.success(`District ${addedDistrictName} added`);
       }
 
-      setAddingDistrictTrue();
+      setTimeout(async () => {
+        await getCities();
+        await getDistricts();
+      }, 1500);
     } catch (error) {
       toast.error('District not added');
+    } finally {
+      setAddingDistrictFalse();
     }
   };
+
+  const submitAddLocationButtonLabel = isPending ? <Spinner /> : 'Add Loc 1';
+  const addLocationButtonLabel = isPending ? <Spinner /> : '+1';
 
   const showAddDistrictForm = isAddingDistrict && (
     <Row>
@@ -86,13 +108,15 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
         <p>add the name of the district</p>
       </label>
 
-      <SubmitAddLocationButton type="submit">Add Loc 1</SubmitAddLocationButton>
+      <SubmitAddLocationButton type="submit" disabled={isPending}>
+        {submitAddLocationButtonLabel}
+      </SubmitAddLocationButton>
     </Row>
   );
 
-  const showAddDistrictButton = isEng && !isAddingDistrict && !isAddingL1 && cityId && (
-    <AddLocationButton type="button" onClick={setAddingDistrictTrue}>
-      +1
+  const showAddDistrictButton = isEng && !isAddingDistrict && cityId && (
+    <AddLocationButton type="button" onClick={setAddingDistrictTrue} disabled={isPending}>
+      {addLocationButtonLabel}
     </AddLocationButton>
   );
 

@@ -1,20 +1,30 @@
+import { EntityId } from '@reduxjs/toolkit';
 import { useAppSelector } from 'App';
 import { EditButton } from 'components/pages/CountryPage/Countries/EditButton';
-import { selectDistrictById, useEditDistrictMutation } from 'features/districts';
+import {
+  selectDistrictById,
+  useDeleteDistrictMutation,
+  useEditDistrictMutation,
+} from 'features/districts';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import type { EditDistrict } from 'types/apis';
 import { SubmitAddLocationButton } from '../../States/EditStateForm/EditStateForm.styled';
-import type { DistrictItemProps } from '../DistrictsList/DistrictItem';
 import {
   EditDistrictFormStyled,
   DistrictInfo,
   EditDistrictPhotoURLInput,
 } from './EditDistrictForm.styled';
 
-export const EditDistrictForm = ({ districtId }: DistrictItemProps) => {
-  const [editDistrict, { isLoading }] = useEditDistrictMutation();
+type EditDistrictFormProps = {
+  districtId: EntityId;
+};
+
+export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
+  const [editDistrict, { isLoading: isEditingL1 }] = useEditDistrictMutation();
+  const [deleteDistrict, { isLoading: isDeletingDistrict }] = useDeleteDistrictMutation();
+
   const district = useAppSelector(state => selectDistrictById(state, districtId));
 
   const activeLangCode = useAppSelector(selectActiveLangCode);
@@ -26,6 +36,7 @@ export const EditDistrictForm = ({ districtId }: DistrictItemProps) => {
   if (!activeLangCode || !district) return null;
 
   const {
+    stateId,
     cityId,
     cityInternational,
 
@@ -37,9 +48,12 @@ export const EditDistrictForm = ({ districtId }: DistrictItemProps) => {
 
     langCode,
   } = district;
+  console.log({ district });
 
-  const isInputDisabled = !isEditingDistrict || isLoading;
-  const isEditButtonDisabled = isEditingDistrict || isLoading;
+  const isPending = isEditingL1 || isDeletingDistrict;
+
+  const isInputDisabled = !isEditingDistrict || isPending;
+  const isEditButtonDisabled = isEditingDistrict || isPending;
 
   const $isFirstEdit = langCode === 'EN' && !isEng;
 
@@ -57,7 +71,7 @@ export const EditDistrictForm = ({ districtId }: DistrictItemProps) => {
     const localDistrictName = formData.get('districtName')?.toString().trim();
     const localDistrictPhotoURL = formData.get('districtPhotoURL')?.toString().trim();
 
-    const isSubmitDisabled = isLoading || !localDistrictName || !localDistrictPhotoURL;
+    const isSubmitDisabled = isEditingL1 || !localDistrictName || !localDistrictPhotoURL;
 
     if (isSubmitDisabled) return;
 
@@ -72,6 +86,7 @@ export const EditDistrictForm = ({ districtId }: DistrictItemProps) => {
     // }
 
     const updatedDistrict: EditDistrict = {
+      stateId,
       cityId,
       cityInternational, // TODO: check if it arrives
 
@@ -98,46 +113,76 @@ export const EditDistrictForm = ({ districtId }: DistrictItemProps) => {
     }
   };
 
+  const onDeleteDistrict = async () => {
+    if (!id) return;
+
+    try {
+      await deleteDistrict(id).unwrap();
+      toast.success(`District ${districtName} deleted`);
+    } catch (error) {
+      toast.error(`Error while deleting district with _id: ${id}`);
+    }
+  };
+
+  const showEditDistrictFormInterface = (
+    <DistrictInfo>
+      <label>
+        <span>District name</span>
+        <input
+          type="text"
+          name="districtName"
+          defaultValue={districtName}
+          disabled={isInputDisabled}
+          maxLength={30}
+          minLength={2}
+          required
+        />
+      </label>
+
+      <label>
+        <span>District photo URL</span>
+        <EditDistrictPhotoURLInput
+          type="url"
+          name="districtPhotoURL"
+          defaultValue={districtPhotoURL}
+          disabled={isInputDisabled}
+          maxLength={300}
+          minLength={8}
+          required
+          title={districtPhotoURL}
+        />
+      </label>
+    </DistrictInfo>
+  );
+
+  const showButtonsOverlay = !isEditingDistrict && (
+    <>
+      <EditButton
+        $isFirstEdit={$isFirstEdit}
+        onClick={setIsEditingDistrictTrue}
+        disabled={isEditButtonDisabled}
+      />
+
+      <button
+        type="button"
+        onClick={onDeleteDistrict}
+        style={{ borderRadius: '50%' }}
+        disabled={isPending}
+      >
+        X
+      </button>
+    </>
+  );
+
+  const showSubmitButton = isEditingDistrict && (
+    <SubmitAddLocationButton type="submit">Done</SubmitAddLocationButton>
+  );
+
   return (
     <EditDistrictFormStyled onSubmit={handleSubmitEditDistrict}>
-      <DistrictInfo>
-        <label>
-          <span>District name</span>
-          <input
-            type="text"
-            name="districtName"
-            defaultValue={districtName}
-            disabled={isInputDisabled}
-            maxLength={30}
-            minLength={2}
-            required
-          />
-        </label>
-
-        <label>
-          <span>District photo URL</span>
-          <EditDistrictPhotoURLInput
-            type="url"
-            name="districtPhotoURL"
-            defaultValue={districtPhotoURL}
-            disabled={isInputDisabled}
-            maxLength={300}
-            minLength={8}
-            required
-            title={districtPhotoURL}
-          />
-        </label>
-      </DistrictInfo>
-
-      {!isEditingDistrict && (
-        <EditButton
-          $isFirstEdit={$isFirstEdit}
-          onClick={setIsEditingDistrictTrue}
-          disabled={isEditButtonDisabled}
-        />
-      )}
-
-      {isEditingDistrict && <SubmitAddLocationButton type="submit">Done</SubmitAddLocationButton>}
+      {showEditDistrictFormInterface}
+      {showButtonsOverlay}
+      {showSubmitButton}
     </EditDistrictFormStyled>
   );
 };

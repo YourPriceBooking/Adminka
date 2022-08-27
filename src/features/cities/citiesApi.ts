@@ -57,6 +57,7 @@ export const citiesApi = api.injectEndpoints({
 });
 
 export const {
+  useGetCitiesQuery,
   useLazyGetCitiesQuery,
   useAddCityMutation,
   useEditCityMutation,
