@@ -9,7 +9,7 @@ import {
   useLazyGetLanguagesQuery,
 } from 'features/languages';
 import { useAppDispatch, useAppSelector } from 'App';
-import { setActiveCountryId } from 'features/countries';
+import { setActiveCountryId, useLazyGetCountriesQuery } from 'features/countries';
 import slang from '../Languages.module.scss';
 
 type AddLanguageFormProps = {
@@ -21,13 +21,13 @@ export const AddLanguageForm = ({ closeModal, setActiveLanguage }: AddLanguageFo
   const [addLanguage, { isLoading: isAddingLanguage }] = useAddLanguageMutation();
   const allLanguagesCodes = useAppSelector(selectAllLanguagesCodes);
   const [getLanguages, { isLoading: isFetchingLanguages }] = useLazyGetLanguagesQuery();
+  const [getCountries, { isLoading: isFetchingCountries }] = useLazyGetCountriesQuery();
 
   const [localNewLangName, setLocalNewLangName] = useState('');
   const [localNewLangCode, setLocalNewLangCode] = useState('');
   const appDispatch = useAppDispatch();
 
-  const isSubmitDisabled =
-    isAddingLanguage || isFetchingLanguages || !localNewLangName.trim() || !localNewLangCode.trim();
+  const isSubmitDisabled = isAddingLanguage || isFetchingLanguages || isFetchingCountries;
 
   const onSubmitAddLanguage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,7 +54,8 @@ export const AddLanguageForm = ({ closeModal, setActiveLanguage }: AddLanguageFo
 
       setTimeout(async () => {
         await getLanguages();
-      }, 3000);
+        await getCountries();
+      }, 1700);
 
       setActiveLanguage(newLangId);
       appDispatch(setActiveCountryId());
@@ -109,3 +110,12 @@ export const AddLanguageForm = ({ closeModal, setActiveLanguage }: AddLanguageFo
     </form>
   );
 };
+
+// 'editCity'
+// 'editDistrict'
+// при переключенні мови треба пофіксити.
+
+// register 2
+// олівець не правильно відпрацював
+// після коригування
+// register 3

@@ -20,6 +20,7 @@ export const EditCityForm = ({ cityId }: EditCityFormProps) => {
   const [isEditingCity, setIsEditingCity] = useState(false);
 
   const isEng = useAppSelector(selectIsEnglishActiveLang);
+  // console.log('EditCityForm ~ isEng', isEng);
   const setIsEditingCityTrue = useCallback(() => setIsEditingCity(true), []);
 
   if (!city) return null;
@@ -34,6 +35,8 @@ export const EditCityForm = ({ cityId }: EditCityFormProps) => {
     cityPhotoURL,
     cityCode,
   } = city;
+  console.log('EditCityForm ~ langCode', langCode);
+  // console.log('EditCityForm ~ langCode', langCode);
 
   const isInputDisabled = !isEditingCity;
   const isEditButtonDisabled = isEditingCity;
