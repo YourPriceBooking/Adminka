@@ -31,8 +31,8 @@
 
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
-    "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
-    "react-hooks/exhaustive-deps": "error", // Checks effect dependencies,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error",
 
     "react/function-component-definition": [
       "warn",
@@ -44,17 +44,6 @@
     "react/prop-types": 0,
     "react/require-default-props": 0,
     "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["state"] }],
-    // "@typescript-eslint/naming-convention": [
-    //   "error",
-    //   {
-    //     "selector": "property",
-    //     "format": ["strictCamelCase"],
-    //     "filter": {
-    //       "regex": "^(_id)$",
-    //       "match": false
-    //     }
-    //   }
-    // ],
     "jsx-a11y/label-has-associated-control": [
       2,
       {

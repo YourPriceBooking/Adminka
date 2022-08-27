@@ -15,8 +15,6 @@ import { SubmitAddLocationButton } from '../EditStateForm/EditStateForm.styled';
 
 import { Row, AddLocationButton, AddStateFormStyled } from './AddStateForm.styled';
 
-// type AddStateFormProps = { countryId: EntityId };
-
 export const AddStateForm = () => {
   const [addState, { isLoading: isAddingLoc3 }] = useAddStateMutation();
   const [getCountries, { isLoading: isLoadingStates }] = useLazyGetStatesQuery();
@@ -26,7 +24,6 @@ export const AddStateForm = () => {
   const activeCountryInternational = useAppSelector(selectActiveCountryInternational);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
 
-  //  const statesNames = useAppSelector(state => selectStateById(state, countryId));
   const [isRefetchingCountries, setIsRefetchingCountries] = useState(false);
   const [isAddingState, setIsAddingState] = useState(false);
   const setAddingStateTrue = useCallback(() => setIsAddingState(true), []);
@@ -49,11 +46,6 @@ export const AddStateForm = () => {
       toast('Please provide photo url and State name');
       return;
     }
-
-    // if (statesNames.find(existingStateName => existingStateName === stateName)) {
-    //   toast.info(`${stateName} exists. Fill new 'name'`);
-    //   return;
-    // }
 
     const newState: AddState = {
       countryId: activeCountryId,
@@ -82,7 +74,7 @@ export const AddStateForm = () => {
 
       setIsRefetchingCountries(true);
 
-      await setTimeout(async () => {
+      setTimeout(async () => {
         await getCountries();
         await getStates();
         setIsRefetchingCountries(false);
@@ -95,6 +87,7 @@ export const AddStateForm = () => {
   };
 
   const addLocationButtonLabel = isPending ? <Spinner /> : '+3';
+  const submitAddLocationButtonLabel = isPending ? <Spinner /> : 'Add Loc 3';
 
   const showAddStateButton = isEng && !isAddingState && activeCountryId && (
     <AddLocationButton type="button" onClick={setAddingStateTrue}>
@@ -122,7 +115,7 @@ export const AddStateForm = () => {
       </label>
 
       <SubmitAddLocationButton type="submit" disabled={isSubmitDisabled}>
-        Add Loc 3
+        {submitAddLocationButtonLabel}
       </SubmitAddLocationButton>
     </Row>
   );

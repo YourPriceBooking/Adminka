@@ -16,12 +16,10 @@ type EditCityFormProps = {
 export const EditCityForm = ({ cityId }: EditCityFormProps) => {
   const [editCity, { isLoading }] = useEditCityMutation();
   const city = useAppSelector(state => selectCityById(state, cityId));
-
   const activeLanguageCode = useAppSelector(selectActiveLangCode);
-  const [isEditingCity, setIsEditingCity] = useState(false);
-
   const isEng = useAppSelector(selectIsEnglishActiveLang);
-  // console.log('EditCityForm ~ isEng', isEng);
+
+  const [isEditingCity, setIsEditingCity] = useState(false);
   const setIsEditingCityTrue = useCallback(() => setIsEditingCity(true), []);
 
   if (!city || !activeLanguageCode) return null;
@@ -36,8 +34,6 @@ export const EditCityForm = ({ cityId }: EditCityFormProps) => {
     cityPhotoURL,
     cityCode,
   } = city;
-  console.log('EditCityForm ~ langCode', langCode);
-  // console.log('EditCityForm ~ langCode', langCode);
 
   const isInputDisabled = !isEditingCity;
   const isEditButtonDisabled = isEditingCity;
@@ -59,11 +55,6 @@ export const EditCityForm = ({ cityId }: EditCityFormProps) => {
       toast.info('Please provide photo url and City name');
       return;
     }
-
-    // if (citiesNames?.find(existingCityName => existingCityName === cityNameTrimmed)) {
-    //   toast.info(`${cityNameTrimmed} exists. Try another 'name'`);
-    //   return;
-    // }
 
     const updatedCity: EditCity = {
       stateId,

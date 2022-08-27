@@ -74,15 +74,10 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
       return;
     }
 
-    // if (districtNames?.find(existingDistrictName => existingDistrictName === districtNameTrimmed)) {
-    //   toast.info(`${districtNameTrimmed} exists. Try another 'name'`);
-    //   return;
-    // }
-
     const updatedDistrict: EditDistrict = {
       stateId,
       cityId,
-      cityInternational, // TODO: check if it arrives
+      cityInternational,
 
       _id: id,
       districtName: localDistrictName,

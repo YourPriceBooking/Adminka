@@ -34,7 +34,6 @@ export const statesApi = api.injectEndpoints({
         body,
       }),
       transformResponse: (result?: OneState) => saveOneState(result),
-      // invalidatesTags: () => tag('LIST', 'State'),
     }),
 
     editState: builder.mutation<MaybeStatesEntity, EditState>({

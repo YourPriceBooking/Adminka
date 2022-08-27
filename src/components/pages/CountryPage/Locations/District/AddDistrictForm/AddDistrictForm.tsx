@@ -21,7 +21,6 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
 
   const isEng = useAppSelector(selectIsEnglishActiveLang);
   const [isAddingDistrict, setIsAddingDistrict] = useState(false);
-  // const districtsNames = useAppSelector(state => selectMemoizedDistrictNames(state, stateId, cityId));
 
   const setAddingDistrictTrue = useCallback(() => setIsAddingDistrict(true), []);
   const setAddingDistrictFalse = useCallback(() => setIsAddingDistrict(false), []);
@@ -46,11 +45,6 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
       toast('Please provide photo url and District name');
       return;
     }
-
-    // if (districtsNames?.find(existingDistrictName => existingDistrictName === districtName)) {
-    //   toast.info(`${districtName} exists. Fill new 'name'`);
-    //   return;
-    // }
 
     const newDistrict: AddDistrict = {
       stateId,

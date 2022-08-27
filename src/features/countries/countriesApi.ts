@@ -17,12 +17,6 @@ export const countriesApi = api.injectEndpoints({
       providesTags: result => tagList(result, 'Country'),
     }),
 
-    // getCountry: build.query<MaybeCountriesEntity, GetCountry>({
-    //   query: id => `${endpoints.countries}/${id}`,
-    //   transformResponse: (result?: OneCountry) => saveOneCountry(result),
-    //   providesTags: (_, __, id) => tag(id, 'Country'),
-    // }),
-
     addCountryEng: build.mutation<MaybeCountriesEntity, AddCountry>({
       query: body => ({
         url: endpoints.countries,

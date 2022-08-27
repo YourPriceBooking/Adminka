@@ -2,13 +2,7 @@ import { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from
 import { useAppDispatch, useAppSelector } from 'App';
 import { toast } from 'react-toastify';
 import type { EditCountry } from 'types/apis';
-import {
-  selectCountryById,
-  selectDev,
-  setActiveCountryId,
-  useDeleteCountryMutation,
-  useEditCountryMutation,
-} from 'features/countries';
+import { selectCountryById, setActiveCountryId, useEditCountryMutation } from 'features/countries';
 import type { EntityId } from '@reduxjs/toolkit';
 import {
   selectActiveLangCode,
@@ -36,13 +30,11 @@ export const EditCountryForm = ({
   countryItem: { countryId, closeCountriesList, isEditingCountry, setIsEditingCountry, isLoading },
 }: EditCountryFormType) => {
   const [editCountry, { isLoading: isLoadingEditedCountry }] = useEditCountryMutation();
-  const [deleteCountry, { isLoading: isDeletingCountry }] = useDeleteCountryMutation();
 
   const countryObj = useAppSelector(state => selectCountryById(state, countryId));
   const activeLangId = useAppSelector(selectActiveLanguageId);
   const activeLangCode = useAppSelector(selectActiveLangCode);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
-  const showDev = useAppSelector(selectDev);
   const [localCountryName, setLocalCountryName] = useState(countryObj?.country);
   const [inputDisabled, setInputDisabled] = useState(true);
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
@@ -50,18 +42,6 @@ export const EditCountryForm = ({
   const formRef = useRef<HTMLFormElement>(null);
 
   const appDispatch = useAppDispatch();
-
-  const onDeleteCountry = useCallback(async () => {
-    if (!countryObj?._id) return;
-
-    try {
-      await deleteCountry(countryObj?._id).unwrap();
-      appDispatch(setActiveCountryId());
-      toast.success(`Country deleted`);
-    } catch (error) {
-      toast.error(`Error while deleting country with _id: ${countryObj?._id}`);
-    }
-  }, [countryObj?._id, appDispatch, deleteCountry]);
 
   const startEditing = useCallback(() => {
     if (isEditingCountry) return;
@@ -116,9 +96,9 @@ export const EditCountryForm = ({
   }, [countryObj?.country, inputDisabled, stopEditing]);
 
   if (!countryObj) return null;
-  const { _id: id, country, international } = countryObj;
+  const { _id: id, country, international, langCode } = countryObj;
 
-  const isPending = isLoading || isLoadingEditedCountry || isDeletingCountry;
+  const isPending = isLoading || isLoadingEditedCountry;
   const isDisabledEdit = !inputDisabled || isPending;
   const isDisabledSubmit =
     !country ||
@@ -127,8 +107,6 @@ export const EditCountryForm = ({
     isPending ||
     !activeLangId ||
     !activeLangCode;
-
-  const isDeleteDisabled = isPending;
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -160,9 +138,7 @@ export const EditCountryForm = ({
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => setLocalCountryName(e.currentTarget.value);
 
-  const isFirstEdit = countryObj?.langCode === 'EN' && !isEng;
-
-  // countryObj
+  const isFirstEdit = langCode === 'EN' && !isEng;
 
   const editCountryFormInterface = (
     <CountryInputLabel onClick={onClickSetActiveCountryId}>
@@ -185,12 +161,6 @@ export const EditCountryForm = ({
       {!isSubmitButtonDisabled && (
         <button type="submit" disabled={isDisabledSubmit}>
           Done
-        </button>
-      )}
-
-      {showDev && (
-        <button type="button" onClick={onDeleteCountry} disabled={isDeleteDisabled}>
-          Delete
         </button>
       )}
     </>

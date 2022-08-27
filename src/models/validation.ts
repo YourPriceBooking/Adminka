@@ -11,9 +11,6 @@ export const addStateSchema = object({
     .min(12, 'statePhotoUrl min 12 char')
     .max(1024, 'statePhotoUrl max 1024 char')
     .required('statePhotoUrl is required'),
-  // date: date()
-  //   .min(new Date(2022, 8, 16), 'min 2000 year')
-  //   .default(() => new Date()),
 });
 
 export const normalizedLanguageSchema = object({

@@ -32,6 +32,7 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl,
 
+    //  TODO: 'ADD authorization'
     // prepareHeaders: (headers, { getState }) => {
     //   const token = getState().auth.token;
     //   if (token) {

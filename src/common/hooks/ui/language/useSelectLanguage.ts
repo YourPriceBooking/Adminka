@@ -14,7 +14,6 @@ export const useSetActiveLanguage = (closeModal: () => void) => {
       appDispatch(chooseLanguage(newActiveLanguageId));
 
       appDispatch(setActiveCountryId());
-      // if (activeLang.code === 'EN') { refetch() }
 
       closeModal();
     },

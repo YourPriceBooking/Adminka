@@ -5,9 +5,9 @@ import { countriesAdapter, countriesInitialState } from './countriesAdapter';
 import { selectCountriesResult } from './countriesApi';
 import { selectActiveCountryId } from './countriesSlice';
 
-// Creates memoized selector
+/** Creates memoized selector
+ * returns normalized state object with ids and entities */
 const selectCountriesData = createSelector(selectCountriesResult, result => result.data);
-// normalized state object with ids and entities
 
 export const {
   selectEntities: selectCountriesEntities,
@@ -32,13 +32,3 @@ export const selectActiveCountryInternational = createSelector(
   selectActiveCountry,
   activeCountry => activeCountry?.international
 );
-
-// export const selectActiveCountryLangCode = createSelector(
-//   selectActiveCountry,
-//   activeCountry => activeCountry?.langCode
-// );
-
-// export const selectVisibleCountriesIds = createSelector(
-//   selectActiveCountry,
-//   activeCountry => activeCountry?.states
-// );

@@ -15,39 +15,6 @@ export const languagesApi = api.injectEndpoints({
     //   transformResponse: (result?: OneLanguageInArray) => saveOneLanguage(result),
     //   providesTags: (_, __, id) => tag(id, 'Language'),
 
-    // pessimistic updates https://redux-toolkit.js.org/rtk-query/usage/manual-cache-updates#pessimistic-updates
-    // onQueryStarted: async (id, { dispatch, queryFulfilled }) => {
-    //   let patchResult;
-    //   try {
-    //     const { data } = await queryFulfilled;
-    //     console.log({ data });
-    //     const lang = await isLanguage(data);
-    //     console.log({ lang });
-    //     if (!data || !lang) return;
-
-    //     patchResult = dispatch(
-    //       languagesApi.util.updateQueryData('getLanguages', undefined, draft => {
-    //         if (draft) {
-    //           console.log('onQueryStarted: ~ draft', draft);
-    //           const newLanguage = data.entities[id];
-    //           console.log('onQueryStarted: ~ newLanguage', newLanguage);
-    //           if (newLanguage) {
-    //             const patched = languagesAdapter.addOne(draft, newLanguage);
-    //             console.log('onQueryStarted: ~ patched', patched);
-    //           }
-    //         }
-    //       })
-    //     );
-    //     console.log('onQueryStarted: ~ patchResult', patchResult);
-    //   } catch {
-    //     if (!patchResult?.inversePatches) return;
-    //     dispatch(
-    //       languagesApi.util.patchQueryData('getLanguages', undefined, patchResult.inversePatches)
-    //     );
-    //   }
-    // },
-    // }),
-
     addLanguage: build.mutation<MaybeLanguagesEntity, AddLanguage>({
       query: body => ({
         url: endpoints.languages,
@@ -55,7 +22,6 @@ export const languagesApi = api.injectEndpoints({
         body,
       }),
       transformResponse: (result?: OneLanguageInArray) => saveOneLanguage(result),
-      // invalidatesTags: () => tag('LIST', 'Language'),
     }),
 
     deleteLanguage: build.mutation<MaybeLanguagesEntity, DeleteLanguage>({
@@ -69,11 +35,10 @@ export const languagesApi = api.injectEndpoints({
     }),
   }),
 });
-// useLazyGetCountriesQuery;
+
 export const {
   useGetLanguagesQuery,
   useLazyGetLanguagesQuery,
-  // useLazyGetLanguageQuery,
   useAddLanguageMutation,
   useDeleteLanguageMutation,
 } = languagesApi;

@@ -7,8 +7,6 @@ export const Spinner = () => (
     radius="9"
     color="#212188"
     ariaLabel="three-dots-loading"
-    // wrapperStyle={{}}
-    // wrapperClassName=""
     visible
   />
 );

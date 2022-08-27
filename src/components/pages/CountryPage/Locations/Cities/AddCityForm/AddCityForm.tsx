@@ -47,11 +47,6 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
       return;
     }
 
-    // if (citiesNames?.find(existingCityName => existingCityName === cityName)) {
-    //   toast.info(`${cityName} exists. Fill new 'name'`);
-    //   return;
-    // }
-
     const newCity: AddCity = {
       stateId,
       stateInternational,

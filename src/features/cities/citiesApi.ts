@@ -31,7 +31,6 @@ export const citiesApi = api.injectEndpoints({
         body,
       }),
       transformResponse: (result: OneCity) => saveOneCity(result),
-      // invalidatesTags: tag('LIST', 'City'),
     }),
 
     editCity: build.mutation<MaybeCitiesEntity, EditCity>({

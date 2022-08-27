@@ -9,11 +9,6 @@ export const statesAdapter = createEntityAdapter<StateWithCitiesIds>({
 
 export const statesInitialState = statesAdapter.getInitialState();
 
-// export const saveManyStates = (result?: ManyStates) => {
-//   const states = getManyStates(result);
-//   return states ? statesAdapter.setAll(statesInitialState, states) : undefined;
-// };
-
 /** @returns object { ids; entities } saved to RTK Query endpoint via statesAdapter.setAll */
 export const saveManyStates = (result?: ManyStates) => {
   const states = getManyStates(result);

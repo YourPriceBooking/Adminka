@@ -75,7 +75,6 @@ $color_hover_background: #e5e5e5;
 .lang_container {
   min-width: 250px;
   height: 59px;
-  // box-shadow: 0px 0px 9px 2px rgba(0, 0, 0, 0.25);
 }
 .lang_block_input1 {
   @extend %text-style-component-navigation;
@@ -87,23 +86,6 @@ $color_hover_background: #e5e5e5;
   text-transform: uppercase;
   @extend %text-style-component-navigation;
 }
-//.lang_block_select {
-// background: #ffffff;
-// border: 1px solid #787878;
-// box-sizing: border-box;
-// border-radius: 10px;
-// text-transform: uppercase;
-// margin-left: 30px;
-// max-height: 50px;
-// margin-top: 20px;
-// &__option &:first-letter {
-//   text-transform: uppercase;
-// }
-
-//   &:hover {
-//     cursor: pointer;
-//   }
-// }
 
 /*  ===================================
 !!!!!!!        modal MENU  add language    !!!!!!!!!!!
@@ -111,9 +93,6 @@ $color_hover_background: #e5e5e5;
 */
 
 .container_add_lang {
-  // position: absolute;
-  // top: 128px;
-  // right: 120px;
   width: 368px;
 
   overflow: hidden;

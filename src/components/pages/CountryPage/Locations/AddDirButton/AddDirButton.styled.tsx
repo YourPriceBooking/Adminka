@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-// buttonAddLocation;
+
 export const AddDirButtonStyled = styled.button.attrs(
   ({ $isEnabled = false }: { $isEnabled?: boolean }) => ({
     $isEnabled,
@@ -20,7 +20,7 @@ export const AddDirButtonStyled = styled.button.attrs(
   color: #212121;
 
   text-align: center;
-  /* buttonAddDirHotelier */
+
   background-color: ${({ theme, $isEnabled }) =>
     $isEnabled ? theme.colors.bg.buttonAddDirHotelier : '#ddd'};
 

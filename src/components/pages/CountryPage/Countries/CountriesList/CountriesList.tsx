@@ -11,7 +11,7 @@ type CountriesListProps = {
 };
 
 export const CountriesList = ({
-  isEditingCountry, // 1
+  isEditingCountry,
   isLoading,
   setIsEditingCountry,
   closeCountriesList,

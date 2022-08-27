@@ -1,9 +1,8 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import { useAppSelector } from 'App';
 import { EditButton } from 'components/pages/CountryPage/Countries/EditButton';
-import { selectDev } from 'features/countries';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
-import { selectStateById, useDeleteStateMutation, useEditStateMutation } from 'features/states';
+import { selectStateById, useEditStateMutation } from 'features/states';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { EditState } from 'types/apis';
@@ -21,13 +20,9 @@ type EditStateFormProps = {
 
 export const EditStateForm = ({ stateId }: EditStateFormProps) => {
   const [editState, { isLoading }] = useEditStateMutation();
-  const [deleteState, { isLoading: isDeleting }] = useDeleteStateMutation();
   const stateObj = useAppSelector(state => selectStateById(state, stateId));
   const activeLangCode = useAppSelector(selectActiveLangCode);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
-  const showDev = useAppSelector(selectDev);
-
-  // const statesNames = emptyArr;
 
   const [isEditingState, setIsEditingState] = useState(false);
 
@@ -49,8 +44,6 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
     countryId,
     _id: id,
     international,
-    // createdAt,
-    // updatedAt,
     stateName,
     stateInternational,
     stateCode,
@@ -59,22 +52,11 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
   } = stateObj;
 
   const isInputDisabled = !isEditingState;
-  const isEditButtonDisabled = isEditingState || isLoading || isDeleting;
-  const addLocDisabled = isEditingState || isLoading || isDeleting;
+  const isEditButtonDisabled = isEditingState || isLoading;
+  const addLocDisabled = isEditingState || isLoading;
 
-  const isSubmitDisabled = isLoading || isDeleting;
+  const isSubmitDisabled = isLoading;
   const $isFirstEdit = langCode === 'EN' && !isEng;
-
-  const onDeleteState = async () => {
-    if (!id) return;
-
-    try {
-      await deleteState(id).unwrap();
-      toast.success(`State ${stateName} deleted`);
-    } catch (error) {
-      toast.error(`Error while deleting state with _id: ${id}`);
-    }
-  };
 
   const handleSubmitEditState = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -92,10 +74,6 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
       toast('Please provide photo url and State name');
       return;
     }
-    // if (statesNames.find(existingStateName => existingStateName === stateNameTrimmed)) {
-    //   toast.info(`${stateNameTrimmed} exists. Try another 'name'`);
-    //   return;
-    // }
 
     const updatedState: EditState = {
       countryId,
@@ -168,12 +146,6 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
         Add dir <br />
         for Users
       </AddDirButton>
-
-      {showDev && (
-        <button type="button" style={{ borderRadius: '50%' }} onClick={onDeleteState}>
-          X
-        </button>
-      )}
     </ButtonsOverlay>
   );
 

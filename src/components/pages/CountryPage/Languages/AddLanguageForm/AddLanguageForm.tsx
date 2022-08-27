@@ -125,12 +125,3 @@ export const AddLanguageForm = ({ closeModal, setActiveLanguage }: AddLanguageFo
     </form>
   );
 };
-
-// 'editCity'
-// 'editDistrict'
-// при переключенні мови треба пофіксити.
-
-// register 2
-// олівець не правильно відпрацював
-// після коригування
-// register 3
