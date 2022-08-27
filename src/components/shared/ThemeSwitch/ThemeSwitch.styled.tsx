@@ -19,9 +19,8 @@ export const ThemeSwitchStyled = styled.div`
 export const ThemeSwitchButtonLight = styled.button`
   padding: 2px 8px;
   font-size: clamp(16px, 2vw, 24px);
-
-  border-radius: 20px;
   background-color: #ededed;
+  border-radius: 20px;
 `;
 
 export const ThemeSwitchButtonDark = styled(ThemeSwitchButtonLight)`

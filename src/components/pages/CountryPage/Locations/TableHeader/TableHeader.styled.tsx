@@ -20,9 +20,9 @@ export const HeadingsItem = styled.li`
 `;
 
 export const HeadingsText = styled.p`
-  font-family: ${({ theme }) => theme.fonts.roboto};
-  font-size: 20px;
   font-weight: 500;
+  font-size: 20px;
   line-height: 23px;
+  font-family: ${({ theme }) => theme.fonts.roboto};
   color: ${({ theme }) => theme.colors.textThird};
 `;

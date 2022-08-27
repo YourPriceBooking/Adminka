@@ -11,6 +11,7 @@ export const CountriesStyled = styled.div`
   &.page-fade-enter {
     animation: ${slideInLeft} 0.2s forwards;
   }
+
   &.page-fade-exit {
     animation: ${slideOutLeft} 0.2s forwards;
   }
@@ -26,9 +27,9 @@ export const ShowEditorButton = styled.button`
   height: 59px;
   padding: 12px 18px;
 
-  font-family: ${({ theme }) => theme.fonts.segoe};
   font-size: 27px;
   line-height: 1.33;
+  font-family: ${({ theme }) => theme.fonts.segoe};
   color: ${({ theme }) => theme.colors.textThird};
   text-align: start;
 

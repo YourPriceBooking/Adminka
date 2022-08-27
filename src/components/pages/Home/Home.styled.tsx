@@ -8,6 +8,7 @@ export const HomeStyled = styled.section`
   &.page-fade-enter {
     animation: ${slideInLeft} 0.2s forwards;
   }
+
   &.page-fade-exit {
     animation: ${slideOutLeft} 0.2s forwards;
   }
@@ -62,7 +63,7 @@ export const HomeNavItem = styled.li`
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.border.list};
   border-radius: 9px;
-  box-shadow: 0px 0px 9px 2px ${({ theme }) => theme.shadows.quarterBlack};
+  box-shadow: 0 0 9px 2px ${({ theme }) => theme.shadows.quarterBlack};
 `;
 
 export const Link = styled(RouterLink)`
@@ -73,7 +74,7 @@ export const Link = styled(RouterLink)`
   font-family: ${({ theme }) => theme.fonts.roboto};
   font-size: 27px;
   font-weight: 500;
-  line-height: 1.18; // 32px
+  line-height: 1.18;
   color: ${({ theme }) => theme.colors.black};
   text-align: center;
 
@@ -89,7 +90,7 @@ export const TextAccent = styled.p`
   font-family: ${({ theme }) => theme.fonts.roboto};
   font-size: 50px;
   font-weight: 300;
-  line-height: 1.18; // 59px
+  line-height: 1.18;
   color: ${({ theme }) => theme.colors.textSecond};
   text-decoration: none;
   letter-spacing: 0.255em;

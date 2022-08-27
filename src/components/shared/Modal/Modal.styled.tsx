@@ -8,8 +8,8 @@ export const BackdropStyled = styled.div`
 
   display: flex;
   padding: 40px 20px;
-
   overflow-y: scroll;
+
   background-color: ${({ theme }) => theme.colors.bgTransparent.buttonCancelDeleteHover};
   opacity: 0.99;
 
@@ -17,15 +17,15 @@ export const BackdropStyled = styled.div`
   transition-property: visibility, opacity, transform;
 
   &.isHidden {
-    opacity: 0;
     visibility: hidden;
+    opacity: 0;
   }
 `;
 
 export const ModalStyled = styled.div`
   position: relative;
-  min-height: 277px;
 
+  min-height: 277px;
   margin: auto;
 
   /* background-color: ${({ theme }) => theme.colors.white}; */
@@ -47,13 +47,11 @@ export const CloseModalButtonStyled = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-
   width: 32px;
   height: 32px;
   padding: 0;
 
   color: ${({ theme }) => theme.colors.textThird};
-  fill: currentColor;
 
   background-color: ${({ theme }) => theme.colors.bg.buttonEdit};
   border: 1px solid transparent;
@@ -61,6 +59,7 @@ export const CloseModalButtonStyled = styled.button`
 
   transition: ${({ theme }) => theme.transition[110]};
   transition-property: color, background-color;
+  fill: currentColor;
 
   &:hover:not(:disabled) {
     color: ${({ theme }) => theme.colors.textAccent};
@@ -75,7 +74,8 @@ export const CloseModalButtonStyled = styled.button`
 `;
 
 export const CloseModalIcon = styled(IconClose)`
-  fill: currentColor;
   width: 12px;
   height: 12px;
+
+  fill: currentColor;
 `;

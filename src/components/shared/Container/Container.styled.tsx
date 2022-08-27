@@ -2,8 +2,8 @@ import styled from 'styled-components/macro';
 
 export const ContainerStyled = styled.div`
   max-width: ${({ theme }) => theme.breakpoints.mobile};
-  padding: 0 20px;
   margin: 0 auto;
+  padding: 0 20px;
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     max-width: ${({ theme }) => theme.breakpoints.tablet};
@@ -26,7 +26,7 @@ export const ScrollContainerStyled = styled.div.attrs(
     scrollWidth,
   })
 )`
-  overflow-y: ${({ isModalOpen }) => (isModalOpen ? 'hidden' : 'scroll')};
-  margin-right: ${({ isModalOpen, scrollWidth }) => isModalOpen && `${scrollWidth}px`};
   min-height: 100vh;
+  margin-right: ${({ isModalOpen, scrollWidth }) => isModalOpen && `${scrollWidth}px`};
+  overflow-y: ${({ isModalOpen }) => (isModalOpen ? 'hidden' : 'scroll')};
 `;

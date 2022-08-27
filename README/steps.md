@@ -92,5 +92,8 @@ yarn add react-loader-spinner
   stylelint-config-styled-components \
   stylelint-config-recommended \
   stylelint-config-standard \
-  stylelint-config-prettier)
+  stylelint-config-prettier \
+  stylelint-a11y \
+  stylelint-order \
+  stylelint-config-rational-order)
 ```

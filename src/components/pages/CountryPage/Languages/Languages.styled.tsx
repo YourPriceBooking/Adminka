@@ -18,12 +18,11 @@ export const ShowLanguagesButton = styled.button`
     width: 369px;
   }
 
-  font-family: ${({ theme }) => theme.fonts.segoe};
   font-size: 27px;
   line-height: 1.33;
+  font-family: ${({ theme }) => theme.fonts.segoe};
   color: ${({ theme }) => theme.colors.textThird};
   text-align: start;
-
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.border.list};
   border-radius: 10px;
@@ -37,13 +36,13 @@ export const ShowLanguagesButton = styled.button`
   }
 
   &::after {
-    content: '';
-
     position: absolute;
     right: 12px;
     z-index: 2;
+
     width: 20px;
     height: 20px;
+    content: '';
 
     background-image: url(${iconCheckmark});
     background-repeat: no-repeat;

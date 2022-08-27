@@ -7,8 +7,8 @@ export const AppStyled = styled.div`
 
 export const slideInLeft = keyframes`
   from {
-    transform: translate3d(-100%, 0, 0);
     visibility: visible;
+    transform: translate3d(-100%, 0, 0);
   }
 
   to {
@@ -67,27 +67,27 @@ export const DevIndicator = styled.div`
   transform: rotate(45deg);
 
   &::before {
-    content: '';
-
     position: absolute;
     bottom: 0;
     left: -32px;
 
     width: 0;
     height: 0;
-    border-left: 32px solid transparent;
+    content: '';
+
     border-bottom: 32px solid ${tomato};
+    border-left: 32px solid transparent;
   }
 
   &::after {
-    content: '';
-
     position: absolute;
-    bottom: 0;
     right: -32px;
+    bottom: 0;
 
     width: 0;
     height: 0;
+    content: '';
+
     border-right: 32px solid transparent;
     border-bottom: 32px solid ${tomato};
   }

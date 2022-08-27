@@ -17,6 +17,6 @@ export const CountryInputLabel = styled.label`
 
 export const EditCountryInput = styled.input`
   width: 100%;
-  font-size: 20px;
   padding: 4px 8px;
+  font-size: 20px;
 `;

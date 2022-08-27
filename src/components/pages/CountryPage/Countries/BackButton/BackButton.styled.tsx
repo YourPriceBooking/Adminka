@@ -7,8 +7,8 @@ export const BackButtonStyled = styled.button`
 
   width: 70px;
   height: 49px;
-  padding: 10px;
   margin-right: 8px;
+  padding: 10px;
 
   background-color: transparent;
   border: 1px solid transparent;

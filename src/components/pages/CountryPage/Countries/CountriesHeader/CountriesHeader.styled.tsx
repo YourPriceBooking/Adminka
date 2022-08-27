@@ -7,13 +7,13 @@ export const CountriesHeaderStyled = styled.header`
   align-items: center;
   gap: 12px;
 
-  padding-top: 16px;
   margin-bottom: 16px;
+  padding-top: 16px;
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     gap: 20px;
-    padding-top: 32px;
     margin-bottom: 28px;
+    padding-top: 32px;
   }
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {

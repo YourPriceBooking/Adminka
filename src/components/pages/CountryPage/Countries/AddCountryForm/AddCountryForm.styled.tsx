@@ -7,8 +7,8 @@ export const AddCountryFormStyled = styled.form`
   padding: 16px;
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    gap: 50px;
-    padding: 20px 55px 28px;
+    gap: 52px;
+    padding: 20px 56px 28px;
   }
 `;
 
@@ -16,16 +16,13 @@ export const AddCountryText = styled.p`
   /* width: 150px; */
 
   font-family: ${({ theme }) => theme.fonts.segoe};
-  font-style: normal;
-  font-weight: 400;
   font-size: 24px;
-  line-height: 32px;
+  line-height: 1.33;
   text-align: justify;
-
-  color: #4c4c4c;
+  color: ${({ theme }) => theme.colors.textThird};
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    width: 274px;
+    width: 272px;
   }
 `;
 
@@ -44,8 +41,8 @@ export const AddCountryInput = styled.input`
   height: 42px;
   padding: 8px;
 
-  background-color: #ffffff;
-  border: 1px solid #787878;
+  background-color: ${({ theme }) => theme.colors.white};
+  border: 1px solid ${({ theme }) => theme.colors.border.list};
   border-radius: 10px;
 `;
 
@@ -56,31 +53,31 @@ export const AddCountryButton = styled.button`
   align-self: center;
 
   width: 154px;
-  height: 42.29px;
+  height: 42px;
 
   font-family: ${({ theme }) => theme.fonts.segoe};
   font-style: normal;
   font-weight: 700;
   font-size: 15px;
-  line-height: 20px;
+  line-height: 1.33;
   text-align: center;
 
-  color: #ffffff;
+  color: ${({ theme }) => theme.colors.white};
 
-  background-color: rgba(0, 144, 255, 0.7);
+  background-color: ${({ theme }) => theme.colors.bgTransparent.buttonSaveCountry};
   border: 1px solid transparent;
   border-radius: 3px;
 
   :disabled {
-    background-color: rgba(0, 144, 255, 0.5);
+    background-color: ${({ theme }) => theme.colors.bgTransparent.buttonSaveCountryDisabled};
   }
 
   :hover {
-    background-color: rgba(0, 144, 255, 0.9);
-    border-color: white;
+    background-color: ${({ theme }) => theme.colors.bgTransparent.buttonSaveCountryHover};
+    border-color: ${({ theme }) => theme.colors.white};
   }
 
   :active {
-    background-color: rgba(0, 144, 255, 0.3);
+    background-color: ${({ theme }) => theme.colors.bgTransparent.buttonSaveCountryActive};
   }
 `;
