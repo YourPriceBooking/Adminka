@@ -9,12 +9,12 @@ import {
   selectActiveLanguageId,
   selectIsEnglishActiveLang,
 } from 'features/languages';
+import { EditButton } from 'components/shared/Buttons';
 import {
   CountryInputLabel,
   EditCountryFormStyled,
   EditCountryInput,
 } from './EditCountryForm.styled';
-import { EditButton } from '../EditButton';
 
 export type EditCountryFormType = {
   countryItem: {

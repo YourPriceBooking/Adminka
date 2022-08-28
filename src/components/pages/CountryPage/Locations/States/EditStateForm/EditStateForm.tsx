@@ -1,6 +1,6 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import { useAppSelector } from 'App';
-import { EditButton } from 'components/pages/CountryPage/Countries/EditButton';
+import { EditButton } from 'components/shared/Buttons';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { selectStateById, useEditStateMutation } from 'features/states';
 import { FormEvent, useCallback, useState } from 'react';
