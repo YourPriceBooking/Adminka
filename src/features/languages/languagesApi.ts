@@ -1,5 +1,5 @@
 import type { AddLanguage, EditLanguage, ManyLanguages, MaybeLanguagesEntity } from 'types/apis';
-import { api, endpoints, OneLanguageInArray, tagList } from 'features/api';
+import { api, endpoints, OneLanguageInArray, tag, tagList } from 'features/api';
 import { saveOneLanguage, saveManyLanguages } from './languagesAdapter';
 
 export const languagesApi = api.injectEndpoints({
@@ -30,6 +30,7 @@ export const languagesApi = api.injectEndpoints({
         body,
       }),
       transformResponse: (result?: OneLanguageInArray) => saveOneLanguage(result),
+      invalidatesTags: (_, __, { _id }) => tag(_id, 'Language'),
     }),
   }),
 });

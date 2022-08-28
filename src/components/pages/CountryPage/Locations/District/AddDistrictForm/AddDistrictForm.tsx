@@ -1,15 +1,15 @@
+import type { AddDistrict } from 'types/apis';
 import type { EntityId } from '@reduxjs/toolkit';
+import { FormEvent, useCallback, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useAppSelector } from 'App';
 import { generateDistrictCode } from 'common/utils';
+import { SubmitAddLocationButton } from 'components/shared/Buttons';
 import { Spinner } from 'components/shared/Loader';
 import { selectCityById, useLazyGetCitiesQuery } from 'features/cities';
 import { useAddDistrictMutation, useLazyGetDistrictsQuery } from 'features/districts';
 import { selectIsEnglishActiveLang } from 'features/languages';
-import { FormEvent, useCallback, useState } from 'react';
-import { toast } from 'react-toastify';
-import type { AddDistrict } from 'types/apis';
 import { AddLocationButton } from '../../States/AddStateForm/AddStateForm.styled';
-import { SubmitAddLocationButton } from '../../States/EditStateForm/EditStateForm.styled';
 import { Row, AddDistrictFormStyled } from './AddDistrictForm.styled';
 
 export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {

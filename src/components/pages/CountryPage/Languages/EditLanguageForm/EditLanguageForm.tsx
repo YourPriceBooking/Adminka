@@ -1,50 +1,41 @@
-import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'App';
-import { toast } from 'react-toastify';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { EditLanguage, SelectLangType } from 'types/apis';
+import { FormEvent, RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { useAppSelector } from 'App';
+import { toast } from 'react-toastify';
 import {
-  chooseLanguage,
   selectActiveLangCode,
   selectActiveLanguageId,
-  selectIsEnglishActiveLang,
   selectLanguageById,
   useEditLanguageMutation,
 } from 'features/languages';
-import { EditLanguage } from 'types/apis';
-import { EditButton } from 'components/shared/Buttons';
+import { EditButton, SubmitAddLocationButton } from 'components/shared/Buttons';
+import { Spinner } from 'components/shared/Loader';
+import { isEdited } from 'common/utils';
 import {
   LanguageInputLabel,
   EditLanguageFormStyled,
   EditLanguageInput,
+  LanguageItemContent,
+  LangCodeStyled,
 } from './EditLanguageForm.styled';
 
 export type EditLanguageFormType = {
-  languageId: EntityId;
+  languageItem: {
+    languageId: EntityId;
+    setActiveLanguage: SelectLangType;
+  };
 };
 
-export const EditLanguageForm = ({ languageId }: EditLanguageFormType) => {
-  const [editLanguage, { isLoading: isLoadingEditedLanguage }] = useEditLanguageMutation();
+type OutsideClickProps = {
+  formRef: RefObject<HTMLFormElement>;
+  isEditingLanguage: boolean;
+  stopEditing: () => void;
+};
 
-  const languageObj = useAppSelector(state => selectLanguageById(state, languageId));
-  const activeLangId = useAppSelector(selectActiveLanguageId);
-  const activeLangCode = useAppSelector(selectActiveLangCode);
-  const isEng = useAppSelector(selectIsEnglishActiveLang);
-  const formRef = useRef<HTMLFormElement>(null);
-  const appDispatch = useAppDispatch();
-
-  const [isEditingLanguage, setIsEditingLanguage] = useState(false);
-  const startEditing = useCallback(() => setIsEditingLanguage(true), []);
-  const stopEditing = useCallback(() => setIsEditingLanguage(false), []);
-
-  const onClickChooseActiveLanguageId = useCallback(async () => {
-    if (isEditingLanguage) return;
-
-    appDispatch(chooseLanguage(languageObj?._id));
-    // closeLanguagesList(); TODO
-  }, [appDispatch, isEditingLanguage, languageObj?._id]);
-
+const useOnOutsideClickClose = ({ formRef, isEditingLanguage, stopEditing }: OutsideClickProps) => {
   useEffect(() => {
-    if (!isEditingLanguage) return () => {};
+    if (!isEditingLanguage) return () => undefined;
 
     const onOutsideFormClickReset = (e: MouseEvent) => {
       const { target } = e;
@@ -69,10 +60,34 @@ export const EditLanguageForm = ({ languageId }: EditLanguageFormType) => {
     };
 
     return clear;
-  }, [isEditingLanguage, languageObj?.lang, stopEditing]);
+  }, [formRef, isEditingLanguage, stopEditing]);
+};
 
-  if (!languageObj) return null;
-  const { _id: id, lang, code } = languageObj;
+export const EditLanguageForm = ({
+  languageItem: { languageId, setActiveLanguage },
+}: EditLanguageFormType) => {
+  const [editLanguage, { isLoading: isLoadingEditedLanguage }] = useEditLanguageMutation();
+
+  const languageObj = useAppSelector(state => selectLanguageById(state, languageId));
+  const activeLangId = useAppSelector(selectActiveLanguageId);
+  const activeLangCode = useAppSelector(selectActiveLangCode);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const [isEditingLanguage, setIsEditingLanguage] = useState(false);
+  const startEditing = useCallback(() => setIsEditingLanguage(true), []);
+  const stopEditing = useCallback(() => setIsEditingLanguage(false), []);
+
+  const onClickChooseActiveLanguageId = useCallback(async () => {
+    if (isEditingLanguage) return;
+
+    setActiveLanguage(languageObj?._id);
+  }, [isEditingLanguage, languageObj?._id, setActiveLanguage]);
+
+  useOnOutsideClickClose({ formRef, isEditingLanguage, stopEditing });
+
+  if (!languageObj || !Object.values(languageObj).every(Boolean)) return null;
+
+  const { _id: id, lang, code, createdAt, updatedAt } = languageObj;
 
   const isPending = isLoadingEditedLanguage;
   const isSubmitDisabled = !lang || !code || isPending || !activeLangId || !activeLangCode;
@@ -110,17 +125,24 @@ export const EditLanguageForm = ({ languageId }: EditLanguageFormType) => {
   };
 
   const editLanguageFormInterface = (
-    <LanguageInputLabel onClick={onClickChooseActiveLanguageId}>
-      <EditLanguageInput
-        type="text"
-        name="languageName"
-        defaultValue={lang}
-        disabled={!isEditingLanguage}
-      />
-    </LanguageInputLabel>
+    <LanguageItemContent onClick={onClickChooseActiveLanguageId}>
+      <LanguageInputLabel>
+        <EditLanguageInput
+          type="text"
+          name="languageName"
+          defaultValue={lang}
+          disabled={!isEditingLanguage}
+        />
+      </LanguageInputLabel>
+
+      <LangCodeStyled>{code}</LangCodeStyled>
+    </LanguageItemContent>
   );
 
-  const isFirstEdit = code === 'EN' && !isEng;
+  const isFirstEdit = !isEdited(createdAt, updatedAt);
+
+  const submitAddLocationButtonLabel = isPending ? <Spinner /> : 'Done';
+
   const showOverlay = (
     <>
       {!isEditingLanguage && (
@@ -128,9 +150,9 @@ export const EditLanguageForm = ({ languageId }: EditLanguageFormType) => {
       )}
 
       {isEditingLanguage && (
-        <button type="submit" disabled={isSubmitDisabled}>
-          Done
-        </button>
+        <SubmitAddLocationButton type="submit" disabled={isSubmitDisabled}>
+          {submitAddLocationButtonLabel}
+        </SubmitAddLocationButton>
       )}
     </>
   );

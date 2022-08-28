@@ -3,11 +3,10 @@ import type { EditCity } from 'types/apis';
 import { useAppSelector } from 'App';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import { EditButton } from 'components/shared/Buttons';
+import { EditButton, SubmitAddLocationButton } from 'components/shared/Buttons';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { selectCityById, useEditCityMutation } from 'features/cities';
 import { EditCityFormStyled, CityInfo, EditCityPhotoURLInput } from './EditCityForm.styled';
-import { SubmitAddLocationButton } from '../../States/EditStateForm/EditStateForm.styled';
 
 type EditCityFormProps = {
   cityId: EntityId;

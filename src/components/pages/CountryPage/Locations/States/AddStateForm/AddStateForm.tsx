@@ -1,5 +1,9 @@
+import type { AddState } from 'types/apis';
+import { FormEvent, useCallback, useState } from 'react';
 import { useAppSelector } from 'App';
+import { toast } from 'react-toastify';
 import { generateStateCode } from 'common/utils';
+import { SubmitAddLocationButton } from 'components/shared/Buttons';
 import { Spinner } from 'components/shared/Loader';
 import {
   selectActiveCountryId,
@@ -8,10 +12,6 @@ import {
 } from 'features/countries';
 import { selectIsEnglishActiveLang } from 'features/languages';
 import { useAddStateMutation, useLazyGetStatesQuery } from 'features/states';
-import { FormEvent, useCallback, useState } from 'react';
-import { toast } from 'react-toastify';
-import type { AddState } from 'types/apis';
-import { SubmitAddLocationButton } from '../EditStateForm/EditStateForm.styled';
 
 import { Row, AddLocationButton, AddStateFormStyled } from './AddStateForm.styled';
 

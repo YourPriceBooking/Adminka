@@ -1,18 +1,13 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import { useAppSelector } from 'App';
-import { EditButton } from 'components/shared/Buttons';
+import { EditButton, SubmitAddLocationButton } from 'components/shared/Buttons';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { selectStateById, useEditStateMutation } from 'features/states';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { EditState } from 'types/apis';
 import { AddDirButton } from '../../AddDirButton';
-import {
-  SubmitAddLocationButton,
-  EditStateFormStyled,
-  StateInfo,
-  ButtonsOverlay,
-} from './EditStateForm.styled';
+import { EditStateFormStyled, StateInfo, ButtonsOverlay } from './EditStateForm.styled';
 
 type EditStateFormProps = {
   stateId: EntityId;

@@ -1,12 +1,11 @@
-import { EntityId } from '@reduxjs/toolkit';
-import { useAppSelector } from 'App';
-import { EditButton } from 'components/shared/Buttons';
-import { selectDistrictById, useEditDistrictMutation } from 'features/districts';
-import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { EditDistrict } from 'types/apis';
 import { FormEvent, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
-import type { EditDistrict } from 'types/apis';
-import { SubmitAddLocationButton } from '../../States/EditStateForm/EditStateForm.styled';
+import { useAppSelector } from 'App';
+import { EditButton, SubmitAddLocationButton } from 'components/shared/Buttons';
+import { selectDistrictById, useEditDistrictMutation } from 'features/districts';
+import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import {
   EditDistrictFormStyled,
   DistrictInfo,
