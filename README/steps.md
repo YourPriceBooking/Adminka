@@ -58,3 +58,42 @@ yarn add -D eslint-config-airbnb-typescript
 ```bash
 yarn add -D prettier eslint-config-prettier eslint-plugin-prettier
 ```
+
+### 9️⃣ 2022-08-16 19:31
+
+```bash
+yarn add normalizr
+yarn upgrade
+
+yarn add -D @babel/core @testing-library/dom @babel/plugin-syntax-flow @babel/plugin-transform-react-jsx
+yarn add yup date-fns redux react-is
+```
+
+### 🔟 2022-08-21 12:02
+
+```bash
+yarn remove normalizr
+yarn add react-content-loader # 16:41
+```
+
+### 11 2022-08-24 22:32
+
+```bash
+yarn add react-window
+```
+
+### 12 2022-08-26 18:50
+
+```bash
+yarn add react-loader-spinner
+## 2022-08-27  02:15
+(yarn add -D \
+  stylelint \
+  stylelint-config-styled-components \
+  stylelint-config-recommended \
+  stylelint-config-standard \
+  stylelint-config-prettier \
+  stylelint-a11y \
+  stylelint-order \
+  stylelint-config-rational-order)
+```

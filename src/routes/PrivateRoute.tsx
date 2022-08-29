@@ -1,6 +1,6 @@
 import { Navigate, useLocation, Outlet } from 'react-router-dom';
-import { useAppSelector } from 'hooks/redux';
-import { selectIsLoggedIn } from 'redux/slices';
+import { useAppSelector } from 'App';
+import { selectIsLoggedIn } from 'features/common';
 
 type RouteType = {
   navigateTo?: string;

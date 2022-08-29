@@ -1,6 +1,6 @@
-import { useAppDispatch, useAppSelector } from 'hooks/redux/hooks';
+import { useAppDispatch, useAppSelector } from 'App';
 import { useCallback } from 'react';
-import { selectActiveTheme, setTheme } from 'redux/slices';
+import { selectActiveTheme, setTheme } from 'features/common';
 import {
   ThemeSwitchStyled,
   ThemeSwitchButtonLight,

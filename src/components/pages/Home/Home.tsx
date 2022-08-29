@@ -1,5 +1,5 @@
 import { Container } from 'components/shared/Container';
-import { useFromLocation } from 'hooks/navigation';
+import { useFromLocation } from 'common/hooks';
 import { memo, useMemo } from 'react';
 import { routes } from 'routes/routesConfig';
 

@@ -1,43 +1,30 @@
-import { FormEvent } from 'react';
-import type { State } from './locations';
+import type { FormEvent } from 'react';
+import type { EntityId, EntityState } from '@reduxjs/toolkit';
 
+export type SelectCountryType = EntityId | undefined;
 export type OnSubmitFormType = { onSubmit: (e: FormEvent<HTMLFormElement>) => void };
 export type OnSubmitType = (e: FormEvent<HTMLFormElement>) => void;
 
 export type Country = {
-  _id: string;
+  _id: EntityId;
   international: string;
   country: string;
+
   langCode: string;
   dbLangCode: string;
-  states: State[];
-  __v: number;
+
+  states: EntityId[];
+  createdAt: string;
+  updatedAt: string;
 };
 
-export type ActiveCountry = {
-  _id: string;
-  international: string;
-  country: string;
-  langCode: string;
-  dbLangCode: string;
-  __v: number;
-};
+export type AddCountry = Pick<Country, 'country' | 'international' | 'langCode'>;
+export type EditCountry = Pick<Country, '_id' | 'country' | 'langCode' | 'international'>;
 
-export type InitCountriesResponse = { data: { result: Country[] } };
-export type CountriesResponse = Country[];
+export type CountriesResponse = Country[] | [];
 
-export type AddCountry = {
-  country: string;
-  international: string;
-};
+export type CountriesEntity = EntityState<Country>;
+export type MaybeCountriesEntity = CountriesEntity | undefined;
 
-export type EditCountry = {
-  _id: string;
-  country: string;
-  langCode: string;
-  international?: string;
-};
-
-export type DeleteCountry = {
-  _id: string;
-};
+export type GetCountry = EntityId;
+export type DeleteCountry = EntityId;
