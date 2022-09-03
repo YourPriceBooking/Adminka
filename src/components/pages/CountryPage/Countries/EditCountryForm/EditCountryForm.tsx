@@ -1,4 +1,5 @@
-import { ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState } from 'react';
+import type { ChangeEvent, FormEvent } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'App';
 import { toast } from 'react-toastify';
 import type { EditCountry } from 'types/apis';
@@ -111,7 +112,7 @@ export const EditCountryForm = ({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isDisabledSubmit || !localCountryName?.trim()) return;
-    const editedCountryName = localCountryName?.trim();
+    const editedCountryName = localCountryName.trim();
     if (!editedCountryName) return;
 
     const editedCountry: EditCountry = {
@@ -123,10 +124,12 @@ export const EditCountryForm = ({
 
     try {
       const editedResponse = await editCountry(editedCountry).unwrap();
+      if (!editedResponse) return;
 
-      if (editedResponse) {
-        toast.success(`${editedResponse.entities[countryObj._id]?.country} country updated!`);
-      }
+      const updatedName = editedResponse.entities[countryObj._id]?.country;
+      if (!updatedName) return;
+
+      toast.success(`Country ${updatedName}  updated!`);
     } catch (error) {
       toast.error(JSON.stringify(error));
       setLocalCountryName(countryObj.country);

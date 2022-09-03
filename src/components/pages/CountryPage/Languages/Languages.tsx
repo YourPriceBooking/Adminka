@@ -1,4 +1,7 @@
-import { Modal } from 'components/shared/Modal/Modal';
+import type { ReactNode } from 'react';
+import type { EntityId } from '@reduxjs/toolkit';
+import { useEffect, useRef } from 'react';
+import { useAppDispatch, useAppSelector } from 'App';
 import { useModal, useSetActiveLanguage } from 'common/hooks';
 import {
   chooseLanguage,
@@ -6,9 +9,7 @@ import {
   selectLanguagesIds,
   useGetLanguagesQuery,
 } from 'features/languages';
-import { ReactNode, useEffect, useRef } from 'react';
-import { useAppDispatch, useAppSelector } from 'App';
-import { EntityId } from '@reduxjs/toolkit';
+import { Modal } from 'components/shared/Modal/Modal';
 import { ActiveLangButtonContainer } from './AdditionalItems';
 import { LanguagesList } from './LanguagesList';
 import { AddLanguageForm } from './AddLanguageForm';

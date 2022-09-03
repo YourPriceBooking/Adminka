@@ -29,12 +29,12 @@ export const slideOutLeft = keyframes`
 
 export const AppLoading = styled.div`
   position: fixed;
-  z-index: 10000;
+  z-index: ${({ theme }) => theme.zIndex.appLoading};
 
   width: 100vw;
   height: 100vh;
 
-  background-color: #c1d5e4;
+  background-color: ${({ theme }) => theme.colors.bg.body};
 
   /* animation: 500ms rotate infinite; */
 

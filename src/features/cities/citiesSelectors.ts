@@ -1,5 +1,5 @@
+import type { RootState } from 'App/store';
 import { createSelector } from '@reduxjs/toolkit';
-import { RootState } from 'App/store';
 import { citiesAdapter, citiesInitState } from './citiesAdapter';
 import { selectCitiesResult } from './citiesApi';
 

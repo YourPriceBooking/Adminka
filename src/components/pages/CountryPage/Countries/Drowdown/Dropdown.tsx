@@ -1,4 +1,5 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
+import type { RefObject } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from 'App';
 import { selectIsEnglishActiveLang } from 'features/languages';
 import { DropdownStyled } from './Dropdown.styled';

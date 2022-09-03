@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from 'App/store';
-import { MaybeLanguagesEntity } from 'types/apis';
+import type { MaybeLanguagesEntity } from 'types/apis';
 import { selectActiveLanguageId } from './languageSlice';
 import { languagesInitState, languagesAdapter } from './languagesAdapter';
 import { selectLanguagesResult } from './languagesApi';
@@ -21,7 +21,7 @@ export const {
 
 export const selectEnglishLanguageId = createSelector(
   selectAllLanguages,
-  languages => languages?.find(language => language?.code === 'EN')?._id
+  languages => languages.find(language => language.code === 'EN')?._id
 );
 
 export const selectActiveLanguage = createSelector(
@@ -51,10 +51,10 @@ export const selectVisibleCountriesIds = createSelector(
 );
 
 export const selectAllLanguagesCodes = createSelector(selectAllLanguages, allLanguages =>
-  allLanguages ? allLanguages.map(({ code }) => code) : undefined
+  allLanguages.map(({ code }) => code)
 );
 
 export const selectLanguageId = (language: MaybeLanguagesEntity, code: string) =>
   language?.entities
-    ? Object.values(language?.entities).find(langItem => langItem?.code === code)?._id
+    ? Object.values(language.entities).find(langItem => langItem?.code === code)?._id
     : undefined;

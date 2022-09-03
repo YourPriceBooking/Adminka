@@ -1,8 +1,8 @@
-import { District } from './district';
-import { City, CityWithDistrictsIds } from './cities';
-import { State, StateWithCitiesIds } from './states';
-import { Country } from './countries';
-import { Language } from './languages';
+import type { District } from './district';
+import type { City, CityWithDistrictsIds } from './cities';
+import type { State, StateWithCitiesIds } from './states';
+import type { Country } from './countries';
+import type { Language } from './languages';
 
 export type ManyDistricts = { data?: { districts?: District[] } };
 export type ManyCities = { data?: { cities?: City[] } };

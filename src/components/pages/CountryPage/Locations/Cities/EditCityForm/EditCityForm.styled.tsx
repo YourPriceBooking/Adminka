@@ -9,6 +9,7 @@ export const CityInfo = styled.div`
 `;
 
 export const EditCityFormStyled = styled.form`
+  position: relative;
   display: flex;
   align-items: flex-start;
 

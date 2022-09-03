@@ -1,5 +1,6 @@
 import type { AddLanguage, SelectLangType } from 'types/apis';
-import { FormEvent, useState } from 'react';
+import type { FormEvent } from 'react';
+import { useState } from 'react';
 
 import { toast } from 'react-toastify';
 import {
@@ -13,6 +14,7 @@ import { setActiveCountryId, useLazyGetCountriesQuery } from 'features/countries
 import { useLazyGetStatesQuery } from 'features/states';
 import { useLazyGetCitiesQuery } from 'features/cities';
 import { useLazyGetDistrictsQuery } from 'features/districts';
+import { wait } from 'common/utils';
 import slang from '../Languages.module.scss';
 
 type AddLanguageFormProps = {
@@ -49,7 +51,7 @@ export const AddLanguageForm = ({ closeModal, setActiveLanguage }: AddLanguageFo
     const code = localNewLangCode.trim().toUpperCase();
     if (!lang || !code) return;
 
-    if (allLanguagesCodes?.includes(code)) {
+    if (allLanguagesCodes.includes(code)) {
       toast.info(`Code ${code} exists. Enter a new one`);
       return;
     }
@@ -58,25 +60,29 @@ export const AddLanguageForm = ({ closeModal, setActiveLanguage }: AddLanguageFo
 
     try {
       const addedLanguage = await addLanguage(newLanguage).unwrap();
-
       if (!addedLanguage) return;
+
       const newLangId = selectLanguageId(addedLanguage, code);
-
       if (!newLangId) return;
-
-      setTimeout(async () => {
-        await getLanguages();
-        await getCountries();
-        await getStates();
-        await getCities();
-        await getDistricts();
-      }, 1700);
 
       setActiveLanguage(newLangId);
       appDispatch(setActiveCountryId());
-      toast.success(`${addedLanguage.entities[newLangId]?.lang} language added`);
-    } catch (error: any) {
-      toast.error(`Language not added ${error?.data?.message}`);
+
+      const addedLangName = addedLanguage.entities[newLangId]?.lang;
+      if (addedLangName) {
+        toast.success(`${addedLangName} language added`);
+      }
+
+      await wait(1700);
+      await getLanguages();
+      await getCountries();
+      await getStates();
+      await getCities();
+      await getDistricts();
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(`Add language error - double-check if language is added: ${err.message}`);
+      }
     } finally {
       setLocalNewLangName('');
       setLocalNewLangCode('');

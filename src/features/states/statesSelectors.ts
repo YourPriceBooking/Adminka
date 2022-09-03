@@ -1,4 +1,5 @@
-import { createSelector, EntityId } from '@reduxjs/toolkit';
+import type { EntityId } from '@reduxjs/toolkit';
+import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from 'App/store';
 import { selectActiveCountryId, selectCountriesEntities } from 'features/countries';
 import { statesAdapter, statesInitialState } from './statesAdapter';
@@ -14,7 +15,7 @@ export const {
 
 export const makeSelectStateInternational = (stateId: EntityId) =>
   createSelector(selectStatesEntities, statesEntities =>
-    stateId ? statesEntities?.[stateId]?.stateInternational : undefined
+    stateId ? statesEntities[stateId]?.stateInternational : undefined
   );
 
 export const selectStatesFromActiveCountry = createSelector(

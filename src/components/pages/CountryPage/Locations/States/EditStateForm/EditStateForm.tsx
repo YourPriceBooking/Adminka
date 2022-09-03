@@ -1,13 +1,13 @@
+import type { FormEvent } from 'react';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { EditState } from 'types/apis';
+import { useCallback, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useAppSelector } from 'App';
-import { EditButton, SubmitAddLocationButton } from 'components/shared/Buttons';
+import { ButtonsOverlay, EditButton, SubmitAddLocationButton } from 'components/shared/Buttons';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { selectStateById, useEditStateMutation } from 'features/states';
-import { FormEvent, useCallback, useState } from 'react';
-import { toast } from 'react-toastify';
-import { EditState } from 'types/apis';
-import { AddDirButton } from '../../AddDirButton';
-import { EditStateFormStyled, StateInfo, ButtonsOverlay } from './EditStateForm.styled';
+import { EditStateFormStyled, StateInfo } from './EditStateForm.styled';
 
 type EditStateFormProps = {
   stateId: EntityId;
@@ -22,16 +22,6 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
   const [isEditingState, setIsEditingState] = useState(false);
 
   const setIsEditingStateTrue = useCallback(() => setIsEditingState(true), []);
-
-  const addDir = useCallback(() => {
-    toast.success('TODO: Add Directory Fn');
-  }, []);
-
-  const addDirDisabled = isEditingState;
-
-  const addLoc = useCallback(() => {
-    toast.success('TODO: Add Location Fn');
-  }, []);
 
   if (!stateObj) return null;
 
@@ -48,7 +38,6 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
 
   const isInputDisabled = !isEditingState;
   const isEditButtonDisabled = isEditingState || isLoading;
-  const addLocDisabled = isEditingState || isLoading;
 
   const isSubmitDisabled = isLoading;
   const $isFirstEdit = langCode === 'EN' && !isEng;
@@ -85,8 +74,11 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
 
     try {
       const edited = await editState(updatedState).unwrap();
+      const editedStateName = edited?.entities[id]?.stateName;
+      if (editedStateName) {
+        toast.success(`${editedStateName} state updated!`);
+      }
 
-      toast.success(`${edited?.entities[id]?.stateName} state updated!`);
       setIsEditingState(false);
     } catch (error) {
       toast.error('Cannot save the State now');
@@ -131,16 +123,6 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
         onClick={setIsEditingStateTrue}
         disabled={isEditButtonDisabled}
       />
-
-      <AddDirButton onClick={addDir} disabled={addDirDisabled} $isEnabled>
-        Add Dir <br />
-        Hotelier
-      </AddDirButton>
-
-      <AddDirButton onClick={addLoc} disabled={addLocDisabled}>
-        Add dir <br />
-        for Users
-      </AddDirButton>
     </ButtonsOverlay>
   );
 

@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react';
+import type { MouseEvent } from 'react';
 import { EditButtonStyled, IconPencil } from './EditButton.styled';
 
 type EditButtonType = {

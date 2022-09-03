@@ -1,5 +1,5 @@
 import type { EntityId, EntityState } from '@reduxjs/toolkit';
-import { City } from './cities';
+import type { City } from './cities';
 
 export type State = {
   countryId: EntityId;

@@ -2,6 +2,7 @@ import { rgba } from 'polished';
 import 'styled-components';
 
 declare module 'styled-components' {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
   export interface DefaultTheme {
     breakpoints: {
       mobile: string;
@@ -105,15 +106,14 @@ declare module 'styled-components' {
     };
 
     zIndex: {
-      addCountryPage: {
-        addLanguageDropdown: number;
-        addCountryDropdown: number;
-        addLanguageModal: number;
+      countryPage: {
+        countriesDropdown: number;
+        languagesModal: number;
       };
 
       modal: number;
       toastify: number;
-      loading: number;
+      appLoading: number;
     };
   }
 }
@@ -145,7 +145,7 @@ const currentlyNotAssigned = {
   title: '#0090ff',
   textAccent: '#006bbe',
   textPrimary: '#656565',
-  textSecond: '#ff6000',
+  textSecond: '#ff6000' as const,
   textThird: '#4c4c4c',
   textFourth: '#a5a5a5',
   countdown: '#ff001f',
@@ -185,7 +185,7 @@ const bgNotAssigned = {
 };
 
 export const bgLight = {
-  body: '#C1D5E4',
+  body: '#C1D5E4' as const,
   ...bgNotAssigned,
 };
 
@@ -260,14 +260,13 @@ export const transition = {
 };
 
 export const zIndex = {
-  addCountryPage: {
-    addLanguageDropdown: 90,
-    addCountryDropdown: 100,
-    addLanguageModal: 1000, // Modal
+  countryPage: {
+    countriesDropdown: 100,
+    languagesModal: 1000, // Modal
   },
 
   modal: 1000, // Modal
   // closeModalButtonStyled: 1001,
   toastify: 9999,
-  loading: 10000,
+  appLoading: 10000,
 };

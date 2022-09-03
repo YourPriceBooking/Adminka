@@ -4,7 +4,7 @@ import type { Country, ManyCountries, OneCountry } from 'types/apis';
 
 export const countriesAdapter = createEntityAdapter<Country>({
   selectId: country => country._id,
-  sortComparer: (a, b) => b.createdAt?.localeCompare(a.createdAt),
+  sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt),
 });
 
 export const countriesInitialState = countriesAdapter.getInitialState();
@@ -12,7 +12,7 @@ export const countriesInitialState = countriesAdapter.getInitialState();
 /** @returns Saved to redux countries from countriesAdapter */
 export const saveManyCountries = (result?: ManyCountries) => {
   const countries = getManyCountries(result);
-  return countries ? countriesAdapter.setAll(countriesInitialState, countries) : undefined;
+  return countriesAdapter.setAll(countriesInitialState, countries);
 };
 
 /** @returns Saved to redux countries from countriesAdapter */

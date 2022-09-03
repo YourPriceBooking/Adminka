@@ -1,9 +1,10 @@
-import type { AddDistrict } from 'types/apis';
+import type { FormEvent } from 'react';
 import type { EntityId } from '@reduxjs/toolkit';
-import { FormEvent, useCallback, useState } from 'react';
+import type { AddDistrict } from 'types/apis';
+import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useAppSelector } from 'App';
-import { generateDistrictCode } from 'common/utils';
+import { generateDistrictCode, wait } from 'common/utils';
 import { SubmitAddLocationButton } from 'components/shared/Buttons';
 import { Spinner } from 'components/shared/Loader';
 import { selectCityById, useLazyGetCitiesQuery } from 'features/cities';
@@ -62,17 +63,17 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
 
     try {
       const addedDistrict = await addDistrict(newDistrict).unwrap();
+      if (!addedDistrict) return;
+
       const addedDistrictName =
-        addedDistrict?.entities?.[addedDistrict?.ids?.[0]]?.districtName === districtName;
+        addedDistrict.entities[addedDistrict.ids[0]]?.districtName === districtName;
+      if (!addedDistrictName) return;
 
-      if (addedDistrictName) {
-        toast.success(`District ${addedDistrictName} added`);
-      }
+      toast.success(`District ${districtName} added`);
 
-      setTimeout(async () => {
-        await getCities();
-        await getDistricts();
-      }, 1500);
+      await wait(1500);
+      await getCities();
+      await getDistricts();
     } catch (error) {
       toast.error('District not added');
     } finally {

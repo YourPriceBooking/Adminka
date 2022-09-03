@@ -1,9 +1,15 @@
+import type { FormEvent } from 'react';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { EditDistrict } from 'types/apis';
-import { FormEvent, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useAppSelector } from 'App';
-import { EditButton, SubmitAddLocationButton } from 'components/shared/Buttons';
+import {
+  AddDirButton,
+  ButtonsOverlay,
+  EditButton,
+  SubmitAddLocationButton,
+} from 'components/shared/Buttons';
 import { selectDistrictById, useEditDistrictMutation } from 'features/districts';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import {
@@ -26,6 +32,14 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
 
   const [isEditingDistrict, setIsEditingDistrict] = useState(false);
   const setIsEditingDistrictTrue = useCallback(() => setIsEditingDistrict(true), []);
+
+  const addDir = useCallback(() => {
+    toast.success('TODO: Add Directory Fn');
+  }, []);
+
+  const addLoc = useCallback(() => {
+    toast.success('TODO: Add Location Fn');
+  }, []);
 
   if (!activeLangCode || !district) return null;
 
@@ -132,12 +146,27 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
     </DistrictInfo>
   );
 
+  const addDirHotelierDisabled = false;
+  const addDirUsersDisabled = true;
+
   const showButtonsOverlay = !isEditingDistrict && (
-    <EditButton
-      $isFirstEdit={$isFirstEdit}
-      onClick={setIsEditingDistrictTrue}
-      disabled={isEditButtonDisabled}
-    />
+    <ButtonsOverlay>
+      <EditButton
+        $isFirstEdit={$isFirstEdit}
+        onClick={setIsEditingDistrictTrue}
+        disabled={isEditButtonDisabled}
+      />
+
+      <AddDirButton onClick={addDir} disabled={addDirHotelierDisabled} $isEnabled>
+        Add Dir <br />
+        Hotelier
+      </AddDirButton>
+
+      <AddDirButton onClick={addLoc} disabled={addDirUsersDisabled}>
+        Add Dir <br />
+        for Users
+      </AddDirButton>
+    </ButtonsOverlay>
   );
 
   const showSubmitButton = isEditingDistrict && (

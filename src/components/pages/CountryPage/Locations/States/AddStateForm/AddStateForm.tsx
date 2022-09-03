@@ -1,8 +1,9 @@
+import type { FormEvent } from 'react';
 import type { AddState } from 'types/apis';
-import { FormEvent, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useAppSelector } from 'App';
 import { toast } from 'react-toastify';
-import { generateStateCode } from 'common/utils';
+import { generateStateCode, wait } from 'common/utils';
 import { SubmitAddLocationButton } from 'components/shared/Buttons';
 import { Spinner } from 'components/shared/Loader';
 import {
@@ -61,24 +62,20 @@ export const AddStateForm = () => {
 
     try {
       const addedStateEntities = (await addState(newState).unwrap())?.entities;
+      if (!addedStateEntities) return;
 
-      if (addedStateEntities) {
-        toast.success(
-          `State ${
-            Object.values(addedStateEntities)?.find(
-              state => state?.stateInternational === stateName
-            )?.stateName
-          } added`
-        );
-      }
+      const addedStateName = Object.values(addedStateEntities).find(
+        state => state?.stateInternational === stateName
+      )?.stateName;
+      if (!addedStateName) return;
+
+      toast.success(`State ${addedStateName} added`);
 
       setIsRefetchingCountries(true);
-
-      setTimeout(async () => {
-        await getCountries();
-        await getStates();
-        setIsRefetchingCountries(false);
-      }, 1500);
+      await wait(1500);
+      await getCountries();
+      await getStates();
+      setIsRefetchingCountries(false);
     } catch (error) {
       toast.error('State not added');
     } finally {

@@ -1,9 +1,10 @@
+import type { FormEvent } from 'react';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { AddCity } from 'types/apis';
-import { FormEvent, useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useAppSelector } from 'App';
-import { generateCityCode } from 'common/utils';
+import { generateCityCode, wait } from 'common/utils';
 import { Spinner } from 'components/shared/Loader';
 import { useAddCityMutation, useLazyGetCitiesQuery } from 'features/cities';
 import { selectActiveLanguageId, selectIsEnglishActiveLang } from 'features/languages';
@@ -60,16 +61,16 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
 
     try {
       const addedCity = await addCity(newCity).unwrap();
-      const addedName = addedCity?.entities?.[addedCity?.ids?.[0]]?.cityName;
+      if (!addedCity) return;
 
-      if (addedName === cityName) {
-        toast.success(`City ${cityName} added`);
-      }
+      const addedName = addedCity.entities[addedCity.ids[0]]?.cityName === cityName;
+      if (!addedName) return;
 
-      setTimeout(async () => {
-        await getStates();
-        await getCities();
-      }, 1500);
+      toast.success(`City ${cityName} added`);
+
+      await wait(1500);
+      await getStates();
+      await getCities();
     } catch (error) {
       toast.error('City not added');
     } finally {

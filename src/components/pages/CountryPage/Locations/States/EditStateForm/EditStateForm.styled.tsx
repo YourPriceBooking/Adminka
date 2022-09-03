@@ -23,11 +23,3 @@ export const EditStateFormStyled = styled.form`
     gap: 20px;
   } */
 `;
-
-export const ButtonsOverlay = styled.div`
-  position: absolute;
-  top: 4px;
-  right: 8px;
-  display: flex;
-  gap: 4px;
-`;
