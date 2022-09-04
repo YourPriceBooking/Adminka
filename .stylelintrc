@@ -1,15 +1,20 @@
 {
   "processors": ["stylelint-processor-styled-components"],
   "extends": [
+    "stylelint-config-standard",
+    "stylelint-a11y/recommended",
     "stylelint-config-recommended",
     "stylelint-config-styled-components",
     "stylelint-config-prettier"
   ],
-  "plugins": ["stylelint-order", "stylelint-config-rational-order/plugin"],
+  "plugins": ["stylelint-order"],
   "rules": {
     "color-function-notation": "legacy",
     "alpha-value-notation": "number",
-    "value-keyword-case": ["lower", { "camelCaseSvgKeywords": true }],
+    "value-keyword-case": [
+      "lower",
+      { "camelCaseSvgKeywords": true, "ignoreKeywords": ["dummyValue"] }
+    ],
     "declaration-empty-line-before": [
       "always",
       {

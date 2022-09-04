@@ -1,7 +1,7 @@
 import type { FormEvent } from 'react';
+import { useRef, useCallback, useState } from 'react';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { EditDistrict } from 'types/apis';
-import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useAppSelector } from 'App';
 import {
@@ -12,10 +12,14 @@ import {
 } from 'components/shared/Buttons';
 import { selectDistrictById, useEditDistrictMutation } from 'features/districts';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
+import { useCloseOnOutsideClick } from 'common/hooks';
 import {
   EditDistrictFormStyled,
   DistrictInfo,
   EditDistrictPhotoURLInput,
+  DistrictNameLabel,
+  DistrictNameInput,
+  EditDistrictPhotoLabel,
 } from './EditDistrictForm.styled';
 
 type EditDistrictFormProps = {
@@ -30,8 +34,11 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
   const activeLangCode = useAppSelector(selectActiveLangCode);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
 
-  const [isEditingDistrict, setIsEditingDistrict] = useState(false);
-  const setIsEditingDistrictTrue = useCallback(() => setIsEditingDistrict(true), []);
+  const [isEditing, setIsEditing] = useState(false);
+  const startEditing = useCallback(() => setIsEditing(true), []);
+  const stopEditing = useCallback(() => setIsEditing(false), []);
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   const addDir = useCallback(() => {
     toast.success('TODO: Add Directory Fn');
@@ -40,6 +47,12 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
   const addLoc = useCallback(() => {
     toast.success('TODO: Add Location Fn');
   }, []);
+
+  useCloseOnOutsideClick({
+    isEditing,
+    stopEditing,
+    formRef,
+  });
 
   if (!activeLangCode || !district) return null;
 
@@ -59,8 +72,8 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
 
   const isPending = isEditingL1;
 
-  const isInputDisabled = !isEditingDistrict || isPending;
-  const isEditButtonDisabled = isEditingDistrict || isPending;
+  const isInputDisabled = !isEditing || isPending;
+  const isEditButtonDisabled = isEditing || isPending;
 
   const $isFirstEdit = langCode === 'EN' && !isEng;
 
@@ -109,7 +122,7 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
         toast.success(`District ${editedDistrictName} updated`);
       }
 
-      setIsEditingDistrict(false);
+      stopEditing();
     } catch (error) {
       toast.error('District not updated');
     }
@@ -117,9 +130,9 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
 
   const showEditDistrictFormInterface = (
     <DistrictInfo>
-      <label>
-        <span>District name</span>
-        <input
+      <DistrictNameLabel>
+        <span>District &nbsp;</span>
+        <DistrictNameInput
           type="text"
           name="districtName"
           defaultValue={districtName}
@@ -128,10 +141,10 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
           minLength={2}
           required
         />
-      </label>
+      </DistrictNameLabel>
 
-      <label>
-        <span>District photo URL</span>
+      <EditDistrictPhotoLabel>
+        <span>Photo</span>
         <EditDistrictPhotoURLInput
           type="url"
           name="districtPhotoURL"
@@ -142,18 +155,18 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
           required
           title={districtPhotoURL}
         />
-      </label>
+      </EditDistrictPhotoLabel>
     </DistrictInfo>
   );
 
   const addDirHotelierDisabled = false;
   const addDirUsersDisabled = true;
 
-  const showButtonsOverlay = !isEditingDistrict && (
-    <ButtonsOverlay>
+  const showEditButtons = !isEditing && (
+    <>
       <EditButton
         $isFirstEdit={$isFirstEdit}
-        onClick={setIsEditingDistrictTrue}
+        onClick={startEditing}
         disabled={isEditButtonDisabled}
       />
 
@@ -166,18 +179,26 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
         Add Dir <br />
         for Users
       </AddDirButton>
-    </ButtonsOverlay>
+    </>
   );
 
-  const showSubmitButton = isEditingDistrict && (
+  const showSubmitButton = isEditing && (
     <SubmitAddLocationButton type="submit">Done</SubmitAddLocationButton>
   );
 
-  return (
-    <EditDistrictFormStyled onSubmit={handleSubmitEditDistrict}>
-      {showEditDistrictFormInterface}
-      {showButtonsOverlay}
+  const showButtonsOverlay = (
+    <ButtonsOverlay $isEditing={isEditing}>
+      {showEditButtons}
+
       {showSubmitButton}
+    </ButtonsOverlay>
+  );
+
+  return (
+    <EditDistrictFormStyled onSubmit={handleSubmitEditDistrict} ref={formRef}>
+      {showEditDistrictFormInterface}
+
+      {showButtonsOverlay}
     </EditDistrictFormStyled>
   );
 };

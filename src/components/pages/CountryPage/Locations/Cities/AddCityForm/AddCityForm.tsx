@@ -1,7 +1,7 @@
 import type { FormEvent } from 'react';
+import { useRef, useCallback, useMemo, useState } from 'react';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { AddCity } from 'types/apis';
-import { useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useAppSelector } from 'App';
 import { generateCityCode, wait } from 'common/utils';
@@ -10,8 +10,16 @@ import { useAddCityMutation, useLazyGetCitiesQuery } from 'features/cities';
 import { selectActiveLanguageId, selectIsEnglishActiveLang } from 'features/languages';
 import { makeSelectStateInternational, useLazyGetStatesQuery } from 'features/states';
 import { SubmitAddLocationButton } from 'components/shared/Buttons';
+import { useCloseOnOutsideClick } from 'common/hooks';
 import { AddLocationButton } from '../../States/AddStateForm/AddStateForm.styled';
-import { Row, AddCityFormStyled } from './AddCityForm.styled';
+import {
+  Row,
+  AddCityFormStyled,
+  AddCityPhotoLabel,
+  AddCityPhotoInput,
+  AddCityNameLabel,
+  AddCityNameInput,
+} from './AddCityForm.styled';
 
 type AddCityFormProps = {
   stateId: EntityId;
@@ -28,10 +36,19 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
   const isEng = useAppSelector(selectIsEnglishActiveLang);
 
   const [isAddingCity, setIsAddingCity] = useState(false);
-  const setAddingCityTrue = useCallback(() => setIsAddingCity(true), []);
+  const startAdding = useCallback(() => setIsAddingCity(true), []);
+  const stopAdding = useCallback(() => setIsAddingCity(false), []);
 
   const isPending = isAddingL2 || isRefetchingStates || isRefetchingCities;
   const isSubmitDisabled = !activeLangId || !isEng || isPending;
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useCloseOnOutsideClick({
+    isEditing: isAddingCity,
+    stopEditing: stopAdding,
+    formRef,
+  });
 
   const handleSubmitAddCity = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -81,8 +98,8 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
   const submitAddCityButtonLabel = isPending ? <Spinner /> : 'Add Loc 2';
   const showAddLocationFormInterface = isAddingCity && (
     <Row>
-      <label>
-        <input
+      <AddCityPhotoLabel>
+        <AddCityPhotoInput
           type="url"
           name="cityPhotoURL"
           minLength={8}
@@ -90,13 +107,15 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
           required
           title="https://my-location.com/photo.jpg"
         />
-        <span>add a link to the photo</span>
-      </label>
+        <span>Add photo link</span>
+      </AddCityPhotoLabel>
 
-      <label>
-        <input type="text" name="cityName" minLength={3} maxLength={50} required />
-        <span>add the name of the city</span>
-      </label>
+      <AddCityNameLabel>
+        <AddCityNameInput type="text" name="cityName" minLength={3} maxLength={50} required />
+        <span>
+          Add <b>city</b> name
+        </span>
+      </AddCityNameLabel>
 
       <SubmitAddLocationButton type="submit" disabled={isPending}>
         {submitAddCityButtonLabel}
@@ -106,14 +125,15 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
 
   const addLocationButtonLabel = isPending ? <Spinner /> : '+2';
   const showAddLocationButton = isEng && !isAddingCity && !isPending && stateId && (
-    <AddLocationButton type="button" onClick={setAddingCityTrue}>
+    <AddLocationButton type="button" onClick={startAdding}>
       {addLocationButtonLabel}
     </AddLocationButton>
   );
 
   return (
-    <AddCityFormStyled onSubmit={handleSubmitAddCity}>
+    <AddCityFormStyled onSubmit={handleSubmitAddCity} ref={formRef}>
       {showAddLocationFormInterface}
+
       {showAddLocationButton}
     </AddCityFormStyled>
   );

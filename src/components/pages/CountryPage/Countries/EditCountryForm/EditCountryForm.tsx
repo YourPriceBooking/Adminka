@@ -1,5 +1,5 @@
 import type { ChangeEvent, FormEvent } from 'react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'App';
 import { toast } from 'react-toastify';
 import type { EditCountry } from 'types/apis';
@@ -11,6 +11,7 @@ import {
   selectIsEnglishActiveLang,
 } from 'features/languages';
 import { EditButton } from 'components/shared/Buttons';
+import { useCloseOnOutsideClick } from 'common/hooks';
 import {
   CountryInputLabel,
   EditCountryFormStyled,
@@ -67,34 +68,11 @@ export const EditCountryForm = ({
     closeCountriesList();
   }, [isEditingCountry, appDispatch, countryObj?._id, closeCountriesList]);
 
-  useEffect(() => {
-    if (inputDisabled) return () => {};
+  const resetName = useCallback(() => {
+    setLocalCountryName(countryObj?.country);
+  }, [countryObj?.country]);
 
-    const onOutsideFormClickReset = (e: MouseEvent) => {
-      const { target } = e;
-      if (!(target instanceof Node)) return;
-      if (formRef.current?.contains(target)) return;
-
-      formRef.current?.reset();
-      stopEditing();
-      setLocalCountryName(countryObj?.country);
-    };
-
-    const timer = setTimeout(() => {
-      document.addEventListener('mousedown', onOutsideFormClickReset, {
-        passive: true,
-        capture: true,
-      });
-    }, 0);
-
-    const clearGarbage = () => {
-      clearTimeout(timer);
-      document.removeEventListener('mousedown', onOutsideFormClickReset, { capture: true });
-      stopEditing();
-    };
-
-    return clearGarbage;
-  }, [countryObj?.country, inputDisabled, stopEditing]);
+  useCloseOnOutsideClick({ isEditing: !inputDisabled, cb: resetName, stopEditing, formRef });
 
   if (!countryObj) return null;
   const { _id: id, country, international, langCode } = countryObj;

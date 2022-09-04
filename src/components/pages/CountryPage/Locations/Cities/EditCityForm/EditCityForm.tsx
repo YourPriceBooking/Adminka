@@ -1,8 +1,8 @@
 import type { FormEvent } from 'react';
+import { useRef, useCallback, useState } from 'react';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { EditCity } from 'types/apis';
 import { useAppSelector } from 'App';
-import { useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import {
   AddDirButton,
@@ -12,7 +12,15 @@ import {
 } from 'components/shared/Buttons';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { selectCityById, useEditCityMutation } from 'features/cities';
-import { EditCityFormStyled, CityInfo, EditCityPhotoURLInput } from './EditCityForm.styled';
+import { useCloseOnOutsideClick } from 'common/hooks';
+import {
+  EditCityFormStyled,
+  CityInfo,
+  EditCityPhotoURLInput,
+  EditCityPhotoLabel,
+  CityNameLabel,
+  CityNameInput,
+} from './EditCityForm.styled';
 
 type EditCityFormProps = {
   cityId: EntityId;
@@ -25,7 +33,10 @@ export const EditCityForm = ({ cityId }: EditCityFormProps) => {
   const isEng = useAppSelector(selectIsEnglishActiveLang);
 
   const [isEditingCity, setIsEditingCity] = useState(false);
-  const setIsEditingCityTrue = useCallback(() => setIsEditingCity(true), []);
+  const startEditing = useCallback(() => setIsEditingCity(true), []);
+  const stopEditing = useCallback(() => setIsEditingCity(false), []);
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   const addDir = useCallback(() => {
     toast.success('TODO: Add Directory Fn');
@@ -34,6 +45,12 @@ export const EditCityForm = ({ cityId }: EditCityFormProps) => {
   const addLoc = useCallback(() => {
     toast.success('TODO: Add Location Fn');
   }, []);
+
+  useCloseOnOutsideClick({
+    isEditing: isEditingCity,
+    stopEditing,
+    formRef,
+  });
 
   if (!city || !activeLanguageCode) return null;
 
@@ -97,10 +114,10 @@ export const EditCityForm = ({ cityId }: EditCityFormProps) => {
 
   const showEditCityFormInterface = (
     <CityInfo>
-      <label>
-        <span>City name</span>
+      <CityNameLabel>
+        <span>City &nbsp;</span>
 
-        <input
+        <CityNameInput
           type="text"
           name="cityName"
           defaultValue={cityName}
@@ -109,10 +126,10 @@ export const EditCityForm = ({ cityId }: EditCityFormProps) => {
           minLength={2}
           required
         />
-      </label>
+      </CityNameLabel>
 
-      <label>
-        <span>City photo URL</span>
+      <EditCityPhotoLabel>
+        <span>Photo</span>
 
         <EditCityPhotoURLInput
           type="url"
@@ -124,18 +141,18 @@ export const EditCityForm = ({ cityId }: EditCityFormProps) => {
           required
           title={cityPhotoURL}
         />
-      </label>
+      </EditCityPhotoLabel>
     </CityInfo>
   );
 
   const addDirHotelierDisabled = false;
   const addDirUsersDisabled = true;
 
-  const showButtonsOverlay = !isEditingCity && (
-    <ButtonsOverlay>
+  const showEditButtons = !isEditingCity && (
+    <>
       <EditButton
         $isFirstEdit={$isFirstEdit}
-        onClick={setIsEditingCityTrue}
+        onClick={startEditing}
         disabled={isEditButtonDisabled}
       />
 
@@ -148,7 +165,7 @@ export const EditCityForm = ({ cityId }: EditCityFormProps) => {
         Add Dir <br />
         for Users
       </AddDirButton>
-    </ButtonsOverlay>
+    </>
   );
 
   const showSubmitButton = isEditingCity && (
@@ -157,13 +174,19 @@ export const EditCityForm = ({ cityId }: EditCityFormProps) => {
     </SubmitAddLocationButton>
   );
 
+  const showButtonsOverlay = (
+    <ButtonsOverlay $isEditing={isEditingCity}>
+      {showEditButtons}
+
+      {showSubmitButton}
+    </ButtonsOverlay>
+  );
+
   return (
-    <EditCityFormStyled onSubmit={handleSubmitEditCity}>
+    <EditCityFormStyled onSubmit={handleSubmitEditCity} ref={formRef}>
       {showEditCityFormInterface}
 
       {showButtonsOverlay}
-
-      {showSubmitButton}
     </EditCityFormStyled>
   );
 };

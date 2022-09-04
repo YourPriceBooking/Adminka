@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro';
+import { editInputBorder, inputFont } from '../EditStateForm/EditStateForm.styled';
 
 export const AddStateFormStyled = styled.form`
   padding: 12px 16px;
@@ -29,4 +30,18 @@ export const AddLocationButton = styled.button`
   border: none;
   border-radius: 2px;
   box-shadow: ${({ theme }) => theme.shadows.buttonAddLocation};
+`;
+
+export const AddStateNameLabel = styled.label``;
+
+export const AddStatePhotoLabel = styled.label``;
+
+export const AddStateNameInput = styled.input`
+  ${inputFont}
+
+  ${editInputBorder}
+`;
+
+export const AddStatePhotoInput = styled.input`
+  ${editInputBorder}
 `;

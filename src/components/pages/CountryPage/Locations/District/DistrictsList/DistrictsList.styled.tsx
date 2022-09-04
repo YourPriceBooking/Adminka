@@ -10,6 +10,5 @@ export const DistrictItemStyled = styled.li`
   display: flex;
   justify-content: space-between;
   gap: clamp(4px, 1.6vw, 8px);
-  max-width: 360px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border.list};
 `;
