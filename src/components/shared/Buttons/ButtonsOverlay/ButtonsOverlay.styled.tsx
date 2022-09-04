@@ -10,7 +10,7 @@ export const ButtonsOverlay = styled.div.attrs(({ $isEditing }: { $isEditing?: b
   align-items: center;
   gap: 8px;
 
-  opacity: ${({ $isEditing }) => ($isEditing ? 0.99 : 0.3)};
+  opacity: ${({ $isEditing }) => ($isEditing ? 0.99 : 0.6)};
 
   @media (prefers-reduced-motion: no-preference) {
     transition: opacity ${({ theme }) => theme.transition[110]};
