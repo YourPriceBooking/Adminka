@@ -21,7 +21,6 @@ module.exports = {
     'react-app/jest',
     'airbnb',
     'airbnb-typescript',
-    'plugin:react/jsx-runtime',
     'prettier',
   ],
   parser: '@typescript-eslint/parser',
@@ -37,6 +36,7 @@ module.exports = {
 
   plugins: ['react', '@typescript-eslint'],
   rules: {
+    'react/react-in-jsx-scope': 'off',
     'react/function-component-definition': [
       'warn',
       { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function' },
@@ -52,11 +52,7 @@ module.exports = {
     '@typescript-eslint/no-invalid-void-type': ['off'],
     '@typescript-eslint/no-misused-promises': [
       'error',
-      {
-        checksVoidReturn: {
-          attributes: false,
-        },
-      },
+      { checksVoidReturn: { attributes: false } },
     ],
 
     'jsx-a11y/label-has-associated-control': [
