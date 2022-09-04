@@ -1,16 +1,25 @@
-import type { AddDistrict } from 'types/apis';
+import type { FormEvent } from 'react';
+import { useRef, useCallback, useState } from 'react';
 import type { EntityId } from '@reduxjs/toolkit';
-import { FormEvent, useCallback, useState } from 'react';
+import type { AddDistrict } from 'types/apis';
 import { toast } from 'react-toastify';
 import { useAppSelector } from 'App';
-import { generateDistrictCode } from 'common/utils';
+import { generateDistrictCode, wait } from 'common/utils';
 import { SubmitAddLocationButton } from 'components/shared/Buttons';
 import { Spinner } from 'components/shared/Loader';
 import { selectCityById, useLazyGetCitiesQuery } from 'features/cities';
 import { useAddDistrictMutation, useLazyGetDistrictsQuery } from 'features/districts';
 import { selectIsEnglishActiveLang } from 'features/languages';
+import { useCloseOnOutsideClick } from 'common/hooks';
 import { AddLocationButton } from '../../States/AddStateForm/AddStateForm.styled';
-import { Row, AddDistrictFormStyled } from './AddDistrictForm.styled';
+import {
+  Row,
+  AddDistrictFormStyled,
+  AddDistrictPhotoLabel,
+  AddDistrictPhotoInput,
+  AddDistrictNameLabel,
+  AddDistrictNameInput,
+} from './AddDistrictForm.styled';
 
 export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
   const [addDistrict, { isLoading: isAddingL1 }] = useAddDistrictMutation();
@@ -20,10 +29,18 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
   const city = useAppSelector(state => selectCityById(state, cityId));
 
   const isEng = useAppSelector(selectIsEnglishActiveLang);
-  const [isAddingDistrict, setIsAddingDistrict] = useState(false);
 
-  const setAddingDistrictTrue = useCallback(() => setIsAddingDistrict(true), []);
-  const setAddingDistrictFalse = useCallback(() => setIsAddingDistrict(false), []);
+  const [isAddingDistrict, setIsAddingDistrict] = useState(false);
+  const startAdding = useCallback(() => setIsAddingDistrict(true), []);
+  const stopAdding = useCallback(() => setIsAddingDistrict(false), []);
+
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useCloseOnOutsideClick({
+    isEditing: isAddingDistrict,
+    stopEditing: stopAdding,
+    formRef,
+  });
 
   if (!city) return null;
 
@@ -62,21 +79,21 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
 
     try {
       const addedDistrict = await addDistrict(newDistrict).unwrap();
+      if (!addedDistrict) return;
+
       const addedDistrictName =
-        addedDistrict?.entities?.[addedDistrict?.ids?.[0]]?.districtName === districtName;
+        addedDistrict.entities[addedDistrict.ids[0]]?.districtName === districtName;
+      if (!addedDistrictName) return;
 
-      if (addedDistrictName) {
-        toast.success(`District ${addedDistrictName} added`);
-      }
+      toast.success(`District ${districtName} added`);
 
-      setTimeout(async () => {
-        await getCities();
-        await getDistricts();
-      }, 1500);
+      await wait(1500);
+      await getCities();
+      await getDistricts();
     } catch (error) {
       toast.error('District not added');
     } finally {
-      setAddingDistrictFalse();
+      stopAdding();
     }
   };
 
@@ -85,8 +102,8 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
 
   const showAddDistrictForm = isAddingDistrict && (
     <Row>
-      <label>
-        <input
+      <AddDistrictPhotoLabel>
+        <AddDistrictPhotoInput
           type="url"
           name="districtPhotoURL"
           minLength={8}
@@ -94,13 +111,22 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
           required
           title="https://my-location.com/photo.jpg"
         />
-        <p>add a link to the photo</p>
-      </label>
+        <p>Add photo link</p>
+      </AddDistrictPhotoLabel>
 
-      <label>
-        <input type="text" name="districtName" minLength={3} maxLength={50} required />
-        <p>add the name of the district</p>
-      </label>
+      <AddDistrictNameLabel>
+        <AddDistrictNameInput
+          type="text"
+          name="districtName"
+          minLength={3}
+          maxLength={50}
+          required
+        />
+
+        <p>
+          Add <b>district</b> name
+        </p>
+      </AddDistrictNameLabel>
 
       <SubmitAddLocationButton type="submit" disabled={isPending}>
         {submitAddLocationButtonLabel}
@@ -109,13 +135,13 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
   );
 
   const showAddDistrictButton = isEng && !isAddingDistrict && cityId && (
-    <AddLocationButton type="button" onClick={setAddingDistrictTrue} disabled={isPending}>
+    <AddLocationButton type="button" onClick={startAdding} disabled={isPending}>
       {addLocationButtonLabel}
     </AddLocationButton>
   );
 
   return (
-    <AddDistrictFormStyled onSubmit={handleSubmitAddDistrict}>
+    <AddDistrictFormStyled onSubmit={handleSubmitAddDistrict} ref={formRef}>
       {showAddDistrictForm}
       {showAddDistrictButton}
     </AddDistrictFormStyled>

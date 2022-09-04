@@ -1,4 +1,5 @@
-import { MouseEventHandler, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import type { MouseEventHandler, ReactNode } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { getRefs } from 'common/utils';
@@ -46,8 +47,6 @@ export const Modal = ({ closeModal, children }: ModalProps) => {
   useEffect(() => {
     closeModalButtonRef.current?.focus();
   }, []);
-
-  if (!modalRoot) return <div>{'Add <div id="modal-root"></div> to index.html'}</div>;
 
   const className = isMounted ? '' : 'isHidden';
 

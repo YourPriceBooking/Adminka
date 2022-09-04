@@ -7,12 +7,21 @@ export const CitiesListStyled = styled.ul`
 `;
 
 export const CityItemStyled = styled.li`
-  display: flex;
-  justify-content: space-between;
-  gap: clamp(4px, 1.6vw, 8px);
+  position: relative;
+
   max-width: 360px;
 
   border-bottom: 1px solid ${({ theme }) => theme.colors.border.list};
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    display: grid;
+    align-items: center;
+    justify-content: space-between;
+    grid-template-columns: 100% 110%;
+
+    border-right: 1px solid ${({ theme }) => theme.colors.borderTransparent.bgBlock};
+    border-left: 1px solid ${({ theme }) => theme.colors.borderTransparent.bgBlock};
+  }
 `;
 
 /*

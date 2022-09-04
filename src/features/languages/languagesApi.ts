@@ -1,5 +1,6 @@
 import type { AddLanguage, EditLanguage, ManyLanguages, MaybeLanguagesEntity } from 'types/apis';
-import { api, endpoints, OneLanguageInArray, tag, tagList } from 'features/api';
+import type { OneLanguageInArray } from 'features/api';
+import { api, endpoints, tag, tagList } from 'features/api';
 import { saveOneLanguage, saveManyLanguages } from './languagesAdapter';
 
 export const languagesApi = api.injectEndpoints({

@@ -19,12 +19,12 @@ import {
 
 const { verification, translators, statistics, country } = routes;
 
-interface HomeNavListInterface {
+type HomeNavListInterface = {
   users: number;
   hoteliers: number;
   agents: number;
   objects: number;
-}
+};
 
 type StatItem = {
   text: {
@@ -41,7 +41,7 @@ type StatsListType = {
 
 const StatsList = ({ items }: StatsListType) => (
   <StatsListStyled>
-    {items?.map(({ text, data }) => (
+    {items.map(({ text, data }) => (
       <StatsListItem key={text.en}>
         <TextMedium>
           <span>{text.ru}</span>

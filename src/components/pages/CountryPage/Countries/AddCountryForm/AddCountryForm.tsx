@@ -1,3 +1,4 @@
+import type { FormEvent } from 'react';
 import type { AddCountry } from 'types/apis';
 import { useAppDispatch, useAppSelector } from 'App';
 import {
@@ -6,9 +7,10 @@ import {
   useLazyGetCountriesQuery,
 } from 'features/countries';
 import { selectIsEnglishActiveLang, useLazyGetLanguagesQuery } from 'features/languages';
-import { FormEvent, useEffect } from 'react';
+import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { Spinner } from 'components/shared/Loader';
+import { wait } from 'common/utils';
 import {
   AddCountryButton,
   AddCountryFormStyled,
@@ -66,20 +68,20 @@ export const AddCountryForm = ({ isLoading }: AddCountryFormProps) => {
 
     try {
       const addedCountry = await addCountryEng(newCountry).unwrap();
+      if (!addedCountry) return;
 
-      if (addedCountry) {
-        const newActiveCountryId = Object.values(addedCountry.entities).find(
-          countryObj => countryObj?.international === country
-        )?._id;
+      const newActiveCountryId = Object.values(addedCountry.entities).find(
+        countryObj => countryObj?.international === country
+      )?._id;
+      if (!newActiveCountryId) return;
 
-        if (newActiveCountryId) {
-          appDispatch(setActiveCountryId(newActiveCountryId));
-          setTimeout(async () => {
-            await getLanguages();
-            await getCountries();
-          }, 1000);
-        }
-      }
+      appDispatch(setActiveCountryId(newActiveCountryId));
+
+      toast.success(`Country ${country} added`);
+
+      await wait(1500);
+      await getLanguages();
+      await getCountries();
     } catch (error) {
       toast.error("Country not added. Let's try again");
     } finally {

@@ -1,6 +1,7 @@
 import { useFromLocation } from 'common/hooks';
 import { useAppDispatch } from 'App';
-import { FormEvent, useEffect } from 'react';
+import type { FormEvent } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { login, selectIsLoggedIn } from 'features/common';

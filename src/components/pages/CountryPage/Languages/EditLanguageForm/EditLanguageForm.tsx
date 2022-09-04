@@ -1,6 +1,7 @@
+import type { FormEvent, RefObject } from 'react';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { EditLanguage, SelectLangType } from 'types/apis';
-import { FormEvent, RefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAppSelector } from 'App';
 import { toast } from 'react-toastify';
 import {
@@ -113,10 +114,12 @@ export const EditLanguageForm = ({
 
     try {
       const editedResponse = await editLanguage(editedLanguage).unwrap();
+      if (!editedResponse) return;
 
-      if (editedResponse) {
-        toast.success(`Language ${editedResponse.entities[languageObj._id]?.lang} updated!`);
-      }
+      const updatedLanguageName = editedResponse.entities[languageObj._id]?.lang;
+      if (!updatedLanguageName) return;
+
+      toast.success(`Language ${updatedLanguageName} updated!`);
     } catch (error) {
       toast.error(JSON.stringify(error));
     } finally {

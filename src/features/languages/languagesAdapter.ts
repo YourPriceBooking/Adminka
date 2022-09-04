@@ -1,15 +1,11 @@
 import { createEntityAdapter } from '@reduxjs/toolkit';
-import {
-  getManyLanguages,
-  getOneLanguage,
-  getOneLanguageId,
-  OneLanguageInArray,
-} from 'features/api';
+import type { OneLanguageInArray } from 'features/api';
+import { getManyLanguages, getOneLanguage, getOneLanguageId } from 'features/api';
 import type { LanguageWithCountriesIds, ManyLanguages } from 'types/apis';
 
 export const languagesAdapter = createEntityAdapter<LanguageWithCountriesIds>({
   selectId: language => language._id,
-  sortComparer: (a, b) => b.createdAt?.localeCompare(a.createdAt),
+  sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt),
 });
 
 export const languagesInitState = languagesAdapter.getInitialState();
@@ -18,16 +14,12 @@ export const languagesInitState = languagesAdapter.getInitialState();
 export const saveManyLanguages = (result?: ManyLanguages) => {
   const languages = getManyLanguages(result);
 
-  const languagesWithoutNestedCountries = languages?.map(({ countries, ...language }) => ({
+  const languagesWithoutNestedCountries = languages.map(({ countries, ...language }) => ({
     ...language,
     countries: countries.map(({ _id }) => _id),
   }));
 
-  const saved = languagesWithoutNestedCountries
-    ? languagesAdapter.setAll(languagesInitState, languagesWithoutNestedCountries)
-    : undefined;
-
-  return saved;
+  return languagesAdapter.setAll(languagesInitState, languagesWithoutNestedCountries);
 };
 
 /** @returns object { ids; entities } saved to RTK Query endpoint via languagesAdapter.upsertOne */

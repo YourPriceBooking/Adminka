@@ -1,4 +1,4 @@
-import { EntityId } from '@reduxjs/toolkit';
+import type { EntityId } from '@reduxjs/toolkit';
 import { ListLoader } from 'components/shared/Loader/Loader';
 import { useGetLanguagesQuery } from 'features/languages';
 import type { SelectLangType } from 'types/apis';
@@ -13,7 +13,7 @@ type LanguagesListProps = {
 export const LanguagesList = ({ setActiveLanguage, languagesIds }: LanguagesListProps) => {
   const { isLoading } = useGetLanguagesQuery();
 
-  const showLanguagesList = !languagesIds?.length
+  const showLanguagesList = !languagesIds.length
     ? isLoading && <ListLoader height={320} />
     : languagesIds.map(languageId => (
         <LanguageItem key={languageId} languageItem={{ languageId, setActiveLanguage }} />

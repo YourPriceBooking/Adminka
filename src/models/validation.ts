@@ -1,4 +1,4 @@
-import { MaybeLanguagesEntity } from 'types/apis';
+import type { MaybeLanguagesEntity } from 'types/apis';
 import { array, object, string } from 'yup';
 
 export const addStateSchema = object({
@@ -21,7 +21,7 @@ export const normalizedLanguageSchema = object({
     code: string().min(1).max(20).required(),
     dbLangCode: string().optional(),
 
-    countries: array().of(string().min(1).max(1024)).optional(),
+    countries: array().of(string().min(1).max(1024)),
     createdAt: string().min(1).max(1024).optional(),
     updatedAt: string().min(1).max(1024).optional(),
   }),

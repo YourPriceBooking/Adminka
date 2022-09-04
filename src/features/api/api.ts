@@ -1,7 +1,7 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { RootState } from 'App/store';
-import {
+import type {
   MaybeCitiesEntity,
   MaybeCountriesEntity,
   MaybeDistrictsEntity,
@@ -24,8 +24,7 @@ const config = {
   qty: { one: 'one' as const, many: 'many' as const },
 };
 
-const localhost = 0;
-const baseUrl = localhost ? config.backend.localhost : config.backend.heroku;
+const baseUrl = config.backend.heroku; // config.backend.localhost;
 
 export const api = createApi({
   reducerPath: 'api',

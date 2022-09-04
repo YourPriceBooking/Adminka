@@ -1,3 +1,4 @@
+import type { DefaultTheme } from 'styled-components/macro';
 import { useMemo } from 'react';
 import { useAppSelector } from 'App';
 import { selectActiveTheme } from 'features/common';
@@ -16,7 +17,6 @@ import {
   transition,
   zIndex,
 } from 'styles/theme/theme';
-import { DefaultTheme } from 'styled-components/macro';
 
 export const partOfTheme = {};
 

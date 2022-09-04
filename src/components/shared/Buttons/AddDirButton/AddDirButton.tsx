@@ -1,4 +1,4 @@
-import { MouseEvent, ReactNode } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
 import { AddDirButtonStyled } from './AddDirButton.styled';
 
 type AddDirButtonType = {

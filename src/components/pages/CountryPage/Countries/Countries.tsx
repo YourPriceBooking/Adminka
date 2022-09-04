@@ -1,4 +1,5 @@
-import { ReactNode, RefObject, useCallback, useRef, useState } from 'react';
+import type { ReactNode, RefObject } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useAppSelector } from 'App';
 import { selectActiveCountryName, useGetCountriesQuery } from 'features/countries';
 import { CountriesStyled, CountryEditorWrapper, ShowEditorButton } from './Countries.styled';

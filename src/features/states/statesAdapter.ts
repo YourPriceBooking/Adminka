@@ -4,7 +4,7 @@ import type { ManyStates, OneState, StateWithCitiesIds } from 'types/apis';
 
 export const statesAdapter = createEntityAdapter<StateWithCitiesIds>({
   selectId: state => state._id,
-  sortComparer: (a, b) => b.createdAt?.localeCompare(a.createdAt),
+  sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt),
 });
 
 export const statesInitialState = statesAdapter.getInitialState();
@@ -13,16 +13,12 @@ export const statesInitialState = statesAdapter.getInitialState();
 export const saveManyStates = (result?: ManyStates) => {
   const states = getManyStates(result);
 
-  const statesWithoutNestedCities = states?.map(({ cities, ...state }) => ({
+  const statesWithoutNestedCities = states.map(({ cities, ...state }) => ({
     ...state,
     cities: cities.map(({ _id }) => _id),
   }));
 
-  const saved = statesWithoutNestedCities
-    ? statesAdapter.setAll(statesInitialState, statesWithoutNestedCities)
-    : undefined;
-
-  return saved;
+  return statesAdapter.setAll(statesInitialState, statesWithoutNestedCities);
 };
 
 export const saveOneState = (result?: OneState) => {

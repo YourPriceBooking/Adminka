@@ -4,7 +4,7 @@ import type { CityWithDistrictsIds, ManyCities, OneCity } from 'types/apis';
 
 export const citiesAdapter = createEntityAdapter<CityWithDistrictsIds>({
   selectId: city => city._id,
-  sortComparer: (a, b) => b.createdAt?.localeCompare(a.createdAt),
+  sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt),
 });
 
 export const citiesInitState = citiesAdapter.getInitialState();
@@ -13,16 +13,12 @@ export const citiesInitState = citiesAdapter.getInitialState();
 export const saveManyCities = (result?: ManyCities) => {
   const cities = getManyCities(result);
 
-  const citiesWithoutNestedDistricts = cities?.map(({ districts, ...city }) => ({
+  const citiesWithoutNestedDistricts = cities.map(({ districts, ...city }) => ({
     ...city,
     districts: districts.map(({ _id }) => _id),
   }));
 
-  const saved = citiesWithoutNestedDistricts
-    ? citiesAdapter.setAll(citiesInitState, citiesWithoutNestedDistricts)
-    : undefined;
-
-  return saved;
+  return citiesAdapter.setAll(citiesInitState, citiesWithoutNestedDistricts);
 };
 
 /** @returns object { ids; entities } saved to RTK Query endpoint via citiesAdapter.upsertOne */

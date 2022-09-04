@@ -1,13 +1,21 @@
+import type { FormEvent } from 'react';
+import { useRef, useCallback, useState } from 'react';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { EditState } from 'types/apis';
+import { toast } from 'react-toastify';
 import { useAppSelector } from 'App';
-import { EditButton, SubmitAddLocationButton } from 'components/shared/Buttons';
+import { ButtonsOverlay, EditButton, SubmitAddLocationButton } from 'components/shared/Buttons';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { selectStateById, useEditStateMutation } from 'features/states';
-import { FormEvent, useCallback, useState } from 'react';
-import { toast } from 'react-toastify';
-import { EditState } from 'types/apis';
-import { AddDirButton } from '../../AddDirButton';
-import { EditStateFormStyled, StateInfo, ButtonsOverlay } from './EditStateForm.styled';
+import { useCloseOnOutsideClick } from 'common/hooks';
+import {
+  EditStateFormStyled,
+  EditStatePhotoLabel,
+  EditStatePhotoURLInput,
+  StateInfo,
+  StateNameInput,
+  StateNameLabel,
+} from './EditStateForm.styled';
 
 type EditStateFormProps = {
   stateId: EntityId;
@@ -19,19 +27,18 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
   const activeLangCode = useAppSelector(selectActiveLangCode);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
 
-  const [isEditingState, setIsEditingState] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
-  const setIsEditingStateTrue = useCallback(() => setIsEditingState(true), []);
+  const startEditing = useCallback(() => setIsEditing(true), []);
+  const stopEditing = useCallback(() => setIsEditing(false), []);
 
-  const addDir = useCallback(() => {
-    toast.success('TODO: Add Directory Fn');
-  }, []);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const addDirDisabled = isEditingState;
-
-  const addLoc = useCallback(() => {
-    toast.success('TODO: Add Location Fn');
-  }, []);
+  useCloseOnOutsideClick({
+    isEditing,
+    stopEditing,
+    formRef,
+  });
 
   if (!stateObj) return null;
 
@@ -46,9 +53,8 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
     langCode,
   } = stateObj;
 
-  const isInputDisabled = !isEditingState;
-  const isEditButtonDisabled = isEditingState || isLoading;
-  const addLocDisabled = isEditingState || isLoading;
+  const isInputDisabled = !isEditing;
+  const isEditButtonDisabled = isEditing || isLoading;
 
   const isSubmitDisabled = isLoading;
   const $isFirstEdit = langCode === 'EN' && !isEng;
@@ -85,19 +91,22 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
 
     try {
       const edited = await editState(updatedState).unwrap();
-
-      toast.success(`${edited?.entities[id]?.stateName} state updated!`);
-      setIsEditingState(false);
+      const editedStateName = edited?.entities[id]?.stateName;
+      if (editedStateName) {
+        toast.success(`${editedStateName} state updated!`);
+      }
     } catch (error) {
       toast.error('Cannot save the State now');
+    } finally {
+      setIsEditing(false);
     }
   };
 
   const showEditStateFormInterface = (
     <StateInfo>
-      <label>
-        <p>State info</p>
-        <input
+      <StateNameLabel>
+        <span>State &nbsp;</span>
+        <StateNameInput
           type="text"
           name="stateName"
           defaultValue={stateName}
@@ -106,11 +115,11 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
           minLength={2}
           required
         />
-      </label>
+      </StateNameLabel>
 
-      <label>
-        <p>State photo URL</p>
-        <input
+      <EditStatePhotoLabel>
+        <span>Photo</span>
+        <EditStatePhotoURLInput
           type="url"
           name="statePhotoURL"
           defaultValue={statePhotoURL}
@@ -120,41 +129,37 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
           required
           title={statePhotoURL}
         />
-      </label>
+      </EditStatePhotoLabel>
     </StateInfo>
   );
 
-  const showButtonsOverlay = !isEditingState && (
-    <ButtonsOverlay>
-      <EditButton
-        $isFirstEdit={$isFirstEdit}
-        onClick={setIsEditingStateTrue}
-        disabled={isEditButtonDisabled}
-      />
-
-      <AddDirButton onClick={addDir} disabled={addDirDisabled} $isEnabled>
-        Add Dir <br />
-        Hotelier
-      </AddDirButton>
-
-      <AddDirButton onClick={addLoc} disabled={addLocDisabled}>
-        Add dir <br />
-        for Users
-      </AddDirButton>
-    </ButtonsOverlay>
+  const showEditButtons = !isEditing && (
+    <EditButton
+      $isFirstEdit={$isFirstEdit}
+      onClick={startEditing}
+      disabled={isEditButtonDisabled}
+    />
   );
 
-  const showSubmitButton = isEditingState && (
+  const showSubmitButton = isEditing && (
     <SubmitAddLocationButton type="submit" disabled={isSubmitDisabled}>
       Done
     </SubmitAddLocationButton>
   );
 
-  return (
-    <EditStateFormStyled onSubmit={handleSubmitEditState}>
-      {showEditStateFormInterface}
-      {showButtonsOverlay}
+  const showButtonsOverlay = (
+    <ButtonsOverlay $isEditing={isEditing}>
+      {showEditButtons}
+
       {showSubmitButton}
+    </ButtonsOverlay>
+  );
+
+  return (
+    <EditStateFormStyled onSubmit={handleSubmitEditState} ref={formRef}>
+      {showEditStateFormInterface}
+
+      {showButtonsOverlay}
     </EditStateFormStyled>
   );
 };
