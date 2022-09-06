@@ -20,7 +20,12 @@ const LoginPage = () => {
   const onLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    appDispatch(login());
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const password = formData.get('password')?.toString().trim();
+    if (!password) return;
+
+    appDispatch(login(password));
   };
 
   useEffect(() => {
@@ -32,6 +37,8 @@ const LoginPage = () => {
   return (
     <div style={style.container}>
       <form onSubmit={onLogin}>
+        <input type="password" name="password" />
+
         <button style={style.button} type="submit">
           Login
         </button>
