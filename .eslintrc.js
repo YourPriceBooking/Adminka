@@ -36,17 +36,19 @@ module.exports = {
 
   plugins: ['react', '@typescript-eslint'],
   rules: {
+    'import/prefer-default-export': 0,
+
+    'no-underscore-dangle': ['error', { allow: ['_id'] }],
+    'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['state'] }],
+
+    'react/prop-types': 0,
+    'react/require-default-props': 0,
     'react/react-in-jsx-scope': 'off',
     'react/function-component-definition': [
       'warn',
       { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function' },
     ],
 
-    'import/prefer-default-export': 0,
-    'no-underscore-dangle': ['error', { allow: ['_id'] }],
-    'react/prop-types': 0,
-    'react/require-default-props': 0,
-    'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['state'] }],
     '@typescript-eslint/consistent-type-imports': 'warn',
     '@typescript-eslint/consistent-type-definitions': ['warn', 'type'],
     '@typescript-eslint/no-invalid-void-type': ['off'],
