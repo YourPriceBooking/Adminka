@@ -1,8 +1,10 @@
 import { Navigate, Routes, Route } from 'react-router-dom';
+import { VerifierLogin } from 'components/pages/VerificationPage/VerifierLogin';
 import { routes } from './routesConfig';
 import { PrivateRoute } from './PrivateRoute';
 
-const { login, menu, country } = routes;
+
+const { login, menu, country, verification } = routes;
 
 export const AppRouter = () => (
   <Routes>
@@ -10,6 +12,8 @@ export const AppRouter = () => (
       <Route index element={<login.element.LoginPage />} />
 
       <Route element={<PrivateRoute />}>
+        <Route path={verification.path} element={<VerifierLogin />} />
+
         <Route path={menu.path} element={<menu.element />} />
         <Route path={country.path} element={<country.element />} />
         {/* <Route path="/location" element={<Location />} /> */}
