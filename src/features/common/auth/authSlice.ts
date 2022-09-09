@@ -1,3 +1,4 @@
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import type { RootState } from 'App/store';
 
@@ -12,8 +13,10 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login(state) {
-      state.isLoggedIn = true;
+    login(state, { payload }: PayloadAction<string>) {
+      if (payload === '333') {
+        state.isLoggedIn = true;
+      }
     },
 
     logout(state) {
