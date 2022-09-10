@@ -73,6 +73,7 @@ export const AddStateForm = () => {
       stateInternational: stateName,
       stateCode: generateStateCode(stateName),
       statePhotoURL,
+      statePhotoAlt: `${activeCountryInternational} ${stateName}`,
 
       langCode: 'EN',
     };

@@ -61,8 +61,9 @@ export const EditCityForm = ({ cityId }: EditCityFormProps) => {
     langCode,
     cityName,
     cityInternational,
-    cityPhotoURL,
     cityCode,
+    cityPhotoURL,
+    cityPhotoAlt,
   } = city;
 
   const isInputDisabled = !isEditingCity;
@@ -93,8 +94,9 @@ export const EditCityForm = ({ cityId }: EditCityFormProps) => {
       _id: id,
       cityName: cityNameTrimmed,
       cityInternational,
-      cityPhotoURL: cityPhotoURLTrimmed,
       cityCode,
+      cityPhotoURL: cityPhotoURLTrimmed,
+      cityPhotoAlt,
 
       langCode: activeLanguageCode,
     };

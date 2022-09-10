@@ -10,6 +10,7 @@ export type State = {
   stateInternational: string;
   stateCode: string;
   statePhotoURL: string;
+  statePhotoAlt: string;
 
   cities: City[];
   langCode: string;
@@ -19,46 +20,12 @@ export type State = {
   updatedAt: string;
 };
 
-export type StateWithCitiesIds = {
-  countryId: EntityId;
-  international: string;
-
-  _id: EntityId;
-  stateName: string;
-  stateInternational: string;
-  stateCode: string;
-  statePhotoURL: string;
-
+export type StateWithCitiesIds = Omit<State, 'cities'> & {
   cities: EntityId[];
-  langCode: string;
-  dbLangCode: string;
-
-  createdAt: string;
-  updatedAt: string;
 };
 
-export type AddState = Pick<
-  State,
-  | 'countryId'
-  | 'international'
-  | 'stateName'
-  | 'stateInternational'
-  | 'stateCode'
-  | 'statePhotoURL'
-  | 'langCode'
->;
-
-export type EditState = Pick<
-  State,
-  | 'countryId'
-  | '_id'
-  | 'stateName'
-  | 'statePhotoURL'
-  | 'langCode'
-  | 'stateInternational'
-  | 'stateCode'
-  | 'international'
->;
+export type AddState = Omit<State, '_id' | 'cities' | 'dbLangCode' | 'createdAt' | 'updatedAt'>;
+export type EditState = Omit<State, 'cities' | 'dbLangCode' | 'createdAt' | 'updatedAt'>;
 
 export type MaybeStatesEntity = EntityState<StateWithCitiesIds> | undefined;
 export type DeleteState = EntityId;

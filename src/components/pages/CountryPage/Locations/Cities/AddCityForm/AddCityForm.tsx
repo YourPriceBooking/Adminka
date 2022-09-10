@@ -11,6 +11,7 @@ import { selectActiveLanguageId, selectIsEnglishActiveLang } from 'features/lang
 import { makeSelectStateInternational, useLazyGetStatesQuery } from 'features/states';
 import { SubmitAddLocationButton } from 'components/shared/Buttons';
 import { useCloseOnOutsideClick } from 'common/hooks';
+import { selectActiveCountryInternational } from 'features/countries';
 import { AddLocationButton } from '../../States/AddStateForm/AddStateForm.styled';
 import {
   Row,
@@ -30,6 +31,7 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
   const [getStates, { isLoading: isRefetchingStates }] = useLazyGetStatesQuery();
   const [getCities, { isLoading: isRefetchingCities }] = useLazyGetCitiesQuery();
 
+  const activeCountryInternational = useAppSelector(selectActiveCountryInternational);
   const selectStateInternational = useMemo(() => makeSelectStateInternational(stateId), [stateId]);
   const stateInternational = useAppSelector(selectStateInternational);
   const activeLangId = useAppSelector(selectActiveLanguageId);
@@ -59,7 +61,7 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
     const cityPhotoURL = content.get('cityPhotoURL')?.toString().trim();
     const cityName = content.get('cityName')?.toString().trim();
 
-    if (!cityPhotoURL || !cityName) {
+    if (!activeCountryInternational || !cityPhotoURL || !cityName) {
       toast('Please provide photo url and City name');
       return;
     }
@@ -69,9 +71,10 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
       stateInternational,
 
       cityName,
-      cityPhotoURL,
       cityInternational: cityName,
       cityCode: generateCityCode(cityName),
+      cityPhotoURL,
+      cityPhotoAlt: `${activeCountryInternational} ${stateInternational} ${cityName}`,
 
       langCode: 'EN',
     };
