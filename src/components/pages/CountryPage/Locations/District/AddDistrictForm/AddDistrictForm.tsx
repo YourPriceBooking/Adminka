@@ -79,7 +79,7 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
       districtInternational: districtName,
       districtCode: generateDistrictCode(districtName),
       districtPhotoURL,
-      districtPhotoAlt: `${activeCountryInternational} ${stateName} ${cityInternational} ${districtName}`,
+      districtPhotoAlt: `${districtName}, ${cityInternational}, ${stateName}, ${activeCountryInternational}`,
 
       langCode: 'EN',
       dbLangCode: 'EN',

@@ -74,7 +74,7 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
       cityInternational: cityName,
       cityCode: generateCityCode(cityName),
       cityPhotoURL,
-      cityPhotoAlt: `${activeCountryInternational} ${stateInternational} ${cityName}`,
+      cityPhotoAlt: `${cityName}, ${stateInternational}, ${activeCountryInternational}`,
 
       langCode: 'EN',
     };
