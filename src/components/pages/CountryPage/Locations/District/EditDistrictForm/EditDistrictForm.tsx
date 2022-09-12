@@ -63,9 +63,10 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
 
     _id: id,
     districtName,
-    districtPhotoURL,
     districtInternational,
     districtCode,
+    districtPhotoURL,
+    districtPhotoAlt,
 
     langCode,
   } = district;
@@ -107,9 +108,10 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
 
       _id: id,
       districtName: localDistrictName,
-      districtPhotoURL: localDistrictPhotoURL,
       districtInternational,
       districtCode,
+      districtPhotoURL: localDistrictPhotoURL,
+      districtPhotoAlt,
 
       langCode: activeLangCode,
     };

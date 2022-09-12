@@ -11,6 +11,8 @@ import { selectCityById, useLazyGetCitiesQuery } from 'features/cities';
 import { useAddDistrictMutation, useLazyGetDistrictsQuery } from 'features/districts';
 import { selectIsEnglishActiveLang } from 'features/languages';
 import { useCloseOnOutsideClick } from 'common/hooks';
+import { selectStateById } from 'features/states';
+import { selectActiveCountryInternational } from 'features/countries';
 import { AddLocationButton } from '../../States/AddStateForm/AddStateForm.styled';
 import {
   Row,
@@ -26,9 +28,14 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
   const [getCities, { isLoading: isRefetchingCities }] = useLazyGetCitiesQuery();
   const [getDistricts, { isLoading: isRefetchingDistricts }] = useLazyGetDistrictsQuery();
 
+  const activeCountryInternational = useAppSelector(selectActiveCountryInternational);
   const city = useAppSelector(state => selectCityById(state, cityId));
 
   const isEng = useAppSelector(selectIsEnglishActiveLang);
+  const stateName = useAppSelector(state => {
+    if (!city?.stateId) return undefined;
+    return selectStateById(state, city.stateId)?.stateName;
+  });
 
   const [isAddingDistrict, setIsAddingDistrict] = useState(false);
   const startAdding = useCallback(() => setIsAddingDistrict(true), []);
@@ -42,7 +49,7 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
     formRef,
   });
 
-  if (!city) return null;
+  if (!activeCountryInternational || !city || !stateName) return null;
 
   const { stateId, cityInternational } = city;
 
@@ -69,9 +76,10 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
       cityInternational,
 
       districtName,
-      districtPhotoURL,
       districtInternational: districtName,
       districtCode: generateDistrictCode(districtName),
+      districtPhotoURL,
+      districtPhotoAlt: `${districtName}, ${cityInternational}, ${stateName}, ${activeCountryInternational}`,
 
       langCode: 'EN',
       dbLangCode: 'EN',

@@ -10,6 +10,7 @@ export type District = {
   districtInternational: string;
   districtCode: string;
   districtPhotoURL: string;
+  districtPhotoAlt: string;
 
   langCode: string;
   dbLangCode: string;

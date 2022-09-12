@@ -13,7 +13,8 @@ export const EditButtonStyled = styled.button`
   border: 1px solid transparent;
   border-radius: 2px;
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: ${({ theme }) => theme.colors.bgTransparent.buttonEditHover};
   }
 

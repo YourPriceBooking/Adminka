@@ -10,6 +10,7 @@ export type City = {
   cityInternational: string;
   cityCode: string;
   cityPhotoURL: string;
+  cityPhotoAlt: string;
 
   langCode: string;
 
@@ -27,7 +28,7 @@ export type CityWithDistrictsIds = {
   cityInternational: string;
   cityCode: string;
   cityPhotoURL: string;
-
+  cityPhotoAlt: string;
   langCode: string;
 
   districts: EntityId[];
@@ -42,6 +43,7 @@ export type AddCity = Pick<
   | 'cityInternational'
   | 'cityCode'
   | 'cityPhotoURL'
+  | 'cityPhotoAlt'
   | 'langCode'
   | 'stateInternational'
 >;
@@ -54,6 +56,7 @@ export type EditCity = Pick<
   | 'cityName'
   | 'cityInternational'
   | 'cityPhotoURL'
+  | 'cityPhotoAlt'
   | 'cityCode'
   | 'langCode'
 >;

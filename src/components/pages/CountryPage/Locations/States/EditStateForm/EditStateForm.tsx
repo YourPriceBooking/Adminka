@@ -50,6 +50,7 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
     stateInternational,
     stateCode,
     statePhotoURL,
+    statePhotoAlt,
     langCode,
   } = stateObj;
 
@@ -84,6 +85,7 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
 
       stateName: stateNameTrimmed,
       statePhotoURL: statePhotoURLTrimmed,
+      statePhotoAlt,
       langCode: activeLangCode,
       stateInternational,
       stateCode,
