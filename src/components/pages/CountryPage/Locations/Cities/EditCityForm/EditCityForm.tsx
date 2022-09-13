@@ -13,6 +13,8 @@ import {
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { selectCityById, useEditCityMutation } from 'features/cities';
 import { useCloseOnOutsideClick } from 'common/hooks';
+import { selectActiveCountryName } from 'features/countries';
+import { selectStateById } from 'features/states';
 import {
   EditCityFormStyled,
   CityInfo,
@@ -24,12 +26,16 @@ import {
 
 type EditCityFormProps = {
   cityId: EntityId;
+  stateId: EntityId;
 };
 
-export const EditCityForm = ({ cityId }: EditCityFormProps) => {
+export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
   const [editCity, { isLoading }] = useEditCityMutation();
   const city = useAppSelector(state => selectCityById(state, cityId));
+  const stateName = useAppSelector(state => selectStateById(state, stateId)?.stateName);
+
   const activeLanguageCode = useAppSelector(selectActiveLangCode);
+  const activeCountryName = useAppSelector(selectActiveCountryName);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
 
   const [isEditingCity, setIsEditingCity] = useState(false);
@@ -52,18 +58,16 @@ export const EditCityForm = ({ cityId }: EditCityFormProps) => {
     formRef,
   });
 
-  if (!city || !activeLanguageCode) return null;
+  if (!city || !stateName) return null;
 
   const {
-    stateId,
     stateInternational,
-    _id: id,
+
     langCode,
     cityName,
     cityInternational,
     cityCode,
     cityPhotoURL,
-    cityPhotoAlt,
   } = city;
 
   const isInputDisabled = !isEditingCity;
@@ -74,7 +78,15 @@ export const EditCityForm = ({ cityId }: EditCityFormProps) => {
 
   const handleSubmitEditCity = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isSubmitDisabled) return;
+    if (isSubmitDisabled) {
+      toast.info('Loading');
+      return;
+    }
+
+    if (!activeLanguageCode || !activeCountryName) {
+      toast.info('Please select language and country');
+      return;
+    }
 
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -91,18 +103,18 @@ export const EditCityForm = ({ cityId }: EditCityFormProps) => {
       stateId,
       stateInternational,
 
-      _id: id,
+      _id: cityId,
       cityName: cityNameTrimmed,
       cityInternational,
       cityCode,
       cityPhotoURL: cityPhotoURLTrimmed,
-      cityPhotoAlt,
+      cityPhotoAlt: `${cityNameTrimmed}, ${stateName}, ${activeCountryName}`,
 
       langCode: activeLanguageCode,
     };
 
     try {
-      const editedCityName = (await editCity(updatedCity).unwrap())?.entities[id]?.cityName;
+      const editedCityName = (await editCity(updatedCity).unwrap())?.entities[cityId]?.cityName;
 
       if (editedCityName) {
         toast.success(`City ${editedCityName} updated`);

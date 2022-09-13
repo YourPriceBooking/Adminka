@@ -36,7 +36,7 @@ const districtsApi = api.injectEndpoints({
         body,
       }),
       transformResponse: (result: OneDistrict) => saveOneDistrict(result),
-      invalidatesTags: (_, __, { _id }) => tag(_id, 'District'),
+      // invalidatesTags: (_, __, { _id }) => tag(_id, 'District'),
     }),
   }),
 });

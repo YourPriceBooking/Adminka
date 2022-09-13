@@ -1,14 +1,14 @@
 import type { FormEvent } from 'react';
-import { useRef, useCallback, useMemo, useState } from 'react';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { AddCity } from 'types/apis';
+import { useRef, useCallback, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useAppSelector } from 'App';
 import { generateCityCode, wait } from 'common/utils';
 import { Spinner } from 'components/shared/Loader';
-import { useAddCityMutation, useLazyGetCitiesQuery } from 'features/cities';
 import { selectActiveLanguageId, selectIsEnglishActiveLang } from 'features/languages';
 import { makeSelectStateInternational, useLazyGetStatesQuery } from 'features/states';
+import { useAddCityMutation, useLazyGetCitiesQuery } from 'features/cities';
 import { SubmitAddLocationButton } from 'components/shared/Buttons';
 import { useCloseOnOutsideClick } from 'common/hooks';
 import { selectActiveCountryInternational } from 'features/countries';

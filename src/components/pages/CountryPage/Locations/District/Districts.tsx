@@ -5,12 +5,13 @@ import { DistrictsList } from './DistrictsList';
 
 type DistrictsProps = {
   cityId: EntityId;
+  stateId: EntityId;
 };
 
-export const Districts = ({ cityId }: DistrictsProps) => (
+export const Districts = ({ cityId, stateId }: DistrictsProps) => (
   <DistrictsStyled>
-    <DistrictsList cityId={cityId} />
+    <DistrictsList cityId={cityId} stateId={stateId} />
 
-    <AddDistrictForm cityId={cityId} />
+    <AddDistrictForm cityId={cityId} stateId={stateId} />
   </DistrictsStyled>
 );

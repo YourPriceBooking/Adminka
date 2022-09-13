@@ -1,6 +1,5 @@
 import type { RootState } from 'App/store';
 import { createSelector } from '@reduxjs/toolkit';
-
 import { countriesAdapter, countriesInitialState } from './countriesAdapter';
 import { selectCountriesResult } from './countriesApi';
 import { selectActiveCountryId } from './countriesSlice';
