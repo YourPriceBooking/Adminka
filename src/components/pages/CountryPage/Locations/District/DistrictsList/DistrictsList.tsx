@@ -6,15 +6,16 @@ import { DistrictsListStyled } from './DistrictsList.styled';
 
 type DistrictsListProps = {
   cityId: EntityId;
+  stateId: EntityId;
 };
 
-export const DistrictsList = ({ cityId }: DistrictsListProps) => {
+export const DistrictsList = ({ cityId, stateId }: DistrictsListProps) => {
   const districtsIds = useAppSelector(state => selectCityById(state, cityId))?.districts;
 
   return (
     <DistrictsListStyled>
       {districtsIds?.map(districtId => (
-        <DistrictItem key={districtId} districtId={districtId} />
+        <DistrictItem key={districtId} districtId={districtId} cityId={cityId} stateId={stateId} />
       ))}
     </DistrictsListStyled>
   );

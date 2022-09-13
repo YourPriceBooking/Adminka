@@ -1,13 +1,14 @@
 import type { FormEvent } from 'react';
-import { useRef, useCallback, useState } from 'react';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { EditState } from 'types/apis';
+import { useRef, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useAppSelector } from 'App';
-import { ButtonsOverlay, EditButton, SubmitAddLocationButton } from 'components/shared/Buttons';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { selectStateById, useEditStateMutation } from 'features/states';
+import { selectActiveCountryName } from 'features/countries';
 import { useCloseOnOutsideClick } from 'common/hooks';
+import { ButtonsOverlay, EditButton, SubmitAddLocationButton } from 'components/shared/Buttons';
 import {
   EditStateFormStyled,
   EditStatePhotoLabel,
@@ -25,6 +26,7 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
   const [editState, { isLoading }] = useEditStateMutation();
   const stateObj = useAppSelector(state => selectStateById(state, stateId));
   const activeLangCode = useAppSelector(selectActiveLangCode);
+  const activeCountryName = useAppSelector(selectActiveCountryName);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
 
   const [isEditing, setIsEditing] = useState(false);
@@ -44,13 +46,11 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
 
   const {
     countryId,
-    _id: id,
     international,
     stateName,
     stateInternational,
     stateCode,
     statePhotoURL,
-    statePhotoAlt,
     langCode,
   } = stateObj;
 
@@ -63,8 +63,8 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
   const handleSubmitEditState = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isSubmitDisabled) return;
-    if (!activeLangCode) {
-      toast('Please select language');
+    if (!activeLangCode || !activeCountryName) {
+      toast('Please select language and country');
       return;
     }
     const form = e.currentTarget;
@@ -77,15 +77,17 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
       return;
     }
 
+    const statePhotoAltLocalLang = `${stateNameTrimmed}, ${activeCountryName}`;
+
     const updatedState: EditState = {
       countryId,
 
-      _id: id,
+      _id: stateId,
       international,
 
       stateName: stateNameTrimmed,
       statePhotoURL: statePhotoURLTrimmed,
-      statePhotoAlt,
+      statePhotoAlt: statePhotoAltLocalLang,
       langCode: activeLangCode,
       stateInternational,
       stateCode,
@@ -93,7 +95,7 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
 
     try {
       const edited = await editState(updatedState).unwrap();
-      const editedStateName = edited?.entities[id]?.stateName;
+      const editedStateName = edited?.entities[stateId]?.stateName;
       if (editedStateName) {
         toast.success(`${editedStateName} state updated!`);
       }

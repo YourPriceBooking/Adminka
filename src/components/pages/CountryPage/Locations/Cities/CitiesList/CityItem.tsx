@@ -5,12 +5,13 @@ import { CityItemStyled } from './CitiesList.styled';
 
 export type CityItemProps = {
   cityId: EntityId;
+  stateId: EntityId;
 };
 
-export const CityItem = ({ cityId }: CityItemProps) => (
+export const CityItem = ({ cityId, stateId }: CityItemProps) => (
   <CityItemStyled>
-    <EditCityForm cityId={cityId} />
+    <EditCityForm cityId={cityId} stateId={stateId} />
 
-    <Districts cityId={cityId} />
+    <Districts cityId={cityId} stateId={stateId} />
   </CityItemStyled>
 );

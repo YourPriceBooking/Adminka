@@ -23,7 +23,12 @@ import {
   AddDistrictNameInput,
 } from './AddDistrictForm.styled';
 
-export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
+type AddDistrictFormProps = {
+  cityId: EntityId;
+  stateId: EntityId;
+};
+
+export const AddDistrictForm = ({ cityId, stateId }: AddDistrictFormProps) => {
   const [addDistrict, { isLoading: isAddingL1 }] = useAddDistrictMutation();
   const [getCities, { isLoading: isRefetchingCities }] = useLazyGetCitiesQuery();
   const [getDistricts, { isLoading: isRefetchingDistricts }] = useLazyGetDistrictsQuery();
@@ -32,10 +37,7 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
   const city = useAppSelector(state => selectCityById(state, cityId));
 
   const isEng = useAppSelector(selectIsEnglishActiveLang);
-  const stateName = useAppSelector(state => {
-    if (!city?.stateId) return undefined;
-    return selectStateById(state, city.stateId)?.stateName;
-  });
+  const stateName = useAppSelector(state => selectStateById(state, stateId)?.stateName);
 
   const [isAddingDistrict, setIsAddingDistrict] = useState(false);
   const startAdding = useCallback(() => setIsAddingDistrict(true), []);
@@ -51,7 +53,7 @@ export const AddDistrictForm = ({ cityId }: { cityId: EntityId }) => {
 
   if (!activeCountryInternational || !city || !stateName) return null;
 
-  const { stateId, cityInternational } = city;
+  const { cityInternational } = city;
 
   const isPending = isAddingL1 || isRefetchingCities || isRefetchingDistricts;
   const isSubmitDisabled = !isEng || !isAddingDistrict || isPending;

@@ -14,7 +14,7 @@ export const CitiesList = ({ stateId }: CitiesListProps) => {
   return (
     <CitiesListStyled>
       {citiesIds?.map(cityId => (
-        <CityItem key={cityId} cityId={cityId} />
+        <CityItem key={cityId} cityId={cityId} stateId={stateId} />
       ))}
     </CitiesListStyled>
   );

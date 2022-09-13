@@ -1,6 +1,6 @@
 import type { EntityId } from '@reduxjs/toolkit';
-import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from 'App/store';
+import { createSelector } from '@reduxjs/toolkit';
 import { selectActiveCountryId, selectCountriesEntities } from 'features/countries';
 import { statesAdapter, statesInitialState } from './statesAdapter';
 import { selectStatesResult } from './statesApi';

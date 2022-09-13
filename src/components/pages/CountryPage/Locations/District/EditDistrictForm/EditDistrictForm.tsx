@@ -1,18 +1,26 @@
 import type { FormEvent } from 'react';
-import { useRef, useCallback, useState } from 'react';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { EditDistrict } from 'types/apis';
+import { useRef, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useAppSelector } from 'App';
+import {
+  selectDistrictById,
+  useEditDistrictMutation,
+  useLazyGetDistrictsQuery,
+} from 'features/districts';
+import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
+import { useCloseOnOutsideClick } from 'common/hooks';
+import { selectActiveCountryName } from 'features/countries';
+import { selectStateById } from 'features/states';
+import { selectCityById } from 'features/cities';
+import { wait } from 'common/utils';
 import {
   AddDirButton,
   ButtonsOverlay,
   EditButton,
   SubmitAddLocationButton,
 } from 'components/shared/Buttons';
-import { selectDistrictById, useEditDistrictMutation } from 'features/districts';
-import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
-import { useCloseOnOutsideClick } from 'common/hooks';
 import {
   EditDistrictFormStyled,
   DistrictInfo,
@@ -24,12 +32,18 @@ import {
 
 type EditDistrictFormProps = {
   districtId: EntityId;
+  cityId: EntityId;
+  stateId: EntityId;
 };
 
-export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
+export const EditDistrictForm = ({ districtId, cityId, stateId }: EditDistrictFormProps) => {
   const [editDistrict, { isLoading: isEditingL1 }] = useEditDistrictMutation();
+  const [getDistricts, { isLoading: isRefetchingDistricts }] = useLazyGetDistrictsQuery();
 
   const district = useAppSelector(state => selectDistrictById(state, districtId));
+  const activeCountryName = useAppSelector(selectActiveCountryName);
+  const stateName = useAppSelector(state => selectStateById(state, stateId)?.stateName);
+  const cityName = useAppSelector(state => selectCityById(state, cityId)?.cityName);
 
   const activeLangCode = useAppSelector(selectActiveLangCode);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
@@ -54,24 +68,20 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
     formRef,
   });
 
-  if (!activeLangCode || !district) return null;
+  if (!district || !activeLangCode || !cityName || !stateName) return null;
 
   const {
-    stateId,
-    cityId,
     cityInternational,
 
-    _id: id,
     districtName,
     districtInternational,
     districtCode,
     districtPhotoURL,
-    districtPhotoAlt,
 
     langCode,
   } = district;
 
-  const isPending = isEditingL1;
+  const isPending = isEditingL1 || isRefetchingDistricts;
 
   const isInputDisabled = !isEditing || isPending;
   const isEditButtonDisabled = isEditing || isPending;
@@ -82,7 +92,12 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
     e.preventDefault();
 
     if (!activeLangCode) {
-      toast('Please select language');
+      toast.info('Please select language');
+      return;
+    }
+
+    if (!activeCountryName) {
+      toast.info('Please select country');
       return;
     }
 
@@ -106,27 +121,31 @@ export const EditDistrictForm = ({ districtId }: EditDistrictFormProps) => {
       cityId,
       cityInternational,
 
-      _id: id,
+      _id: districtId,
       districtName: localDistrictName,
       districtInternational,
       districtCode,
       districtPhotoURL: localDistrictPhotoURL,
-      districtPhotoAlt,
+      districtPhotoAlt: `${localDistrictName}, ${cityName}, ${stateName}, ${activeCountryName}`,
 
       langCode: activeLangCode,
     };
 
     try {
-      const editedDistrictName = (await editDistrict(updatedDistrict).unwrap())?.entities[id]
-        ?.districtName;
+      const editedDistrictName = (await editDistrict(updatedDistrict).unwrap())?.entities[
+        districtId
+      ]?.districtName;
 
       if (editedDistrictName) {
         toast.success(`District ${editedDistrictName} updated`);
       }
 
-      stopEditing();
+      await wait(1500);
+      await getDistricts();
     } catch (error) {
       toast.error('District not updated');
+    } finally {
+      stopEditing();
     }
   };
 
