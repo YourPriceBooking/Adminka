@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Label, Accent } from './VerifierLogin.styled';
+import { Form, Input, Button, Label, Accent, Text } from './VerifierLogin.styled';
 
 export const VerifierLogin = () => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [isActive, setIsActive] = useState(false);
-  const [isHovering, setIsHovering] = useState(false);
 
   const handleInputChange = (evt: { currentTarget: { name: string; value: string } }) => {
     const { name, value } = evt.currentTarget;
@@ -22,34 +21,36 @@ export const VerifierLogin = () => {
   };
   const handleSubmit = (evt: { preventDefault: () => void }) => {
     evt.preventDefault();
-    console.log({ id, password });
-    // onSubmit(id, password);
-    setId('');
-    setPassword('');
-    setIsActive(false);
+    
+    if (id === '333' && password === '333') {
+     console.log({ id, password });
+     // onSubmit(id, password);
+     setId('');
+     setPassword('');
+     setIsActive(false);
+      
+    } else {
+    alert("HEY, WHAT'S WRONG WITH YOU!? COME ON! TRY AGAIN, BUT THIS TIME DO IT RIGHT - I BELIEVE IN YOU!");
+
+    }
   };
+
   const handleClick = (evt: { currentTarget: { value: string } }) => {
     setIsActive(true);
+
     if (evt.currentTarget.value.length === 0) {
       setIsActive(false);
     }
-  };
-  const handleMouseEnter = () => {
-    setIsHovering(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovering(false);
   };
 
   return (
     <Form onSubmit={handleSubmit}>
       <Label>
-        Verifier ID
+        <Text>Verifier ID</Text>
         <Input type="text" name="id" value={id} required onChange={handleInputChange} />
       </Label>
       <Label>
-        Password
+        <Text>Password</Text>
         <Input
           type="password"
           name="password"
@@ -60,17 +61,13 @@ export const VerifierLogin = () => {
         />
       </Label>
       <Button
+        $isActive={isActive}
         type="submit"
         disabled={!id}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
       >
         Start
         <Accent
-          style={{
-            // eslint-disable-next-line no-nested-ternary
-            color: isActive ? (isHovering ? 'rgba(76, 76, 76, 0.69)' : '#4C4C4C') : '',
-          }}
+          $isActive={isActive}
         >
           to work
         </Accent>

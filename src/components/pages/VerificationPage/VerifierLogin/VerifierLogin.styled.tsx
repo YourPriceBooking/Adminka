@@ -1,5 +1,8 @@
 import styled from 'styled-components/macro';
 
+type AccentProps = {
+  $isActive?: boolean;
+};
 
 export const Form = styled.form`
   display: flex;
@@ -7,39 +10,52 @@ export const Form = styled.form`
   text-align: center;
   width: 284px;
   margin: 0 auto;
+  padding-top: 78px;
 
-gap: 21px;
+  gap: 21px;
 `;
 export const Label = styled.label`
-  border: 1px solid ${({ theme }) => theme.colors.textFourth};
-  border-radius: 5px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 1.33;
+  font-weight: 700;
+  font-family: ${({ theme }) => theme.fonts.segoe};
+  color: ${({ theme }) => theme.colors.textThird};
+`;
+export const Text = styled.span`
+  position: absolute;
+  left: 12px;
+  color: #aeafbc;
+`;
+export const Input = styled.input`
   height: 48px;
   font-size: 14px;
   line-height: 1.33;
   font-weight: 700;
-  font-family: ${({ theme }) => theme.fonts.segoe};
-  color: ${({ theme }) => theme.colors.textThird};
+  border: 1px solid ${({ theme }) => theme.colors.textFourth};
+  border-radius: 5px;
+  padding-left: 112px;
   background-color: ${({ theme }) => theme.colors.bg.buttonAddLocation};
-
-
-`;
-export const Input = styled.input`
-  height: 45px;
-  font-size: 14px;
-  line-height: 1.33;
-  font-weight: 700;
-  border: transparent;
-  background-color: transparent;
-  outline: transparent;
   font-family: ${({ theme }) => theme.fonts.segoe};
   color: ${({ theme }) => theme.colors.textThird};
   &:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px #ebecfe inset;
-   
   }
-  margin-left: 25px;
 `;
-export const Button = styled.button`
+
+export const Accent = styled.span.attrs(({ $isActive = false }: AccentProps) => ({
+  $isActive,
+}))`
+  display: block;
+  color: ${({ theme, $isActive }) => ($isActive ? theme.colors.textThird : 'white')};
+`;
+
+export const Button = styled.button.attrs(({ $isActive = false }: AccentProps) => ({
+  $isActive,
+}))`
   margin: 0 auto;
   margin-top: 13px;
   width: 184px;
@@ -70,10 +86,9 @@ export const Button = styled.button`
   :active {
     background-color: ${({ theme }) => theme.colors.bgTransparent.buttonLoginActive};
   }
-`;
 
-export const Accent = styled.span`
-  display: block;
-  color: ${({ theme }) => theme.colors.white};
- 
+  &:hover ${Accent} {
+    color: ${({ theme, $isActive }) =>
+      $isActive ? theme.colors.bgTransparent.buttonLogInHover : ''};
+  }
 `;
