@@ -7,6 +7,8 @@ export const Form = styled.form`
   text-align: center;
   width: 284px;
   margin: 0 auto;
+
+gap: 21px;
 `;
 export const Label = styled.label`
   border: 1px solid ${({ theme }) => theme.colors.textFourth};
@@ -19,12 +21,10 @@ export const Label = styled.label`
   color: ${({ theme }) => theme.colors.textThird};
   background-color: ${({ theme }) => theme.colors.bg.buttonAddLocation};
 
-  :not(:last-child) {
-    margin-bottom: 21px;
-  }
+
 `;
 export const Input = styled.input`
-  height: 48px;
+  height: 45px;
   font-size: 14px;
   line-height: 1.33;
   font-weight: 700;
@@ -33,13 +33,15 @@ export const Input = styled.input`
   outline: transparent;
   font-family: ${({ theme }) => theme.fonts.segoe};
   color: ${({ theme }) => theme.colors.textThird};
-
+  &:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #ebecfe inset;
+   
+  }
   margin-left: 25px;
-
 `;
 export const Button = styled.button`
   margin: 0 auto;
-  margin-top: 34px;
+  margin-top: 13px;
   width: 184px;
   height: 184px;
   border-radius: 50%;
