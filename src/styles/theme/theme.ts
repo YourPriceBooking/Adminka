@@ -52,7 +52,9 @@ declare module 'styled-components' {
         buttonCopyActive: string;
         bgInput: string;
         bgFormAddCountry: string;
-
+        buttonLoginHover: string;
+        buttonLoginActive: string;
+        buttonLogInHover: string;
         buttonEditHover: string;
         buttonEditActive: string;
 
@@ -195,6 +197,9 @@ const bgTransparentNotAssigned = {
   buttonCopyHover: rgba(106, 255, 121, 0.32),
   buttonCopyActive: rgba(106, 255, 121, 0.8),
 
+  buttonLoginHover: rgba(106, 255, 121, 0.69),
+  buttonLoginActive: rgba(106, 255, 121, 0.45),
+
   bgFormAddCountry: rgba(bgLight.body, 0.33),
 
   buttonEditHover: rgba(bgLight.buttonEdit, 0.6),
@@ -209,6 +214,7 @@ const bgTransparentNotAssigned = {
   buttonCancelDeleteHover: rgba(light.textThird, 0.28),
   buttonCancelDeleteActive: rgba(light.textThird, 0.11),
   buttonGoBackHover: rgba(light.textThird, 0.1),
+  buttonLogInHover: rgba(light.textThird, 0.69),
 
   buttonSaveCountryDisabled: rgba(light.title, 0.5),
   buttonSaveCountry: rgba(light.title, 0.7),
