@@ -3,17 +3,36 @@ import styled from 'styled-components/macro';
 type AccentProps = {
   $isActive?: boolean;
 };
-
+type ErrorProps = {
+  $error?: string;
+};
+export const Error = styled.h2`
+  font-family: ${({ theme }) => theme.fonts.segoe};
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.33;
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+max-width: 272px;
+  color: ${({ theme }) => theme.colors.textSecond};
+`;
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
   text-align: center;
   width: 284px;
   margin: 0 auto;
-  padding-top: 78px;
-
+  margin-top: 5px;
   gap: 21px;
 `;
+
+export const Wrapper = styled.div.attrs(({ $error = '' }: ErrorProps) => ({
+  $error,
+}))`
+  padding-top: ${({ $error }) => ($error ? '30px' : '78px')};
+`;
+
 export const Label = styled.label`
   position: relative;
   display: flex;
@@ -43,6 +62,11 @@ export const Input = styled.input`
   color: ${({ theme }) => theme.colors.textThird};
   &:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px #ebecfe inset;
+  }
+  :focus {
+    outline: red;
+    /* background-color: ${({ theme }) => theme.colors.bgTransparent.buttonLoginActive}; */
+    border: 0.33px solid  ${({ theme }) => theme.colors.textThird};
   }
 `;
 
@@ -82,7 +106,9 @@ export const Button = styled.button.attrs(({ $isActive = false }: AccentProps) =
     background-color: ${({ theme }) => theme.colors.bgTransparent.buttonLoginHover};
     color: ${({ theme }) => theme.colors.bgTransparent.buttonLogInHover};
   }
-
+  :focus {
+    border: 0.33px solid ${({ theme }) => theme.colors.textThird};
+  }
   :active {
     background-color: ${({ theme }) => theme.colors.bgTransparent.buttonLoginActive};
   }
