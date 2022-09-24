@@ -1,4 +1,4 @@
-import {VerifierLogin} from 'components/pages/VerificationPage/VerifierLogin';
+import {VerifierLogin} from 'components/pages/Verification/VerifierLogin';
 
 const VerificationPage = () => <VerifierLogin />;
 
