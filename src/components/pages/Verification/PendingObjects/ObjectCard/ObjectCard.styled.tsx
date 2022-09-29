@@ -8,7 +8,6 @@ export const CardsWrapper = styled.div`
   margin-bottom: 24px;
   justify-content: center;
 
-
   color: #4c4c4c;
 `;
 
@@ -29,7 +28,7 @@ export const Wrapper = styled.div`
   padding: 20px 10px;
 `;
 export const Country = styled.h2`
-margin-bottom: 5px;
+  margin-bottom: 5px;
 `;
 export const Text = styled.p`
   margin-bottom: 20px;
@@ -38,8 +37,12 @@ export const Text = styled.p`
 
 export const Object = styled.div`
   margin-bottom: 20px;
+  display: flex;
+  gap: 48px;
 `;
-
+export const Span = styled.span`
+  display: block;
+`;
 export const Button = styled.button`
   font-family: 'Segoe UI';
   font-style: normal;
@@ -52,11 +55,11 @@ export const Button = styled.button`
   border-radius: 7px;
   border: none;
 
-  &:hover,
-  &:focus {
+  &:hover {
     background-color: #9c9daf;
     box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
   }
+
   &:active {
     background-color: #d0d0d0;
     box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);

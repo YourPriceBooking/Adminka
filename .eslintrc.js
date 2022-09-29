@@ -43,6 +43,7 @@ module.exports = {
 
     'react/prop-types': 0,
     'react/require-default-props': 0,
+    'react/jsx-props-no-spreading': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/function-component-definition': [
       'warn',

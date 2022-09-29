@@ -9,9 +9,11 @@ margin-bottom: 14px;
   backdrop-filter: blur(7.5px);
 `;
 
-export const Button = styled.button`
+export const Button = styled.div`
+  position: relative;
   width: 90px;
   height: 90px;
+  padding: 6px;
   font-family: 'Segoe UI';
   font-style: normal;
   font-weight: 700;
@@ -25,13 +27,17 @@ export const Button = styled.button`
   border-radius: 10px;
   border: none;
 
-  &:hover,
-  &:focus {
+  &:hover {
     background: #efeeee;
   }
-
+  :focus {
+    border: 0.33px solid ${({ theme }) => theme.colors.textThird};
+  }
   &:active {
     background: #e4e0e0;
+  }
+  &:disabled {
+    background: grey;
   }
 `;
 export const ListWrapper = styled.div`
@@ -42,6 +48,9 @@ export const Svg = styled.img`
   width: 34px;
   height: 34px;
   margin-left: 47px;
+  position: absolute;
+  top: 51px;
+  right: 8px;
 `;
 
 export const List = styled.ul`

@@ -15,11 +15,10 @@ export const Card = styled.div`
   border-radius: 5px;
   cursor: pointer;
 
-  &:hover,
-  &:focus {
+  &:hover {
     border: 1px solid #4c4c4c;
   }
-
+  
   &:last-child {
     margin-bottom: 0px;
   }

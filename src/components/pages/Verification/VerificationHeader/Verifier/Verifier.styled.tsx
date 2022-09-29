@@ -32,20 +32,31 @@ margin-left: 21px;
 margin-bottom: 15px;
 `;
 export const Btn = styled.button`
-width: 149px;
-height: 25px;
+  width: 149px;
+  height: 25px;
   font-family: 'Segoe UI';
   font-style: normal;
   font-weight: 600;
   font-size: 10px;
   line-height: 13px;
   text-align: center;
-border: none;
+  border: none;
   color: #0090ff;
   background: #ffffff;
   box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
   border-radius: 3px;
   &:not(:last-child) {
-      margin-bottom: 5px;
+    margin-bottom: 5px;
+  }
+
+  &:hover {
+    background: #efeeee;
+  }
+  :focus {
+    border: 0.33px solid ${({ theme }) => theme.colors.textThird};
+    outline: none;
+  }
+  &:active {
+    background: #e4e0e0;
   }
 `;

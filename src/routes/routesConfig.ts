@@ -7,7 +7,7 @@ export const routes = {
   country: { path: '/countries', name: 'Страны', element: CountryPage },
 
   verification: {
-    path: '/verification',
+    path: { verification: '/verification', verificationId: '/verification/:verificationId' },
     name: 'Верификация',
     element: { VerificationCabinetPage, VerificationPage },
   },

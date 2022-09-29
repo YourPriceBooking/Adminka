@@ -12,10 +12,13 @@ export const AppRouter = () => (
 
       <Route element={<PrivateRoute />}>
         <Route
-          path={verification.path}
+          path={verification.path.verification}
+          element={<verification.element.VerificationPage />}
+        />
+        <Route
+          path={verification.path.verificationId}
           element={<verification.element.VerificationCabinetPage />}
         />
-
         <Route path={menu.path} element={<menu.element />} />
         <Route path={country.path} element={<country.element />} />
         {/* <Route path="/location" element={<Location />} /> */}

@@ -2,7 +2,12 @@ import { Card, CardPhoto } from './HotelCards.styled';
 import { Image } from "./Image";
 import { Location } from "./Location";
 
-export const HotelCards = () => (
+type ICard = {
+  city: string;
+  hotel: string;
+  address: string;
+}
+export const HotelCards = ({ city, hotel, address }: ICard) => (
   <Card>
     <CardPhoto>
       <Image alt="picture" />
@@ -17,7 +22,7 @@ export const HotelCards = () => (
     </CardPhoto>
 
     <div>
-      <Location city="Флорида" hotel="Маямский Би" address="Проспект Ватутина, д. 15, кв. 6" />
+      <Location city={city} hotel={hotel} address={address} />
     </div>
   </Card>
 );

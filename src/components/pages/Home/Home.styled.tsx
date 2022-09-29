@@ -79,10 +79,10 @@ export const Link = styled(RouterLink)`
   text-align: center;
   transition: color ${({ theme }) => theme.transition[110]};
 
-  :hover,
-  :focus {
+  :hover {
     color: ${({ theme }) => theme.colors.textSecond};
   }
+  
 `;
 
 export const TextAccent = styled.p`
