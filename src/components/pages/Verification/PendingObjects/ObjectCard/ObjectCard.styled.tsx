@@ -24,6 +24,7 @@ export const Wrapper = styled.div`
   text-align: center;
   align-items: center;
   background: #ffffff;
+  /* background-color: #ebedfe; */
   border-radius: 10px;
   padding: 20px 10px;
 `;
@@ -69,4 +70,5 @@ export const Button = styled.button`
 export const Div = styled.div`
   display: flex;
   flex-direction: column;
+  background-color: #ebedfe;
 `;
