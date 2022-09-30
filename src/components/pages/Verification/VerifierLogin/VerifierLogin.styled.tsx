@@ -63,11 +63,7 @@ export const Input = styled.input`
   &:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px #ebecfe inset;
   }
-  :focus {
-    outline: red;
-    /* background-color: ${({ theme }) => theme.colors.bgTransparent.buttonLoginActive}; */
-    border: 0.33px solid  ${({ theme }) => theme.colors.textThird};
-  }
+
 `;
 
 export const Accent = styled.span.attrs(({ $isActive = false }: AccentProps) => ({
@@ -106,9 +102,7 @@ export const Button = styled.button.attrs(({ $isActive = false }: AccentProps) =
     background-color: ${({ theme }) => theme.colors.bgTransparent.buttonLoginHover};
     color: ${({ theme }) => theme.colors.bgTransparent.buttonLogInHover};
   }
-  :focus {
-    border: 0.33px solid ${({ theme }) => theme.colors.textThird};
-  }
+ 
   :active {
     background-color: ${({ theme }) => theme.colors.bgTransparent.buttonLoginActive};
   }

@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
+import { Link, Outlet } from 'react-router-dom';
 import { Wrapper, Form, Input, Button, Label, Accent, Text, Error } from './VerifierLogin.styled';
-
-
 
 export const VerifierLogin = () => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [isActive, setIsActive] = useState(false);
   const [error, setError] = useState('');
-
 
   const handleInputChange = (evt: { currentTarget: { name: string; value: string } }) => {
     const { name, value } = evt.currentTarget;
@@ -25,19 +23,17 @@ export const VerifierLogin = () => {
   };
   const handleSubmit = (evt: { preventDefault: () => void }) => {
     evt.preventDefault();
-    
-    if (id === '333' && password === '333') {
-     console.log({ id, password });
-     // onSubmit(id, password);
-     setId('');
-     setPassword('');
-     setIsActive(false);
-      
-    } else {
-setError(
-  "HEY, WHAT'S WRONG WITH YOU!? COME ON! TRY AGAIN, BUT THIS TIME DO IT RIGHT - I BELIEVE IN YOU!"
-);
 
+    if (id === '333' && password === '333') {
+      console.log({ id, password });
+      // onSubmit(id, password);
+      setId('');
+      setPassword('');
+      setIsActive(false);
+    } else {
+      setError(
+        "HEY, WHAT'S WRONG WITH YOU!? COME ON! TRY AGAIN, BUT THIS TIME DO IT RIGHT - I BELIEVE IN YOU!"
+      );
     }
   };
 
@@ -69,11 +65,14 @@ setError(
             onInput={handleClick}
           />
         </Label>
-        <Button $isActive={isActive} type="submit" disabled={!id}>
-          Start
-          <Accent $isActive={isActive}>to work</Accent>
-        </Button>
+        <Link to={`/verification/${id}`}>
+          <Button $isActive={isActive} type="submit" disabled={!id}>
+            Start
+            <Accent $isActive={isActive}>to work</Accent>
+          </Button>
+        </Link>
       </Form>
+      <Outlet />
     </Wrapper>
   );
 };

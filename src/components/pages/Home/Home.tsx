@@ -70,7 +70,7 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
   return (
     <HomeNavListStyled>
       <HomeNavItem>
-        <Link to={verification.path} state={newLocation}>
+        <Link to={verification.path.verification} state={newLocation}>
           <p>{verification.name}</p>
 
           <TextSmall>10781 в очереди</TextSmall>

@@ -11,8 +11,14 @@ export const AppRouter = () => (
       <Route index element={<login.element.LoginPage />} />
 
       <Route element={<PrivateRoute />}>
-        <Route path={verification.path} element={<verification.element.VerificationPage />} />
-
+        <Route
+          path={verification.path.verification}
+          element={<verification.element.VerificationPage />}
+        />
+        <Route
+          path={verification.path.verificationId}
+          element={<verification.element.VerificationCabinetPage />}
+        />
         <Route path={menu.path} element={<menu.element />} />
         <Route path={country.path} element={<country.element />} />
         {/* <Route path="/location" element={<Location />} /> */}

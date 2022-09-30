@@ -6,4 +6,7 @@ export const LoginPage = lazy(() => import('./LoginPage'));
 export const MenuPage = lazy(() => import('./MenuPage'));
 export const CountryPage = lazy(() => import('./CountryPage'));
 export const VerificationPage = lazy(() => import('./VerificationPage'));
+export const VerificationCabinetPage = lazy(() => import('./VerificationCabinetPage'));
+
+
 
