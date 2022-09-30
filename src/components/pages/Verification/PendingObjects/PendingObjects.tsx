@@ -1,11 +1,52 @@
+import { useState } from 'react';
 import { ObjectCard } from "./ObjectCard";
-import { CardsWrapper } from "./ObjectCard/ObjectCard.styled";
+import { HotelCards } from '../HotelCards';
+
+import { CardsWrapper, Div } from "./ObjectCard/ObjectCard.styled";
 
 const defaultObjects = 777;
-export const PendingObjects = () => (
-  <CardsWrapper>
-    <ObjectCard country="Ukraine" objects={defaultObjects} />
-    <ObjectCard country="Poland" objects={defaultObjects} />
-    <ObjectCard country="USA" objects={defaultObjects} />
-  </CardsWrapper>
-);
+export const PendingObjects = () => {
+  const [components, setComponents] = useState<string[]>([]); 
+
+  const onClick = () => {
+    if (components.length < 3) {
+      setComponents(prevState => [...prevState, '']);
+    }
+  }
+
+ return (
+   <>
+     <CardsWrapper>
+       <ObjectCard
+         country="Ukraine"
+         objects={defaultObjects}
+         onClick={onClick}
+         components={components}
+       />
+       <ObjectCard
+         country="Poland"
+         objects={defaultObjects}
+         onClick={onClick}
+         components={components}
+       />
+       <ObjectCard
+         country="USA"
+         objects={defaultObjects}
+         onClick={onClick}
+         components={components}
+       />
+     </CardsWrapper>
+     <Div>
+       {components.map((_, idx) => (
+         <HotelCards
+           // eslint-disable-next-line react/no-array-index-key
+           key={idx}
+           city="Флорида"
+           hotel="Маямский Би"
+           address="Проспект Ватутина, д. 15, кв. 6"
+         />
+       ))}
+     </Div>
+   </>
+ );
+};

@@ -8,21 +8,13 @@ type ICard = {
   address: string;
 }
 export const HotelCards = ({ city, hotel, address }: ICard) => (
-  <Card>
-    <CardPhoto>
-      <Image alt="picture" />
+    <Card>
+      <CardPhoto>
+        <Image alt="picture" />
+      </CardPhoto>
 
-      {/* <Gallery
-          title={props.data.name}
-          isShowText={false}
-          url={props.data.photos[0]}
-          rating={props.data.rating}
-          urlImageSecond={props.data?.photos[1]}
-        /> */}
-    </CardPhoto>
-
-    <div>
-      <Location city={city} hotel={hotel} address={address} />
-    </div>
-  </Card>
+      <div>
+        <Location city={city} hotel={hotel} address={address} />
+      </div>
+    </Card>
 );
