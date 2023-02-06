@@ -18,7 +18,7 @@ import type {
  */
 const config = {
   backend: {
-    heroku: 'https://your-price-booking.herokuapp.com/api' as const,
+    heroku: 'https://server-your-price-booking.onrender.com/api' as const,
     localhost: 'http://localhost:3500' as const,
   },
   qty: { one: 'one' as const, many: 'many' as const },
