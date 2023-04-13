@@ -2,8 +2,7 @@ import { Navigate, Routes, Route } from 'react-router-dom';
 import { routes } from './routesConfig';
 import { PrivateRoute } from './PrivateRoute';
 
-
-const { login, menu, country, verification} = routes;
+const { login, menu, country, verification, adminPageAccess } = routes;
 
 export const AppRouter = () =>  (
     <Routes>
@@ -21,6 +20,7 @@ export const AppRouter = () =>  (
           />
           <Route path={menu.path} element={<menu.element />} />
           <Route path={country.path} element={<country.element />} />
+          <Route path={adminPageAccess.path} element={<adminPageAccess.element/>} />
           {/* <Route path="/location" element={<Location />} /> */}
         </Route>
 
