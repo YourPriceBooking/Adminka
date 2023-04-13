@@ -2,3 +2,4 @@
 /// <reference types="redux-persist" />
 
 declare module '*.woff2';
+
