@@ -23,6 +23,11 @@ export const HomeNavListStyled = styled.ul`
     > div {
       gap: 65px;
     }
+
+    @media screen and (max-width: 767px) {
+      padding: 113px 20px 0;
+    }
+
     padding: 113px 25px 0;
   }
 
@@ -42,6 +47,9 @@ export const HomeNavListStyled = styled.ul`
       }
     }
 
+    @media screen and (max-width: 767px) {
+      padding: 73px 37px 0;
+    }
     padding: 75px 42px 0;
   }
 
@@ -60,34 +68,6 @@ export const HomeNavListStyled = styled.ul`
   }
 `;
 
-export const HomeNavItem = styled.li`
-position:relative;
-z-index:10;
-  display: flex;
-  flex-direction: column;
-  cursor:pointer;
-
-  width: 290px;
-  height: 290px;
-
-  background-color: ${({ theme }) => theme.colors.white};
-  border: 1px solid ${({ theme }) => theme.colors.border.list};
-  border-radius: 9px;
-  box-shadow: 0 0 9px 2px ${({ theme }) => theme.shadows.quarterBlack};
-`;
-
-export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  font-weight: 500;
-  font-size: 27px;
-  line-height: 1.17;
-  font-family: ${({ theme }) => theme.fonts.roboto};
-  color: ${({ theme }) => theme.colors.textPrimary};
-  text-align: center;
-  transition: color ${({ theme }) => theme.transition[110]};
-`;
 
 
 export const TextSmall = styled.p`

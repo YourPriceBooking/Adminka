@@ -1,19 +1,18 @@
+import { memo, useMemo} from 'react';
 import { Container } from 'components/shared/Container';
-// import { useFromLocation } from 'common/hooks';
-import { memo, useMemo, useState } from 'react';
+import { LoaderMiddleware } from 'components/shared/Loader';
 import { routes } from 'routes/routesConfig';
-import SuspenseLoader from 'components/shared/Loader/SuspenseLoader/SuspenseLoader';
+
+
 
 import {
   HomeStyled,
   HomeNavListStyled,
-  HomeNavItem,
   TextSmall,
   StatsListStyled,
   StatsListItem,
   TextMedium,
   TextMediumAccent,
-  Wrapper,
 } from './Home.styled';
 
 const { verification, finance, statistics, country } = routes;
@@ -52,34 +51,6 @@ const StatsList = ({ items }: StatsListType) => (
 );
 
 const StatsListMemoized = memo(StatsList);
-
-type IProps = {
-  children: React.ReactNode;
-  path: string;
-};
-
-const LoaderMiddleware: React.FC<IProps> = ({ children, path }) => {
-    // const from = useFromLocation();
-    // const newLocation = useMemo(() => ({ from }), [from]);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleClick = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      window.location.replace(path);
-      setIsLoading(false);
-    }, 1000);
-  };
-
-  return (
-    <HomeNavItem onClick={handleClick} >
-      <Wrapper>{isLoading ? <SuspenseLoader /> : children}</Wrapper>
-    </HomeNavItem>
-  );
-};
-
-
-
 
 const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface) => {
 
