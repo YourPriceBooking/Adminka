@@ -1,5 +1,10 @@
-export const AdminPageAccess = ()  =>(
-    <div>
-      <h1>Hello!</h1>
-  </div>
-)
+import { AdminAccess } from "./AdminPageAccess.styled";
+import { AdminAccessHeader } from "./AdminAccessHeader/AdminAccessHeader";
+import { AdminEmail } from "./AdminEmail/AdminEmail";
+
+export const AdminPageAccess = () => (
+  <AdminAccess>
+    <AdminAccessHeader />
+    <AdminEmail/>
+  </AdminAccess>
+);
