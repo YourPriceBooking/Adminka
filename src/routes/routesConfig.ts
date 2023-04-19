@@ -1,5 +1,12 @@
 import { App } from 'App';
-import { CountryPage, LoginPage, MenuPage, VerificationPage, VerificationCabinetPage } from 'pages';
+import {
+  CountryPage,
+  LoginPage,
+  MenuPage,
+  VerificationPage,
+  VerificationCabinetPage,
+  AdminPageAccess,
+} from 'pages';
 
 
 export const routes = {
@@ -17,7 +24,7 @@ export const routes = {
   adminPageAccess: {
     path: '/admin-page-access',
     name: 'Access to the administrative directory',
-    element: null,
+    element: AdminPageAccess,
   },
   blog: { path: '/blog', name: 'Blog', element: null }
 };
