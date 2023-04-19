@@ -19,4 +19,5 @@ export const routes = {
     name: 'Access to the administrative directory',
     element: null,
   },
+  blog: { path: '/blog', name: 'Blog', element: null }
 };
