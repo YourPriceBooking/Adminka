@@ -3,7 +3,7 @@ import { routes } from './routesConfig';
 import { PrivateRoute } from './PrivateRoute';
 
 
-const { login, menu, country, verification } = routes;
+const { login, menu, country, verification} = routes;
 
 export const AppRouter = () =>  (
     <Routes>

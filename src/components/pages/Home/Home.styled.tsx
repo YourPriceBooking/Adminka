@@ -29,6 +29,10 @@ export const HomeNavListStyled = styled.ul`
     }
 
     padding: 113px 25px 0;
+
+    :hover {
+      padding: 113px 24px 0;
+    }
   }
 
   > li:nth-of-type(2) {
@@ -51,6 +55,10 @@ export const HomeNavListStyled = styled.ul`
       padding: 73px 37px 0;
     }
     padding: 75px 42px 0;
+
+    :hover {
+      padding: 75px 41px 0;
+    }
   }
 
   > li:nth-of-type(4) {
@@ -61,9 +69,13 @@ export const HomeNavListStyled = styled.ul`
     padding: 89px 32px 0;
   }
 
+  > li:nth-of-type(6) {
+    padding: 89px 32px 0;
+  }
+
   > li {
     :hover {
-      outline: 2px solid ${({ theme }) => theme.colors.border.hoverBorder};
+      border: 2px solid ${({ theme }) => theme.colors.border.hoverBorder};
     }
   }
 `;
@@ -111,3 +123,5 @@ export const TextMediumAccent = styled(TextMedium)`
   font-weight: 400;
   color: ${({ theme }) => theme.colors.textSecond};
 `;
+
+

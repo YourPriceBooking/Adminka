@@ -1,7 +1,7 @@
 import { memo, useMemo} from 'react';
 import { Container } from 'components/shared/Container';
-import { LoaderMiddleware } from 'components/shared/Loader';
 import { routes } from 'routes/routesConfig';
+import { LoaderMiddleware } from 'components/shared/Loader/HomeLoader/LoaderMiddleware';
 
 
 
@@ -69,7 +69,7 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
     [agents, hoteliers, objects, users]
   );
 
-
+  
   return (
     <HomeNavListStyled>
       <LoaderMiddleware path={routes.verification.path.verification}>
@@ -92,6 +92,9 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
       </LoaderMiddleware>
       <LoaderMiddleware path={routes.adminPageAccess.path}>
         {routes.adminPageAccess.name}
+      </LoaderMiddleware>
+      <LoaderMiddleware path={routes.blog.path}>
+        {routes.blog.name}
       </LoaderMiddleware>
     </HomeNavListStyled>
   );
