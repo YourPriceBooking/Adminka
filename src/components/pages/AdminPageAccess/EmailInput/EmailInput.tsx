@@ -1,7 +1,33 @@
-import { EmailInputStyled, Input } from './EmailInput.styled';
+import React, {useState} from 'react';
+import { EmailInputStyled, Input, ErrorEmail } from './EmailInput.styled';
+import { SendButton } from '../SendButton';
 
-export const EmailInput = () => (
+export const EmailInput: React.FC = () => {
+  const [email, setEmail] = useState<string>('');
+  const [message, setMessage] = useState('');
+
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setEmail(event.target.value);
+    };
+
+    const validateEmail = (): boolean => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    };
+  
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!validateEmail()) {
+      setMessage(`It doesn't look like Email at all.`);
+    }
+  };
+  
+return (
   <EmailInputStyled>
-    <Input type="email" name="email" pattern=".+@globex\.com" required />
+    <ErrorEmail>{message && <p>{message}</p>}</ErrorEmail>
+    <form onSubmit={handleSubmit}>
+      <Input type="email" name="email" value={email} onChange={handleEmailChange} required />
+      <SendButton />
+    </form>
   </EmailInputStyled>
-);
+);};
