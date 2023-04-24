@@ -22,18 +22,9 @@ export const AddDirButtonStyled = styled.button.attrs(
   text-align: center;
 
   background-color: ${({ theme, $isEnabled }) =>
-    $isEnabled ? theme.colors.bg.buttonAddDirHotelier : '#ddd'};
+    $isEnabled ? theme.colors.bg.buttonAddDirHotelier : '#9FC9A3'};
 
   border: 1px solid transparent;
   border-radius: 2px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.bgTransparent.buttonEditHover};
-  }
-
-  &:active {
-    background-color: ${({ theme }) => theme.colors.bgTransparent.buttonEditActive};
-    border-color: white;
-  }
 `;

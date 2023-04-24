@@ -15,11 +15,13 @@ import { selectActiveCountryName } from 'features/countries';
 import { selectStateById } from 'features/states';
 import { selectCityById } from 'features/cities';
 import { wait } from 'common/utils';
+import Modal from 'components/ui';
 import {
   AddDirButton,
   ButtonsOverlay,
   EditButton,
   SubmitAddLocationButton,
+  UrlDirButton,
 } from 'components/shared/Buttons';
 import {
   EditDistrictFormStyled,
@@ -29,6 +31,7 @@ import {
   DistrictNameInput,
   EditDistrictPhotoLabel,
 } from './EditDistrictForm.styled';
+
 
 type EditDistrictFormProps = {
   districtId: EntityId;
@@ -53,14 +56,31 @@ export const EditDistrictForm = ({ districtId, cityId, stateId }: EditDistrictFo
   const stopEditing = useCallback(() => setIsEditing(false), []);
 
   const formRef = useRef<HTMLFormElement>(null);
-
+//
+  const [buttonDisabled, setButtonDisabled] = useState(false)
+  const [modalActive, setModalActive] = useState(false)
+  //const [currentUrl, setCurrentUrl] = useState()
+//
   const addDir = useCallback(() => {
     toast.success('TODO: Add Directory Fn');
+    //
+      setButtonDisabled(true)
+    //
   }, []);
 
   const addLoc = useCallback(() => {
     toast.success('TODO: Add Location Fn');
   }, []);
+//
+
+  /* const handleClickSeenUrls = ()  => {
+    const baseUrl = 'https://wwwyourpricebooking.com/rent-a-hotel-room-daily/'
+    const urlElement = `${baseUrl}${String(district?.districtName).toLocaleLowerCase()} ${String(cityName).toLocaleLowerCase()} ${String(stateName).toLocaleLowerCase()}`
+    const url = urlElement?.replace(/ [,'"]/g, '-')?.replace(/ /g, '-')
+    setModalActive(true)
+    setCurrentUrl(url)
+  } */
+//
 
   useCloseOnOutsideClick({
     isEditing,
@@ -163,7 +183,6 @@ export const EditDistrictForm = ({ districtId, cityId, stateId }: EditDistrictFo
           required
         />
       </DistrictNameLabel>
-
       <EditDistrictPhotoLabel>
         <span>Photo</span>
         <EditDistrictPhotoURLInput
@@ -180,9 +199,8 @@ export const EditDistrictForm = ({ districtId, cityId, stateId }: EditDistrictFo
     </DistrictInfo>
   );
 
-  const addDirHotelierDisabled = false;
   const addDirUsersDisabled = true;
-
+  //const UrlDirButtonDisabled = false;
   const showEditButtons = !isEditing && (
     <>
       <EditButton
@@ -191,10 +209,10 @@ export const EditDistrictForm = ({ districtId, cityId, stateId }: EditDistrictFo
         disabled={isEditButtonDisabled}
       />
 
-      <AddDirButton onClick={addDir} disabled={addDirHotelierDisabled} $isEnabled>
+      <UrlDirButton disabled={modalActive} onClick={() => setModalActive(true)} $isEnabled={!modalActive} variable='purple'>
         Add Dir <br />
         Hotelier
-      </AddDirButton>
+      </UrlDirButton>
 
       <AddDirButton onClick={addLoc} disabled={addDirUsersDisabled}>
         Add Dir <br />
@@ -215,11 +233,17 @@ export const EditDistrictForm = ({ districtId, cityId, stateId }: EditDistrictFo
     </ButtonsOverlay>
   );
 
+ 
   return (
+    <>
+    {
+      modalActive && <Modal setActive={setModalActive} name={districtName}/>
+    }
     <EditDistrictFormStyled onSubmit={handleSubmitEditDistrict} ref={formRef}>
       {showEditDistrictFormInterface}
 
       {showButtonsOverlay}
     </EditDistrictFormStyled>
+    </>
   );
 };

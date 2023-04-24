@@ -6,7 +6,7 @@ import { StatesListStyled } from './StatesList.styled';
 
 export const StatesList = () => {
   const statesIds = useAppSelector(selectStatesFromActiveCountry);
-
+  
   return (
     <StatesListStyled>
       {statesIds?.map(stateId => (
