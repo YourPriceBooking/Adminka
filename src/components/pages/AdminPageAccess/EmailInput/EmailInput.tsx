@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { EmailInputStyled, Input, ErrorEmail } from './EmailInput.styled';
 import { SendButton } from '../SendButton';
 
 export const EmailInput: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [message, setMessage] = useState('');
+
 
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setEmail(event.target.value);
@@ -27,7 +28,7 @@ return (
     <ErrorEmail>{message && <p>{message}</p>}</ErrorEmail>
     <form onSubmit={handleSubmit}>
       <Input type="email" name="email" value={email} onChange={handleEmailChange} required />
-      <SendButton />
+        <SendButton />
     </form>
   </EmailInputStyled>
 );};
