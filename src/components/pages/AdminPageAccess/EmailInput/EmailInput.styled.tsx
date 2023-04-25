@@ -13,7 +13,7 @@ export const ErrorEmail = styled.span`
   color: #fe6d6d;
 `;
 
-export const Input = styled.input`
+export const Input = styled.input<{ error: boolean }>`
   height: 48px;
   width: 410px;
   font-size: 20px;
@@ -27,4 +27,9 @@ export const Input = styled.input`
   :active {
     border: 1px solid ${({ theme }) => theme.colors.active};
   }
+  ${({ error }) =>
+    error &&
+    `
+    border: 2px solid red;
+  `}
 `;
