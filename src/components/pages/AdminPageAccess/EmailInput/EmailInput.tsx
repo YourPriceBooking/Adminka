@@ -7,7 +7,8 @@ export const EmailInput: React.FC = () => {
   const [message, setMessage] = useState('');
 
 
-    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setMessage("")
       setEmail(event.target.value);
     };
 
