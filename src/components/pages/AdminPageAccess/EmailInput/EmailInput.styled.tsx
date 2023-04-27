@@ -2,6 +2,7 @@ import styled from 'styled-components/macro';
 
 export const EmailInputStyled = styled.div`
   padding-top: 46px;
+  position: relative;
 `;
 
 export const ErrorEmail = styled.span`
@@ -11,6 +12,8 @@ export const ErrorEmail = styled.span`
   font-size: 12px;
   line-height: 16px;
   color: #fe6d6d;
+  position: absolute;
+  top: 30px;
 `;
 
 export const Input = styled.input<{ error: boolean }>`
