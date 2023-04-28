@@ -7,8 +7,7 @@ export const MenuPage = lazy(() => import('./MenuPage'));
 export const CountryPage = lazy(() => import('./CountryPage'));
 export const VerificationPage = lazy(() => import('./VerificationPage'));
 export const VerificationCabinetPage = lazy(() => import('./VerificationCabinetPage'));
-export const AdminPageAccess = lazy(() => import('./AdminPageAccess'))
-export const AdminPageAccessMain = lazy(() => import('./AdminPageAccessMain'));
+export const AdminPageAccess = lazy(() => import ('./AdminPageAccess'))
 
 
 
