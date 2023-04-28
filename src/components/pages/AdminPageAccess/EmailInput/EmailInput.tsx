@@ -33,6 +33,7 @@ export const EmailInput: React.FC = () => {
       if (data === email) {
         navigate('/admin-page-access-main'); 
       } else {
+        setIsEmailValid(false);
         setMessage('You entered the wrong door. You do not have access to this section.');
       }
     }
@@ -44,13 +45,12 @@ export const EmailInput: React.FC = () => {
       setIsEmailValid(false);
     } else {
       dataControl();
-      setIsEmailValid(true);
     }
   };
 
   return (
     <EmailInputStyled>
-      <ErrorEmail >{message && <p>{message}</p>}</ErrorEmail>
+      <ErrorEmail>{message && <p>{message}</p>}</ErrorEmail>
       <form onSubmit={handleSubmit}>
         <Input
           type="email"
@@ -63,5 +63,5 @@ export const EmailInput: React.FC = () => {
         <SendButton />
       </form>
     </EmailInputStyled>
-  )
+  );
 }
