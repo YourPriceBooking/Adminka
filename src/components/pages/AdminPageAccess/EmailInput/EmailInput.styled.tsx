@@ -2,9 +2,21 @@ import styled from 'styled-components/macro';
 
 export const EmailInputStyled = styled.div`
   padding-top: 46px;
+  position: relative;
 `;
 
-export const Input = styled.input`
+export const ErrorEmail = styled.span`
+  font-family: 'Segoe UI';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #fe6d6d;
+  position: absolute;
+  top: 30px;
+`;
+
+export const Input = styled.input<{ error: boolean }>`
   height: 48px;
   width: 410px;
   font-size: 20px;
@@ -18,4 +30,9 @@ export const Input = styled.input`
   :active {
     border: 1px solid ${({ theme }) => theme.colors.active};
   }
+  ${({ error }) =>
+    error &&
+    `
+    border: 2px solid red;
+  `}
 `;
