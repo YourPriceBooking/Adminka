@@ -1,7 +1,10 @@
-
+import { AddAccessButton } from "../AddAccessButton";
+import { CloseButton } from "../CloseButton";
+import { AdminAccessMainStyled } from "./AdminPageAccessMain.styled";
 
 export const AdminPageAccessMain = () => (
-      <div>
-          <p>Hi!!</p>
-  </div>
-  );
+  <AdminAccessMainStyled>
+    <AddAccessButton />
+    <CloseButton />
+  </AdminAccessMainStyled>
+);
