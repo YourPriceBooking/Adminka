@@ -82,6 +82,8 @@ declare module 'styled-components' {
         buttonCopy: string;
         list: string;
         hoverBorder: string;
+        btnBorder: string;
+        btnBorderHover: string;
       };
 
       borderTransparent: {
@@ -168,6 +170,8 @@ export const border = {
   buttonCopy: '#09dd1e',
   list: '#787878',
   hoverBorder: '#0090ff',
+  btnBorder: '#AEAFBC',
+  btnBorderHover: '#4c4c4c',
 };
 
 export const borderTransparent = {

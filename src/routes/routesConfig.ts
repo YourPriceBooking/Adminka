@@ -8,6 +8,7 @@ import {
   AdminPageAccess,
   AdminPageAccessMain
 } from 'pages';
+import RegisterModalPage from 'pages/RegisterModalPage';
 
 
 export const routes = {
@@ -33,4 +34,5 @@ export const routes = {
     element: AdminPageAccessMain,
   },
   blog: { path: '/blog', name: 'Blog', element: null },
+  registerModal: { path: '/registerModal', name: 'registerModal', element: RegisterModalPage },
 };
