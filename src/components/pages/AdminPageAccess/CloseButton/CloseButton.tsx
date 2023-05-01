@@ -1,10 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import { CloseButtonStyled } from './CloseButton.styled';
 
-export const CloseButton = () => {
+type Props = {
+  direction: string
+}
+
+export const CloseButton = ({direction}: Props) => {
     const navigate = useNavigate()
     const closePage = () => {
- navigate('/menu'); 
+ navigate(direction); 
     }
     return (
       <CloseButtonStyled onClick={closePage}>

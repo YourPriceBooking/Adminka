@@ -5,6 +5,6 @@ import { AdminAccessMainStyled } from "./AdminPageAccessMain.styled";
 export const AdminPageAccessMain = () => (
   <AdminAccessMainStyled>
     <AddAccessButton />
-    <CloseButton />
+    <CloseButton direction="/admin-page-access" />
   </AdminAccessMainStyled>
 );
