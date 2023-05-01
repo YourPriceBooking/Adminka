@@ -4,24 +4,29 @@ import { ListBtn } from "./ListButton.styled";
 
 const titleButton = ['Location Register 1', 'Location Register 2', 'Location Register 3'];
 
-export const ListButton = () => {
-  const [activeButtonIndex, setActiveButtonIndex] = useState(-1);
+export const ListButton = (): JSX.Element => {
+   const [activeButtonIndex, setActiveButtonIndex] = useState<number>(-1);
 
-  const handleButtonClick = (index: number) => {
-    setActiveButtonIndex(index === activeButtonIndex ? -1 : index);
+  const handleButtonClick = (event: React.MouseEvent<HTMLUListElement>): void => {
+    const { target } = event;
+    if (target instanceof HTMLButtonElement) {
+      const index = parseInt(target.dataset.index ?? '-1', 10);
+      setActiveButtonIndex(index === activeButtonIndex ? -1 : index);
+    }
   };
 
   return (
-    <ListBtn>
+    <ListBtn onClick={handleButtonClick}>
       {titleButton.map((title, index) => (
         <RegisterButton
           key={title}
           title={title}
           index={index}
-          isActive={index === activeButtonIndex}
-          onClick={() => handleButtonClick(index)}
+          activeButtonIndex={activeButtonIndex}
+          setActiveButtonIndex={setActiveButtonIndex}
         />
       ))}
     </ListBtn>
   );
-};
+}
+  
