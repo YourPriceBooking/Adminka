@@ -1,8 +1,10 @@
 import { AddAccessButtonStyled } from "./AddAccessButton.styled";
 
-export const AddAccessButton = () => (
-    <AddAccessButtonStyled>
-        <span>+</span>
-        <p>Add <br/> access</p>
-    </AddAccessButtonStyled>
-)
+export const AddAccessButton = (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
+  <AddAccessButtonStyled {...props}>
+    <span>+</span>
+    <p>
+      Add <br /> access
+    </p>
+  </AddAccessButtonStyled>
+);
