@@ -3,14 +3,17 @@ import {
   AddEmailAccessInput,
   AddEmailAccessButtonStyled,
   AddEmailAccessMainDiv,
+  MainDiv,
 } from './AddEmailAccess.styled';
 import { CloseButton } from '../CloseButton';
+import { EmailCheckbox } from '../EmailCheckbox';
 
 type Props = {
   onClick?: () => void;
 }
 
-export const AddEmailAccess = ({onClick}: Props) => (
+export const AddEmailAccess = ({ onClick }: Props) => (
+  <MainDiv>
     <AddEmailAccessMainDiv>
       <AddEmailAccessStyled>
         <form>
@@ -19,6 +22,8 @@ export const AddEmailAccess = ({onClick}: Props) => (
         </form>
         <AddEmailAccessButtonStyled>Add Access</AddEmailAccessButtonStyled>
       </AddEmailAccessStyled>
-      <CloseButton onClick={onClick} direction="/admin-page-access-main" />
+      <EmailCheckbox />
     </AddEmailAccessMainDiv>
-  );
+    <CloseButton onClick={onClick} direction="/admin-page-access-main" />
+  </MainDiv>
+);
