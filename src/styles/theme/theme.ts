@@ -32,6 +32,9 @@ declare module 'styled-components' {
       countdown: string;
       editFirstTime: string;
       editSecondTime: string;
+      textButton: string;
+      scrollColor: string;
+      scrollColorHover: string;
 
       bg: {
         body: string;
@@ -82,6 +85,8 @@ declare module 'styled-components' {
         buttonCopy: string;
         list: string;
         hoverBorder: string;
+        btnBorder: string;
+        btnBorderHover: string;
       };
 
       borderTransparent: {
@@ -100,6 +105,7 @@ declare module 'styled-components' {
       cancelDeleteCard: string;
       buttonAddLocation: string;
       modal: string;
+      buttonModal: string;
     };
 
     transition: {
@@ -154,6 +160,9 @@ const currentlyNotAssigned = {
   countdown: '#ff001f',
   editFirstTime: '#ff931e',
   editSecondTime: '#9b9b9b',
+  textButton: '#626367',
+  scrollColor: '#ebebeb',
+  scrollColorHover: '#c4c4c4',
 };
 
 export const light = {
@@ -168,6 +177,8 @@ export const border = {
   buttonCopy: '#09dd1e',
   list: '#787878',
   hoverBorder: '#0090ff',
+  btnBorder: '#AEAFBC',
+  btnBorderHover: '#4c4c4c',
 };
 
 export const borderTransparent = {
@@ -254,6 +265,7 @@ export const shadows = {
   notification: `0 0 4px ${quarterBlack}`,
   countrySelector: `0 0 9px 2px ${quarterBlack}`,
   buttonCancel: `0 0 5px 2px ${quarterBlack}`,
+  buttonModal: `0 2px 2px ${quarterBlack}`,
   cancelDeleteCard: `0 0 10px ${rgba(light.black, 0.3)}`,
   buttonAddLocation: `0 0 5px ${rgba(light.black, 0.3)}`,
   modal: `0px 2px 4px ${rgba(light.black, 0.15)}`,

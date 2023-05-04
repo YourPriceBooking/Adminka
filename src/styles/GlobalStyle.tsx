@@ -92,6 +92,7 @@ export const GlobalStyle = styled.createGlobalStyle`
     height: 100vh;
     margin: 0;
     overflow: hidden;
+ 
 
     font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell,
       'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
