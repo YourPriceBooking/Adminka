@@ -6,7 +6,8 @@ export const ModalWrapper = styled.div`
 
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
 
   width: 242px;
   height: 279px;
@@ -14,6 +15,25 @@ export const ModalWrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
   box-shadow: ${({ theme }) => theme.shadows.buttonModal};
   z-index: 10;
+
+  /* scrollbar */
+
+  scrollbar-color: ${({ theme }) => theme.colors.scrollColor} ${({ theme }) => theme.colors.white};
+  ::-webkit-scrollbar {
+    width: 9px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 30px;
+  }
+
+  ::-webkit-scrollbar-thumb:vertical {
+    background-color: ${({ theme }) => theme.colors.scrollColor};
+    cursor: pointer;
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.scrollColorHover};
+    }
+  }
 `;
 
 export const Text = styled.p`

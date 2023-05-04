@@ -33,6 +33,8 @@ declare module 'styled-components' {
       editFirstTime: string;
       editSecondTime: string;
       textButton: string;
+      scrollColor: string;
+      scrollColorHover: string;
 
       bg: {
         body: string;
@@ -159,6 +161,8 @@ const currentlyNotAssigned = {
   editFirstTime: '#ff931e',
   editSecondTime: '#9b9b9b',
   textButton: '#626367',
+  scrollColor: '#ebebeb',
+  scrollColorHover: '#c4c4c4',
 };
 
 export const light = {
