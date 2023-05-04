@@ -1,4 +1,4 @@
-import { RegisterModal } from "components/pages/RegisterModal";
+import { RegisterModal } from "components/pages/ButtonRegisterModal";
 
 
 const RegisterModalPage = () => <RegisterModal/>
