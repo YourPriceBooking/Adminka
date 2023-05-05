@@ -73,6 +73,10 @@ export const HomeNavListStyled = styled.ul`
     padding: 89px 32px 0;
   }
 
+  > li:nth-of-type(7) {
+    padding: 89px 32px 0;
+  }
+
   > li {
     :hover {
       border: 2px solid ${({ theme }) => theme.colors.border.hoverBorder};

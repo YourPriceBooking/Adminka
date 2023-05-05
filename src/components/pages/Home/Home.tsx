@@ -2,9 +2,7 @@ import { memo, useMemo} from 'react';
 import { Container } from 'components/shared/Container';
 import { routes } from 'routes/routesConfig';
 import { LoaderMiddleware } from 'components/shared/Loader/HomeLoader/LoaderMiddleware';
-
-
-
+import { Link } from 'react-router-dom';
 import {
   HomeStyled,
   HomeNavListStyled,
@@ -93,17 +91,17 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
       <LoaderMiddleware path={routes.adminPageAccess.path}>
         {routes.adminPageAccess.name}
       </LoaderMiddleware>
-      <LoaderMiddleware path={routes.blog.path}>
-        {routes.blog.name}
-      </LoaderMiddleware>
+      <LoaderMiddleware path={routes.blog.path}>{routes.blog.name}</LoaderMiddleware>
+      <Link to={routes.registerModal.path}>Тимчасовий лінк для Location Register Modal</Link>
     </HomeNavListStyled>
   );
 };
 
 export const Home = () => (
-    <HomeStyled>
-      <Container>
+  <HomeStyled>
+    <Container>
       <HomeNavList users={103} hoteliers={75} agents={75} objects={75} />
-      </Container>
-    </HomeStyled>
-  );
+
+    </Container>
+  </HomeStyled>
+);
