@@ -45,13 +45,14 @@ const Modal: FC<TModalProps> = (props: TModalProps): JSX.Element => {
           let className = `${s.copy__btn}`;
           let buttonText = 'Copy';
 
-          if (isCopied) {
+          if (!isCopied) {
+            className = `${s.copy__btn}`;
+          } else if (isCopied) {
             className = `${s.copy__btn_true} ${s.copy__btn}`;
             buttonText = value.isCopied ? 'True' : 'False';
-          } else {
+          } else if (isCopied === false) {
             className = `${s.copy__btn} ${s.copy__btn_false}`;
           }
-
           return (
             <div key={obj._id} className={s.url__item}>
               <button type="button" className={className} onClick={() => copy(obj.url)}>
