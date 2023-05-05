@@ -14,7 +14,20 @@ type TModalProps = {
 const Modal: FC<TModalProps> = (props: TModalProps): JSX.Element => {
   const { setActive, name, urls } = props
   const [value, copy] = useCopyToClipboard()
+  const allUrls = urls?.map((obj) => obj?.url)?.toString()
 
+  const AllUrlsCopied = value.copiedValue === allUrls;
+  let AllUrlsClassName = `${s.copy__btn}`;
+  let AllUrlsButtonText = 'Copy all 12 links';
+
+  if (!AllUrlsCopied) {
+    AllUrlsClassName = `${s.copy__all_btn}`;
+  } else if (AllUrlsCopied) {
+    AllUrlsClassName = `${s.copy__all_btn_true} ${s.copy__all_btn}`;
+    AllUrlsButtonText = value.isCopied ? 'True' : 'False';
+  } else if (AllUrlsCopied === false) {
+    AllUrlsClassName = `${s.copy__all_btn} ${s.copy__all_btn_false}`;
+  }
   return (
     <div className={s.modal}>
       <svg
@@ -62,8 +75,8 @@ const Modal: FC<TModalProps> = (props: TModalProps): JSX.Element => {
             </div>
           );
         })}
-        <button type="button" className={s.copy__all_btn}>
-          Copy all 12 links
+        <button type="button" className={AllUrlsClassName} onClick={() => copy(allUrls)}>
+          {AllUrlsButtonText}
         </button>
       </div>
     </div>

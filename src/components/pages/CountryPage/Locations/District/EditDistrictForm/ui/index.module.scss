@@ -16,13 +16,12 @@
     padding: 20px;
     border-radius: 12px;
     background-color: #fff;
-    border: 1px solid #C9C9C9;
+    border: 1px solid #c9c9c9;
     border-radius: 10px;
     display: block;
     z-index: 10;
   }
 }
-
 
 .name {
   position: absolute;
@@ -51,7 +50,6 @@
   }
 }
 
-
 .url__item {
   margin-bottom: 3px;
   display: flex;
@@ -64,27 +62,27 @@
   padding: 4px;
   width: 39px;
   height: 24px;
-  background-color: #D0D0D0;
+  background-color: #d0d0d0;
   font-weight: 700;
   font-size: 10px;
   line-height: 13px;
   color: #fff;
   border: none;
   &:hover {
-    background-color: #A5A5A5;
+    background-color: #a5a5a5;
   }
   &_true {
-    background-color: #6AFF79;
+    background-color: #6aff79;
     &:hover {
-    background-color: #6AFF79;
-  }
+      background-color: #6aff79;
+    }
   }
 
   &_false {
-    background-color: #FF6A6A;
+    background-color: #ff6a6a;
     &:hover {
-    background-color: #FF6A6A;
-  }
+      background-color: #ff6a6a;
+    }
   }
 }
 
@@ -96,25 +94,39 @@
 }
 
 .copy__all_btn {
+  width: 150px;
   font-family: 'Segoe UI';
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 10px 35px;
   margin: 6px 0 0 64px;
-  background-color: #D0D0D0;
+  background-color: #d0d0d0;
   font-weight: 700;
   font-size: 10px;
   line-height: 13px;
   color: #fff;
   border: none;
   &:hover {
-    background-color: #A5A5A5;
+    background-color: #a5a5a5;
+  }
+  &_true {
+    background-color: #6aff79;
+    &:hover {
+      background-color: #6aff79;
+    }
+  }
+
+  &_false {
+    background-color: #ff6a6a;
+    &:hover {
+      background-color: #ff6a6a;
+    }
   }
 }
 
 .infoButton {
-    position: absolute;
-    right: 133px;
-    top: -40px;
+  position: absolute;
+  right: 133px;
+  top: -40px;
 }
