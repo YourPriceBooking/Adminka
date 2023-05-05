@@ -66,7 +66,8 @@ module.exports = {
         controlComponents: ['input'],
       },
     ],
-    'linebreak-style': ['error', 'unix'],
+
+    'linebreak-style': 0,
   },
   reportUnusedDisableDirectives: true,
   settings: {
