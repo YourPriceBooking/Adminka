@@ -1,23 +1,21 @@
+import { memo, useMemo} from 'react';
 import { Container } from 'components/shared/Container';
-import { useFromLocation } from 'common/hooks';
-import { memo, useMemo } from 'react';
 import { routes } from 'routes/routesConfig';
+import { LoaderMiddleware } from 'components/shared/Loader/HomeLoader/LoaderMiddleware';
+
+
 
 import {
   HomeStyled,
   HomeNavListStyled,
-  HomeNavItem,
-  Link,
   TextSmall,
-  TextNormal,
-  TextAccent,
   StatsListStyled,
   StatsListItem,
   TextMedium,
   TextMediumAccent,
 } from './Home.styled';
 
-const { verification, translators, statistics, country } = routes;
+const { verification, finance, statistics, country } = routes;
 
 type HomeNavListInterface = {
   users: number;
@@ -43,8 +41,8 @@ const StatsList = ({ items }: StatsListType) => (
   <StatsListStyled>
     {items.map(({ text, data }) => (
       <StatsListItem key={text.en}>
-        <TextMedium>
-          <span>{text.ru}</span>
+        <TextMedium as="div">
+          <p>{text.en}</p>
           <TextMediumAccent as="span">{data}</TextMediumAccent>
         </TextMedium>
       </StatsListItem>
@@ -55,66 +53,57 @@ const StatsList = ({ items }: StatsListType) => (
 const StatsListMemoized = memo(StatsList);
 
 const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface) => {
-  const from = useFromLocation();
-  const newLocation = useMemo(() => ({ from }), [from]);
+
+
   const statItems = useMemo(
     () => [
       { text: { en: 'Users: ', ua: 'Користувачі: ', ru: 'Юзеры: ' }, data: users },
       { text: { en: 'Hoteliers: ', ua: 'Готельєри ', ru: 'Отельеры: ' }, data: hoteliers },
       { text: { en: 'Agents: ', ua: 'Агенти ', ru: 'Агенты: ' }, data: agents },
       { text: { en: 'Objects: ', ua: "Об'єкти ", ru: 'Объекты: ' }, data: objects },
+      {
+        text: { en: 'Booking Options:', ua: 'Варіанти бронювання', ru: 'Варианты бронирования:' },
+        data: objects,
+      },
     ],
     [agents, hoteliers, objects, users]
   );
 
+  
   return (
     <HomeNavListStyled>
-      <HomeNavItem>
-        <Link to={verification.path.verification} state={newLocation}>
-          <p>{verification.name}</p>
-
-          <TextSmall>10781 в очереди</TextSmall>
-        </Link>
-      </HomeNavItem>
-
-      <HomeNavItem>
-        <Link to={translators.path} state={newLocation}>
-          <p>{translators.name}</p>
-
-          <TextNormal>7741 перевод в очереди</TextNormal>
-        </Link>
-      </HomeNavItem>
-
-      <HomeNavItem>
-        <Link to={country.path} state={newLocation}>
-          <p>Языки</p> {/* Languages Мови */}
-          <p>{country.name}</p> {/* Countries Країни */}
-          <p>Списки локаций</p> {/* Locations */}
-          <TextAccent>1 2 3</TextAccent>
-        </Link>
-      </HomeNavItem>
-
-      <HomeNavItem>
-        <Link to={statistics.path} state={newLocation}>
-          <p>{statistics.name}</p>
-
-          <StatsListMemoized items={statItems} />
-        </Link>
-      </HomeNavItem>
-
-      <HomeNavItem>
-        <Link to={routes.adminPageAccess.path} state={newLocation}>
-          {routes.adminPageAccess.name}
-        </Link>
-      </HomeNavItem>
+      <LoaderMiddleware path={routes.verification.path.verification}>
+        <p>{verification.name}</p>
+        <TextSmall>
+          <span>105</span>objects are waiting
+        </TextSmall>
+      </LoaderMiddleware>
+      <LoaderMiddleware path={finance.path}>
+        <p>{finance.name}</p>
+      </LoaderMiddleware>
+      <LoaderMiddleware path={country.path}>
+        <p>Adding a languages</p> {/* Languages Мови */}
+        <p>Adding a country&apos;s</p> {/* Countries Країни */}
+        <p>Location registers: 1, 2, 3</p> {/* Locations */}
+      </LoaderMiddleware>
+      <LoaderMiddleware path={statistics.path}>
+        <p>{statistics.name}</p>
+        <StatsListMemoized items={statItems} />
+      </LoaderMiddleware>
+      <LoaderMiddleware path={routes.adminPageAccess.path}>
+        {routes.adminPageAccess.name}
+      </LoaderMiddleware>
+      <LoaderMiddleware path={routes.blog.path}>
+        {routes.blog.name}
+      </LoaderMiddleware>
     </HomeNavListStyled>
   );
 };
 
 export const Home = () => (
-  <HomeStyled>
-    <Container>
-      <HomeNavList users={10000} hoteliers={100} agents={2000} objects={3500} />
-    </Container>
-  </HomeStyled>
-);
+    <HomeStyled>
+      <Container>
+      <HomeNavList users={103} hoteliers={75} agents={75} objects={75} />
+      </Container>
+    </HomeStyled>
+  );
