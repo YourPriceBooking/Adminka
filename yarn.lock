@@ -11247,6 +11247,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"package@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "package@npm:1.0.1"
+  checksum: 2b0ae083c1940969e0dd59f8e96ce4728f063dd7068c1c30df889a74158a9e443bb48ab99124174ba8ca684cdc68be83f75b0a58b7438da723d960bc8749989f
+  languageName: node
+  linkType: hard
+
 "param-case@npm:^3.0.4":
   version: 3.0.4
   resolution: "param-case@npm:3.0.4"
@@ -16624,6 +16631,7 @@ __metadata:
     husky: ^8.0.1
     lint-staged: ^13.0.3
     modern-normalize: ^1.1.0
+    package: ^1.0.1
     polished: ^4.2.2
     prettier: ^2.7.1
     react: ^18.1.0

@@ -13,10 +13,6 @@ function useCopyToClipboard(): [CopiedState, CopyFn] {
   })
 
   const copy: CopyFn = async text => {
-    if (!navigator?.clipboard) {
-      console.warn('Clipboard not supported')
-      return false
-    }
 
     try {
       await navigator.clipboard.writeText(text)
@@ -26,7 +22,6 @@ function useCopyToClipboard(): [CopiedState, CopyFn] {
       })
       return true
     } catch (error) {
-      console.warn('Copy failed', error)
       setCopied({
         isCopied: false,
         copiedValue: null
