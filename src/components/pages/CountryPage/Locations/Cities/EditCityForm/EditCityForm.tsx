@@ -9,6 +9,7 @@ import {
   ButtonsOverlay,
   EditButton,
   SubmitAddLocationButton,
+  UrlDirButton,
 } from 'components/shared/Buttons';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { selectCityById, useEditCityMutation } from 'features/cities';
@@ -170,10 +171,10 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
         disabled={isEditButtonDisabled}
       />
 
-      <AddDirButton onClick={addDir} disabled={addDirHotelierDisabled} $isEnabled>
+      <UrlDirButton onClick={addDir} disabled={addDirHotelierDisabled} $isEnabled>
         Add Dir <br />
         Hotelier
-      </AddDirButton>
+      </UrlDirButton>
 
       <AddDirButton onClick={addLoc} disabled={addDirUsersDisabled}>
         Add Dir <br />

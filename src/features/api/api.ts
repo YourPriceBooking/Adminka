@@ -42,7 +42,7 @@ export const api = createApi({
     // },
   }),
   keepUnusedDataFor: 300,
-  tagTypes: ['Language', 'Country', 'State', 'City', 'District'],
+  tagTypes: ['Language', 'Country', 'State', 'City', 'District', 'AddLocation'],
   endpoints: () => ({}),
 });
 
@@ -52,6 +52,7 @@ export const endpoints = {
   locationState: '/location-state' as const,
   countries: '/countries' as const,
   languages: '/languages' as const,
+  catalogForHotelier: '/catalogForHotelier' as const
 };
 
 export const frozenArr = Object.freeze([]);

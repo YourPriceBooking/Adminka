@@ -15,11 +15,15 @@ import { selectActiveCountryName } from 'features/countries';
 import { selectStateById } from 'features/states';
 import { selectCityById } from 'features/cities';
 import { wait } from 'common/utils';
+import { useAddCityToHoteilerMutation } from 'features/catalogForHotelier/addCatalogApi';
+import Modal from 'components/pages/CountryPage/Locations/District/EditDistrictForm/ui';
+import type { DataObject, Location } from 'types/addLocation';
 import {
   AddDirButton,
   ButtonsOverlay,
   EditButton,
   SubmitAddLocationButton,
+  UrlDirButton,
 } from 'components/shared/Buttons';
 import {
   EditDistrictFormStyled,
@@ -30,13 +34,15 @@ import {
   EditDistrictPhotoLabel,
 } from './EditDistrictForm.styled';
 
+
 type EditDistrictFormProps = {
   districtId: EntityId;
   cityId: EntityId;
   stateId: EntityId;
+  data: DataObject;
 };
 
-export const EditDistrictForm = ({ districtId, cityId, stateId }: EditDistrictFormProps) => {
+export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDistrictFormProps) => {
   const [editDistrict, { isLoading: isEditingL1 }] = useEditDistrictMutation();
   const [getDistricts, { isLoading: isRefetchingDistricts }] = useLazyGetDistrictsQuery();
 
@@ -54,9 +60,15 @@ export const EditDistrictForm = ({ districtId, cityId, stateId }: EditDistrictFo
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  const addDir = useCallback(() => {
+  const [addCityToHoteiler] = useAddCityToHoteilerMutation();
+
+  /* const [buttonDisabled, setButtonDisabled] = useState(false); */
+  const [modalActive, setModalActive] = useState(false);
+
+/*   const addDir = useCallback(() => {
     toast.success('TODO: Add Directory Fn');
-  }, []);
+    setButtonDisabled(true);
+  }, []); */
 
   const addLoc = useCallback(() => {
     toast.success('TODO: Add Location Fn');
@@ -149,6 +161,23 @@ export const EditDistrictForm = ({ districtId, cityId, stateId }: EditDistrictFo
     }
   };
 
+  const handleAdd = async () => {
+    const body = {
+      language: activeLangCode.toLowerCase(),
+      idLocation: districtId,
+      district: districtName,
+      city: cityName,
+      state: stateName,
+      country: activeCountryName,
+      linkOnPhoto: districtPhotoURL,
+    };
+    await addCityToHoteiler(body);
+  };
+
+  const saveLocation = Object.values<Location>(data || {}).filter(
+    location => location.district === districtName
+  );
+
   const showEditDistrictFormInterface = (
     <DistrictInfo>
       <DistrictNameLabel>
@@ -163,7 +192,6 @@ export const EditDistrictForm = ({ districtId, cityId, stateId }: EditDistrictFo
           required
         />
       </DistrictNameLabel>
-
       <EditDistrictPhotoLabel>
         <span>Photo</span>
         <EditDistrictPhotoURLInput
@@ -180,7 +208,6 @@ export const EditDistrictForm = ({ districtId, cityId, stateId }: EditDistrictFo
     </DistrictInfo>
   );
 
-  const addDirHotelierDisabled = false;
   const addDirUsersDisabled = true;
 
   const showEditButtons = !isEditing && (
@@ -191,10 +218,26 @@ export const EditDistrictForm = ({ districtId, cityId, stateId }: EditDistrictFo
         disabled={isEditButtonDisabled}
       />
 
-      <AddDirButton onClick={addDir} disabled={addDirHotelierDisabled} $isEnabled>
-        Add Dir <br />
-        Hotelier
-      </AddDirButton>
+      <UrlDirButton
+        disabled={modalActive}
+        onClick={saveLocation.length > 0 ? () => setModalActive(true) : handleAdd}
+        $isEnabled={!modalActive}
+        variable={saveLocation.length > 0 ? 'purple' : 'green'}
+      >
+        {
+          saveLocation.length > 0 ? (
+            <>
+              Add Dir <br />
+              Hotelier
+            </>
+          ) : (
+            <>
+              URL Dir <br />
+              Hotelier
+            </>
+          )
+        }
+      </UrlDirButton>
 
       <AddDirButton onClick={addLoc} disabled={addDirUsersDisabled}>
         Add Dir <br />
@@ -216,10 +259,15 @@ export const EditDistrictForm = ({ districtId, cityId, stateId }: EditDistrictFo
   );
 
   return (
-    <EditDistrictFormStyled onSubmit={handleSubmitEditDistrict} ref={formRef}>
-      {showEditDistrictFormInterface}
+    <>
+      {modalActive && (
+        <Modal setActive={setModalActive} name={districtName} urls={saveLocation} />
+      )}
+      <EditDistrictFormStyled onSubmit={handleSubmitEditDistrict} ref={formRef}>
+        {showEditDistrictFormInterface}
 
-      {showButtonsOverlay}
-    </EditDistrictFormStyled>
+        {showButtonsOverlay}
+      </EditDistrictFormStyled>
+    </>
   );
 };

@@ -14,7 +14,7 @@ export const AddDirButton = ({
   disabled,
   type = 'button',
   children,
-  $isEnabled = false,
+  $isEnabled,
 }: AddDirButtonType) => (
   <AddDirButtonStyled onClick={onClick} type={type} disabled={disabled} $isEnabled={$isEnabled}>
     {children}
