@@ -22,6 +22,9 @@ export const ModalWrapper = styled.div`
   ::-webkit-scrollbar {
     width: 9px;
   }
+  ::-moz-scrollbar {
+    scrollbar-width: thin;
+  }
 
   ::-webkit-scrollbar-thumb {
     border-radius: 30px;
