@@ -20,13 +20,19 @@ export const AdminPageAccessMain = () => {
   };
 
   return (
-    <AdminAccessMainStyled>
-      {showAddEmailButton && <AddAccessButton onClick={handleAddEmailButtonClick} />}
-      {!showAddEmail && <CloseButton onClick={handleCloseClick} direction="/admin-page-access" />}
-      {showAddEmail && (
-        <AddEmailAccess onClick={handleCloseClick} />
-      )}
-    </AdminAccessMainStyled>
+    <div>
+      <AdminAccessMainStyled>
+        {showAddEmailButton && <AddAccessButton onClick={handleAddEmailButtonClick} />}
+        {!showAddEmail && (
+          <CloseButton
+            src="CloseButton.png"
+            onClick={handleCloseClick}
+            direction="/admin-page-access"
+          />
+        )}
+        {showAddEmail && <AddEmailAccess onClick={handleCloseClick} />}
+      </AdminAccessMainStyled>
+    </div>
   );
 };
 

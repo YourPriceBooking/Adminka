@@ -1,7 +1,6 @@
 import styled from 'styled-components/macro';
 
 export const AdminAccessMainStyled = styled.div`
-  padding: 36px 181px;
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
     padding: 18px 61px;
@@ -12,6 +11,6 @@ export const AdminAccessMainStyled = styled.div`
   }
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    padding: 36px 181px;
+    padding: 100px 133px;
   }
 `;

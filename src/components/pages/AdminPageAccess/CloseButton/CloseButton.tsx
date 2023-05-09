@@ -4,9 +4,10 @@ import { CloseButtonStyled } from './CloseButton.styled';
 interface Props {
   direction: string;
   onClick?: () => void;
+  src: string;
 }
 
-export const CloseButton = ({direction, onClick}: Props) => {
+export const CloseButton = ({direction, onClick, src}: Props) => {
     const navigate = useNavigate()
     const closePage = () => {
       navigate(direction); 
@@ -16,7 +17,7 @@ export const CloseButton = ({direction, onClick}: Props) => {
     }
     return (
       <CloseButtonStyled onClick={closePage}>
-        <img width="20" height="20" src="CloseButton.png" alt="Close button" />
+        <img width="20" height="20" src={src} alt="Close button" />
       </CloseButtonStyled>
     );}
 

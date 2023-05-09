@@ -3,12 +3,12 @@ import { EmailCheckboxStyled } from "./EmailCheckbox.styled"
 export const EmailCheckbox = () => (
   <EmailCheckboxStyled>
     <form>
-      <label htmlFor="Objects">Objects Verification</label>
+      <label htmlFor="Objects">Objects<br/> Verification</label>
       <input className="custom-checkbox" id="Objects" type="checkbox" />
     </form>
     <form>
       <label htmlFor="languages">
-        Adding a languages Adding a countrys Location registers: 1, 2, 3
+        Adding a languages<br/> Adding a countrys<br/> Location registers: <br/>1, 2, 3
       </label>
       <input className="custom-checkbox" id="languages" type="checkbox" />
     </form>

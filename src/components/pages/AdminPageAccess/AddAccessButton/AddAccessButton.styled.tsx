@@ -7,7 +7,7 @@ export const AddAccessButtonStyled = styled.button`
   border: none;
   width: 86px;
   height: 86px;
-  margin-top: 4%;
+
   span {
     width: 16px;
     height: 16px;
@@ -23,5 +23,11 @@ export const AddAccessButtonStyled = styled.button`
     line-height: 21px;
     text-align: center;
     color: white;
+  }
+  :hover {
+    background: #63ab6a;
+  }
+  :active {
+    background: #a2f3aa;
   }
 `;

@@ -11,7 +11,6 @@ export const MainDiv = styled.div`
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     margin-top: 100px;
-
   }
   display: flex;
   justify-content: center;
@@ -76,4 +75,10 @@ export const AddEmailAccessButtonStyled = styled.button`
   text-align: center;
   color: #ffffff;
   margin-top: 23px;
+   :hover {
+    background-color: #0090ffb2;
+  }
+   :active {
+    background-color: #006bbe;
+  }
 `;
