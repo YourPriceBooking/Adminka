@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
-import { Button, ChatTextarea, Img } from './FormChat.styled';
-import sendArrow from '../../../../assets/icons/sendIcon.svg';
+import { Button, ChatTextarea,Img, Wrapper } from './FormChat.styled';
+// import { ReactComponent as Arrow } from '../../../../assets/icons/sendIcon.svg'
 
 
 type Props = {
@@ -16,7 +16,16 @@ type FormChatProps = {
 
 
 // тимчасові змінні
-const username = 'Rancho Boliwar'
+const username = 'Hilton';
+
+const date = new Date();
+const hour = date.getHours().toString().padStart(2, '0');
+const minute = date.getMinutes().toString().padStart(2, '0');
+const day = date.getDate().toString().padStart(2, '0');
+const month = (date.getMonth() + 1).toString().padStart(2, '0');
+const year = date.getFullYear().toString();
+
+const formattedDate = `${hour}:${minute} ${day}/${month}/${year}`;
 
 export const FormChat: React.FC<FormChatProps> = ({ setMessageList }) => {
   const [currentMessage, setCurrentMessage] = useState<string>('');
@@ -26,14 +35,14 @@ export const FormChat: React.FC<FormChatProps> = ({ setMessageList }) => {
     setCurrentMessage(target.value);
   };
 
-  const newTime = new Date(Date.now()).toLocaleTimeString();
+
   const messageData: Props = {
     author: username,
     message: currentMessage,
-    time: newTime,
+    time: formattedDate,
   };
 
-  const sendMessage = async () => {
+  const sendMessage = async (): Promise<void> => {
     // if (currentMessage !== '') {
 
     // }
@@ -42,13 +51,24 @@ export const FormChat: React.FC<FormChatProps> = ({ setMessageList }) => {
     setMessageList(prev => [...prev, messageData]);
     setCurrentMessage('');
   };
+    
+      const handleKeyPress = async (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (event.key === 'Enter' && !event.shiftKey) {
+          event.preventDefault();
+          await sendMessage();
+        }
+      };
 
   return (
-    <div style={{ position: 'relative' }}>
-      <ChatTextarea value={currentMessage} onChange={onChangeMessage} />
+    <Wrapper>
+      <ChatTextarea
+        value={currentMessage}
+        onChange={onChangeMessage}
+        onKeyPress={handleKeyPress}
+      />
       <Button onClick={sendMessage}>
-        <Img src={sendArrow} alt="send arrow" />
+        <Img />
       </Button>
-    </div>
+    </Wrapper>
   );
 };

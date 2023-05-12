@@ -5,16 +5,14 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  gap: 15px;
+  gap: 19px;
 
-  width: 154px;
-  height: 367px;
+  max-width: 320px;
+  height: 380px;
 
-  background: #c4c4c4;
-  border-left: 0.5px solid ${({ theme }) => theme.colors.textPrimary};
-  border-right: 0.5px solid ${({ theme }) => theme.colors.textPrimary};
-  border-bottom: 0.5px solid ${({ theme }) => theme.colors.textPrimary};
+  padding: 17px 16px 24px;
+
+  background:${({ theme }) => theme.colors.bgColorChat};
   border-radius: 0px 0px 10px 10px;
 `;
 

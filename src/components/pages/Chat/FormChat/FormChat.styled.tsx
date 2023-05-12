@@ -1,24 +1,32 @@
 import styled from 'styled-components/macro';
+import { ReactComponent as Arrow } from '../../../../assets/icons/sendIcon.svg'
+
+export const Wrapper = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: 13px;
+`;
+
 
 export const ChatTextarea = styled.textarea`
-  width: 134px;
-  height: 72px;
+  width: 251px;
+  height: 66px;
 
-  padding: 7px 28px 7px 7px;
+  padding: 4px 10px;
 
   background: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.textSecond};
   border-radius: 5.92593px;
 
   font-family: ${({ theme }) => theme.fonts.segoe};
-  font-weight: 600;
+  font-weight: 400;
   font-size: 11.1111px;
   line-height: 15px/11.1111px;
   resize: none;
+  border: 0.3px solid ${({ theme }) => theme.colors.black};
 
   &:focus {
     outline: none;
-    border-width: 2px;
-    border-color: ${({ theme }) => theme.colors.textPrimary};
   }
 
   /* scrollbar */
@@ -41,19 +49,30 @@ export const ChatTextarea = styled.textarea`
 `;
 
 export const Button = styled.button`
-  position: absolute;
-  bottom: 7.67px;
-  right: 8.19px;
   background-color: transparent;
   border: none;
-  padding:0;
+  padding: 0;
+  &:focus {
+    outline: none;
+    border: none;
+    
+  }
 `;
 
-export const Img = styled.img`
+export const Img = styled(Arrow)`
+  width: 14.81px;
+  height: 13.33px;
 
+  margin-bottom: 6px;
 
-width: 14.81px;
-height: 13.33px;
+  > path {
+    fill: ${({ theme }) => theme.colors.textThird};
+
+    &:hover,
+    &:focus {
+      fill: #0090ff;
+    }
+  }
 `;
 
 
