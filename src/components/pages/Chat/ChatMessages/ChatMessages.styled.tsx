@@ -6,6 +6,7 @@ export const Scroll = styled(ScrollToBottom)`
   height: 100%;
   width: 100%;
   overflow-y: auto;
+  word-wrap: break-word;
 
   > div {
     display: flex;
@@ -37,9 +38,6 @@ export const Scroll = styled(ScrollToBottom)`
 
     ::-webkit-scrollbar-thumb {
       border-radius: 30px;
-    }
-
-    ::-webkit-scrollbar-thumb:vertical {
       background-color: ${({ theme }) => theme.colors.scrollSecondColor};
     }
   }
