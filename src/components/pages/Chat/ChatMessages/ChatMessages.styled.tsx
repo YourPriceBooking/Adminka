@@ -40,6 +40,10 @@ export const Scroll = styled(ScrollToBottom)`
       border-radius: 30px;
       background-color: ${({ theme }) => theme.colors.scrollSecondColor};
     }
+
+    &:first-child {
+      padding-top: 193px;
+    }
   }
 `;
 
@@ -55,13 +59,15 @@ export const Wrapper = styled.div`
 
   background: ${({ theme }) => theme.colors.white};
   border-radius: 5.92593px;
+
 `;
 
 export const Inner = styled.div`
   display: flex;
   gap: 16px;
 
-  margin-bottom:4px;
+  margin-bottom: 4px;
+
 `;
 
 
