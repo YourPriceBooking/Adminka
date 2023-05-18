@@ -22,6 +22,7 @@ export const Scroll = styled(ScrollToBottom)`
 
     scrollbar-color: ${({ theme }) => theme.colors.scrollSecondColor}
       ${({ theme }) => theme.colors.white};
+
     ::-webkit-scrollbar {
       width: 3px;
     }

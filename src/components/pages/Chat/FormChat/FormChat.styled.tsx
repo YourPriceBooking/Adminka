@@ -16,17 +16,19 @@ export const ChatTextarea = styled.textarea`
 
   background: ${({ theme }) => theme.colors.white};
   color: ${({ theme }) => theme.colors.textSecond};
+
   border-radius: 5.92593px;
+    border:none
 
   font-family: ${({ theme }) => theme.fonts.segoe};
   font-weight: 400;
   font-size: 11.1111px;
   line-height: 15px/11.1111px;
   resize: none;
-  border: 0.3px solid ${({ theme }) => theme.colors.black};
 
   &:focus {
     outline: none;
+    border:none
   }
 
   /* scrollbar */
