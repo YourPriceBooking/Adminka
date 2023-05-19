@@ -18,7 +18,8 @@ export const ChatTextarea = styled.textarea`
   color: ${({ theme }) => theme.colors.textSecond};
 
   border-radius: 5.92593px;
-    border:none
+    border:none;
+        outline: none;
 
   font-family: ${({ theme }) => theme.fonts.segoe};
   font-weight: 400;
@@ -35,12 +36,17 @@ export const ChatTextarea = styled.textarea`
 
   scrollbar-color: ${({ theme }) => theme.colors.scrollColor} ${({ theme }) => theme.colors.white};
   ::-webkit-scrollbar {
-    width: 4px;
+    width: 9px;
   }
 
   ::-webkit-scrollbar-thumb {
     border-radius: 30px;
+      border: 2px solid ${({ theme }) => theme.colors.white};
   }
+
+    ::-moz-scrollbar {
+      scrollbar-width: thin;
+    }
 
   ::-webkit-scrollbar-thumb:vertical {
     background-color: ${({ theme }) => theme.colors.scrollColor};
@@ -54,11 +60,6 @@ export const Button = styled.button`
   background-color: transparent;
   border: none;
   padding: 0;
-  &:focus {
-    outline: none;
-    border: none;
-    
-  }
 `;
 
 export const Img = styled(Arrow)`

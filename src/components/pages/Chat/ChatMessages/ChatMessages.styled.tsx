@@ -25,11 +25,12 @@ export const Scroll = styled(ScrollToBottom)`
       ${({ theme }) => theme.colors.white};
 
     ::-webkit-scrollbar {
-      width: 3px;
+      width: 15px;
     }
 
     ::-webkit-scrollbar-track {
       background-color: ${({ theme }) => theme.colors.scrollTrack};
+      border: 6px solid ${({ theme }) => theme.colors.white};
     }
 
     ::-moz-scrollbar {
@@ -37,8 +38,9 @@ export const Scroll = styled(ScrollToBottom)`
     }
 
     ::-webkit-scrollbar-thumb {
-      border-radius: 30px;
+      border-radius: 20px;
       background-color: ${({ theme }) => theme.colors.scrollSecondColor};
+      border: 6px solid ${({ theme }) => theme.colors.white};
     }
 
     &:first-child {
