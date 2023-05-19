@@ -34,7 +34,11 @@ declare module 'styled-components' {
       editSecondTime: string;
       textButton: string;
       scrollColor: string;
+      scrollTrack: string;
+      scrollSecondColor: string;
       scrollColorHover: string;
+      bgColorChat: string;
+      hoverArrowChat: string;
 
       bg: {
         body: string;
@@ -162,7 +166,11 @@ const currentlyNotAssigned = {
   editSecondTime: '#9b9b9b',
   textButton: '#626367',
   scrollColor: '#ebebeb',
+  scrollTrack: '#EBEDFE',
+  scrollSecondColor: '#BABABF',
   scrollColorHover: '#c4c4c4',
+  bgColorChat: '#DADCEA',
+  hoverArrowChat: '0090FF',
 };
 
 export const light = {
