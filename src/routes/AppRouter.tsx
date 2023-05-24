@@ -2,8 +2,16 @@ import { Navigate, Routes, Route } from 'react-router-dom';
 import { routes } from './routesConfig';
 import { PrivateRoute } from './PrivateRoute';
 
-
-const { login, menu, country, verification, adminPageAccess, adminPageAccessMain, registerModal } = routes;
+const {
+  login,
+  menu,
+  country,
+  verification,
+  adminPageAccess,
+  adminPageAccessMain,
+  registerModal,
+  finance,
+} = routes;
 
 export const AppRouter = () => (
   <Routes>
@@ -24,6 +32,8 @@ export const AppRouter = () => (
         <Route path={adminPageAccess.path} element={<adminPageAccess.element />} />
         <Route path={adminPageAccessMain.path} element={<adminPageAccessMain.element />} />
         <Route path={registerModal.path} element={<registerModal.element />} />
+        <Route path={finance.path} element={<finance.element />} />
+
         {/* <Route path="/location" element={<Location />} /> */}
       </Route>
 
@@ -31,4 +41,3 @@ export const AppRouter = () => (
     </Route>
   </Routes>
 );
-
