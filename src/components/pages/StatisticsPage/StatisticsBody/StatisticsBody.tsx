@@ -13,8 +13,7 @@ export const StatisticsBody = () => (
   <WrapperBody>
     {statisticsData.map(({ title, value }) => (
       <ListItem key={title}>
-        <TextItem>{title}</TextItem>
-        <TextSpan>{value}</TextSpan>
+        <TextItem>{title} </TextItem> <TextSpan>{value}</TextSpan>
       </ListItem>
     ))}
   </WrapperBody>

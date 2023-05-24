@@ -2,7 +2,7 @@ import styled from 'styled-components/macro';
 
 export const Wrapper = styled.div`
   width: 80.25%;
-  padding: 21px 54px 90px;
+  padding: 21px 54px 69px;
   margin-top: 37px;
   margin-right: auto;
   margin-left: auto;

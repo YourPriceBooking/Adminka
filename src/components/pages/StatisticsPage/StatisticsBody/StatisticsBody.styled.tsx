@@ -1,24 +1,49 @@
 import styled from 'styled-components/macro';
 
 export const WrapperBody = styled.ul`
+  display: flex;
+  flex-direction: column;
+  row-gap: 21px;
+
   @media screen and (min-width: 768px) {
     height: 160px;
-    display: flex;
-    flex-direction: column;
     flex-wrap: wrap;
-    // column-gap: 60px;
+    column-gap: 40px;
+  }
+
+  @media screen and (min-width: 1024px) {
+    column-gap: 114px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    height: 139px;
+    column-gap: 81px;
+
+    > li:nth-child(5) {
+      margin-bottom: 45px;
+    }
   }
 `;
 
 export const ListItem = styled.li`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 21px;
+
+  @media screen and (min-width: 768px) {
+    width: 46%;
+  }
+
+  @media screen and (min-width: 1024px) {
+    width: 42%;
+  }
+
+  @media screen and (min-width: 1200px) {
+    width: 27%;
+  }
 `;
 
 
 export const TextItem = styled.p`
-  margin-right: 25px;
 
   font-family: ${({ theme }) => theme.fonts.roboto};
   font-weight: 300;
@@ -31,10 +56,6 @@ export const TextItem = styled.p`
     font-size: 21px;
     line-height: 25px/21px;
   }
-
-  @media screen and (min-width: 768px) {
-  width: 30%;
-  }
 `;
 
 
@@ -44,10 +65,16 @@ export const TextSpan = styled.span`
   font-size: 18px;
   line-height: 25px/18px;
 
+  margin-left: 10px;
+
   color: ${({ theme }) => theme.colors.textAccent};
 
   @media screen and (min-width: 350px) {
     font-size: 21px;
     line-height: 25px/21px;
+  }
+
+  @media screen and (min-width: 768px) {
+    width: 19%;
   }
 `;
