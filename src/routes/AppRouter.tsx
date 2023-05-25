@@ -12,6 +12,7 @@ const {
   adminPageAccessMain,
   registerModal,
   statistics,
+  finance,
 } = routes;
 
 export const AppRouter = () => (
@@ -34,6 +35,8 @@ export const AppRouter = () => (
         <Route path={adminPageAccess.path} element={<adminPageAccess.element />} />
         <Route path={adminPageAccessMain.path} element={<adminPageAccessMain.element />} />
         <Route path={registerModal.path} element={<registerModal.element />} />
+        <Route path={finance.path} element={<finance.element />} />
+
         {/* <Route path="/location" element={<Location />} /> */}
       </Route>
 
@@ -41,4 +44,3 @@ export const AppRouter = () => (
     </Route>
   </Routes>
 );
-

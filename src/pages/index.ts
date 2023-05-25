@@ -8,8 +8,6 @@ export const CountryPage = lazy(() => import('./CountryPage'));
 export const StatisticPage = lazy(() => import('./StatisticPage'));
 export const VerificationPage = lazy(() => import('./VerificationPage'));
 export const VerificationCabinetPage = lazy(() => import('./VerificationCabinetPage'));
-export const AdminPageAccess = lazy(() => import('./AdminPageAccess'))
+export const AdminPageAccess = lazy(() => import('./AdminPageAccess'));
 export const AdminPageAccessMain = lazy(() => import('./AdminPageAccessMain'));
-
-
-
+export const FinancePage = lazy(() => import('./FinancePage'));
