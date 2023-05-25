@@ -5,6 +5,7 @@ import { lazy } from 'react';
 export const LoginPage = lazy(() => import('./LoginPage'));
 export const MenuPage = lazy(() => import('./MenuPage'));
 export const CountryPage = lazy(() => import('./CountryPage'));
+export const StatisticPage = lazy(() => import('./StatisticPage'));
 export const VerificationPage = lazy(() => import('./VerificationPage'));
 export const VerificationCabinetPage = lazy(() => import('./VerificationCabinetPage'));
 export const AdminPageAccess = lazy(() => import('./AdminPageAccess'));

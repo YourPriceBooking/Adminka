@@ -7,7 +7,8 @@ import {
   VerificationCabinetPage,
   AdminPageAccess,
   AdminPageAccessMain,
-  FinancePage,
+  StatisticPage,
+  FinancePage
 } from 'pages';
 import RegisterModalPage from 'pages/RegisterModalPage';
 
@@ -22,7 +23,7 @@ export const routes = {
     element: { VerificationCabinetPage, VerificationPage },
   },
   finance: { path: '/finance', name: 'Finance', element: FinancePage },
-  statistics: { path: '/statistics', name: 'Statistics and access to cabinets', element: null },
+  statistics: { path: '/statistics', name: 'Statistics and access to cabinets', element: StatisticPage },
   adminPageAccess: {
     path: '/admin-page-access',
     name: 'Access to the administrative directory',

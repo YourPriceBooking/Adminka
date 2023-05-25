@@ -2,6 +2,7 @@ import { Navigate, Routes, Route } from 'react-router-dom';
 import { routes } from './routesConfig';
 import { PrivateRoute } from './PrivateRoute';
 
+
 const {
   login,
   menu,
@@ -10,6 +11,7 @@ const {
   adminPageAccess,
   adminPageAccessMain,
   registerModal,
+  statistics,
   finance,
 } = routes;
 
@@ -29,6 +31,7 @@ export const AppRouter = () => (
         />
         <Route path={menu.path} element={<menu.element />} />
         <Route path={country.path} element={<country.element />} />
+        <Route path={statistics.path} element={<statistics.element />} />
         <Route path={adminPageAccess.path} element={<adminPageAccess.element />} />
         <Route path={adminPageAccessMain.path} element={<adminPageAccessMain.element />} />
         <Route path={registerModal.path} element={<registerModal.element />} />
