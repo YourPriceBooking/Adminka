@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   Input,
   EnterPass,
@@ -9,10 +8,10 @@ import {
 } from './PasswordField.styled';
 import { Button } from '../Button/Button';
 
-export const PasswordField: React.FC = () => {
+export const PasswordField: React.FC<any> = ({ setIsSend }) => {
   const [passwordCode, setPasswordCode] = useState<string>('');
   const [messagePass, setMessagePass] = useState('');
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const key = '1111';
 
@@ -30,7 +29,9 @@ export const PasswordField: React.FC = () => {
     if (!validPassword()) {
       setMessagePass('You entered a wrong verification code, try again');
     } else {
-      navigate('/');
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      setIsSend(true);
+      // navigate('/');
     }
   };
 
