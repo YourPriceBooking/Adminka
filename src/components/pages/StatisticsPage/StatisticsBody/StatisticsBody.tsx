@@ -17,11 +17,15 @@ const statisticsData: Statistic[] = [
 ];
 
 export const StatisticsBody: React.FC = () => {
- const [statistics, setStatistics] = useState(statisticsData);
+  const [statistics, setStatistics] = useState(statisticsData);
+  const [activeIndex, setActiveIndex] = useState<number | null>(-1);
 
   const handleClick = (index: number) => {
-    const updatedStatistics = [...statistics];
-    updatedStatistics[index].isClicked = true;
+    setActiveIndex(index !== activeIndex ? index : null);
+    const updatedStatistics = statistics.map((stat, i) => ({
+      ...stat,
+      isClicked: i === index,
+    }));
     setStatistics(updatedStatistics);
   };
 
