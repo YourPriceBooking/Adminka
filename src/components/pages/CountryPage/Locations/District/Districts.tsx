@@ -1,8 +1,10 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import { selectActiveLangCode } from 'features/languages';
-import { useGetAllObjectsHoteilerQuery } from 'features/catalogForHotelier/addCatalogApi';
+import {
+  useGetAllObjectsHoteilerQuery
+} from 'features/catalogForHotelier/addCatalogApi';
 import { useAppSelector } from 'App';
-import type { DataObject } from 'types/addLocation';
+import { DataObject } from 'types/addLocation';
 
 import { AddDistrictForm } from './AddDistrictForm';
 import { DistrictsStyled } from './Districts.styled';
@@ -12,6 +14,7 @@ type DistrictsProps = {
   cityId: EntityId;
   stateId: EntityId;
 };
+
 
 type TP = 'getAllEnPages' | 'getAllUaPages' | 'getAllPlPages' | 'getAllRuPages';
 
@@ -28,7 +31,7 @@ export const Districts = ({ cityId, stateId }: DistrictsProps) => {
     } else if (activeLangCode === 'RU') {
       value = 'getAllRuPages';
     }
-    // eslint-disable-next-line
+
     return data?.[value] as DataObject;
   };
 
@@ -39,4 +42,4 @@ export const Districts = ({ cityId, stateId }: DistrictsProps) => {
       <AddDistrictForm cityId={cityId} stateId={stateId} />
     </DistrictsStyled>
   );
-};
+}
