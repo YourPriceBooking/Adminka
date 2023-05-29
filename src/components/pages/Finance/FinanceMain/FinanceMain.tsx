@@ -4,7 +4,7 @@ export const FinanceMain: React.FC = () => {
   const g = "'";
 
   return (
-    <div style={{ marginTop: '-100px' }} className={s.mainDiv}>
+    <div style={{ marginTop: '60px' }} className={s.mainDiv}>
       <div className={s.greenDiv}>
         <p className={s.greenP}>All statistic</p>
       </div>
