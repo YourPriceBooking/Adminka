@@ -28,7 +28,6 @@ export const Districts = ({ cityId, stateId }: DistrictsProps) => {
     } else if (activeLangCode === 'RU') {
       value = 'getAllRuPages';
     }
-
     // eslint-disable-next-line
     return data?.[value] as DataObject;
   };

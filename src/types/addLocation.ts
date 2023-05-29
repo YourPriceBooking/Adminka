@@ -7,7 +7,7 @@ export type IAllObjectHotelier = {
   getAllPlPages?: DataObject;
   getAllRuPages?: DataObject;
   status: string;
-}
+};
 
 export type DataObject = {
   [key in 'getAllEnPages' | 'getAllUaPages' | 'getAllPlPages' | 'getAllRuPages']: Location;
@@ -45,4 +45,4 @@ export type IResponseAddLocation = {
   isAdded: boolean;
   message: string;
   data: DataObject;
-}
+};
