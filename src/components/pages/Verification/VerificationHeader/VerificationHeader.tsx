@@ -1,15 +1,14 @@
-import { BackButton } from "components/pages/CountryPage/Countries/BackButton";
-import { VerificationDocuments } from "./VerificationDocuments";
-import { HeaderWrapper } from "./VerificationHeader.styled";
-import { Verifier } from "./Verifier";
+// import { BackButton } from "components/pages/CountryPage/Countries/BackButton";
+// import { VerificationDocuments } from "./VerificationDocuments";
+// import { Verifier } from "./Verifier";
 
 export const VerificationHeader = () => (
-//   <>
-    <HeaderWrapper>
-      <BackButton />
+  //   <>
+  <div>
+    {/* <BackButton />
 
       <Verifier />
-      <VerificationDocuments />
-    </HeaderWrapper>
-//   </>
+      <VerificationDocuments /> */}
+  </div>
+  // //   </>
 );
