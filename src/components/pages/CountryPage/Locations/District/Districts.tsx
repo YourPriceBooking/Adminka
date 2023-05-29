@@ -5,6 +5,7 @@ import {
 } from 'features/catalogForHotelier/addCatalogApi';
 import { useAppSelector } from 'App';
 import { DataObject } from 'types/addLocation';
+
 import { AddDistrictForm } from './AddDistrictForm';
 import { DistrictsStyled } from './Districts.styled';
 import { DistrictsList } from './DistrictsList';
@@ -14,12 +15,15 @@ type DistrictsProps = {
   stateId: EntityId;
 };
 
+
+type TP = 'getAllEnPages' | 'getAllUaPages' | 'getAllPlPages' | 'getAllRuPages';
+
 export const Districts = ({ cityId, stateId }: DistrictsProps) => {
   const activeLangCode = useAppSelector(selectActiveLangCode);
   const { data } = useGetAllObjectsHoteilerQuery(`${String(activeLangCode?.toLowerCase())}`);
 
   const getIndexPage = (): DataObject => {
-    let value = 'getAllEnPages';
+    let value: TP = 'getAllEnPages';
     if (activeLangCode === 'UA') {
       value = 'getAllUaPages';
     } else if (activeLangCode === 'PL') {
@@ -28,8 +32,9 @@ export const Districts = ({ cityId, stateId }: DistrictsProps) => {
       value = 'getAllRuPages';
     }
 
-    return data?.data?.[value] as unknown as DataObject;
+    return data?.[value] as DataObject;
   };
+
   return (
     <DistrictsStyled>
       <DistrictsList cityId={cityId} stateId={stateId} data={getIndexPage()} />

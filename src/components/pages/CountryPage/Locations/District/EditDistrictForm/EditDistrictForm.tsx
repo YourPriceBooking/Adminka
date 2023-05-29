@@ -257,7 +257,6 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
       {showSubmitButton}
     </ButtonsOverlay>
   );
-
   return (
     <>
       {modalActive && (
