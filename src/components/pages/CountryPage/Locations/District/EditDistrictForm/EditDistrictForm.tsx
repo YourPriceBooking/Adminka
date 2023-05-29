@@ -34,7 +34,6 @@ import {
   EditDistrictPhotoLabel,
 } from './EditDistrictForm.styled';
 
-
 type EditDistrictFormProps = {
   districtId: EntityId;
   cityId: EntityId;
@@ -65,7 +64,7 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
   /* const [buttonDisabled, setButtonDisabled] = useState(false); */
   const [modalActive, setModalActive] = useState(false);
 
-/*   const addDir = useCallback(() => {
+  /*   const addDir = useCallback(() => {
     toast.success('TODO: Add Directory Fn');
     setButtonDisabled(true);
   }, []); */
@@ -224,19 +223,17 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
         $isEnabled={!modalActive}
         variable={saveLocation.length > 0 ? 'purple' : 'green'}
       >
-        {
-          saveLocation.length > 0 ? (
-            <>
-              Add Dir <br />
-              Hotelier
-            </>
-          ) : (
-            <>
-              URL Dir <br />
-              Hotelier
-            </>
-          )
-        }
+        {saveLocation.length > 0 ? (
+          <>
+            Add Dir <br />
+            Hotelier
+          </>
+        ) : (
+          <>
+            URL Dir <br />
+            Hotelier
+          </>
+        )}
       </UrlDirButton>
 
       <AddDirButton onClick={addLoc} disabled={addDirUsersDisabled}>
@@ -259,9 +256,7 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
   );
   return (
     <>
-      {modalActive && (
-        <Modal setActive={setModalActive} name={districtName} urls={saveLocation} />
-      )}
+      {modalActive && <Modal setActive={setModalActive} name={districtName} urls={saveLocation} />}
       <EditDistrictFormStyled onSubmit={handleSubmitEditDistrict} ref={formRef}>
         {showEditDistrictFormInterface}
 

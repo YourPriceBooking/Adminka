@@ -51,14 +51,6 @@ export const VerificationDocuments = () => {
   );
 };
 
-
-
-
-
-
-
-
-
 // type Evt = {
 //     evt: string[];
 // }
