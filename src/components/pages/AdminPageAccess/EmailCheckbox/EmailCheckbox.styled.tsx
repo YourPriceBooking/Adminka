@@ -1,13 +1,12 @@
 import styled from 'styled-components/macro';
 
-
 export const EmailCheckboxStyled = styled.div`
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
     display: block;
   }
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    display: flex;
+    display: block;
   }
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
@@ -17,9 +16,13 @@ export const EmailCheckboxStyled = styled.div`
   & form {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: space-between;
-    margin: 0px 39px;
+  }
+  .labels{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 60px;
+    margin-left: -15px;
   }
 
   & label {
@@ -33,9 +36,29 @@ export const EmailCheckboxStyled = styled.div`
     color: #656565;
   }
 
+  & label:nth-child(2){
+    font-size: 11px;
+    margin-left: -45px;
+  }
+  & label:nth-child(3){
+    margin-left: -40px;
+  }
+  & label:nth-child(4){
+    margin-left: -20px;
+  }
+  & label:nth-child(5){
+    margin-right: 8px;
+  }
+
+
+
+  .inputs{
+    display: flex;
+    justify-content: space-between;
+  }
+
   & input {
     position: relative;
-    margin: 0px -3px;
     width: 40px;
     height: 40px;
     border: 1px solid #6e6e6e;
@@ -43,23 +66,21 @@ export const EmailCheckboxStyled = styled.div`
     -webkit-appearance: none;
     outline: none;
     cursor: pointer;
+    margin-right: 60px;
   }
 
   & input:checked:before {
     content: '';
     position: absolute;
-    left: 10px;
+    left: 7px;
     top: 10px;
-    width: 21px;
-    height: 14px;
+    width: 26px;
+    height: 16px;
     border: 4px solid #0090ff;
     border-radius: 2px;
     border-top: none;
     border-right: none;
     transform: rotate(310deg);
-  }
-  & input:checked {
-    border: 1px solid #6dbffe;
   }
 
   & input:hover {

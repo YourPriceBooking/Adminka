@@ -33,6 +33,7 @@ export const UsersAccess = () => (
         </CheckboxName>
       </UsersAccessHeader>
       <Line />
+      
       <UsersAccessBody />
       <AddAccessButtonOption>
         <AddAccessButton />
