@@ -8,6 +8,11 @@
   padding: 21px 54px 40px 62px;
 }
 
+.mainDiv2 {
+  width: 50%;
+  height: 90%;
+}
+
 .greenDiv {
   width: 100%;
   height: 20px;
@@ -15,6 +20,10 @@
   background: #6aff79;
   box-shadow: 0px 0px 4.06977px rgba(0, 0, 0, 0.25);
   border-radius: 4.06977px;
+}
+
+.blue {
+  background: #0090ff;
 }
 
 .greenP {
@@ -66,6 +75,22 @@
   margin-bottom: 25px;
 }
 
+.priseSpan:hover {
+  border-bottom: 2px solid #006bbe;
+}
+
+.descP:hover {
+  border-bottom: 2px solid #006bbe;
+  height: 30px;
+  margin-bottom: 20px;
+}
+
+.descP2:hover {
+  border-bottom: 2px solid #006bbe;
+  height: 51px;
+  margin-bottom: 34px;
+}
+
 .priseSpan2 {
   margin-bottom: 60px;
 }
@@ -90,6 +115,75 @@ button:hover {
 }
 button:active {
   background: rgba(0, 144, 255, 0.6);
+}
+
+.searchInput {
+  width: 558px;
+  height: 38px;
+  background: #f4f4f4;
+  border: none;
+  border: 0.3px solid #d0d0d0;
+  border-radius: 30px;
+  margin: 6px 0 20px;
+  padding: 11px 55px 11px 20px;
+  outline: none;
+}
+
+.searchInput:hover {
+  background: white;
+}
+
+.divSearch {
+  width: 100%;
+  /*height: 30px;*/
+  height: auto;
+  background: #ffffff;
+  border: 0.4px solid #4c4c4c;
+  padding: 7px 11px;
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.divSearch:hover {
+  border: 2px solid #000000;
+}
+
+.spanID {
+  font-family: Segoe UI, sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: #4c4c4c;
+}
+
+.spanDesc {
+  font-family: Segoe UI, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #4c4c4c;
+  cursor: pointer;
+}
+
+.spanName {
+  margin: 0 6px 0 24px;
+}
+
+.spanDescMargin {
+  margin: 0 21px 0 13px;
+}
+
+.spanDesc2Margin {
+  margin: 0 21px 0 18px;
+}
+
+.spanDesc:hover,
+.spanID:hover {
+  border-bottom: 2px solid #006bbe;
 }
 
 @media screen and (max-width: 1400px) {

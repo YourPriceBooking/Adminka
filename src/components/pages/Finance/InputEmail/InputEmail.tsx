@@ -3,6 +3,9 @@ import { Button } from '../Button/Button';
 import { Input, Message, Placeholder } from './InputEmail.styled';
 import { PasswordField } from '../PasswordField';
 import s from '../Finance.module.css';
+// import image1 from '../../../../assets/icons/magnifyingGlass.svg'
+import like from '../../../../assets/icons/like.png';
+import dislike from '../../../../assets/icons/dislike.png';
 
 export const InputEmail: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -47,6 +50,39 @@ export const InputEmail: React.FC = () => {
 
   const g = "'";
 
+  const arr = [
+    {
+      id: 'ID 7874567GHV',
+      name: 'Hilton',
+      hotelName: 'Hotel Viktoria',
+      desc: 'Kapo de jecob   Хостел у Івана',
+      ddt: 'DDT',
+      desc2: 'Polo Tron   Мотел на західній вулиці',
+      desc3: 'fjghbvhdjnfvfjghbvhdjnfvffjghbvhdjnfvf',
+      like: true,
+    },
+    {
+      id: 'ID 1123467LON',
+      name: 'Klinton',
+      hotelName: '',
+      desc: '',
+      ddt: 'DDT',
+      desc2: 'Polo Tron   Мотел на західній вулиці',
+      desc3: '',
+      like: false,
+    },
+    {
+      id: 'ID 4123467LON',
+      name: 'Hilton',
+      hotelName: '',
+      desc: '',
+      ddt: 'DDT',
+      desc2: 'Polo Tron   Мотел на західній вулиці',
+      desc3: 'fjghbvhdjn',
+      like: true,
+    },
+  ];
+
   return (
     <>
       {!isSend && (
@@ -70,32 +106,74 @@ export const InputEmail: React.FC = () => {
         </div>
       )}
       {isSend && (
-        <div style={{ marginTop: '-100px' }} className={s.mainDiv}>
-          <div className={s.greenDiv}>
-            <p className={s.greenP}>All statistic</p>
+        <div style={{ width: '100vw', height: '48vh' }}>
+          <div style={{ marginTop: '-140px' }} className={s.mainDiv}>
+            <div className={s.greenDiv}>
+              <p className={s.greenP}>All statistic</p>
+            </div>
+            <div className={s.containerDiv}>
+              <div>
+                <p className={s.descP}>Funds added to hotelier accounts:</p>
+                <p className={s.descP}>Bonus funds added to hoteliers{g} accounts:</p>
+                <p className={s.descP}>Refunds of unspent money to hoteliers:</p>
+                <p className={`${s.descP} ${s.descP3}`}>Gross hotel revens:</p>
+                <p className={`${s.descP} ${s.descP2}`}>
+                  Hoteliers paid for our services with bonuses:
+                </p>
+                <p className={s.descP}>Hoteliers have paid for our services:</p>
+              </div>
+              <div className={s.containerDivBox2}>
+                <span className={s.priseSpan}>750 876 USD</span>
+                <span className={s.priseSpan}>25 879 USD</span>
+                <span className={s.priseSpan}>25 879 USD</span>
+                <span className={`${s.priseSpan} ${s.priseSpan3}`}>1 234 579 USD</span>
+                <span className={`${s.priseSpan} ${s.priseSpan2}`}>4 579 USD</span>
+                <span className={s.priseSpan}>34 579 USD</span>
+              </div>
+            </div>
           </div>
-          <div className={s.containerDiv}>
+
+          <div className={`${s.mainDiv} ${s.mainDiv2}`}>
+            <div className={`${s.greenDiv} ${s.blue}`}>
+              <p className={s.greenP}>Hoteliers:</p>
+            </div>
             <div>
-              <p className={s.descP}>Funds added to hotelier accounts:</p>
-              <p className={s.descP}>Bonus funds added to hoteliers{g} accounts:</p>
-              <p className={s.descP}>Refunds of unspent money to hoteliers:</p>
-              <p className={`${s.descP} ${s.descP3}`}>Gross hotel revens:</p>
-              <p className={`${s.descP} ${s.descP2}`}>
-                Hoteliers paid for our services with bonuses:
-              </p>
-              <p className={s.descP}>Hoteliers have paid for our services:</p>
+              {/* <img src={image1} alt="serch" /> */}
+              <input className={s.searchInput} type="search" placeholder="Search ID, Name object" />
             </div>
-            <div className={s.containerDivBox2}>
-              <span className={s.priseSpan}>750 876 USD</span>
-              <span className={s.priseSpan}>25 879 USD</span>
-              <span className={s.priseSpan}>25 879 USD</span>
-              <span className={`${s.priseSpan} ${s.priseSpan3}`}>1 234 579 USD</span>
-              <span className={`${s.priseSpan} ${s.priseSpan2}`}>4 579 USD</span>
-              <span className={s.priseSpan}>34 579 USD</span>
-            </div>
+            {arr.map(item => (
+              <div className={s.divSearch}>
+                <div>
+                  <span className={s.spanID}>{item.id}</span>
+                  <span className={`${s.spanDesc} ${s.spanName}`}>{item.name}</span>
+                  {item.hotelName !== '' && <span className={s.spanDesc}>{item.hotelName}</span>}
+                  {item.desc !== '' && (
+                    <span className={`${s.spanDesc} ${s.spanDescMargin}`}>{item.desc}</span>
+                  )}
+                  {item.ddt !== '' && <span className={s.spanDesc}>{item.ddt}</span>}
+                  {item.desc2 !== '' && (
+                    <span className={`${s.spanDesc} ${s.spanDesc2Margin}`}>{item.desc2}</span>
+                  )}
+                  {item.desc3 !== '' && (
+                    <span className={s.spanDesc}>
+                      {item.desc3.slice(0, 12)}
+                      {item.desc3 !== '' && '...'}
+                    </span>
+                  )}
+                </div>
+                <div>
+                  {item.like && <img src={like} alt="like" width="20px" height="20px" />}
+                  {!item.like && (
+                    <img src={dislike} alt="dislike" width="25px" height="25px" />
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}
     </>
   );
 };
+
+// maestro_@ukr.net 0000
