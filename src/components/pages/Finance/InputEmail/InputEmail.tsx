@@ -7,12 +7,28 @@ import s from '../Finance.module.css';
 import like from '../../../../assets/icons/like.png';
 import dislike from '../../../../assets/icons/dislike.png';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
+type arrType = {
+  id: string;
+  name: string;
+  hotelName: string;
+  desc: string;
+  ddt: string;
+  desc2: string;
+  desc3: string;
+  like: boolean;
+};
+
+let arr2: arrType[] = [];
+
 export const InputEmail: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [message, setMessage] = useState('');
   const [showPasswordField, setShowPasswordField] = useState<boolean>(false);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [isSend, setIsSend] = useState<boolean>(false);
+  const [isSendItem, setIsSendItem] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState('');
 
   const key = 'maestro_@ukr.net';
 
@@ -73,7 +89,7 @@ export const InputEmail: React.FC = () => {
     },
     {
       id: 'ID 4123467LON',
-      name: 'Hilton',
+      name: 'Corona',
       hotelName: '',
       desc: '',
       ddt: 'DDT',
@@ -82,6 +98,19 @@ export const InputEmail: React.FC = () => {
       like: true,
     },
   ];
+
+  const searchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+    arr2 = [];
+    arr.forEach(item => {
+      if (e.target.value === '') {
+        setIsSendItem(false);
+      } else if (item.name.toLowerCase().includes(e.target.value.toLowerCase())) {
+        arr2.push(item);
+        setIsSendItem(true);
+      }
+    });
+  };
 
   return (
     <>
@@ -137,12 +166,51 @@ export const InputEmail: React.FC = () => {
             <div className={`${s.greenDiv} ${s.blue}`}>
               <p className={s.greenP}>Hoteliers:</p>
             </div>
-            <div>
+            <div id="searchDiv">
               {/* <img src={image1} alt="serch" /> */}
-              <input className={s.searchInput} type="search" placeholder="Search ID, Name object" />
+              <input
+                id="search"
+                className={s.searchInput}
+                type="search"
+                placeholder="Search ID, Name object"
+                onChange={searchChange}
+                value={searchValue}
+              />
             </div>
+            {isSendItem && (
+              <ul className={s.ul}>
+                {arr2.map(item => (
+                  <div className={s.divSearch} key={item.id} style={{ border: 'none' }}>
+                    <div>
+                      <span className={s.spanID}>{item.id}</span>
+                      <span className={`${s.spanDesc} ${s.spanName}`}>{item.name}</span>
+                      {item.hotelName !== '' && (
+                        <span className={s.spanDesc}>{item.hotelName}</span>
+                      )}
+                      {item.desc !== '' && (
+                        <span className={`${s.spanDesc} ${s.spanDescMargin}`}>{item.desc}</span>
+                      )}
+                      {item.ddt !== '' && <span className={s.spanDesc}>{item.ddt}</span>}
+                      {item.desc2 !== '' && (
+                        <span className={`${s.spanDesc} ${s.spanDesc2Margin}`}>{item.desc2}</span>
+                      )}
+                      {item.desc3 !== '' && (
+                        <span className={s.spanDesc}>
+                          {item.desc3.slice(0, 12)}
+                          {item.desc3 !== '' && '...'}
+                        </span>
+                      )}
+                    </div>
+                    <div>
+                      {item.like && <img src={like} alt="like" width="20px" height="20px" />}
+                      {!item.like && <img src={dislike} alt="dislike" width="25px" height="25px" />}
+                    </div>
+                  </div>
+                ))}
+              </ul>
+            )}
             {arr.map(item => (
-              <div className={s.divSearch}>
+              <div className={s.divSearch} key={item.id}>
                 <div>
                   <span className={s.spanID}>{item.id}</span>
                   <span className={`${s.spanDesc} ${s.spanName}`}>{item.name}</span>
@@ -163,9 +231,7 @@ export const InputEmail: React.FC = () => {
                 </div>
                 <div>
                   {item.like && <img src={like} alt="like" width="20px" height="20px" />}
-                  {!item.like && (
-                    <img src={dislike} alt="dislike" width="25px" height="25px" />
-                  )}
+                  {!item.like && <img src={dislike} alt="dislike" width="25px" height="25px" />}
                 </div>
               </div>
             ))}
