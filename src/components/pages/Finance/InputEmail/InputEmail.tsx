@@ -7,8 +7,7 @@ import s from '../Finance.module.css';
 import like from '../../../../assets/icons/like.png';
 import dislike from '../../../../assets/icons/dislike.png';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-type arrType = {
+type Type = {
   id: string;
   name: string;
   hotelName: string;
@@ -19,7 +18,7 @@ type arrType = {
   like: boolean;
 };
 
-let arr2: arrType[] = [];
+let arr2: Type[] = [];
 
 export const InputEmail: React.FC = () => {
   const [email, setEmail] = useState<string>('');
