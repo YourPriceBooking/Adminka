@@ -75,22 +75,6 @@
   margin-bottom: 25px;
 }
 
-.priseSpan:hover {
-  border-bottom: 2px solid #006bbe;
-}
-
-.descP:hover {
-  border-bottom: 2px solid #006bbe;
-  height: 30px;
-  margin-bottom: 20px;
-}
-
-.descP2:hover {
-  border-bottom: 2px solid #006bbe;
-  height: 51px;
-  margin-bottom: 34px;
-}
-
 .priseSpan2 {
   margin-bottom: 60px;
 }
@@ -138,7 +122,7 @@ button:active {
   /*height: 30px;*/
   height: auto;
   background: #ffffff;
-  border: 0.4px solid #4c4c4c;
+  border: 0.3px solid #4c4c4c;
   padding: 7px 11px;
   margin-bottom: 3px;
   display: flex;
@@ -148,7 +132,7 @@ button:active {
 }
 
 .divSearch:hover {
-  border: 2px solid #000000;
+  border: 0.4px solid #000000;
 }
 
 .spanID {
