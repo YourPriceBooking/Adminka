@@ -4,8 +4,8 @@ import { Input, Message, Placeholder } from './InputEmail.styled';
 import { PasswordField } from '../PasswordField';
 import s from '../Finance.module.css';
 // import image1 from '../../../../assets/icons/magnifyingGlass.svg'
-import like from '../../../../assets/icons/like.png';
-import dislike from '../../../../assets/icons/dislike.png';
+// import like from '../../../../assets/icons/like.png';
+// import dislike from '../../../../assets/icons/dislike.png';
 
 type Type = {
   id: string;
@@ -201,8 +201,8 @@ export const InputEmail: React.FC = () => {
                       )}
                     </div>
                     <div>
-                      {item.like && <img src={like} alt="like" width="20px" height="20px" />}
-                      {!item.like && <img src={dislike} alt="dislike" width="25px" height="25px" />}
+                      {/* {item.like && <img src={like} alt="like" width="20px" height="20px" />} */}
+                      {/* {!item.like && <img src={dislike} alt="dislike" width="25px" height="25px" />} */}
                     </div>
                   </div>
                 ))}
@@ -229,8 +229,8 @@ export const InputEmail: React.FC = () => {
                   )}
                 </div>
                 <div>
-                  {item.like && <img src={like} alt="like" width="20px" height="20px" />}
-                  {!item.like && <img src={dislike} alt="dislike" width="25px" height="25px" />}
+                  {/* {item.like && <img src={like} alt="like" width="20px" height="20px" />} */}
+                  {/* {!item.like && <img src={dislike} alt="dislike" width="25px" height="25px" />} */}
                 </div>
               </div>
             ))}
