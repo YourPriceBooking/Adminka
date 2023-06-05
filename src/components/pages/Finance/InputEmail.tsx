@@ -202,7 +202,15 @@ export const InputEmail: React.FC = () => {
                     </div>
                     <div>
                       {item.like && <img src={like} alt="like" width="20px" height="20px" />}
-                      {!item.like && <img src={dislike} alt="dislike" width="20px" height="20px" />}
+                      {!item.like && (
+                        <img
+                          className={s.dislike}
+                          src={dislike}
+                          alt="dislike"
+                          width="20px"
+                          height="20px"
+                        />
+                      )}
                     </div>
                   </div>
                 ))}
@@ -230,7 +238,15 @@ export const InputEmail: React.FC = () => {
                 </div>
                 <div>
                   {item.like && <img src={like} alt="like" width="20px" height="20px" />}
-                  {!item.like && <img src={dislike} alt="dislike" width="20px" height="20px" />}
+                  {!item.like && (
+                    <img
+                      className={s.dislike}
+                      src={dislike}
+                      alt="dislike"
+                      width="20px"
+                      height="20px"
+                    />
+                  )}
                 </div>
               </div>
             ))}
