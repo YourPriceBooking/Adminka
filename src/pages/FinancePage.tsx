@@ -1,4 +1,4 @@
-import { Finance } from 'components/pages/Finance/Finance';
+import { Finance } from 'components/pages/Finance';
 
 const FinancePage = () => <Finance />;
 
