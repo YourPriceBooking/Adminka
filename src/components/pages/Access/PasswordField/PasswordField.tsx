@@ -6,9 +6,11 @@ import {
   PasswordFieldWrapper,
   NotVerifPass,
 } from './PasswordField.styled';
-import { Button } from '../Button/Button';
+import { Button } from '../Button';
 
-export const PasswordField: React.FC<any> = ({ setIsSend }) => {
+export const PasswordField: React.FC<{
+  setIsSend: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ setIsSend }) => {
   const [passwordCode, setPasswordCode] = useState<string>('');
   const [messagePass, setMessagePass] = useState('');
   // const navigate = useNavigate();
@@ -29,7 +31,7 @@ export const PasswordField: React.FC<any> = ({ setIsSend }) => {
     if (!validPassword()) {
       setMessagePass('You entered a wrong verification code, try again');
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+       
       setIsSend(true);
       // navigate('/');
     }

@@ -1,5 +1,11 @@
 import styled from 'styled-components/macro';
 
+export const Div = styled.div<{ hasValue: boolean }>`
+  padding-top: ${props => (props.hasValue ? '0px' : '160px')};
+  display: flex;
+  justify-content: center;
+`;
+
 export const Input = styled.input`
   width: 265px;
   height: 39px;

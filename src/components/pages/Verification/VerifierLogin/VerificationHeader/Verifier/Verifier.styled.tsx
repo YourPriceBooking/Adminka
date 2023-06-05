@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   max-width: 207px;
   /* padding-top: 18px;
   padding-left: 29px; */
-  padding-right: 37px; 
+  padding-right: 37px;
   margin-bottom: 14px;
   margin-left: 44px;
   display: flex;
@@ -26,10 +26,10 @@ export const Text = styled.p`
   color: #4c4c4c;
 `;
 export const BtnWrapper = styled.div`
-display: flex;
-flex-direction: column;
-margin-left: 21px;
-margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 21px;
+  margin-bottom: 15px;
 `;
 export const Btn = styled.button`
   width: 149px;

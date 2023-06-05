@@ -1,21 +1,42 @@
+import React, { useState } from 'react';
 import { ListItem, TextItem, TextSpan, WrapperBody } from './StatisticsBody.styled';
 
-const statisticsData = [
-  { title: 'Hoteliers:', value: '75' },
-  { title: 'Objects:', value: '30' },
-  { title: 'Booking Options:', value: '1555' },
-  { title: 'Users:', value: '103' },
-  { title: 'Completed bookings:', value: '1555' },
-  { title: 'Agents:', value: '89' },
+type Statistic = {
+  title: string;
+  value: string;
+  isClicked: boolean;
+};
+
+const statisticsData: Statistic[] = [
+  { title: 'Hoteliers:', value: '75', isClicked: false },
+  { title: 'Objects:', value: '30', isClicked: false },
+  { title: 'Booking Options:', value: '1555', isClicked: false },
+  { title: 'Users:', value: '103', isClicked: false },
+  { title: 'Completed bookings:', value: '1555', isClicked: false },
+  { title: 'Agents:', value: '89', isClicked: false },
 ];
 
-export const StatisticsBody = () => (
-  <WrapperBody>
-    {statisticsData.map(({ title, value }) => (
-      <ListItem key={title}>
-        <TextItem>{title} </TextItem> <TextSpan>{value}</TextSpan>
-      </ListItem>
-    ))}
-  </WrapperBody>
-);
+export const StatisticsBody: React.FC = () => {
+  const [statistics, setStatistics] = useState(statisticsData);
+  const [activeIndex, setActiveIndex] = useState<number | null>(-1);
 
+  const handleClick = (index: number) => {
+    setActiveIndex(index !== activeIndex ? index : null);
+    const updatedStatistics = statistics.map((stat, i) => ({
+      ...stat,
+      isClicked: i === index,
+    }));
+    setStatistics(updatedStatistics);
+  };
+
+  return (
+    <WrapperBody>
+      {statistics.map(({ title, value, isClicked }, index) => (
+        <ListItem key={title} onClick={() => handleClick(index)} isClicked={isClicked}>
+          <TextItem>{title} </TextItem>{' '}
+          <TextSpan>{value}</TextSpan>
+        </ListItem>
+      ))}
+    </WrapperBody>
+  );
+};
