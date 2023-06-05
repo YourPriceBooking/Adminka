@@ -24,7 +24,7 @@ type Type = {
 
 let arr2: Type[] = [];
 
-export const InputEmail: React.FC = () => {
+const InputEmail: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [message, setMessage] = useState('');
   const [showPasswordField, setShowPasswordField] = useState<boolean>(false);
@@ -244,3 +244,5 @@ export const InputEmail: React.FC = () => {
     </>
   );
 };
+
+export default InputEmail;

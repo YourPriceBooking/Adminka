@@ -1,5 +1,5 @@
 import { Div } from './Finance.styled';
-import { InputEmail } from './InputEmail';
+import InputEmail from '../../../pages/InputEmail';
 
 export const Finance: React.FC = () => (
   <Div>
