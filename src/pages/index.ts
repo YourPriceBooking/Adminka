@@ -10,4 +10,3 @@ export const VerificationCabinetPage = lazy(() => import('./VerificationCabinetP
 export const AdminPageAccess = lazy(() => import('./AdminPageAccess'));
 export const AdminPageAccessMain = lazy(() => import('./AdminPageAccessMain'));
 export const FinancePage = lazy(() => import('./FinancePage'));
-export const InputEmailPage = lazy(() => import('./InputEmailPage'));
