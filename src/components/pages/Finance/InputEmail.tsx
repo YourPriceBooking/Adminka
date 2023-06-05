@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Button } from '../Button/Button';
-import { Input, Message, Placeholder } from './InputEmail.styled';
-import { PasswordField } from '../PasswordField';
-import s from './Finance.module.css';
+import { Button } from './Button/Button';
+import { Input, Message, Placeholder } from './InputEmail/InputEmail.styled';
+import { PasswordField } from './PasswordField';
+import s from './InputEmail/Finance.module.css';
 // import image1 from '../../../../assets/icons/magnifyingGlass.svg'
-import like from '../../../../assets/icons/like.svg';
-import dislike from '../../../../assets/icons/dislike.svg';
+import like from '../../../assets/icons/like.svg';
+import dislike from '../../../assets/icons/dislike.svg';
 
 type Type = {
   id: string;
