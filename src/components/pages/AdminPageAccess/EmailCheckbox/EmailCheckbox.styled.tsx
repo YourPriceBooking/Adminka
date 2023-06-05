@@ -13,7 +13,7 @@ export const EmailCheckboxStyled = styled.div`
     display: flex;
   }
 
-  & form {
+  .forma {
     display: flex;
     flex-direction: column;
     justify-content: space-between;

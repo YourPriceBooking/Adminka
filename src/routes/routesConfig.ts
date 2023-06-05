@@ -41,4 +41,5 @@ export const routes = {
   },
   blog: { path: '/blog', name: 'Blog', element: Blog },
   registerModal: { path: '/registerModal', name: 'registerModal', element: RegisterModalPage },
+
 };
