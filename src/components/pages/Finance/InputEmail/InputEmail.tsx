@@ -240,5 +240,3 @@ export const InputEmail: React.FC = () => {
     </>
   );
 };
-
-// maestro_@ukr.net 0000
