@@ -2,6 +2,7 @@ import { Navigate, Routes, Route } from 'react-router-dom';
 import { routes } from './routesConfig';
 import { PrivateRoute } from './PrivateRoute';
 
+
 const {
   login,
   menu,
@@ -12,7 +13,6 @@ const {
   registerModal,
   statistics,
   finance,
-  blog,
 } = routes;
 
 export const AppRouter = () => (
@@ -36,7 +36,6 @@ export const AppRouter = () => (
         <Route path={adminPageAccessMain.path} element={<adminPageAccessMain.element />} />
         <Route path={registerModal.path} element={<registerModal.element />} />
         <Route path={finance.path} element={<finance.element />} />
-        <Route path={blog.path} element={<blog.element />} />
 
         {/* <Route path="/location" element={<Location />} /> */}
       </Route>

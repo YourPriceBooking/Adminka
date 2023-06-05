@@ -1,1 +1,0 @@
-export { VerificationDocuments } from './VerificationDocuments';

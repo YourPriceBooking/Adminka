@@ -8,8 +8,7 @@ import {
   AdminPageAccess,
   AdminPageAccessMain,
   StatisticPage,
-  FinancePage,
-  Blog,
+  FinancePage
 } from 'pages';
 import RegisterModalPage from 'pages/RegisterModalPage';
 
@@ -24,11 +23,7 @@ export const routes = {
     element: { VerificationCabinetPage, VerificationPage },
   },
   finance: { path: '/finance', name: 'Finance', element: FinancePage },
-  statistics: {
-    path: '/statistics',
-    name: 'Statistics and access to cabinets',
-    element: StatisticPage,
-  },
+  statistics: { path: '/statistics', name: 'Statistics and access to cabinets', element: StatisticPage },
   adminPageAccess: {
     path: '/admin-page-access',
     name: 'Access to the administrative directory',
@@ -39,6 +34,6 @@ export const routes = {
     name: 'Access to the administrative directory',
     element: AdminPageAccessMain,
   },
-  blog: { path: '/blog', name: 'Blog', element: Blog },
+  blog: { path: '/blog', name: 'Blog', element: null },
   registerModal: { path: '/registerModal', name: 'registerModal', element: RegisterModalPage },
 };

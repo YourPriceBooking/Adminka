@@ -1,14 +1,10 @@
-// import { AdminAccess } from "./AdminPageAccess.styled";
-// import { AdminAccessHeader } from "./AdminAccessHeader/AdminAccessHeader";
-// import { AdminEmail } from "./AdminEmail/AdminEmail";
-import { InputEmail } from '../Access/InputEmail';
-import { AdminPageAccessMain } from './AdminPageAccessMain';
+import { AdminAccess } from "./AdminPageAccess.styled";
+import { AdminAccessHeader } from "./AdminAccessHeader/AdminAccessHeader";
+import { AdminEmail } from "./AdminEmail/AdminEmail";
 
-// export const AdminPageAPage = () => (
-//   <AdminAccess>
-//     <AdminAccessHeader />
-//     <AdminEmail/>
-//   </AdminAccess>
-// );
-
-export const AdminPageAccess = () => <InputEmail component={AdminPageAccessMain} />;
+export const AdminPageAccess = () => (
+  <AdminAccess>
+    <AdminAccessHeader />
+    <AdminEmail/>
+  </AdminAccess>
+);

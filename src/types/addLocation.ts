@@ -1,35 +1,30 @@
 import { EntityId } from "@reduxjs/toolkit";
-
+import { number } from "yup";
 
 export interface IAllObjectHotelier {
   code: number | undefined;
-  getAllEnPages?: DataObject;
-  getAllUaPages?: DataObject;
-  getAllPlPages?: DataObject;
-  getAllRuPages?: DataObject;
+  data: DataObject;
   status: string;
 }
 
 export type DataObject = {
-  [key in 'getAllEnPages' | 'getAllUaPages' | 'getAllPlPages' | 'getAllRuPages']: Location;
+  [key: string]: Location;
 };
 
 export type Location = {
+  nameOfpage: string;
   city: string;
   country: string;
-  createdAt: string;
-  description: string;
-  district: string;
-  districtInternational: string;
-  idLocation: string;
-  language: string;
-  linkOnPhoto: string;
-  nameOfpage: string;
   state: string;
-  updatedAt: string;
+  district: string;
+  language: string;
   url: string;
+  linkOnPhoto: string;
+  idLocation: string;
   _id: string;
-};
+  createdAt: string;
+  updatedAt: string;
+}
 
 
 export type AddLocation = {

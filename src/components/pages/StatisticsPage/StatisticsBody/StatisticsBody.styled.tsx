@@ -1,10 +1,5 @@
 import styled from 'styled-components/macro';
 
-type Props = {
-  isClicked: boolean;
-}
-
-
 export const WrapperBody = styled.ul`
   display: flex;
   flex-direction: column;
@@ -30,24 +25,9 @@ export const WrapperBody = styled.ul`
   }
 `;
 
-export const ListItem = styled.li<Props>`
+export const ListItem = styled.li`
   display: flex;
   justify-content: space-between;
-  cursor: pointer;
-
-  > p {
-    font-weight: ${({ isClicked }) => (isClicked ? 600 : 300)};
-  }
-
-  > span {
-    font-weight: ${({ isClicked }) => (isClicked ? 600 : 400)};
-  }
-
-  &:hover {
-    > p {
-      font-weight: ${({ isClicked }) => !isClicked && 400};
-    }
-  }
 
   @media screen and (min-width: 768px) {
     width: 46%;
@@ -64,7 +44,9 @@ export const ListItem = styled.li<Props>`
 
 
 export const TextItem = styled.p`
+
   font-family: ${({ theme }) => theme.fonts.roboto};
+  font-weight: 300;
   font-size: 18px;
   line-height: 25px/18px;
 
@@ -79,6 +61,7 @@ export const TextItem = styled.p`
 
 export const TextSpan = styled.span`
   font-family: ${({ theme }) => theme.fonts.roboto};
+  font-weight: 400;
   font-size: 18px;
   line-height: 25px/18px;
 

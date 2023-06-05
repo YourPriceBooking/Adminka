@@ -1,8 +1,8 @@
-import { FinanceMain } from './FinanceMain/FinanceMain';
-import { InputEmail } from '../Access/InputEmail';
+import { Div } from './Finance.styled';
+import { InputEmail } from './InputEmail';
 
 export const Finance: React.FC = () => (
-  <div>
-    <InputEmail component={FinanceMain} />
-  </div>
+  <Div>
+    <InputEmail />
+  </Div>
 );

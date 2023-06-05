@@ -1,12 +1,10 @@
 import { PendingObjects } from './PendingObjects';
 import { MainWrapper } from './VerificationCabinet.styled';
-import { VerificationHeader } from './VerifierLogin/VerificationHeader/VerificationHeader';
+import { VerificationHeader } from './VerificationHeader';
 
 export const VerificationCabinet = () => (
-  <div>
-    <MainWrapper>
-      <VerificationHeader />
-      <PendingObjects />
-    </MainWrapper>
-  </div>
+  <MainWrapper>
+    <VerificationHeader />
+    <PendingObjects />
+  </MainWrapper>
 );

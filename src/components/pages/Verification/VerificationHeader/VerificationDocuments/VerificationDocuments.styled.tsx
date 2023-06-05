@@ -1,8 +1,8 @@
 import styled from 'styled-components/macro';
 
 export const Wrapper = styled.div`
-  width: 407px;
-  margin-bottom: 14px;
+width: 407px;
+margin-bottom: 14px;
   display: flex;
   flex-direction: row;
   background: rgba(76, 76, 76, 0.28);
@@ -41,8 +41,8 @@ export const Button = styled.div`
   }
 `;
 export const ListWrapper = styled.div`
-  margin-top: 5px;
-  margin-bottom: 12px;
+margin-top: 5px;
+margin-bottom: 12px;
 `;
 export const Svg = styled.img`
   width: 34px;
@@ -54,14 +54,14 @@ export const Svg = styled.img`
 `;
 
 export const List = styled.ul`
-  max-width: 230px;
-  gap: 18px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+max-width: 230px;
+gap: 18px;
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
 `;
 export const Img = styled.img`
-  display: block;
+display: block;
   width: 64px;
   height: 64px;
 `;
