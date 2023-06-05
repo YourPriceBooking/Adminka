@@ -1,1 +1,1 @@
-export * from '../../../../pages/InputEmail';
+export * from './InputEmail';

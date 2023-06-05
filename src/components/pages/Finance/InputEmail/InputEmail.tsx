@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
-import { Button } from '../components/pages/Finance/Button/Button';
-import {
-  Input,
-  Message,
-  Placeholder,
-} from '../components/pages/Finance/InputEmail/InputEmail.styled';
-import { PasswordField } from '../components/pages/Finance/PasswordField';
-import s from './Finance.module.css';
+import { Button } from '../Button/Button';
+import { Input, Message, Placeholder } from './InputEmail.styled';
+import { PasswordField } from '../PasswordField';
+import s from '../Finance.module.css';
 // import image1 from '../../../../assets/icons/magnifyingGlass.svg'
-import like from '../assets/icons/like.svg';
-import dislike from '../assets/icons/dislike.svg';
+import like from '../../../../assets/icons/like.svg';
+import dislike from '../../../../assets/icons/dislike.svg';
 
 type Type = {
   id: string;
@@ -24,7 +20,7 @@ type Type = {
 
 let arr2: Type[] = [];
 
-const InputEmail: React.FC = () => {
+export const InputEmail: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [message, setMessage] = useState('');
   const [showPasswordField, setShowPasswordField] = useState<boolean>(false);
@@ -244,5 +240,3 @@ const InputEmail: React.FC = () => {
     </>
   );
 };
-
-export default InputEmail;
