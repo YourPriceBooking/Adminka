@@ -3,7 +3,7 @@ import { Button } from '../Button/Button';
 import { Input, Message, Placeholder, Div } from './InputEmail.styled';
 import { PasswordField } from '../PasswordField/PasswordField';
 
-export const InputEmail: React.FC<{ component: React.FC }> = ({ component: Component }) => {
+export const InputEmail: React.FC<{ component: React.ComponentType }> = ({ component: Component }) => {
   const [email, setEmail] = useState<string>('');
   const [message, setMessage] = useState('');
   const [showPasswordField, setShowPasswordField] = useState<boolean>(false);
