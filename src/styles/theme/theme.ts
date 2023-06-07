@@ -92,6 +92,7 @@ declare module 'styled-components' {
         hoverBorder: string;
         btnBorder: string;
         btnBorderHover: string;
+        borderList: string;
       };
 
       borderTransparent: {
@@ -189,6 +190,7 @@ export const border = {
   hoverBorder: '#0090ff',
   btnBorder: '#AEAFBC',
   btnBorderHover: '#4c4c4c',
+  borderList: '#A5A5A5',
 };
 
 export const borderTransparent = {
