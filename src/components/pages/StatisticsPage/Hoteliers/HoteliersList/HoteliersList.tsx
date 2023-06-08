@@ -65,7 +65,7 @@ const hoteliersData: Data = [
 ];
 
 export const HoteliersList = () => {
-    const [border, setBorder] = useState<boolean>(false)
+    const [border] = useState<boolean>(false)
 
 
     const changeBorder = (event: React.MouseEvent<HTMLUListElement>): void => {
@@ -87,7 +87,7 @@ export const HoteliersList = () => {
                 {hotels.length > 0 && '...'}
               </TextContent>
             </WrapperText>
-            <div style={{ marginLeft: 'auto' }}>
+            <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
               {like && <img src={likeIcon} alt="like" width="20px" height="20px" />}
               {!like && <img src={dislikeIcon} alt="dislike" width="20px" height="20px" />}
             </div>

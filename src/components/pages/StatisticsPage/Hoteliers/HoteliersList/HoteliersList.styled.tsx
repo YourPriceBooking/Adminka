@@ -29,6 +29,8 @@ export const Inner = styled.li<Props>`
 `;
 
 export const TextID = styled.p`
+  white-space: nowrap;
+  
   font-family: ${({ theme }) => theme.fonts.segoe};
   font-weight: 600;
   font-size: 12px;
