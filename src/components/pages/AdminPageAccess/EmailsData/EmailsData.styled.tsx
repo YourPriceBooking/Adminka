@@ -4,8 +4,11 @@ export const EmailsDataPageStyled = styled.div`
   display: flex;
   margin-top: 78px;
   justify-content: center;
+  overflow-y:auto;
+  
 `;
 export const EmailsMainStyled = styled.div`
+
   background: #ffffff;
   border: 1px solid #787878;
   box-shadow: 0px 0px 9px 2px rgba(0, 0, 0, 0.25);

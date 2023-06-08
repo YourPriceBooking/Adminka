@@ -13,14 +13,12 @@ export const EmailInput: React.FC = () => {
   const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
   const navigate = useNavigate();
 
-  
-  const data = "kit@gmail.com"
-
+  const data = 'kit@gmail.com';
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMessage("");
+    setMessage('');
     setEmail(event.target.value);
-    setIsEmailValid(true); 
+    setIsEmailValid(true);
   };
 
   const validateEmail = (): boolean => {
@@ -29,14 +27,14 @@ export const EmailInput: React.FC = () => {
   };
 
   const dataControl = () => {
-      // const response = await axios.get(apiUrl, { params: { email } });
-      if (data === email) {
-        navigate('/admin-page-access-main'); 
-      } else {
-        setIsEmailValid(false);
-        setMessage('You entered the wrong door. You do not have access to this section.');
-      }
+    // const response = await axios.get(apiUrl, { params: { email } });
+    if (data === email) {
+      navigate('/admin-page-access-main');
+    } else {
+      setIsEmailValid(false);
+      setMessage('You entered the wrong door. You do not have access to this section.');
     }
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -64,4 +62,4 @@ export const EmailInput: React.FC = () => {
       </form>
     </EmailInputStyled>
   );
-}
+};

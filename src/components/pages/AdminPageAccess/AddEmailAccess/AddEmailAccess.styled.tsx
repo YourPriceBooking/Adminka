@@ -14,6 +14,8 @@ export const MainDiv = styled.div`
   }
   display: flex;
   justify-content: center;
+  z-index: 2;
+  position: relative;
 `;
 
 export const AddEmailAccessMainDiv = styled.div`
@@ -37,8 +39,8 @@ export const AddEmailAccessMainDiv = styled.div`
 `;
 
 export const AddEmailAccessStyled = styled.div`
-margin-right: 65px;
-  
+  margin-right: 65px;
+
   & p {
     font-family: 'Segoe UI';
     font-style: normal;
@@ -75,10 +77,10 @@ export const AddEmailAccessButtonStyled = styled.button`
   text-align: center;
   color: #ffffff;
   margin-top: 23px;
-   :hover {
+  :hover {
     background-color: #0090ffb2;
   }
-   :active {
+  :active {
     background-color: #006bbe;
   }
 `;

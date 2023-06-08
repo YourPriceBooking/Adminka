@@ -1,8 +1,5 @@
 import { useAppSelector } from 'App';
 import type { RootState } from 'App/store';
-// import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { AddEmailAccess } from '../AddEmailAccess';
 import {
   EmailsDataPageStyled,
   EmailsMainStyled,
@@ -15,27 +12,11 @@ import { AddAccessButton } from '../AddAccessButton';
 
 export const EmailsData = () => {
   const emails = useAppSelector((state: RootState) => state.access.emails);
-  const [showAddEmailAccess, setShowAddEmailAccess] = useState(false);
-
-  //   const navigate = useNavigate();
 
   function generateUniqueKey(): number {
     return Math.random();
   }
 
-  const openAddEmailAccess = () => {
-    setShowAddEmailAccess(true);
-  };
-
-  const closeAddEmailAccess = () => {
-    setShowAddEmailAccess(false);
-  };
-
-  //   const addNewData = () => {
-  //     navigate('/admin-page-access-main');
-  //   };
-
-  console.log(emails);
   return (
     <EmailsDataPageStyled>
       <EmailsMainStyled>
@@ -71,18 +52,9 @@ export const EmailsData = () => {
             <p>Blog: {email.blog ? 'Checked' : 'Unchecked'}</p>
           </EmailMainBodyStyled>
         ))}
-        <AddAccessButton onClick={openAddEmailAccess} />
+        <AddAccessButton />
       </EmailsMainStyled>
-      <CloseButton src="CloseButton.png" direction="/admin-page-access-main" />
-      {showAddEmailAccess && <AddEmailAccess />}
+      <CloseButton src="CloseButton.png" direction="/admin-page-access" />
     </EmailsDataPageStyled>
   );
 };
-
-
-
-
-
-
-
-

@@ -1,6 +1,7 @@
 import { Navigate, Routes, Route } from 'react-router-dom';
 import { routes } from './routesConfig';
 import { PrivateRoute } from './PrivateRoute';
+
 const {
   login,
   menu,

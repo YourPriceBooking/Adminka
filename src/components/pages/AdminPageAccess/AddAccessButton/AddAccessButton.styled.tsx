@@ -31,3 +31,15 @@ export const AddAccessButtonStyled = styled.button`
     background: #a2f3aa;
   }
 `;
+export const OpenAddAccess = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(76, 76, 76, 0.28);
+  backdrop-filter: blur(7.5px);
+  z-index: 1;
+  overflow-y: auto;
+`
+

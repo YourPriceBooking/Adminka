@@ -13,4 +13,6 @@ export const AdminAccessMainStyled = styled.div`
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     padding: 100px 133px;
   }
+
 `;
+

@@ -1,41 +1,17 @@
-import { useState } from "react";
-import { AddAccessButton } from "../AddAccessButton";
-import { CloseButton } from "../CloseButton";
-import { AdminAccessMainStyled } from "./AdminPageAccessMain.styled";
-import { AddEmailAccess } from "../AddEmailAccess";
+import { useAppSelector } from 'App';
+import { selectEmailSlice } from 'features/access';
+import { AdminAccessMainStyled } from './AdminPageAccessMain.styled';
+import { EmailsData } from '../EmailsData';
+import { AddAccessButton } from '../AddAccessButton';
 
 export const AdminPageAccessMain = () => {
-   const [showAddEmail, setShowAddEmail] = useState<boolean>(false);
-   const [showAddEmailButton, setShowAddEmailButton] = useState<boolean>(true);
-
-
-  const handleAddEmailButtonClick = () => {
-    setShowAddEmail(true);
-    setShowAddEmailButton(false);
-  };
-
-  const handleCloseClick = () => {
-    setShowAddEmail(false);
-    setShowAddEmailButton(true);
-  };
+  const emails = useAppSelector(selectEmailSlice);
 
   return (
     <div>
       <AdminAccessMainStyled>
-        {showAddEmailButton && <AddAccessButton onClick={handleAddEmailButtonClick} />}
-        {!showAddEmail && (
-          <CloseButton
-            src="CloseButton.png"
-            onClick={handleCloseClick}
-            direction="/admin-page-access"
-          />
-        )}
-        {showAddEmail && <AddEmailAccess onClick={handleCloseClick} />}
+        {emails.length > 0 ? <EmailsData /> : <AddAccessButton />}
       </AdminAccessMainStyled>
     </div>
   );
 };
-
-
-
-

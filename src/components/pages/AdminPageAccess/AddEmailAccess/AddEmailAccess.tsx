@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useAppDispatch } from 'App';
 import { addEmail } from 'features/access';
@@ -25,7 +24,6 @@ export const AddEmailAccess = ({ onClick }: Props) => {
   const [blogChecked, setBlogChecked] = useState(false);
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const handleAddEmail = (event: React.FormEvent) => {
     event.preventDefault();
@@ -40,19 +38,24 @@ export const AddEmailAccess = ({ onClick }: Props) => {
     };
 
     dispatch(addEmail(newEmail));
+
+    onClick?.();
   };
 
-  const sendData = () => {
-    navigate('/admin-page-access-emails-data');
-  };
   return (
     <MainDiv>
       <form onSubmit={handleAddEmail}>
         <AddEmailAccessMainDiv>
           <AddEmailAccessStyled>
             <p>Enter Email</p>
-            <AddEmailAccessInput type="email" id="email" name="email" required onChange={(e) => setEmail(e.target.value)} />
-            <AddEmailAccessButtonStyled  type="submit" onClick={sendData}>Add Access</AddEmailAccessButtonStyled>
+            <AddEmailAccessInput
+              type="email"
+              id="email"
+              name="email"
+              required
+              onChange={e => setEmail(e.target.value)}
+            />
+            <AddEmailAccessButtonStyled type="submit">Add Access</AddEmailAccessButtonStyled>
           </AddEmailAccessStyled>
           <EmailCheckbox
             objectsChecked={objectsChecked}
@@ -76,6 +79,3 @@ export const AddEmailAccess = ({ onClick }: Props) => {
     </MainDiv>
   );
 };
-
-
-
