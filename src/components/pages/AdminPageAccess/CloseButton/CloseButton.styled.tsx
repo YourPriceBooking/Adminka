@@ -2,7 +2,6 @@ import styled from 'styled-components/macro';
 
 export const CloseButtonStyled = styled.button`
   float: right;
-  margin-top: 4%;
   width: 50px;
   height: 50px;
   background-color: transparent;
@@ -15,6 +14,5 @@ export const CloseButtonStyled = styled.button`
 
   :active {
     background-color: ${({ theme }) => theme.colors.bgTransparent.buttonCancelDeleteHover};
-    border-color: transparent;
   }
 `;
