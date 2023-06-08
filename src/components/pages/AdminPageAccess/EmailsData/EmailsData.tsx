@@ -6,6 +6,7 @@ import {
   EmailMainHeaderStyled,
   EmailMainBodyStyled,
   ActiveBlock,
+  CheckedStyle
 } from './EmailsData.styled';
 import { CloseButton } from '../CloseButton';
 import { AddAccessButton } from '../AddAccessButton';
@@ -39,20 +40,26 @@ export const EmailsData = () => {
 
         {emails.map(email => (
           <EmailMainBodyStyled key={generateUniqueKey()}>
-            <p>{email.email}</p>
+            <p className='email'>{email.email}</p>
             <ActiveBlock>
               <p>Active</p>
+              <div className='buttons'>
               <button type="button">ban</button>
               <button type="button">change</button>
+              </div>
             </ActiveBlock>
-            <p>Objects: {email.objects ? 'Checked' : 'Unchecked'}</p>
-            <p>Languages: {email.languages ? 'Checked' : 'Unchecked'}</p>
-            <p>Statistics: {email.statistics ? 'Checked' : 'Unchecked'}</p>
-            <p>Finance: {email.finance ? 'Checked' : 'Unchecked'}</p>
-            <p>Blog: {email.blog ? 'Checked' : 'Unchecked'}</p>
+            <div className='checkboxs'>
+            <p>{email.objects ? <CheckedStyle/> : ''}</p>
+            <p> {email.languages ? <CheckedStyle/> : ''}</p>
+            <p>{email.statistics ? <CheckedStyle/> : ''}</p>
+            <p> {email.finance ? <CheckedStyle/> : ''}</p>
+            <p>{email.blog ? <CheckedStyle/> : ''}</p>
+            </div>
           </EmailMainBodyStyled>
         ))}
+        <div className='button-styled'>
         <AddAccessButton />
+        </div>
       </EmailsMainStyled>
       <CloseButton src="CloseButton.png" direction="/admin-page-access" />
     </EmailsDataPageStyled>
