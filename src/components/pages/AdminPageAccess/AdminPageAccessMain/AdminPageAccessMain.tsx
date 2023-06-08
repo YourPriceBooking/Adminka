@@ -8,10 +8,8 @@ export const AdminPageAccessMain = () => {
   const emails = useAppSelector(selectEmailSlice);
 
   return (
-    <div>
       <AdminAccessMainStyled>
         {emails.length > 0 ? <EmailsData /> : <AddAccessButton />}
       </AdminAccessMainStyled>
-    </div>
   );
 };

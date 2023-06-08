@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useAppSelector } from 'App';
 import type { RootState } from 'App/store';
 import {
@@ -6,13 +7,22 @@ import {
   EmailMainHeaderStyled,
   EmailMainBodyStyled,
   ActiveBlock,
-  CheckedStyle
+  CheckedStyle,
+  ButtonBan,
+  ButtonChange,
+  // LiftTheBan,
 } from './EmailsData.styled';
 import { CloseButton } from '../CloseButton';
 import { AddAccessButton } from '../AddAccessButton';
 
 export const EmailsData = () => {
   const emails = useAppSelector((state: RootState) => state.access.emails);
+
+  const [banClicked, setBanClicked] = useState(false);
+
+  const handleBanClick = () => {
+    setBanClicked(!banClicked);
+  };
 
   function generateUniqueKey(): number {
     return Math.random();
@@ -40,25 +50,27 @@ export const EmailsData = () => {
 
         {emails.map(email => (
           <EmailMainBodyStyled key={generateUniqueKey()}>
-            <p className='email'>{email.email}</p>
+            <p className="email">{email.email}</p>
             <ActiveBlock>
               <p>Active</p>
-              <div className='buttons'>
-              <button className='button-ban' type="button">ban</button>
-              <button className='button-change' type="button">change</button>
+              <div className="buttons">
+                <ButtonBan type="button" onClick={handleBanClick}>
+                  {banClicked ? 'reban' : 'ban'}
+                </ButtonBan>
+                <ButtonChange type="button">change</ButtonChange>
               </div>
             </ActiveBlock>
-            <div className='checkboxs'>
-            <p>{email.objects ? <CheckedStyle/> : ''}</p>
-            <p> {email.languages ? <CheckedStyle/> : ''}</p>
-            <p>{email.statistics ? <CheckedStyle/> : ''}</p>
-            <p> {email.finance ? <CheckedStyle/> : ''}</p>
-            <p>{email.blog ? <CheckedStyle/> : ''}</p>
+            <div className="checkboxs">
+              <p>{email.objects ? <CheckedStyle /> : ''}</p>
+              <p> {email.languages ? <CheckedStyle /> : ''}</p>
+              <p>{email.statistics ? <CheckedStyle /> : ''}</p>
+              <p> {email.finance ? <CheckedStyle /> : ''}</p>
+              <p>{email.blog ? <CheckedStyle /> : ''}</p>
             </div>
           </EmailMainBodyStyled>
         ))}
-        <div className='button-styled'>
-        <AddAccessButton />
+        <div className="button-styled">
+          <AddAccessButton />
         </div>
       </EmailsMainStyled>
       <CloseButton src="CloseButton.png" direction="/menu" />

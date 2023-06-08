@@ -74,7 +74,7 @@ export const AddEmailAccess = ({ onClick }: Props) => {
       <CloseButton
         src="CloseButtonWhite.png"
         onClick={onClick}
-        direction="/admin-page-access-main"
+        direction="/admin-page-access"
       />
     </MainDiv>
   );

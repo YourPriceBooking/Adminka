@@ -139,57 +139,97 @@ export const ActiveBlock = styled.div`
   .buttons {
     display: flex;
     flex-direction: column;
-    .button-ban {
-      :hover {
-        background: #d0d0d0;
-        box-shadow: 0px 0px 4.06977px rgba(0, 0, 0, 0.25);
-        border-radius: 4.06977px;
-        font-family: 'Segoe UI';
-        font-style: normal;
-        font-weight: 600;
-        font-size: 12.2093px;
-        line-height: 16px;
-        text-align: center;
-        color: #ffffff;
-      }
-      :active {
-        background: #ff6a6a;
-        box-shadow: 0px 0px 4.06977px rgba(0, 0, 0, 0.25);
-        border-radius: 4.06977px;
-        font-family: 'Segoe UI';
-        font-style: normal;
-        font-weight: 600;
-        font-size: 12.2093px;
-        line-height: 16px;
-        text-align: center;
-        color: #ffffff;
-      }
-    }
-    .button-change {
-      :hover {
-        background: #d0d0d0;
-        box-shadow: 0px 0px 4.06977px rgba(0, 0, 0, 0.25);
-        border-radius: 4.06977px;
-        font-family: 'Segoe UI';
-        font-style: normal;
-        font-weight: 600;
-        font-size: 12.2093px;
-        line-height: 16px;
-        text-align: center;
-        color: #ffffff;
-      }
-      :active {
-        background: #0090FF;
-        box-shadow: 0px 0px 4.06977px rgba(0, 0, 0, 0.25);
-        border-radius: 4.06977px;
-        font-family: 'Segoe UI';
-        font-style: normal;
-        font-weight: 600;
-        font-size: 12.2093px;
-        line-height: 16px;
-        text-align: center;
-        color: #ffffff;
-      }
+  }
+`;
+
+export const ButtonBan = styled.button`
+  :hover {
+    background: #d0d0d0;
+    box-shadow: 0px 0px 4.06977px rgba(0, 0, 0, 0.25);
+    border-radius: 4.06977px;
+    font-family: 'Segoe UI';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12.2093px;
+    line-height: 16px;
+    text-align: center;
+    color: #ffffff;
+  }
+  :active {
+    background: #ff6a6a;
+    box-shadow: 0px 0px 4.06977px rgba(0, 0, 0, 0.25);
+    border-radius: 4.06977px;
+    font-family: 'Segoe UI';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12.2093px;
+    line-height: 16px;
+    text-align: center;
+    color: #ffffff;
+  }
+`;
+
+export const ButtonChange = styled.button`
+  :hover {
+    background: #d0d0d0;
+    box-shadow: 0px 0px 4.06977px rgba(0, 0, 0, 0.25);
+    border-radius: 4.06977px;
+    font-family: 'Segoe UI';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12.2093px;
+    line-height: 16px;
+    text-align: center;
+    color: #ffffff;
+  }
+  :active {
+    background: #0090ff;
+    box-shadow: 0px 0px 4.06977px rgba(0, 0, 0, 0.25);
+    border-radius: 4.06977px;
+    font-family: 'Segoe UI';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12.2093px;
+    line-height: 16px;
+    text-align: center;
+    color: #ffffff;
+  }
+`;
+
+export const LiftTheBan = styled.div`
+  content: 'lift the ban';
+  font-family: 'Segoe UI';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12.2093px;
+  line-height: 16px;
+  text-align: center;
+  color: #0090ff;
+  background: #ffffff;
+  box-shadow: 0px 0px 4.06977px rgba(0, 0, 0, 0.25);
+  border-radius: 4.06977px;
+  :hover {
+    font-family: 'Segoe UI';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12.2093px;
+    line-height: 16px;
+    text-align: center;
+    color: #6dbffe;
+    background: #ffffff;
+    box-shadow: 0px 0px 4.06977px rgba(0, 0, 0, 0.25);
+    border-radius: 4.06977px;
+    :active {
+      background: #ffffff;
+      box-shadow: 0px 0px 4.06977px rgba(0, 0, 0, 0.25);
+      border-radius: 4.06977px;
+      font-family: 'Segoe UI';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 12.2093px;
+      line-height: 16px;
+      text-align: center;
+      color: #24a0ed;
     }
   }
 `;
