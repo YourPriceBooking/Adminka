@@ -7,6 +7,11 @@ type Statistic = {
   isClicked: boolean;
 };
 
+type Prop = {
+  isShowPage: boolean;
+  setIsShowPage: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
 const statisticsData: Statistic[] = [
   { title: 'Hoteliers:', value: '75', isClicked: false },
   { title: 'Objects:', value: '30', isClicked: false },
@@ -16,7 +21,7 @@ const statisticsData: Statistic[] = [
   { title: 'Agents:', value: '89', isClicked: false },
 ];
 
-export const StatisticsBody: React.FC = () => {
+export const StatisticsBody: React.FC<Prop> = ({ isShowPage, setIsShowPage }) => {
   const [statistics, setStatistics] = useState(statisticsData);
   const [activeIndex, setActiveIndex] = useState<number | null>(-1);
 
@@ -29,11 +34,16 @@ export const StatisticsBody: React.FC = () => {
     setStatistics(updatedStatistics);
   };
 
+  const togglePage = (title:string) => {
+    if (title === 'Hoteliers:') setIsShowPage(!isShowPage);
+    else setIsShowPage(false)
+  };
+
   return (
     <WrapperBody>
       {statistics.map(({ title, value, isClicked }, index) => (
         <ListItem key={title} onClick={() => handleClick(index)} isClicked={isClicked}>
-          <TextItem>{title} </TextItem>{' '}
+          <TextItem onClick={() => togglePage(title)}>{title} </TextItem>
           <TextSpan>{value}</TextSpan>
         </ListItem>
       ))}
