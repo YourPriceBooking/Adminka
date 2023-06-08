@@ -44,8 +44,8 @@ export const EmailsData = () => {
             <ActiveBlock>
               <p>Active</p>
               <div className='buttons'>
-              <button type="button">ban</button>
-              <button type="button">change</button>
+              <button className='button-ban' type="button">ban</button>
+              <button className='button-change' type="button">change</button>
               </div>
             </ActiveBlock>
             <div className='checkboxs'>
@@ -61,7 +61,7 @@ export const EmailsData = () => {
         <AddAccessButton />
         </div>
       </EmailsMainStyled>
-      <CloseButton src="CloseButton.png" direction="/admin-page-access" />
+      <CloseButton src="CloseButton.png" direction="/menu" />
     </EmailsDataPageStyled>
   );
 };
