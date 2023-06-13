@@ -9,8 +9,8 @@ export const ButtonClose: React.FC = () => {
   const closePage = () => nav(-1);
   return (
     <DivClose>
-      <Img src={close} alt="" />
       <ButtonClos type="button" onClick={closePage}>
+        <Img src={close} alt="" />
         Close
       </ButtonClos>
     </DivClose>

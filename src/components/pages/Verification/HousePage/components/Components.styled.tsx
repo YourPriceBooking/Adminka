@@ -1,11 +1,10 @@
 import styled from 'styled-components/macro';
 
 export const DivClose = styled.div`
-  height: 53px;
+  height: 43px;
   background: #000000;
   border-radius: 0;
   text-align: end;
-  padding-top: 11px;
   justify-content: center;
 `;
 
@@ -25,6 +24,7 @@ export const Img = styled.img`
   width: 10px;
   height: 10px;
   color: #dbd8d8;
+  margin-right: 3px;
 `;
 
 export const DivRating = styled.div`
