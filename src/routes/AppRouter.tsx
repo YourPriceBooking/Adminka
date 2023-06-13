@@ -29,6 +29,10 @@ export const AppRouter = () => (
           path={verification.path.verificationId}
           element={<verification.element.VerificationCabinetPage />}
         />
+        <Route
+          path={verification.path.verificationPage}
+          element={<verification.element.HousePageVerif />}
+        />
         <Route path={menu.path} element={<menu.element />} />
         <Route path={country.path} element={<country.element />} />
         <Route path={statistics.path} element={<statistics.element />} />

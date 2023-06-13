@@ -12,3 +12,4 @@ export const AdminPageAccess = lazy(() => import('./AdminPageAccess'));
 export const AdminPageAccessMain = lazy(() => import('./AdminPageAccessMain'));
 export const FinancePage = lazy(() => import('./FinancePage'));
 export const Blog = lazy(() => import('./Blog'));
+export const HousePageVerif = lazy(() => import('./HousePage'));
