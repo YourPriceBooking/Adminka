@@ -1,98 +1,66 @@
-import { useState } from "react";
+import type { Dispatch } from 'redux';
+import { useEffect, useState } from "react";
+import {useDispatch, useSelector } from "react-redux";
+import { fetchHotelsById } from "features/hoteliers/hoteliersOperation";
+import { selectorHoteliers } from "features/hoteliers/hoteliersSelectors";
+import { Spinner } from "components/shared/Loader";
+import type { Data } from 'types/apis';
 import { Inner, TextContent, TextID, Wrapper, WrapperText } from "./HoteliersList.styled";
 import likeIcon from '../../../../../assets/icons/like.svg';
 import dislikeIcon from '../../../../../assets/icons/dislike.svg';
 
-type Data = {
-  id: string;
-  hotels: string[];
-    like: boolean;
-}[];
-
-const hoteliersData: Data = [
-  {
-    id: '7874567GHV',
-    hotels: [
-      'The Grand Hotel',
-      'Paradise Resort',
-      'Sunset Beach Hotel',
-      'The Charming Manor',
-      'The Grand Hotel',
-      'Paradise Resort',
-      'Sunset Beach Hotel',
-    ],
-    like: true,
-  },
-  {
-    id: '1123467LON',
-    hotels: [
-      'Royal Palace Hotel',
-      'Mountain View Lodge',
-      'Ocean Breeze Inn',
-      'Riverfront Inn',
-      'Royal Palace Hotel',
-      'Mountain View Lodge',
-      'Ocean Breeze Inn',
-    ],
-    like: false,
-  },
-  {
-    id: '9889T567KI',
-    hotels: [
-      'The Golden Sands Resort',
-      'Lakeside Retreat',
-      'The Plaza Hotel',
-      'Palm Grove Resort',
-      'The Golden Sands Resort',
-      'Lakeside Retreat',
-      'The Plaza Hotel',
-    ],
-    like: true,
-  },
-  {
-    id: '1234567NYC',
-    hotels: [
-      'Palm Grove Resort',
-      'Skyline Heights Hotel',
-      'Seaside Oasis',
-      'Palm Grove Resort',
-      'Palm Grove Resort',
-      'Skyline Heights Hotel',
-      'Seaside Oasis',
-    ],
-    like: true,
-  },
-];
 
 export const HoteliersList = () => {
-    const [border] = useState<boolean>(false)
+  const [borderIndex, setBorderIndex] = useState<number | null>(null);
+type DispatchAction = Dispatch<any>;
+  const dispatch: DispatchAction = useDispatch();
+  const { hoteliers, isLoading } = useSelector(selectorHoteliers);
 
+     const changeBorder = (event: React.MouseEvent<HTMLUListElement>) => {
+    const { target } = event;
+    if (
+      target instanceof HTMLDivElement ||
+      target instanceof HTMLParagraphElement ||
+      target instanceof HTMLLIElement
+    ) {
+      const index = Number(target.dataset.id);
+      setBorderIndex(index);
+    }
+     };
+  
+  
+  useEffect(() => {
+   hoteliers.map(({ owner }) => owner && dispatch(fetchHotelsById(owner)));
+    }, [dispatch]);
 
-    const changeBorder = (event: React.MouseEvent<HTMLUListElement>): void => {
-        const targetElement = event.target;
-        const currentTargetElement = event.currentTarget;
-    //   const index = Array.from(targetElement.parentNode!.children).indexOf(targetElement);
-      console.dir(targetElement);
-      console.log(currentTargetElement.children);
-  };
-    
-    return (
-      <Wrapper onClick={changeBorder}>
-        {hoteliersData.map(({ id, hotels, like }) => (
-          <Inner border={border} key={id}>
-            <TextID>ID {id}</TextID>
-            <WrapperText>
-              <TextContent>
-                {hotels.slice(0, 4).join(' ')}
-                {hotels.length > 0 && '...'}
-              </TextContent>
-            </WrapperText>
-            <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
-              {like && <img src={likeIcon} alt="like" width="20px" height="20px" />}
-              {!like && <img src={dislikeIcon} alt="dislike" width="20px" height="20px" />}
-            </div>
-          </Inner>
-        ))}
-      </Wrapper>
-    );
-};
+      return (
+        <Wrapper onClick={changeBorder}>
+          {hoteliers.length > 0 &&
+            hoteliers.map((hotelier: Data, index) =>
+              isLoading ? (
+                <Spinner />
+              ) : (
+                <Inner border={borderIndex === index} key={hotelier.owner} tabIndex={index}>
+                  <TextID tabIndex={index}>ID {hotelier.owner}</TextID>
+                  <WrapperText tabIndex={index}>
+                    <TextContent tabIndex={index}>
+                      {hotelier.hotels && hotelier.hotels.length > 6
+                        ? hotelier.hotels.slice(0, 6).join(' ')
+                        : hotelier.hotels && hotelier.hotels.join(' ')}
+                      {hotelier.hotels && hotelier.hotels.length > 0 && '...'}
+                    </TextContent>
+                  </WrapperText>
+                  <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
+                    {hotelier.status === 'on verification' ? (
+                      <img src={likeIcon} alt="like" width="20px" height="20px" />
+                    ) : (
+                      <img src={dislikeIcon} alt="dislike" width="20px" height="20px" />
+                    )}
+                  </div>
+                </Inner>
+              )
+            )}
+        </Wrapper>
+      );
+    };
+

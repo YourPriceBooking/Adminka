@@ -1,7 +1,11 @@
 import styled from 'styled-components/macro';
 
-type Props = {
+type PropsBorder = {
   border: boolean;
+};
+
+type Props = {
+  tabIndex: number;
 };
 
 export const Wrapper = styled.ul`
@@ -12,7 +16,9 @@ export const Wrapper = styled.ul`
   cursor:pointer;
 `;
 
-export const Inner = styled.li<Props>`
+export const Inner = styled.li.attrs<Props>(({ tabIndex }) => ({
+  'data-id': tabIndex,
+}))<PropsBorder>`
   display: flex;
   align-items: center;
 
@@ -28,7 +34,9 @@ export const Inner = styled.li<Props>`
   }
 `;
 
-export const TextID = styled.p`
+export const TextID = styled.p.attrs<Props>(({ tabIndex }) => ({
+  'data-id': tabIndex,
+}))`
   white-space: nowrap;
   
   font-family: ${({ theme }) => theme.fonts.segoe};
@@ -39,7 +47,9 @@ export const TextID = styled.p`
   color: ${({ theme }) => theme.colors.textThird};
 `;
 
-export const WrapperText = styled.div`
+export const WrapperText = styled.div.attrs<Props>(({ tabIndex }) => ({
+  'data-id': tabIndex,
+}))`
   display: flex;
   gap: 13px;
 
@@ -50,7 +60,9 @@ export const WrapperText = styled.div`
   margin-left: 26px;
 `;
 
-export const TextContent = styled.p`
+export const TextContent = styled.p.attrs<Props>(({ tabIndex }) => ({
+  'data-id': tabIndex,
+}))`
 display: inline-block
   font-family: ${({ theme }) => theme.fonts.segoe};
   font-weight: 400;

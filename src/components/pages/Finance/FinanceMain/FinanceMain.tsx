@@ -1,3 +1,4 @@
+import { Hoteliers } from 'components/pages/StatisticsPage/Hoteliers/Hoteliers';
 import s from './Finance.module.css';
 
 export const FinanceMain: React.FC = () => {
@@ -26,6 +27,7 @@ export const FinanceMain: React.FC = () => {
           <span className={s.priseSpan}>34 579 USD</span>
         </div>
       </div>
+      <Hoteliers/>
     </div>
   );
 };

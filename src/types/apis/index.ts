@@ -4,3 +4,6 @@ export * from './states';
 export * from './countries';
 export * from './languages';
 export * from './apiResponse';
+export * from './hoteliers';
+
+
