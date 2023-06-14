@@ -33,7 +33,6 @@ export const fetchHoteliers = createAsyncThunk<HotelierFetch[]>(
   }
 );
 
-
 export const fetchHotelsById = createAsyncThunk<HotelsObjects, string>(
   'hoteliers/fetchHotelsById',
   async (id: string, { rejectWithValue }) => {

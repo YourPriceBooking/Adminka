@@ -1,6 +1,6 @@
-import type { HoteliersSelector} from "../../types/apis/hoteliers";
+import type { RootState } from "App/store";
 
 
-export const selectorHoteliers = (state: HoteliersSelector) => state.hoteliers
+export const selectorHoteliers = (state: RootState) => state.hoteliers
 
 

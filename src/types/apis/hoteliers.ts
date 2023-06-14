@@ -43,9 +43,3 @@ export type HotelsObjects = {
 };
 
 
-export type Data = {
-  owner: string;
-  hotels: string[];
-  status: string;
-};
-

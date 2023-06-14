@@ -1,4 +1,5 @@
 import { fetchHoteliers } from 'features/hoteliers/hoteliersOperation';
+import type { Dispatch } from 'redux';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { InputEmail } from '../Access/InputEmail';
@@ -9,10 +10,12 @@ import { Hoteliers } from './Hoteliers/Hoteliers';
 
 export const StatisticsPage = () => {
   const [isShowPage, setIsShowPage] = useState<boolean>(false);
-  const dispatch = useDispatch();
+  // eslint-disable-next-line
+  type DispatchAction = Dispatch<any>;
+  const dispatch: DispatchAction = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchHoteliers() as any);
+    dispatch(fetchHoteliers());
   }, [dispatch]);
 
   return (
