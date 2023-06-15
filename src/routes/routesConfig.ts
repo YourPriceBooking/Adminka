@@ -9,6 +9,7 @@ import {
   StatisticPage,
   FinancePage,
   Blog,
+  HousePageVerif,
 } from 'pages';
 import RegisterModalPage from 'pages/RegisterModalPage';
 
@@ -18,9 +19,13 @@ export const routes = {
   country: { path: '/countries', name: 'Countries', element: CountryPage },
 
   verification: {
-    path: { verification: '/verification', verificationId: '/verification/:verificationId' },
+    path: {
+      verification: '/verification',
+      verificationId: '/verification/:verificationId',
+      verificationPage: '/verification/house-page',
+    },
     name: 'Objects Verification',
-    element: { VerificationCabinetPage, VerificationPage },
+    element: { VerificationCabinetPage, VerificationPage, HousePageVerif },
   },
   finance: { path: '/finance', name: 'Finance', element: FinancePage },
   statistics: {
