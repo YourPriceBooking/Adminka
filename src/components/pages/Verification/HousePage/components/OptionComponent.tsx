@@ -3,7 +3,6 @@ import money from 'assets/icons/money.svg';
 import { Description } from './Description';
 import OptionDescriptionComponent from './OptionDescriptionComponent';
 import {
-  DivAnimalCard,
   DivAnimalDesc,
   DivAreaPriceAnimal,
   DivCardOption,
@@ -21,17 +20,7 @@ type CardComponentProps = {
   minPrice: number;
   area: number;
 };
-const desc: string[] = [
-  'туалетная бумага',
-  'бесплатные туалетные принадлежностиx',
-  'кофеварка',
-  'джакузи',
-  'стиральная машина',
-  'звукоизоляция',
-  'гардероб',
-  'утюг',
-  'шкаф',
-];
+const desc: string[] = ['туалетная бумага', 'бесплатные туалетные принадлежностиx', 'кофеварка'];
 const CardComponent: React.FC<CardComponentProps> = ({
   gallery,
   animals,
@@ -41,36 +30,37 @@ const CardComponent: React.FC<CardComponentProps> = ({
 }) => (
   <DivCardOption>
     <Description hasCard />
-    <GalleryComponent photos={gallery} hasCard />
     <OptionDescriptionComponent styleCard description={desc} />
     <OptionBedroom />
-
-    <DivAreaPriceAnimal>
-      <SpanAreaCard>
-        Общая площадь <span style={{ marginLeft: '30px' }}> {area} м.кв. </span>
-      </SpanAreaCard>
-      <DivPriceCard>
-        {maxPrice > 0 ? (
-          <div>
-            <img src={money} alt="val symbol" style={{ position: 'relative', top: '20px' }} />
+    <GalleryComponent photos={gallery} hasCard />
+    <div style={{ position: 'relative' }}>
+      <DivAreaPriceAnimal>
+        <SpanAreaCard>
+          Общая площадь <span style={{ marginLeft: '30px' }}> {area} м.кв. </span>
+        </SpanAreaCard>
+        <DivPriceCard>
+          {maxPrice > 0 ? (
             <div>
-              {minPrice === maxPrice ? (
-                <p style={{ marginLeft: '30px' }}>{minPrice} UAH</p>
-              ) : (
-                <p style={{ marginLeft: '30px' }}>
-                  {minPrice} UAH - {maxPrice} UAH
-                </p>
-              )}
+              <img src={money} alt="val symbol" style={{ position: 'relative', top: '20px' }} />
+              <div>
+                {minPrice === maxPrice ? (
+                  <p style={{ marginLeft: '30px' }}>{minPrice} UAH</p>
+                ) : (
+                  <p style={{ marginLeft: '30px' }}>
+                    {minPrice} UAH - {maxPrice} UAH
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
-        ) : null}
-      </DivPriceCard>
+          ) : null}
+        </DivPriceCard>
 
-      <DivAnimalCard>
-        {animals.length > 0 ? <DivAnimalDesc>Можете остановиться у нас с:</DivAnimalDesc> : null}
-        {animals.length > 0 ? <OptionAnimalComponent animals={animals} /> : null}
-      </DivAnimalCard>
-    </DivAreaPriceAnimal>
+        <div>
+          {animals.length > 0 ? <DivAnimalDesc>Можете остановиться у нас с:</DivAnimalDesc> : null}
+          {animals.length > 0 ? <OptionAnimalComponent animals={animals} /> : null}
+        </div>
+      </DivAreaPriceAnimal>
+    </div>
   </DivCardOption>
 );
 

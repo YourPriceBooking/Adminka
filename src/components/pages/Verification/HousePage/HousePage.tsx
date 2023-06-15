@@ -47,28 +47,30 @@ const desc: string[] = [
   'спорт зал',
 ];
 export const HousePage: React.FC = () => (
-  <DivMain>
-    <DivPage>
-      <ButtonClose />
-      <div>
-        <ImgHotel src={apartHotelIcon} alt="" />
-        <Name>Дом Пабло Эскобара</Name>
-        <RatingComponent rating={4.4} />
-        <ImgAsress src={adress} alt="" />
-        <PAdress>ул. Джона Маккейна, д.88, г. Киев, Украина</PAdress>
-        <PriceComponent minPrice={500} maxPrice={1000} checkIn="14:00" checkOut="15:00" />
-        <GalleryComponent photos={photos} hasCard={false} />
+  <div style={{}}>
+    <DivMain>
+      <DivPage>
+        <ButtonClose />
+        <div>
+          <ImgHotel src={apartHotelIcon} alt="" />
+          <Name>Дом Пабло Эскобара</Name>
+          <RatingComponent rating={4.4} />
+          <ImgAsress src={adress} alt="" />
+          <PAdress>ул. Джона Маккейна, д.88, г. Киев, Украина</PAdress>
+          <PriceComponent minPrice={500} maxPrice={1000} checkIn="14:00" checkOut="15:00" />
+          <GalleryComponent photos={photos} hasCard={false} />
 
-        <Description hasCard={false} />
+          <Description hasCard={false} />
 
-        <VideoComponent videoId="eoGdSempEuQ" />
-        <OptionDescriptionComponent styleCard={false} description={desc} />
-        <PaymentComponent />
-        <Reviews />
-      </div>
-      <ListOptionComponent />
+          <VideoComponent videoId="eoGdSempEuQ" />
+          <OptionDescriptionComponent styleCard={false} description={desc} />
+          <PaymentComponent />
+          <Reviews />
+        </div>
+        <ListOptionComponent />
 
-      <div style={{ padding: '10px' }}>Object’s History</div>
-    </DivPage>
-  </DivMain>
+        <div style={{ padding: '10px' }}>Object’s History</div>
+      </DivPage>
+    </DivMain>
+  </div>
 );

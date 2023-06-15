@@ -4,6 +4,7 @@ export const DivMain = styled.div`
   background: #3a3a3a;
   height: 100%;
   width: 100%;
+  overflow: hidden;
 `;
 
 export const DivPage = styled.div`

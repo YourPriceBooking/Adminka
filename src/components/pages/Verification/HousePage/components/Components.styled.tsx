@@ -91,7 +91,7 @@ export const PDescription = styled.p<{ hasStyle: boolean }>`
 
 export const DivGalleryMain = styled.div<{ hasCard: boolean }>`
   position: relative;
-  top: ${props => (props.hasCard ? '-90px' : '-210px')};
+  top: ${props => (props.hasCard ? '-380px' : '-210px')};
   left: ${props => (props.hasCard ? '79%' : '71.5%')};
   ///height: 0;///
   height: ${props => (props.hasCard ? '0' : 'auto')};
@@ -201,13 +201,14 @@ export const DivReviewsElem = styled.div`
   border-radius: 5px;
 `;
 export const DivCardOption = styled.div`
+  position: relative;
   border: 0.5px solid #aeafbc;
   margin: 3px 12px;
   padding: 32px 11px;
 `;
 export const DivBeds = styled.div`
-  margin-top: 50px;
-  margin-bottom: 15px;
+  margin-top: 60px;
+  margin-bottom: 80px;
   display: flex;
   margin-left: 25px;
 `;
@@ -230,11 +231,6 @@ export const DivAnimalDesc = styled.div`
   margin-bottom: 7px;
 `;
 
-export const DivAnimalCard = styled.div`
-  margin-top: -80px;
-  margin-left: 61%;
-  margin-bottom: -30px;
-`;
 export const ImgAnimal = styled.img`
   width: 14px;
   height: 14px;
@@ -261,9 +257,7 @@ export const DivPriceCard = styled.div`
   font-size: 12px;
   line-height: 16px;
   color: #006bbe;
-  position: relative;
-  margin-left: 80%;
-  top: -110px;
+  margin-top: -20px;
 `;
 
 export const SpanAreaCard = styled.span`
@@ -273,14 +267,15 @@ export const SpanAreaCard = styled.span`
   font-size: 12px;
   line-height: 16px;
   color: #a03507;
-  position: relative;
-  margin-left: 61%;
-  top: -70px;
 `;
 
 export const DivAreaPriceAnimal = styled.div`
   position: relative;
-  top: -50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  margin-left: 61%;
+  margin-top: -110px;
 `;
 
 export const DivListTitle = styled.div`
