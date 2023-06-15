@@ -20,7 +20,13 @@ type CardComponentProps = {
   minPrice: number;
   area: number;
 };
-const desc: string[] = ['туалетная бумага', 'бесплатные туалетные принадлежностиx', 'кофеварка'];
+const desc: string[] = [
+  'туалетная бумага',
+  'бесплатные туалетные принадлежностиx',
+  'кофеварка',
+  'звукоизоляция',
+  'стиральная машина',
+];
 const CardComponent: React.FC<CardComponentProps> = ({
   gallery,
   animals,

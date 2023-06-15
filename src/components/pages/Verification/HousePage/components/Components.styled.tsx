@@ -91,7 +91,7 @@ export const PDescription = styled.p<{ hasStyle: boolean }>`
 
 export const DivGalleryMain = styled.div<{ hasCard: boolean }>`
   position: relative;
-  top: ${props => (props.hasCard ? '-380px' : '-210px')};
+  top: ${props => (props.hasCard ? '-410px' : '-210px')};
   left: ${props => (props.hasCard ? '79%' : '71.5%')};
   ///height: 0;///
   height: ${props => (props.hasCard ? '0' : 'auto')};
@@ -275,7 +275,7 @@ export const DivAreaPriceAnimal = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
   margin-left: 61%;
-  margin-top: -110px;
+  margin-top: -180px;
 `;
 
 export const DivListTitle = styled.div`

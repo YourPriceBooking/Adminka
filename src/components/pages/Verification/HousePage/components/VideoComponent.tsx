@@ -9,7 +9,7 @@ type VideoComponentProps = {
 export const VideoComponent: React.FC<VideoComponentProps> = ({ videoId }) => {
   const srcVideo = `https://www.youtube.com/embed/${videoId}`;
   return (
-    <div style={{ position: 'relative', marginLeft: '790px', top: '-130px' }}>
+    <div style={{ position: 'relative', marginLeft: '59%', top: '-130px' }}>
       {' '}
       <iframe
         {...size}
