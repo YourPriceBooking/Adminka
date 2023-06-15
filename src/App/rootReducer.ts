@@ -4,6 +4,7 @@ import { authReducer, modalSliceReducer, themeReducer } from 'features/common';
 import { languagesReducer } from 'features/languages';
 import { countryReducer } from 'features/countries';
 import { accessReducer } from 'features/access/accessSlice';
+import { hoteliersReducer } from 'features/hoteliers/hoteliersSlice';
 
 export const rootReducer = combineReducers({
   // server state
@@ -16,4 +17,5 @@ export const rootReducer = combineReducers({
   language: languagesReducer,
   country: countryReducer,
   access: accessReducer,
+  hoteliers: hoteliersReducer,
 });
