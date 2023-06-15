@@ -1,8 +1,21 @@
 import { Hoteliers } from 'components/pages/StatisticsPage/Hoteliers/Hoteliers';
+import type { Dispatch} from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchHoteliers } from 'features/hoteliers/hoteliersOperation';
+import { selectorHoteliers } from 'features/hoteliers/hoteliersSelectors';
 import s from './Finance.module.css';
 
 export const FinanceMain: React.FC = () => {
   const g = "'";
+const { hoteliers } = useSelector(selectorHoteliers);
+  // eslint-disable-next-line
+  type DispatchAction = Dispatch<any>;
+  const dispatch: DispatchAction = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchHoteliers());
+  }, [dispatch]);
 
   return (
     <div style={{ marginTop: '60px' }} className={s.mainDiv}>
@@ -27,7 +40,7 @@ export const FinanceMain: React.FC = () => {
           <span className={s.priseSpan}>34 579 USD</span>
         </div>
       </div>
-      <Hoteliers/>
+      {hoteliers.length > 0 && <Hoteliers />}
     </div>
   );
 };

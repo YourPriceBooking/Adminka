@@ -26,11 +26,23 @@ export const HoteliersList = () => {
     }
      };
   
-  
-  useEffect(() => {
-    hoteliers.map(({ owner }) => owner && dispatch(fetchHotelsById(owner)));
-    // eslint-disable-next-line
-  }, [dispatch]);
+
+    useEffect(() => {
+      hoteliers.map(({ owner }) => owner && dispatch(fetchHotelsById(owner)));
+      // eslint-disable-next-line
+    }, [dispatch]);
+
+  // useEffect(() => {
+  //   const fetchData = async (): Promise<void> => {
+  //     await dispatch(fetchHoteliers() as any);
+  //   };
+  //   fetchData();
+  //   hoteliers.map(({ owner }) => owner && dispatch(fetchHotelsById(owner)));
+
+  //   // eslint-disable-next-line
+  // }, [dispatch]);
+
+
 
       return (
         <Wrapper onClick={changeBorder}>
