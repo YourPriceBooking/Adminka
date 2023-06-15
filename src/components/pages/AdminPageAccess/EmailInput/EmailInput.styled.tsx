@@ -8,12 +8,12 @@ export const EmailInputStyled = styled.div`
 export const ErrorEmail = styled.span`
   font-family: 'Segoe UI';
   font-style: normal;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 16px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19px;
   color: #fe6d6d;
   position: absolute;
-  top: 30px;
+  top: 25px;
 `;
 
 export const Input = styled.input<{ error: boolean }>`
@@ -27,12 +27,14 @@ export const Input = styled.input<{ error: boolean }>`
   background-color: ${({ theme }) => theme.colors.bg.buttonAddLocation};
   font-family: ${({ theme }) => theme.fonts.segoe};
   color: ${({ theme }) => theme.colors.textThird};
-  :active {
-    border: 1px solid ${({ theme }) => theme.colors.active};
+  &:focus {
+    outline: none;
+    border: 1px solid #6dbffe;
   }
   ${({ error }) =>
     error &&
     `
+    outline: none;
     border: 2px solid red;
   `}
 `;

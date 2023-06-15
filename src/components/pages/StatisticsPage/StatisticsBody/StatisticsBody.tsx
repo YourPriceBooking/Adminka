@@ -1,24 +1,36 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectorHoteliers } from 'features/hoteliers/hoteliersSelectors';
+import { ListLoader } from 'components/shared/Loader';
 import { ListItem, TextItem, TextSpan, WrapperBody } from './StatisticsBody.styled';
 
 type Statistic = {
   title: string;
-  value: string;
+  value: number;
   isClicked: boolean;
 };
 
-const statisticsData: Statistic[] = [
-  { title: 'Hoteliers:', value: '75', isClicked: false },
-  { title: 'Objects:', value: '30', isClicked: false },
-  { title: 'Booking Options:', value: '1555', isClicked: false },
-  { title: 'Users:', value: '103', isClicked: false },
-  { title: 'Completed bookings:', value: '1555', isClicked: false },
-  { title: 'Agents:', value: '89', isClicked: false },
-];
+type Prop = {
+  isShowPage: boolean;
+  setIsShowPage: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-export const StatisticsBody: React.FC = () => {
-  const [statistics, setStatistics] = useState(statisticsData);
-  const [activeIndex, setActiveIndex] = useState<number | null>(-1);
+ const statisticsData: Statistic[] = [
+   { title: 'Hoteliers:', value: 0, isClicked: false },
+   { title: 'Objects:', value: 30, isClicked: false },
+   { title: 'Booking Options:', value: 1555, isClicked: false },
+   { title: 'Users:', value: 103, isClicked: false },
+   { title: 'Completed bookings:', value: 1555, isClicked: false },
+   { title: 'Agents:', value: 89, isClicked: false },
+ ];
+
+export const StatisticsBody: React.FC<Prop> = ({ isShowPage, setIsShowPage }) => {
+     const [statistics, setStatistics] = useState(statisticsData);
+     const [activeIndex, setActiveIndex] = useState<number | null>(-1);
+  const { hoteliers, isLoading } = useSelector(selectorHoteliers);
+
+  const hoteliersAmount = hoteliers && hoteliers.length;
+ statisticsData[0].value = hoteliersAmount;
 
   const handleClick = (index: number) => {
     setActiveIndex(index !== activeIndex ? index : null);
@@ -29,11 +41,16 @@ export const StatisticsBody: React.FC = () => {
     setStatistics(updatedStatistics);
   };
 
+  const togglePage = (title:string) => {
+    if (title === 'Hoteliers:') setIsShowPage(!isShowPage);
+    else setIsShowPage(false)
+  };
+
   return (
     <WrapperBody>
-      {statistics.map(({ title, value, isClicked }, index) => (
+      {isLoading ? <ListLoader/> : statistics.map(({ title, value, isClicked }, index) => (
         <ListItem key={title} onClick={() => handleClick(index)} isClicked={isClicked}>
-          <TextItem>{title} </TextItem>{' '}
+          <TextItem onClick={() => togglePage(title)}>{title} </TextItem>
           <TextSpan>{value}</TextSpan>
         </ListItem>
       ))}

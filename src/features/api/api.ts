@@ -24,7 +24,7 @@ const config = {
   qty: { one: 'one' as const, many: 'many' as const },
 };
 
-const baseUrl = config.backend.heroku; // config.backend.localhost;
+export const baseUrl = config.backend.heroku; // config.backend.localhost;
 
 export const api = createApi({
   reducerPath: 'api',
@@ -46,13 +46,15 @@ export const api = createApi({
   endpoints: () => ({}),
 });
 
+
 export const endpoints = {
   locationDistrict: '/location-district' as const,
   locationCity: '/location-city' as const,
   locationState: '/location-state' as const,
   countries: '/countries' as const,
   languages: '/languages' as const,
-  catalogForHotelier: '/catalogForHotelier' as const
+  catalogForHotelier: '/catalogForHotelier' as const,
+  hotels: '/hotels' as const,
 };
 
 export const frozenArr = Object.freeze([]);

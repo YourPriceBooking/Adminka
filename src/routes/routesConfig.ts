@@ -6,7 +6,6 @@ import {
   VerificationPage,
   VerificationCabinetPage,
   AdminPageAccess,
-  AdminPageAccessMain,
   StatisticPage,
   FinancePage,
   Blog,
@@ -39,11 +38,7 @@ export const routes = {
     name: 'Access to the administrative directory',
     element: AdminPageAccess,
   },
-  adminPageAccessMain: {
-    path: '/admin-page-access-main',
-    name: 'Access to the administrative directory',
-    element: AdminPageAccessMain,
-  },
   blog: { path: '/blog', name: 'Blog', element: Blog },
   registerModal: { path: '/registerModal', name: 'registerModal', element: RegisterModalPage },
+
 };

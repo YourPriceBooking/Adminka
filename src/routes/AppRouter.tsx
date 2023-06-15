@@ -8,7 +8,6 @@ const {
   country,
   verification,
   adminPageAccess,
-  adminPageAccessMain,
   registerModal,
   statistics,
   finance,
@@ -37,11 +36,9 @@ export const AppRouter = () => (
         <Route path={country.path} element={<country.element />} />
         <Route path={statistics.path} element={<statistics.element />} />
         <Route path={adminPageAccess.path} element={<adminPageAccess.element />} />
-        <Route path={adminPageAccessMain.path} element={<adminPageAccessMain.element />} />
         <Route path={registerModal.path} element={<registerModal.element />} />
         <Route path={finance.path} element={<finance.element />} />
         <Route path={blog.path} element={<blog.element />} />
-
         {/* <Route path="/location" element={<Location />} /> */}
       </Route>
 
