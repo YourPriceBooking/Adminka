@@ -6,7 +6,8 @@ import { fetchHoteliers, fetchHotelsById } from './hoteliersOperation';
 
 const hoteliersInitialState: HoteliersState = {
   hoteliers: [],
-  isLoading: false,
+  isLoadingHoteliers: false,
+  isLoadingHotels: false,
   error: null,
 };
 
@@ -17,27 +18,27 @@ const hoteliersSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(fetchHoteliers.pending, state => {
-        state.isLoading = true;
+        state.isLoadingHoteliers = true;
       })
       .addCase(fetchHoteliers.fulfilled, (state, { payload }: PayloadAction<Hoteliers>) => {
-        state.isLoading = false;
+        state.isLoadingHoteliers = false;
         state.hoteliers = payload;
       })
       .addCase(fetchHoteliers.rejected, (state, { payload }) => {
-        state.isLoading = false;
+        state.isLoadingHoteliers = false;
         state.error = payload;
       })
       .addCase(fetchHotelsById.pending, state => {
-        state.isLoading = true;
+        state.isLoadingHotels = true;
       })
       .addCase(fetchHotelsById.fulfilled, (state, { payload }: PayloadAction<HotelsObjects>) => {
-        state.isLoading = false;
+        state.isLoadingHotels = false;
         state.hoteliers = state.hoteliers.map(hotelier =>
           hotelier.owner === payload.ownerId ? { ...hotelier, hotels: payload.hotels } : hotelier
         );
       })
       .addCase(fetchHotelsById.rejected, (state, { payload }) => {
-        state.isLoading = false;
+        state.isLoadingHotels = false;
         state.error = payload;
       });
       
