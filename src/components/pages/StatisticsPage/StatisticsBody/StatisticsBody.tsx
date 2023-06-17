@@ -27,9 +27,9 @@ type Prop = {
 export const StatisticsBody: React.FC<Prop> = ({ isShowPage, setIsShowPage }) => {
      const [statistics, setStatistics] = useState(statisticsData);
      const [activeIndex, setActiveIndex] = useState<number | null>(-1);
-  const { hoteliers, isLoading } = useSelector(selectorHoteliers);
+  const { hoteliers, isLoadingHoteliers } = useSelector(selectorHoteliers);
 
-  const hoteliersAmount = hoteliers && hoteliers.length;
+  const hoteliersAmount = hoteliers.length && hoteliers.length;
  statisticsData[0].value = hoteliersAmount;
 
   const handleClick = (index: number) => {
@@ -48,12 +48,16 @@ export const StatisticsBody: React.FC<Prop> = ({ isShowPage, setIsShowPage }) =>
 
   return (
     <WrapperBody>
-      {isLoading ? <ListLoader/> : statistics.map(({ title, value, isClicked }, index) => (
-        <ListItem key={title} onClick={() => handleClick(index)} isClicked={isClicked}>
-          <TextItem onClick={() => togglePage(title)}>{title} </TextItem>
-          <TextSpan>{value}</TextSpan>
-        </ListItem>
-      ))}
+      {isLoadingHoteliers ? (
+        <ListLoader />
+      ) : (
+        statistics.map(({ title, value, isClicked }, index) => (
+          <ListItem key={title} onClick={() => handleClick(index)} isClicked={isClicked}>
+            <TextItem onClick={() => togglePage(title)}>{title} </TextItem>
+            <TextSpan>{value}</TextSpan>
+          </ListItem>
+        ))
+      )}
     </WrapperBody>
   );
 };

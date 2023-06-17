@@ -25,7 +25,8 @@ export type Hoteliers = {
 
 export type HoteliersState = {
   hoteliers: Hoteliers;
-  isLoading: boolean;
+  isLoadingHoteliers: boolean;
+  isLoadingHotels: boolean;
   error: null | unknown;
 };
 
