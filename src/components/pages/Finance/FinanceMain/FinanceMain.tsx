@@ -47,7 +47,7 @@ const { hoteliers, isLoadingHoteliers } = useSelector(selectorHoteliers);
           </div>
         </div>
       </div>
-      {isLoadingHoteliers ? <Spinner/> : (hoteliers.length > 0 && <Hoteliers />)}
+      {isLoadingHoteliers ? <Spinner/> : (hoteliers.length > 0 && <Hoteliers page='Finance'/>)}
     </div>
   );
 };

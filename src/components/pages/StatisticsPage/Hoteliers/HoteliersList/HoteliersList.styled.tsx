@@ -8,6 +8,11 @@ type Props = {
   tabIndex: number;
 };
 
+type PropsWrapper = {
+  tabIndex: number;
+  typePage?: string | undefined;
+};
+
 export const Wrapper = styled.ul`
   display: flex;
   flex-direction: column;
@@ -47,20 +52,20 @@ export const TextID = styled.p.attrs<Props>(({ tabIndex }) => ({
   color: ${({ theme }) => theme.colors.textThird};
 `;
 
-export const WrapperText = styled.div.attrs<Props>(({ tabIndex }) => ({
+export const WrapperText = styled.div.attrs<PropsWrapper>(({ tabIndex }) => ({
   'data-id': tabIndex,
-}))`
+}))<{ typePage?: string }>`
   display: flex;
   gap: 13px;
 
   width: 77%;
-  white-space: nowrap;
+  white-space: ${({ typePage }) => (typePage && typePage === 'Finance' ? 'wrap' : 'nowrap')};
   overflow: hidden;
 
   margin-left: 26px;
 `;
 
-export const TextContent = styled.p.attrs<Props>(({ tabIndex }) => ({
+export const TextContent = styled.p.attrs<Props>(({ tabIndex}) => ({
   'data-id': tabIndex,
 }))`
 display: inline-block
