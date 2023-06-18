@@ -24,7 +24,7 @@ export const Wrapper = styled.ul`
 export const Inner = styled.li.attrs<Props>(({ tabIndex }) => ({
   'data-id': tabIndex,
 }))<PropsBorder>`
-  display: flex;
+  display: ${({ hidden }) => hidden ? 'none' : 'flex'};
   align-items: center;
 
   width: 100%;
@@ -65,7 +65,7 @@ export const WrapperText = styled.div.attrs<PropsWrapper>(({ tabIndex }) => ({
   margin-left: 26px;
 `;
 
-export const TextContent = styled.p.attrs<Props>(({ tabIndex}) => ({
+export const TextContent = styled.div.attrs<Props>(({ tabIndex}) => ({
   'data-id': tabIndex,
 }))`
 display: inline-block

@@ -15,11 +15,11 @@ type Prop = {
 
 export const HoteliersList: React.FC<Prop> = ({type}) => {
   const [borderIndex, setBorderIndex] = useState<number | null>(null);
-  const [isShowHotelier, setIsShowHotelier] = useState(false);
+  const [isShowHotelier, setIsShowHotelier] = useState<number | null>(null);
   const dispatch = useAppDispatch();
   const { hoteliers, isLoadingHotels } = useSelector(selectorHoteliers);
 
-  const changeBorder = (event: React.MouseEvent<HTMLUListElement>) => {
+  const handleClick = (event: React.MouseEvent<HTMLUListElement>) => {
     const { target } = event;
     if (
       target instanceof HTMLDivElement ||
@@ -28,9 +28,13 @@ export const HoteliersList: React.FC<Prop> = ({type}) => {
     ) {
       const index = Number(target.dataset.id);
       setBorderIndex(index);
+      setIsShowHotelier(index);
     }
-    setIsShowHotelier(true);
   };
+
+  const closeAccount = () => {
+          setIsShowHotelier(null);
+  }
 
   useEffect(() => {
     if (hoteliers.length > 0) hoteliers.map(({ owner }) => dispatch(fetchHotelsById(owner)));
@@ -38,19 +42,24 @@ export const HoteliersList: React.FC<Prop> = ({type}) => {
   }, [dispatch]);
 
   return (
-    <Wrapper onClick={changeBorder}>
+    <Wrapper onClick={handleClick}>
+      <button type="button" onClick={closeAccount}>123</button>
       {hoteliers.length > 0 &&
         hoteliers.map(({ owner, hotels, status }, index) => (
-          <Inner border={borderIndex === index} key={owner} tabIndex={index}>
+          <Inner
+            border={borderIndex === index}
+            hidden={isShowHotelier !== index && isShowHotelier !== null}
+            key={owner}
+            tabIndex={index}
+          >
             <TextID tabIndex={index}>ID {owner}</TextID>
             <WrapperText tabIndex={index} typePage={type}>
               <TextContent tabIndex={index}>
                 {isLoadingHotels && <Spinner />}
                 {!isLoadingHotels &&
-                  !isShowHotelier &&
                   (hotels && hotels.length > 6 ? hotels.slice(0, 6).join(' ') : hotels?.join(' '))}
-                {!isLoadingHotels && !isShowHotelier && hotels && hotels.length > 0 && '...'}
-                {isShowHotelier && type && type === 'Finance' && (
+                {!isLoadingHotels && hotels && hotels.length > 0 && '...'}
+                {isShowHotelier === index && type && type === 'Finance' && (
                   <>
                     {hotels?.join(' ')}
                     <AccountHotelier />
