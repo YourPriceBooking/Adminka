@@ -11,11 +11,12 @@ import { AccountHotelier } from "../AccountHotelier/AccountHotelier";
 
 type Prop = {
   type?: string;
+  isShowHotelier: number | null;
+  setIsShowHotelier: React.Dispatch<React.SetStateAction<number | null>>;
 };
 
-export const HoteliersList: React.FC<Prop> = ({type}) => {
+export const HoteliersList: React.FC<Prop> = ({type, isShowHotelier, setIsShowHotelier}) => {
   const [borderIndex, setBorderIndex] = useState<number | null>(null);
-  const [isShowHotelier, setIsShowHotelier] = useState<number | null>(null);
   const dispatch = useAppDispatch();
   const { hoteliers, isLoadingHotels } = useSelector(selectorHoteliers);
 
@@ -32,9 +33,7 @@ export const HoteliersList: React.FC<Prop> = ({type}) => {
     }
   };
 
-  const closeAccount = () => {
-          setIsShowHotelier(null);
-  }
+
 
   useEffect(() => {
     if (hoteliers.length > 0) hoteliers.map(({ owner }) => dispatch(fetchHotelsById(owner)));
@@ -42,8 +41,7 @@ export const HoteliersList: React.FC<Prop> = ({type}) => {
   }, [dispatch]);
 
   return (
-    <Wrapper onClick={handleClick}>
-      <button type="button" onClick={closeAccount}>123</button>
+    <Wrapper onClick={handleClick} >
       {hoteliers.length > 0 &&
         hoteliers.map(({ owner, hotels, status }, index) => (
           <Inner

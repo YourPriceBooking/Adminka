@@ -40,6 +40,7 @@ declare module 'styled-components' {
       bgColorChat: string;
       bgColorHotelier: string;
       hoverArrowChat: string;
+      hoverArrowHotelier: string;
 
       bg: {
         body: string;
@@ -173,7 +174,8 @@ const currentlyNotAssigned = {
   scrollColorHover: '#c4c4c4',
   bgColorChat: '#DADCEA',
   bgColorHotelier: '#0090FF',
-  hoverArrowChat: '0090FF',
+  hoverArrowChat: '#0090FF',
+  hoverArrowHotelier: '#ededed',
 };
 
 export const light = {

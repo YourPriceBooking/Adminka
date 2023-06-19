@@ -20,6 +20,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.2",
     "@types/react-dropzone": "^5.1.0",
+    "@types/react-svg": "^5.0.0",
     "date-fns": "^2.29.1",
     "modern-normalize": "^1.1.0",
     "polished": "^4.2.2",
@@ -33,6 +34,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-scroll-to-bottom": "^4.2.0",
+    "react-svg": "^16.1.17",
     "react-toastify": "^9.0.4",
     "react-transition-group": "^4.4.2",
     "react-window": "^1.8.7",
