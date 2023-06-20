@@ -75,12 +75,10 @@ export const InputData = styled.input`
   border: 1px solid #787878;
   border-radius: 10px;
   margin: 10px auto;
-
   text-align: center;
   font-weight: 700;
   font-size: 13px;
   line-height: 17px;
-
   color: #555555;
 
   ::placeholder {

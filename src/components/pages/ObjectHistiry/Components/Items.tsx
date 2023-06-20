@@ -9,7 +9,7 @@ type ItemsProps = {
   isSubmitted: boolean;
 };
 
-const Items: React.FC<ItemsProps> = ({
+export const Items: React.FC<ItemsProps> = ({
   items,
   checkedItems,
   handleCheckboxChange,
@@ -32,5 +32,3 @@ const Items: React.FC<ItemsProps> = ({
     ))}
   </>
 );
-
-export default Items;

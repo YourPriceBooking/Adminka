@@ -12,7 +12,7 @@ import {
   SpanObjectUp,
   SpanTextDown,
 } from './ObjectHistory.styled';
-import Items from './Components/Items';
+import { Items } from './Components/Items';
 import PhoneNumbers from './Components/PhoneNumbers';
 import { DivText } from './Components/Compinents.styled';
 import done from '../../../assets/icons/done.svg';
@@ -64,7 +64,13 @@ const ObjectHistory: React.FC = () => {
 
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!isSubmitted) {
-      setHasDate(event.target.value);
+      const inputValue = event.target.value;
+      const formattedValue = inputValue
+        .replace(/\D/g, '')
+        .replace(/(\d{2})(\d)/, '$1/$2')
+        .replace(/(\d{2})(\d)/, '$1/$2')
+        .slice(0, 10);
+      setHasDate(formattedValue);
     }
   };
 
@@ -80,21 +86,20 @@ const ObjectHistory: React.FC = () => {
 
   return (
     <div>
-      <SpanObjectUp> Object’s History</SpanObjectUp>
+      <SpanObjectUp>Object’s History</SpanObjectUp>
       <DivObjectHistoryMain>
         <HObject>Object’s History</HObject>
         <DivContent>
           <div>
             <DivText style={{ marginLeft: '2.3rem' }}>Next verification date</DivText>
             <InputData
-              type="date"
+              type="text"
               id="date-input"
               value={hasDate}
               onChange={handleDateChange}
               disabled={isSubmitted || noFurtherChecks}
               placeholder="DD/MM/YYYY"
               required
-              pattern="\d{4}-\d{2}-\d{2}"
             />
           </div>
 
