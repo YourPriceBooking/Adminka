@@ -1,7 +1,8 @@
 import styled from 'styled-components/macro';
 
-type PropsBorder = {
+type PropsInner = {
   border: boolean;
+  position?: boolean | undefined
 };
 
 type Props = {
@@ -23,12 +24,12 @@ export const Wrapper = styled.ul`
 
 export const Inner = styled.li.attrs<Props>(({ tabIndex }) => ({
   'data-id': tabIndex,
-}))<PropsBorder>`
-  display: ${({ hidden }) => hidden ? 'none' : 'flex'};
-  align-items: center;
+}))<PropsInner>`
+  display: ${({ hidden }) => (hidden ? 'none' : 'flex')};
+  align-items: ${({ position }) => (position ? 'flex-start' : 'center')};
 
   width: 100%;
-  padding: 4px 31px 4px 11px;
+  padding: 7px 31px 7px 11px;
 
   background-color: ${({ theme }) => theme.colors.white};
   border: ${({ border }) => (border ? '0.7px' : '0.3px')} solid

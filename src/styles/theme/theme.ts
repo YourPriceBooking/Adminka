@@ -39,6 +39,7 @@ declare module 'styled-components' {
       scrollColorHover: string;
       bgColorChat: string;
       bgColorHotelier: string;
+      bgColorInput: string;
       hoverArrowChat: string;
       hoverArrowHotelier: string;
 
@@ -174,6 +175,7 @@ const currentlyNotAssigned = {
   scrollColorHover: '#c4c4c4',
   bgColorChat: '#DADCEA',
   bgColorHotelier: '#0090FF',
+  bgColorInput: '#D9D9D9',
   hoverArrowChat: '#0090FF',
   hoverArrowHotelier: '#ededed',
 };

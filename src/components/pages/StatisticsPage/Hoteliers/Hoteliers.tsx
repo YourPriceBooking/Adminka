@@ -12,9 +12,12 @@ type Prop = {
 
 export const Hoteliers: React.FC<Prop> = ({ page }) => {
   const [isShowHotelier, setIsShowHotelier] = useState<number | null>(null);
+     const [isClicked, setIsClicked] = useState<boolean>(false);
+  
 
     const closeAccount = () => {
       setIsShowHotelier(null);
+      setIsClicked(false)
     };
   
   return (
@@ -29,6 +32,8 @@ export const Hoteliers: React.FC<Prop> = ({ page }) => {
         type={page}
         isShowHotelier={isShowHotelier}
         setIsShowHotelier={setIsShowHotelier}
+        isClicked={isClicked}
+        setIsClicked={setIsClicked}
       />
     </Wrapper>
   );

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {useSelector } from "react-redux";
 import { fetchHotelsById } from "features/hoteliers/hoteliersOperation";
 import { useAppDispatch } from 'App';
@@ -13,14 +13,23 @@ type Prop = {
   type?: string;
   isShowHotelier: number | null;
   setIsShowHotelier: React.Dispatch<React.SetStateAction<number | null>>;
+  isClicked: boolean;
+  setIsClicked: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const HoteliersList: React.FC<Prop> = ({type, isShowHotelier, setIsShowHotelier}) => {
-  const [borderIndex, setBorderIndex] = useState<number | null>(null);
+type HandleClick = (event: React.MouseEvent<HTMLUListElement>) => void;
+
+export const HoteliersList: React.FC<Prop> = ({
+  type,
+  isShowHotelier,
+  setIsShowHotelier,
+  isClicked,
+  setIsClicked,
+}) => {
   const dispatch = useAppDispatch();
   const { hoteliers, isLoadingHotels } = useSelector(selectorHoteliers);
 
-  const handleClick = (event: React.MouseEvent<HTMLUListElement>) => {
+  const handleClick: HandleClick = event => {
     const { target } = event;
     if (
       target instanceof HTMLDivElement ||
@@ -28,12 +37,12 @@ export const HoteliersList: React.FC<Prop> = ({type, isShowHotelier, setIsShowHo
       target instanceof HTMLLIElement
     ) {
       const index = Number(target.dataset.id);
-      setBorderIndex(index);
-      setIsShowHotelier(index);
+      if (!isClicked) {
+        setIsShowHotelier(index);
+        setIsClicked(true);
+      }
     }
   };
-
-
 
   useEffect(() => {
     if (hoteliers.length > 0) hoteliers.map(({ owner }) => dispatch(fetchHotelsById(owner)));
@@ -41,12 +50,13 @@ export const HoteliersList: React.FC<Prop> = ({type, isShowHotelier, setIsShowHo
   }, [dispatch]);
 
   return (
-    <Wrapper onClick={handleClick} >
+    <Wrapper onClick={handleClick}>
       {hoteliers.length > 0 &&
         hoteliers.map(({ owner, hotels, status }, index) => (
           <Inner
-            border={borderIndex === index}
+            border={isShowHotelier === index}
             hidden={isShowHotelier !== index && isShowHotelier !== null}
+            position={isShowHotelier !== null}
             key={owner}
             tabIndex={index}
           >
@@ -55,8 +65,13 @@ export const HoteliersList: React.FC<Prop> = ({type, isShowHotelier, setIsShowHo
               <TextContent tabIndex={index}>
                 {isLoadingHotels && <Spinner />}
                 {!isLoadingHotels &&
+                  isShowHotelier !== index &&
                   (hotels && hotels.length > 6 ? hotels.slice(0, 6).join(' ') : hotels?.join(' '))}
-                {!isLoadingHotels && hotels && hotels.length > 0 && '...'}
+                {!isLoadingHotels &&
+                  isShowHotelier !== index &&
+                  hotels &&
+                  hotels.length > 0 &&
+                  '...'}
                 {isShowHotelier === index && type && type === 'Finance' && (
                   <>
                     {hotels?.join(' ')}
