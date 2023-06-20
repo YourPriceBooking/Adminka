@@ -93,7 +93,6 @@ export const DivGalleryMain = styled.div<{ hasCard: boolean }>`
   position: relative;
   top: ${props => (props.hasCard ? '-410px' : '-210px')};
   left: ${props => (props.hasCard ? '79%' : '71.5%')};
-  ///height: 0;///
   height: ${props => (props.hasCard ? '0' : 'auto')};
 `;
 export const DivGallery = styled.div<{ hasCard: boolean }>`
@@ -202,12 +201,14 @@ export const DivReviewsElem = styled.div`
 `;
 export const DivCardOption = styled.div`
   position: relative;
+
   border: 0.5px solid #aeafbc;
   margin: 3px 12px;
   padding: 32px 11px;
 `;
 export const DivBeds = styled.div`
-  margin-top: 60px;
+  position: relative;
+  margin-top: 50px;
   margin-bottom: 80px;
   display: flex;
   margin-left: 25px;

@@ -28,6 +28,13 @@ const ListOptionComponent: React.FC = () => {
       minPrice: 1000,
       area: 50,
     },
+    {
+      photos: [photo3, photo4, photo3, photo4, photo3, photo4],
+      animal: ['smallDog', 'mediumDog', 'largeDog', 'cat'],
+      maxPrice: 100,
+      minPrice: 100,
+      area: 10,
+    },
   ];
   const changeOptionsExist = () => {
     setOptionsExist(!optionsExist);

@@ -35,11 +35,15 @@ const CardComponent: React.FC<CardComponentProps> = ({
   area,
 }) => (
   <DivCardOption>
-    <Description hasCard />
-    <OptionDescriptionComponent styleCard description={desc} />
-    <OptionBedroom />
-    <GalleryComponent photos={gallery} hasCard />
-    <div style={{ position: 'relative' }}>
+    <div>
+      <Description hasCard />
+      <OptionDescriptionComponent styleCard description={desc} />
+      <OptionBedroom />
+    </div>
+
+    <div style={{ position: 'static', top: 0 }}>
+      <GalleryComponent photos={gallery} hasCard />
+
       <DivAreaPriceAnimal>
         <SpanAreaCard>
           Общая площадь <span style={{ marginLeft: '30px' }}> {area} м.кв. </span>
