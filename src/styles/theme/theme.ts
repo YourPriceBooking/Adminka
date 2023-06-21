@@ -42,6 +42,7 @@ declare module 'styled-components' {
       bgColorInput: string;
       hoverArrowChat: string;
       hoverArrowHotelier: string;
+      buttonTextColor: string;
 
       bg: {
         body: string;
@@ -178,6 +179,7 @@ const currentlyNotAssigned = {
   bgColorInput: '#D9D9D9',
   hoverArrowChat: '#0090FF',
   hoverArrowHotelier: '#ededed',
+  buttonTextColor: '#006c0b',
 };
 
 export const light = {

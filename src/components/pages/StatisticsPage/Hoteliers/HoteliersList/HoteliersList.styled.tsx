@@ -71,7 +71,6 @@ export const TextContent = styled.div.attrs<Props>(({ tabIndex}) => ({
 }))`
 display: inline-block
   font-family: ${({ theme }) => theme.fonts.segoe};
-  font-weight: 400;
   font-size: 12px;
   line-height: 16px/12px;
   color: ${({ theme }) => theme.colors.textThird};
