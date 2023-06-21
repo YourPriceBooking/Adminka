@@ -15,8 +15,9 @@ const { hoteliers, isLoadingHoteliers } = useSelector(selectorHoteliers);
   const dispatch: DispatchAction = useDispatch();
 
   useEffect(() => {
-    if (hoteliers.length > 0) return;
-    dispatch(fetchHoteliers());
+    if (hoteliers.length === 0) {
+      dispatch(fetchHoteliers());
+    }
     // eslint-disable-next-line
   }, [dispatch]);
 
@@ -47,7 +48,7 @@ const { hoteliers, isLoadingHoteliers } = useSelector(selectorHoteliers);
           </div>
         </div>
       </div>
-      {isLoadingHoteliers ? <Spinner/> : (hoteliers.length > 0 && <Hoteliers />)}
+      {isLoadingHoteliers ? <Spinner/> : (hoteliers.length > 0 && <Hoteliers page='Finance'/>)}
     </div>
   );
 };
