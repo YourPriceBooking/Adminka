@@ -15,6 +15,7 @@ import OptionDescriptionComponent from './components/OptionDescriptionComponent'
 import { Reviews } from './components/Reviews';
 import PaymentComponent from './components/PaymentComponent';
 import ListOptionComponent from './components/ListOptionComponents';
+import ObjectHistory from '../../ObjectHistiry/ObjectHistory';
 
 const photos: string[] = [
   photo1,
@@ -69,7 +70,7 @@ export const HousePage: React.FC = () => (
         </div>
         <ListOptionComponent />
 
-        <div style={{ padding: '10px' }}>Object’s History</div>
+        <ObjectHistory />
       </DivPage>
     </DivMain>
   </div>

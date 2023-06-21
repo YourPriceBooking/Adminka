@@ -12,6 +12,7 @@ export const DivPage = styled.div`
   width: 88%;
   margin: 0 auto;
   height: 100%;
+  overflow: hidden;
 `;
 
 export const ImgHotel = styled.img`
