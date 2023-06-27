@@ -1,37 +1,67 @@
 import React, { useState } from 'react';
+import axios, { AxiosResponse } from 'axios';
 import { Button } from '../Button/Button';
 import { Input, Message, Placeholder, Div } from './InputEmail.styled';
 import { PasswordField } from '../PasswordField/PasswordField';
 
-export const InputEmail: React.FC<{ component: React.ComponentType }> = ({ component: Component }) => {
+export const InputEmail: React.FC<{ component: React.FC }> = ({ component: Component }) => {
   const [email, setEmail] = useState<string>('');
   const [message, setMessage] = useState('');
   const [showPasswordField, setShowPasswordField] = useState<boolean>(false);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [isSend, setIsSend] = useState<boolean>(false);
 
-  const key = 'maestro_@ukr.net';
+  // const key = 'maestro_@ukr.net';
 
   const validEmail = (): boolean => {
     const regEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regEmail.test(email);
   };
 
-  const testEmail = () => {
-    if (email === key) {
-      setShowPasswordField(true);
-    } else {
-      setMessage('This post is not authorized to access this section');
-    }
-  };
+  // const testEmail = () => {
+  //   if (email === key) {
+  //     setShowPasswordField(true);
+  //   } else {
+  //     setMessage('This post is not authorized to access this section');
+  //   }
+  // };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+
+  //   if (!validEmail()) {
+  //     setMessage('Invalid email');
+  //   } else {
+  //     testEmail();
+  //   }
+  // };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validEmail()) {
-      setMessage('Invalid email');
+      setMessage('Недійсна електронна пошта');
     } else {
-      testEmail();
+      try {
+        const response: AxiosResponse<{ status: string; messageData: string }> = await axios.post(
+          'https://server-your-price-booking.onrender.com/api/acsess-to-admin/check-admin/',
+          {
+            email: `${email}`,
+          }
+        );
+
+        const { status, messageData } = response.data;
+
+        if (status === 'success') {
+          setMessage(`Код підтвердження надіслано на електронну пошту: ${email}`);
+          setShowPasswordField(true);
+        } else {
+          setMessage(messageData);
+        }
+      } catch (error) {
+        setMessage('Помилка під час виконання запиту');
+        console.error(error);
+      }
     }
   };
 
@@ -63,7 +93,7 @@ export const InputEmail: React.FC<{ component: React.ComponentType }> = ({ compo
           <Placeholder hasValue={email !== ''} isFocused={isFocused}>
             E-mail:
           </Placeholder>
-          {showPasswordField && <PasswordField setIsSend={setIsSend} />}
+          {showPasswordField && <PasswordField email={email} setIsSend={setIsSend} />}
         </div>
       )}
 

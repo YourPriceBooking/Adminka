@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios, { AxiosResponse } from 'axios';
 import {
   Input,
   EnterPass,
@@ -10,32 +11,53 @@ import { Button } from '../Button';
 
 export const PasswordField: React.FC<{
   setIsSend: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ setIsSend }) => {
+  email: string;
+}> = ({ setIsSend, email }) => {
   const [passwordCode, setPasswordCode] = useState<string>('');
   const [messagePass, setMessagePass] = useState('');
   // const navigate = useNavigate();
 
-  const key = '1111';
+  // const key = '1111';
 
-  const validPassword = (): boolean => {
-    const result = passwordCode !== key;
-    return result;
+  // const validPassword = (): boolean => {
+  //   const result = passwordCode !== key;
+  //   return result;
+  // };
+
+  const validPassword = async (): Promise<boolean> => {
+    try {
+      const response: AxiosResponse<{ status: string }> = await axios.post(
+        'https://server-your-price-booking.onrender.com/api/acsess-to-admin/log-in-admin/',
+        {
+          email: `${email}`,
+          secretCode: passwordCode,
+        }
+      );
+
+      const { status } = response.data;
+      return status === 'success';
+    } catch (error) {
+      console.error('Помилка під час перевірки секретного коду', error);
+      return false;
+    }
   };
+
+  console.log(passwordCode);
 
   const handleVerificationCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordCode(e.target.value);
   };
 
-  const handlePasswordSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handlePasswordSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!validPassword()) {
+    if (!(await validPassword())) {
       setMessagePass('You entered a wrong verification code, try again');
     } else {
-       
       setIsSend(true);
       // navigate('/');
     }
   };
+
 
   return (
     <PasswordFieldWrapper>

@@ -21,6 +21,7 @@
     "@reduxjs/toolkit": "^1.8.2",
     "@types/react-dropzone": "^5.1.0",
     "@types/react-svg": "^5.0.0",
+    "axios": "^1.4.0",
     "date-fns": "^2.29.1",
     "modern-normalize": "^1.1.0",
     "polished": "^4.2.2",
