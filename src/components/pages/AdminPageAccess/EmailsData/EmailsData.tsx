@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { useAppSelector } from 'App';
+import { useAppDispatch, useAppSelector } from 'App';
 import type { RootState } from 'App/store';
+import axios from 'axios';
+import { setToken } from 'features/access/tokenSlice';
 import {
   EmailsDataPageStyled,
   EmailsMainStyled,
@@ -17,8 +19,26 @@ import { AddAccessButton } from '../AddAccessButton';
 
 export const EmailsData = () => {
   const emails = useAppSelector((state: RootState) => state.access.emails);
+  const token = useAppSelector((state: RootState) => state.enterToken.token);
+  const dispatch = useAppDispatch();
 
   const [banClicked, setBanClicked] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await axios.get(
+        'https://server-your-price-booking.onrender.com/api/acsess-to-admin/log-out-admin',
+        {
+          headers: {
+            Authorization: `Bearer ${token ?? ''}`,
+          },
+        }
+      );
+      dispatch(setToken(null));
+    } catch (error) {
+      console.error('Помилка під час виходу з акаунта', error);
+    }
+  };
 
   const handleBanClick = () => {
     setBanClicked(!banClicked);
@@ -73,7 +93,7 @@ export const EmailsData = () => {
           <AddAccessButton />
         </div>
       </EmailsMainStyled>
-      <CloseButton src="CloseButton.png" direction="/menu" />
+      <CloseButton onClick={handleLogout} src="CloseButton.png" direction="/menu" />
     </EmailsDataPageStyled>
   );
 };

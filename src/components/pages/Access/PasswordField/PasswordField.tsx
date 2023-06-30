@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios, { AxiosResponse } from 'axios';
+import { setToken } from 'features/access/tokenSlice';
+import { useAppDispatch } from 'App';
 import {
   Input,
   EnterPass,
@@ -9,12 +11,20 @@ import {
 } from './PasswordField.styled';
 import { Button } from '../Button';
 
+interface ResponseData {
+  status: string;
+  data: {
+    token: string;
+  };
+}
+
 export const PasswordField: React.FC<{
   setIsSend: React.Dispatch<React.SetStateAction<boolean>>;
   email: string;
 }> = ({ setIsSend, email }) => {
   const [passwordCode, setPasswordCode] = useState<string>('');
-  const [messagePass, setMessagePass] = useState('');
+  const [messagePass, setMessagePass] = useState<string>('');
+  const dispatch = useAppDispatch();
   // const navigate = useNavigate();
 
   // const key = '1111';
@@ -26,7 +36,7 @@ export const PasswordField: React.FC<{
 
   const validPassword = async (): Promise<boolean> => {
     try {
-      const response: AxiosResponse<{ status: string }> = await axios.post(
+      const response: AxiosResponse<ResponseData> = await axios.post(
         'https://server-your-price-booking.onrender.com/api/acsess-to-admin/log-in-admin/',
         {
           email: `${email}`,
@@ -34,15 +44,14 @@ export const PasswordField: React.FC<{
         }
       );
 
-      const { status } = response.data;
+      const { status, data } = response.data;
+      dispatch(setToken(data.token));
       return status === 'success';
     } catch (error) {
       console.error('Помилка під час перевірки секретного коду', error);
       return false;
     }
   };
-
-  console.log(passwordCode);
 
   const handleVerificationCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordCode(e.target.value);
@@ -58,6 +67,7 @@ export const PasswordField: React.FC<{
     }
   };
 
+  // console.log(dataForToken)
 
   return (
     <PasswordFieldWrapper>
