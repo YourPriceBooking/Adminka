@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   ButtonSubmit,
+  DivAdressChat,
   DivContent,
   DivObjectHistoryMain,
   DivTextDown,
@@ -16,27 +17,29 @@ import { Items } from './Components/Items';
 import PhoneNumbers from './Components/PhoneNumbers';
 import { DivText } from './Components/Compinents.styled';
 import done from '../../../assets/icons/done.svg';
-
-const items = [
-  'Phone number and address verified',
-  'Next verification date marked',
-  'The right to use the premises is verified',
-  'Selfie photo with document of authorized person verified',
-  'Video checked and added',
-  'Logic check on Google and other',
-  'Point added',
-  'Districts (register 3) added',
-  'Description of the object - checked',
-];
+import { useObjectHistoryState } from './state/ObjectHistoryState';
+import { AddAdressUrl } from './Components/addAdressUrl';
+import { Address } from './Components/Adress';
+import { Chat } from '../Chat';
+import { Matetial } from './Components/Matetial';
+import { VerifiStart } from './Components/VerifiStart';
 
 const ObjectHistory: React.FC = () => {
-  const [checkedItems, setCheckedItems] = useState<boolean[]>(Array(items.length).fill(false));
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [hasDate, setHasDate] = useState('');
-  const [phoneNumbers, setPhoneNumbers] = useState<string[]>(['', '']);
-  const [noFurtherChecks, setNoFurtherChecks] = useState(false);
-  const [showDateError, setShowDateError] = useState(false);
-
+  const {
+    checkedItems,
+    setCheckedItems,
+    isSubmitted,
+    setIsSubmitted,
+    hasDate,
+    setHasDate,
+    phoneNumbers,
+    setPhoneNumbers,
+    noFurtherChecks,
+    setNoFurtherChecks,
+    showDateError,
+    setShowDateError,
+    items,
+  } = useObjectHistoryState();
   const handleCheckboxChange = (index: number) => {
     if (!isSubmitted) {
       setCheckedItems(prevCheckedItems => {
@@ -90,8 +93,16 @@ const ObjectHistory: React.FC = () => {
       <DivObjectHistoryMain>
         <HObject>Object’s History</HObject>
         <DivContent>
+          <VerifiStart />
+          <Matetial />
           <div>
-            <DivText style={{ marginLeft: '2.3rem' }}>Next verification date</DivText>
+            <DivAdressChat>
+              <Address />
+              <Chat />
+            </DivAdressChat>
+
+            <AddAdressUrl />
+            <DivText>Next verification date</DivText>
             <InputData
               type="text"
               id="date-input"

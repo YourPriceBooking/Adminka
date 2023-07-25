@@ -14,7 +14,7 @@ const PhoneNumbers: React.FC<PhoneNumbersProps> = ({
 }) => (
   <>
     <div>
-      <DivText style={{ marginLeft: '3rem', marginTop: '20px' }}>Contact phones: </DivText>
+      <DivText>Contact phones: </DivText>
       <InputNumber
         type="text"
         value={phoneNumbers[0]}

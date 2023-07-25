@@ -1,12 +1,11 @@
-import { useState } from "react";
-import { RegisterButton } from "../RegisterButton/RegisterButton";
-import { ListBtn } from "./ListButton.styled";
+import { useState } from 'react';
+import { RegisterButton } from '../RegisterButton/RegisterButton';
+import { ListBtn } from './ListButton.styled';
 
 const titleButton = ['Location Register 1', 'Location Register 2', 'Location Register 3'];
 
 export const ListButton = (): JSX.Element => {
   const [activeButtonIndex, setActiveButtonIndex] = useState<number>(-1);
- 
 
   const handleButtonClick = (event: React.MouseEvent<HTMLUListElement>): void => {
     const { target } = event;
@@ -30,5 +29,4 @@ export const ListButton = (): JSX.Element => {
       ))}
     </ListBtn>
   );
-}
-  
+};

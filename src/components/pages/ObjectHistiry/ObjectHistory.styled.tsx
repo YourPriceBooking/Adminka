@@ -31,7 +31,8 @@ export const HObject = styled.h2`
   color: rgba(0, 107, 190, 0.3);
 `;
 export const DivContent = styled.div`
-  margin-left: 210px;
+  width: 56%;
+  margin: 0 auto;
 `;
 export const ButtonSubmit = styled.button<{ isSubmitted: boolean }>`
   margin: 49px 0 49px 36%;
@@ -110,4 +111,9 @@ export const ImgDoneData = styled.img`
   position: relative;
   top: -3px;
   right: 286px;
+`;
+
+export const DivAdressChat = styled.div`
+  display: flex;
+  gap: 120px;
 `;
