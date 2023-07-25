@@ -58,7 +58,6 @@ export const ButtonCustom = styled.button`
   line-height: normal;
   width: 143px;
   height: 58px;
-  margin-left: 150px;
   &:hover {
     background: rgba(0, 144, 255, 0.7);
   }

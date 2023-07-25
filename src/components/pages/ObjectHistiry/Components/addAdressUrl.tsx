@@ -27,7 +27,7 @@ export const AddAdressUrl: React.FC = () => {
   };
 
   return (
-    <div style={{ marginBottom: '30px' }}>
+    <div style={{ marginBottom: '30px', position: 'relative' }}>
       <img
         src={adress}
         alt="adress"
@@ -35,15 +35,22 @@ export const AddAdressUrl: React.FC = () => {
       />
       <div>
         <InputCostomed type="text" value={inputText1} onChange={handleInputChange1} />
-        <ButtonCustom type="submit" onClick={handleSaveButtonClick1}>
-          Add point
-        </ButtonCustom>
+
         <div />
+        <div>
+          <ButtonCustom
+            type="submit"
+            onClick={handleSaveButtonClick1}
+            style={{ position: 'absolute', top: '20px', left: '550px' }}
+          >
+            Add point
+          </ButtonCustom>
+        </div>
         <InputCostomed type="text" value={inputText2} onChange={handleInputChange2} />
         <ButtonCustom
           type="submit"
           onClick={handleSaveButtonClick2}
-          style={{ display: 'flex', marginTop: '-90px', marginLeft: '550px', paddingTop: '11px' }}
+          style={{ position: 'absolute', top: '110px', left: '550px' }}
         >
           Add video to YouTube and object page
         </ButtonCustom>
