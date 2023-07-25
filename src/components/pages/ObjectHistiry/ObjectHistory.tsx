@@ -19,7 +19,7 @@ import { DivText } from './Components/Compinents.styled';
 import done from '../../../assets/icons/done.svg';
 import { useObjectHistoryState } from './state/ObjectHistoryState';
 import { AddAdressUrl } from './Components/addAdressUrl';
-import { Adress } from './Components/Adress';
+import { Address } from './Components/Adress';
 import { Chat } from '../Chat';
 import { Matetial } from './Components/Matetial';
 import { VerifiStart } from './Components/VerifiStart';
@@ -97,7 +97,7 @@ const ObjectHistory: React.FC = () => {
           <Matetial />
           <div>
             <DivAdressChat>
-              <Adress />
+              <Address />
               <Chat />
             </DivAdressChat>
 

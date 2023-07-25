@@ -86,7 +86,7 @@ export const SpanAdress = styled.div`
   font-weight: 350;
   line-height: normal;
   width: 202px;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 `;
 
 export const DidAdress = styled.div`
