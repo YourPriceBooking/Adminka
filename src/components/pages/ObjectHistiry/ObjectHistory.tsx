@@ -100,8 +100,7 @@ const ObjectHistory: React.FC = () => {
               <Address />
               <Chat />
             </DivAdressChat>
-
-            <AddAdressUrl />
+            <AddAdressUrl isSubmitted={isSubmitted} />
             <DivText>Next verification date</DivText>
             <InputData
               type="text"
@@ -113,7 +112,6 @@ const ObjectHistory: React.FC = () => {
               required
             />
           </div>
-
           <div>
             <InputCheckData
               type="checkbox"

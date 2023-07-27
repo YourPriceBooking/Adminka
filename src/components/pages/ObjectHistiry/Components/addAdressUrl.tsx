@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import adress from 'assets/icons/adress.svg';
-import { ButtonCustom, InputCostomed } from './Compinents.styled';
+import pen from 'assets/icons/pen.svg';
+import { ButAddAdrPen, ButtonCustom, InputCostomed } from './Compinents.styled';
 
-export const AddAdressUrl: React.FC = () => {
+type AddAdressUrlProps = {
+  isSubmitted: boolean;
+}
+
+export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted }) => {
   const [inputText1, setInputText1] = useState('');
   const [inputText2, setInputText2] = useState('');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -20,10 +25,12 @@ export const AddAdressUrl: React.FC = () => {
 
   const handleSaveButtonClick1 = () => {
     setSavedText1(inputText1);
+    setInputText1('');
   };
 
   const handleSaveButtonClick2 = () => {
     setSavedText2(inputText2);
+    setInputText2('');
   };
 
   return (
@@ -38,22 +45,24 @@ export const AddAdressUrl: React.FC = () => {
 
         <div />
         <div>
-          <ButtonCustom
-            type="submit"
-            onClick={handleSaveButtonClick1}
-            style={{ position: 'absolute', top: '20px', left: '550px' }}
-          >
+          <ButtonCustom type="submit" onClick={handleSaveButtonClick1} style={{ top: '20px' }}>
             Add point
           </ButtonCustom>
+          {!isSubmitted && (
+            <ButAddAdrPen type="button" style={{ top: '120px' }}>
+              <img src={pen} alt="pen" />
+            </ButAddAdrPen>
+          )}
         </div>
         <InputCostomed type="text" value={inputText2} onChange={handleInputChange2} />
-        <ButtonCustom
-          type="submit"
-          onClick={handleSaveButtonClick2}
-          style={{ position: 'absolute', top: '110px', left: '550px' }}
-        >
+        <ButtonCustom type="submit" onClick={handleSaveButtonClick2}>
           Add video to YouTube and object page
         </ButtonCustom>
+        {!isSubmitted && (
+          <ButAddAdrPen type="button">
+            <img src={pen} alt="pen" />
+          </ButAddAdrPen>
+        )}
         <div />
       </div>
     </div>
