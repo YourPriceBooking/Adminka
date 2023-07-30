@@ -47,6 +47,9 @@ export const ImgCheckBox = styled.img`
 `;
 
 export const ButtonCustom = styled.button`
+  position: absolute;
+  top: 110px;
+  left: 550px;
   border-radius: 7px;
   background: #0090ff;
   border: 2px solid #0090ff;
@@ -194,4 +197,35 @@ export const DivVarifStartText = styled.div`
   line-height: normal;
   margin-bottom: 20px;
   margin-left: 50px;
+`;
+
+export const ButAddAdrPen = styled.button`
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3);
+  width: 39px;
+  height: 39px;
+  border: none;
+  position: absolute;
+  left: 710px;
+  top: 30px;
+  pointer-events: none;
+`;
+
+export const StyledButton = styled.button`
+  color: #656565;
+  text-align: center;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  width: 160px;
+  height: 29px;
+  border-radius: 5px;
+  border: 1px solid #aeafbc;
+  background: #fff;
+
+  :hover {
+    border: 1px solid #434348;
+  }
 `;

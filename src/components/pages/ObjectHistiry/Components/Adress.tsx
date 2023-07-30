@@ -28,22 +28,22 @@ export const Address = () => {
       </div>
 
       <div>
-        <SpanAdress>Location Register 3</SpanAdress>
+        <SpanAdress>Location Register 1</SpanAdress>
         {/* eslint-disable-next-line react/no-unescaped-entities */}
         <DidAdress>Pechers'kyi district</DidAdress>
         <ListBtn onClick={handleButtonClick} style={{ marginBottom: '25px' }}>
           <RegisterButton
             index={0}
-            key="Location Register 2"
-            title="Location Register 2"
+            key="Location Register 1"
+            title="Location Register 1"
             activeButtonIndex={activeButtonIndex}
           />
         </ListBtn>
         <ListBtn onClick={handleButtonClick} style={{ marginBottom: '25px' }}>
           <RegisterButton
             index={1}
-            key="Location Register 3"
-            title="Location Register 3"
+            key="Location Register 1"
+            title="Location Register 1"
             activeButtonIndex={activeButtonIndex}
           />
         </ListBtn>
