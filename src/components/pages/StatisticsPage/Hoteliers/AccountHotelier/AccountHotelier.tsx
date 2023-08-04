@@ -1,3 +1,6 @@
+import { useDispatch } from 'react-redux';
+import { fetchBonus } from 'features/hoteliers/hoteliersOperation';
+import type { Dispatch } from 'react';
 import {
   Button,
   Inner,
@@ -10,15 +13,29 @@ import {
   Form,
 } from './AccountHotelier.styled';
 
-export const AccountHotelier = () => {
+type AccountHotelierProps = {
+  id: string,
+}
+
+type DataBonus = {
+  id: string;
+  amount: number;
+};
+
+export const AccountHotelier: React.FC<AccountHotelierProps> = ({id}) => {
+    type DispatchAction = Dispatch<any>;
+    const dispatch: DispatchAction = useDispatch();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
    event.preventDefault()
    const form = event.currentTarget;
    const inputElement = form.elements.namedItem('input') as HTMLInputElement | null;
     if (inputElement && inputElement.value !== '') {
-      // eslint-disable-next-line
-      console.dir(inputElement.value);
+      const dataToPatch: DataBonus = {
+        id,
+        amount: Number(inputElement.value),
+      };
+      dispatch(fetchBonus(dataToPatch));
     }
     form.reset()
  };

@@ -18,6 +18,7 @@ export const LoginPage = () => {
 
     const form = e.currentTarget;
     const formData = new FormData(form);
+
     const password = formData.get('password')?.toString().trim();
     if (!password) return;
 

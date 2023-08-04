@@ -55,7 +55,9 @@ export const endpoints = {
   languages: '/languages' as const,
   catalogForHotelier: '/catalogForHotelier' as const,
   hotels: '/hotels' as const,
+  bonus: '/add-bonus' as const,
 };
+
 
 export const frozenArr = Object.freeze([]);
 

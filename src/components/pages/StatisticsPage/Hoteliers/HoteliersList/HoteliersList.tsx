@@ -75,7 +75,7 @@ export const HoteliersList: React.FC<Prop> = ({
                 {isShowHotelier === index && type && type === 'Finance' && (
                   <>
                     {hotels?.join(' ')}
-                    <AccountHotelier />
+                    <AccountHotelier id={owner}/>
                   </>
                 )}
               </TextContent>
