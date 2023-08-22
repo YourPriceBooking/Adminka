@@ -1,6 +1,7 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchBonus } from 'features/hoteliers/hoteliersOperation';
 import type { Dispatch } from 'react';
+import { selectorBonus } from 'features/hoteliers/hoteliersSelectors';
 import {
   Button,
   Inner,
@@ -24,7 +25,17 @@ type DataBonus = {
 
 export const AccountHotelier: React.FC<AccountHotelierProps> = ({id}) => {
     type DispatchAction = Dispatch<any>;
-    const dispatch: DispatchAction = useDispatch();
+  const dispatch: DispatchAction = useDispatch();
+  const bonus = useSelector(selectorBonus);
+
+  // useEffect(() => {
+  //   first
+  
+  //   return () => {
+  //     second
+  //   }
+  // }, [third])
+  
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
    event.preventDefault()
@@ -44,13 +55,13 @@ export const AccountHotelier: React.FC<AccountHotelierProps> = ({id}) => {
     <Wrapper>
       <Inner>
         <Title>Total in your account now:</Title>
-        <Text>33</Text>
+        <Text>{bonus.map(el => el.owner === id && el.amount)}</Text>
         <Text>USD</Text>
       </Inner>
       <SubTitle>detailed deposit:</SubTitle>
       <Inner>
         <SecondaryText>Total bonus:</SecondaryText>
-        <Text>33</Text>
+        <Text>{bonus.map(el => el.owner === id && el.amount)}</Text>
         <Text>USD</Text>
       </Inner>
       <Inner>

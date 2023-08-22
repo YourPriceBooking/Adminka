@@ -21,6 +21,7 @@ export type Hoteliers = {
   owner: string;
   status: string;
   hotels?: string[] | undefined;
+  amount?: number | undefined;
 }[];
 
 export type HoteliersState = {
@@ -41,6 +42,35 @@ export type HoteliersSelector = {
 export type HotelsObjects = {
   ownerId: string;
   hotels: HotelFetch;
+};
+
+export type ResponseData = {
+  status: string;
+  code: number;
+  data: {
+    result: {
+      finances: {
+        currency: string;
+        bonus: number;
+        money: number;
+        total: number;
+      };
+      _id: string;
+      lastName: string;
+      firstName: string;
+      email: string;
+      language: string;
+      secretCode: string;
+      status: string;
+      createdCode: number;
+      validCode: number;
+    };
+  };
+};
+
+export type DataBonus = {
+  id: string;
+  amount: number;
 };
 
 

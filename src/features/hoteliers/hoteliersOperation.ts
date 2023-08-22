@@ -4,9 +4,13 @@ import type {
   DataHoteliers,
   HotelFetch,
   HotelsObjects,
+  ResponseData,
+  DataBonus,
 } from 'types/apis';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { baseUrl, endpoints } from 'features/api';
+import axios from 'axios';
+import type { RootState } from 'App/store';
 
 
 
@@ -55,62 +59,28 @@ export const fetchHotelsById = createAsyncThunk<HotelsObjects, string>(
   }
 );
 
-type DataBonus = {
-  id: string,
-  amount: number
-}
-
-type ResponseData = {
-  status: string;
-  code: number;
-  data: {
-    result: {
-      finances: {
-        currency: string;
-        bonus: number;
-        money: number;
-        total: number;
-      };
-      _id: string;
-      lastName: string;
-      firstName: string;
-      email: string;
-      language: string;
-      secretCode: string;
-      status: string;
-      createdCode: number;
-      validCode: number;
-    };
-  };
-};
-
-// type RequestOptionsType = {
-//   method: string;
-//   credentials: string;
-// };
-
-// const requestOptions: RequestOptionsType = {
-//   method: 'POST',
-//   credentials: 'include',
-// };
 
 
 export const fetchBonus = createAsyncThunk<ResponseData, DataBonus>(
   'hoteliers/fetchBonus',
-  async (bonusData: DataBonus, { rejectWithValue }) => {
+  async (bonusData: DataBonus, { rejectWithValue, getState }) => {
     try {
-      const response = await fetch(`${baseUrl}/acsess-to-admin${endpoints.bonus}`, {
-        method: 'PATCH',
-        credentials: 'include',
-        body: JSON.stringify(bonusData),
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-      });
-      const data = (await response.json()) as ResponseData;
+      const authToken = getState() as RootState
 
-      console.log('data', data);
-      return data;
+      const response = await axios.patch(
+        `${baseUrl}/acsess-to-admin${endpoints.bonus}`,
+        bonusData,
+        {
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            Authorization: `Bearer ${authToken.enterToken.token!}`,
+          },
+          withCredentials: true,
+        }
+      );
+      const data = response.data as ResponseData;
+
+      return data
     } catch (error) {
       return rejectWithValue(error);
     }
