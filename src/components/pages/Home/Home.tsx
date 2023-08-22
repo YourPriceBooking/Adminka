@@ -69,31 +69,36 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
 
   
   return (
-    <HomeNavListStyled>
-      <LoaderMiddleware path={routes.verification.path.verification}>
-        <p>{verification.name}</p>
-        <TextSmall>
-          <span>105</span>objects are waiting
-        </TextSmall>
-      </LoaderMiddleware>
-      <LoaderMiddleware path={finance.path}>
-        <p>{finance.name}</p>
-      </LoaderMiddleware>
-      <LoaderMiddleware path={country.path}>
-        <p>Adding a languages</p> {/* Languages Мови */}
-        <p>Adding a country&apos;s</p> {/* Countries Країни */}
-        <p>Location registers: 1, 2, 3</p> {/* Locations */}
-      </LoaderMiddleware>
-      <LoaderMiddleware path={statistics.path}>
-        <p>{statistics.name}</p>
-        <StatsListMemoized items={statItems} />
-      </LoaderMiddleware>
-      <LoaderMiddleware path={routes.adminPageAccess.path}>
-        {routes.adminPageAccess.name}
-      </LoaderMiddleware>
-      <LoaderMiddleware path={routes.blog.path}>{routes.blog.name}</LoaderMiddleware>
+    <>
+      <HomeNavListStyled>
+        <LoaderMiddleware path={routes.verification.path.verification}>
+          <p>{verification.name}</p>
+          <TextSmall>
+            <span>105</span>objects are waiting
+          </TextSmall>
+        </LoaderMiddleware>
+        <LoaderMiddleware path={finance.path}>
+          <p>{finance.name}</p>
+        </LoaderMiddleware>
+        <LoaderMiddleware path={country.path}>
+          <p>Adding a languages</p> {/* Languages Мови */}
+          <p>Adding a country&apos;s</p> {/* Countries Країни */}
+          <p>Location registers: 1, 2, 3</p> {/* Locations */}
+        </LoaderMiddleware>
+        <LoaderMiddleware path={statistics.path}>
+          <p>{statistics.name}</p>
+          <StatsListMemoized items={statItems} />
+        </LoaderMiddleware>
+        <LoaderMiddleware path={routes.adminPageAccess.path}>
+          {routes.adminPageAccess.name}
+        </LoaderMiddleware>
+        <LoaderMiddleware path={routes.blog.path}>{routes.blog.name}</LoaderMiddleware>
+        <LoaderMiddleware path={routes.mowgliBooking.path} type='mowgli'>
+          {routes.mowgliBooking.name}
+        </LoaderMiddleware>
+      </HomeNavListStyled>
       <Link to={routes.registerModal.path}>Тимчасовий лінк для Location Register Modal</Link>
-    </HomeNavListStyled>
+    </>
   );
 };
 
