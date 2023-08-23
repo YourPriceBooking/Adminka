@@ -74,7 +74,7 @@ export const HomeNavListStyled = styled.ul`
   }
 
   > li:nth-of-type(7) {
-    padding: 39px 47px 0;
+    padding: 39px 40px 0;
     max-height: 111px;
   }
 
