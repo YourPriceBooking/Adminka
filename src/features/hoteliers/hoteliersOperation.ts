@@ -14,25 +14,60 @@ import type { RootState } from 'App/store';
 
 
 
-export const fetchHoteliers = createAsyncThunk<HotelierFetch[]>(
-  'hoteliers/fetchAllHoteliers',
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await fetch(baseUrl + endpoints.hotels, { credentials: 'include' });
-      if (!response.ok) {
-        throw new Error('Failed to fetch hoteliers');
-      }
-      const data = (await response.json()) as DataHoteliers;
-       const uniqueOwners = new Set<string>();
-       const hoteliers: HotelierFetch[] = [];
+// export const fetchHoteliers = createAsyncThunk<HotelierFetch[]>(
+//   'hoteliers/fetchAllHoteliers',
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const response = await fetch(baseUrl + endpoints.hotels, { credentials: 'include' });
+//       if (!response.ok) {
+//         throw new Error('Failed to fetch hoteliers');
+//       }
+//       const data = (await response.json()) as DataHoteliers;
+//        const uniqueOwners = new Set<string>();
+//        const hoteliers: HotelierFetch[] = [];
 
-       data.data.hotels.forEach(({ owner, status }: HotelierFetch) => {
-         if (owner && !uniqueOwners.has(owner)) {
-           uniqueOwners.add(owner);
-           hoteliers.push({ owner, status });
+//        data.data.hotels.forEach(({ owner, status }: HotelierFetch) => {
+//          if (owner && !uniqueOwners.has(owner)) {
+//            uniqueOwners.add(owner);
+//            hoteliers.push({ owner, status });
+//          }
+//        });
+//        return hoteliers;
+//     } catch (error) {
+//       return rejectWithValue(error);
+//     }
+//   }
+// );
+
+export const fetchHoteliers = createAsyncThunk(
+  'hoteliers/fetchAllHoteliers',
+  async (_, { rejectWithValue, getState }) => {
+    try {
+       const authToken = getState() as RootState;
+
+       const response = await axios.get(
+         `${baseUrl}/acsess-to-admin${endpoints.hoteliers}`,
+         {
+           headers: {
+             'Content-Type': 'application/json; charset=UTF-8',
+             Authorization: `Bearer ${authToken.enterToken.token!}`,
+           },
+           withCredentials: true,
          }
-       });
-       return hoteliers;
+       );
+      console.log('response', response)
+      //  const data = response.data as DataHoteliers;
+    
+      // const uniqueOwners = new Set<string>();
+      // const hoteliers: HotelierFetch[] = [];
+
+      // data.data.hotels.forEach(({ owner, status }: HotelierFetch) => {
+      //   if (owner && !uniqueOwners.has(owner)) {
+      //     uniqueOwners.add(owner);
+      //     hoteliers.push({ owner, status });
+      //   }
+      // });
+      return response;
     } catch (error) {
       return rejectWithValue(error);
     }

@@ -7,8 +7,8 @@ export type HotelFetch = string[]
   
 export type DataHoteliers = {
   code: number;
-  data: { hotels: [] };
   status: string;
+  data: { result: [] };
 };
 
 export type DataHotels = {

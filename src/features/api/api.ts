@@ -55,6 +55,7 @@ export const endpoints = {
   languages: '/languages' as const,
   catalogForHotelier: '/catalogForHotelier' as const,
   hotels: '/hotels' as const,
+  hoteliers: '/get-all-hotelier' as const,
   bonus: '/add-bonus' as const,
 };
 
