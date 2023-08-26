@@ -1,6 +1,15 @@
+export type Finances = {
+  currency?: string | undefined;
+  bonus?: number;
+  money?: number;
+  total?: number;
+};
+
 export type HotelierFetch = {
-  owner: string
+  finances: Finances;
   status: string;
+  yourObjects: number;
+  _id: string;
 };
 
 export type HotelFetch = string[]
@@ -21,7 +30,8 @@ export type Hoteliers = {
   owner: string;
   status: string;
   hotels?: string[] | undefined;
-  amount?: number | undefined;
+  yourObjects?: number | undefined;
+  finances?: Finances;
 }[];
 
 export type HoteliersState = {

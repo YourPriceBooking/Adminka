@@ -1,6 +1,9 @@
 import styled from 'styled-components/macro';
 import { keyframes } from 'styled-components';
 
+type Props = {
+  type?: string;
+};
 
 export const WrapperLoader = styled.div`
   position: absolute;
@@ -24,10 +27,10 @@ const pulsate = keyframes`
   }
 `;
 
-export const Svg = styled.img`
+export const Svg = styled.img<Props>`
   position: absolute;
-  top: 42px;
-  left: 45px;
+  top: ${({ type }) => (type === 'mowgli' ? '21px' : '42px')};
+  left:${({ type }) => (type === 'mowgli' ? '23px' : '45px')};
   animation: ${pulsate} 1.2s ease-in-out infinite;
 `;
 

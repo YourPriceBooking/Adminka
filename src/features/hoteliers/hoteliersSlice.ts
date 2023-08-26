@@ -1,5 +1,4 @@
-// import type { HoteliersState, Hoteliers, HotelsObjects, ResponseData } from 'types/apis';
-import type { HoteliersState, HotelsObjects, ResponseData } from 'types/apis';
+import type { HoteliersState, HotelsObjects, ResponseData, HotelierFetch } from 'types/apis';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchBonus, fetchHoteliers, fetchHotelsById } from './hoteliersOperation';
@@ -22,10 +21,14 @@ const hoteliersSlice = createSlice({
       .addCase(fetchHoteliers.pending, state => {
         state.isLoadingHoteliers = true;
       })
-      .addCase(fetchHoteliers.fulfilled, (state, { payload }) => {
+      .addCase(fetchHoteliers.fulfilled, (state, { payload }: PayloadAction<HotelierFetch[]>) => {
         state.isLoadingHoteliers = false;
-        console.log('payload', payload)
-        // state.hoteliers = payload;
+        state.hoteliers = payload.map(hotelier => ({
+          owner: hotelier._id,
+          status: hotelier.status,
+          yourObjects: hotelier.yourObjects,
+          finances: hotelier.finances,
+        }));
       })
       .addCase(fetchHoteliers.rejected, (state, { payload }) => {
         state.isLoadingHoteliers = false;
@@ -53,7 +56,7 @@ const hoteliersSlice = createSlice({
           hotelier.owner === payload.data.result._id
             ? {
                 ...hotelier,
-                amount: payload.data.result.finances.bonus,
+                finances: { ...hotelier.finances, bonus: payload.data.result.finances.bonus },
               }
             : hotelier
         );

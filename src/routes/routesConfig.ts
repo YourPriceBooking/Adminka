@@ -12,6 +12,7 @@ import {
   HousePageVerif,
 } from 'pages';
 import RegisterModalPage from 'pages/RegisterModalPage';
+import mowgliBookingPage from 'pages/mowgliBooking';
 
 export const routes = {
   login: { path: '/', name: 'Login', element: { App, LoginPage } },
@@ -39,6 +40,6 @@ export const routes = {
     element: AdminPageAccess,
   },
   blog: { path: '/blog', name: 'Blog', element: Blog },
+  mowgliBooking: { path: '/mowgli-booking', name: 'Mowgli booking', element: mowgliBookingPage },
   registerModal: { path: '/registerModal', name: 'registerModal', element: RegisterModalPage },
-
 };

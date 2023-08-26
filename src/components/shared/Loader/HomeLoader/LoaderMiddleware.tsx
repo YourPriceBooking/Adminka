@@ -7,9 +7,10 @@ import HomeLoader from "./HomeLoader";
 type IProps = {
   children: React.ReactNode;
   path: string;
+  type?: string;
 };
 
-export const LoaderMiddleware: React.FC<IProps> = ({ children, path }) => {
+export const LoaderMiddleware: React.FC<IProps> = ({ children, path, type }) => {
   const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -33,7 +34,7 @@ export const LoaderMiddleware: React.FC<IProps> = ({ children, path }) => {
   return (
     <HomeNavItem onClick={handleClick}>
       <Wrapper >
-        {isLoading ? <HomeLoader /> : children}
+        {isLoading ? <HomeLoader type={type} /> : children}
       </Wrapper>
     </HomeNavItem>
   );

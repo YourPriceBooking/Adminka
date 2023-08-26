@@ -12,6 +12,7 @@ const {
   statistics,
   finance,
   blog,
+  mowgliBooking
 } = routes;
 
 export const AppRouter = () => (
@@ -39,6 +40,7 @@ export const AppRouter = () => (
         <Route path={registerModal.path} element={<registerModal.element />} />
         <Route path={finance.path} element={<finance.element />} />
         <Route path={blog.path} element={<blog.element />} />
+        <Route path={mowgliBooking.path} element={<mowgliBooking.element />} />
         {/* <Route path="/location" element={<Location />} /> */}
       </Route>
 
