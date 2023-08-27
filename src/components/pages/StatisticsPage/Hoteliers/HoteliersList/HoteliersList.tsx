@@ -81,7 +81,7 @@ export const HoteliersList: React.FC<Prop> = ({
               </TextContent>
             </WrapperText>
             <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
-              {status === 'on verification' ? (
+              {status === 'active' ? (
                 <img src={likeIcon} alt="like" width="20px" height="20px" />
               ) : (
                 <img src={dislikeIcon} alt="dislike" width="20px" height="20px" />

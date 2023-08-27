@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchBonus , fetchHoteliers } from 'features/hoteliers/hoteliersOperation';
+import { fetchBonus } from 'features/hoteliers/hoteliersOperation';
 import type { Dispatch} from 'react';
-import { useEffect } from 'react';
 import { selectorBonusHoteliers } from 'features/hoteliers/hoteliersSelectors';
 import {
   Button,
@@ -28,11 +27,6 @@ export const AccountHotelier: React.FC<AccountHotelierProps> = ({id}) => {
     type DispatchAction = Dispatch<any>;
   const dispatch: DispatchAction = useDispatch();
   const data = useSelector(selectorBonusHoteliers);
-
-
-  useEffect(() => {
-dispatch(fetchHoteliers());
-  }, [])
   
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -47,49 +41,44 @@ dispatch(fetchHoteliers());
       dispatch(fetchBonus(dataToPatch));
     }
     form.reset()
- };
+  };
+  
+  const hotelierData = data.find(hotelier => hotelier.owner === id)?.finances;
 
   return (
     <Wrapper>
       <Inner>
         <Title>Total in your account now:</Title>
         <Text>
-          {data.length > 0 &&
-            data.map(hotelier => id === hotelier.owner && hotelier.finances?.total)}
+          {hotelierData?.total}
         </Text>
         <Text>
-          {data.length > 0 &&
-            data.map(hotelier => id === hotelier.owner && hotelier.finances?.currency)}
+          {hotelierData?.currency}
         </Text>
       </Inner>
       <SubTitle>detailed deposit:</SubTitle>
       <Inner>
         <SecondaryText>Total bonus:</SecondaryText>
         <Text>
-          {data.length > 0 &&
-            data.map(hotelier => id === hotelier.owner && hotelier.finances?.bonus)}
+          {hotelierData?.bonus}
         </Text>
         <Text>
-          {data.length > 0 &&
-            data.map(hotelier => id === hotelier.owner && hotelier.finances?.currency)}
+          {hotelierData?.currency}
         </Text>
       </Inner>
       <Inner>
         <SecondaryText>Total money:</SecondaryText>
         <Text>
-          {data.length > 0 &&
-            data.map(hotelier => id === hotelier.owner && hotelier.finances?.money)}
+          {hotelierData?.money}
         </Text>
         <Text>
-          {data.length > 0 &&
-            data.map(hotelier => id === hotelier.owner && hotelier.finances?.currency)}
+          {hotelierData?.currency}
         </Text>
       </Inner>
       <Form onSubmit={handleSubmit}>
         <Input type="number" name="input" />
         <Text>
-          {data.length > 0 &&
-            data.map(hotelier => id === hotelier.owner && hotelier.finances?.currency)}
+          {hotelierData?.currency}
         </Text>
         <Button>Send BONUS now</Button>
       </Form>

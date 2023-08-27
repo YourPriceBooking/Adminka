@@ -56,7 +56,11 @@ const hoteliersSlice = createSlice({
           hotelier.owner === payload.data.result._id
             ? {
                 ...hotelier,
-                finances: { ...hotelier.finances, bonus: payload.data.result.finances.bonus },
+                finances: {
+                  ...hotelier.finances,
+                  bonus: payload.data.result.finances.bonus,
+                  total: payload.data.result.finances.total,
+                },
               }
             : hotelier
         );
