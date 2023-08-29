@@ -64,8 +64,6 @@ export const fetchHotelsById = createAsyncThunk<HotelsObjects, string>(
   }
 );
 
-
-
 export const fetchBonus = createAsyncThunk<ResponseData, DataBonus>(
   'hoteliers/fetchBonus',
   async (bonusData: DataBonus, { rejectWithValue, getState }) => {
@@ -91,5 +89,6 @@ export const fetchBonus = createAsyncThunk<ResponseData, DataBonus>(
     }
   }
 );
+
 
 
