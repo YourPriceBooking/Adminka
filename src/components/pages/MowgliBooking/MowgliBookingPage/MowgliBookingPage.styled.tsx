@@ -2,9 +2,10 @@ import styled from 'styled-components';
 
 
 export const MowgliBookingMainPage = styled.div`
-display: flex;
-flex-direction: column;
-`
+  display: flex;
+  flex-direction: column;
+  background-color: #535252;
+`;
 
 export const MowgliList = styled.li `
     list-style-type: none;
