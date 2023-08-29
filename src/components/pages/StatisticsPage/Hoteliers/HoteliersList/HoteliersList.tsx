@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { memo, useCallback, useEffect } from "react";
 import {useSelector } from "react-redux";
 import { fetchHotelsById } from "features/hoteliers/hoteliersOperation";
 import { useAppDispatch } from 'App';
@@ -19,7 +19,8 @@ type Prop = {
 
 type HandleClick = (event: React.MouseEvent<HTMLUListElement>) => void;
 
-export const HoteliersList: React.FC<Prop> = ({
+export const HoteliersList: React.FC<Prop> = memo(
+  ({
   type,
   isShowHotelier,
   setIsShowHotelier,
@@ -27,9 +28,10 @@ export const HoteliersList: React.FC<Prop> = ({
   setIsClicked,
 }) => {
   const dispatch = useAppDispatch();
-  const { hoteliers, isLoadingHotels } = useSelector(selectorHoteliers);
-
-  const handleClick: HandleClick = event => {
+    const { hoteliers, isLoadingHotels } = useSelector(selectorHoteliers);
+    
+    const handleClick: HandleClick = useCallback(
+      event => {
     const { target } = event;
     if (
       target instanceof HTMLDivElement ||
@@ -42,7 +44,10 @@ export const HoteliersList: React.FC<Prop> = ({
         setIsClicked(true);
       }
     }
-  };
+  },
+      [isClicked, setIsShowHotelier, setIsClicked]
+    );
+
 
   useEffect(() => {
     if (hoteliers.length > 0) hoteliers.map(({ owner }) => dispatch(fetchHotelsById(owner)));
@@ -75,13 +80,13 @@ export const HoteliersList: React.FC<Prop> = ({
                 {isShowHotelier === index && type && type === 'Finance' && (
                   <>
                     {hotels?.join(' ')}
-                    <AccountHotelier />
+                    <AccountHotelier id={owner}/>
                   </>
                 )}
               </TextContent>
             </WrapperText>
             <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
-              {status === 'on verification' ? (
+              {status === 'active' ? (
                 <img src={likeIcon} alt="like" width="20px" height="20px" />
               ) : (
                 <img src={dislikeIcon} alt="dislike" width="20px" height="20px" />
@@ -91,5 +96,6 @@ export const HoteliersList: React.FC<Prop> = ({
         ))}
     </Wrapper>
   );
-};
+}
+)
 

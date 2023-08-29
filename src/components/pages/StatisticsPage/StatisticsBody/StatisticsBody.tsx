@@ -24,7 +24,7 @@ type Prop = {
    { title: 'Agents:', value: 89, isClicked: false },
  ];
 
-export const StatisticsBody: React.FC<Prop> = ({ isShowPage, setIsShowPage }) => {
+export const StatisticsBody: React.FC<Prop> = ({isShowPage, setIsShowPage}) => {
      const [statistics, setStatistics] = useState(statisticsData);
      const [activeIndex, setActiveIndex] = useState<number | null>(-1);
   const { hoteliers, isLoadingHoteliers } = useSelector(selectorHoteliers);

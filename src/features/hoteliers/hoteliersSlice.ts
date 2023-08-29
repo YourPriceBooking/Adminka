@@ -1,7 +1,7 @@
-import type { HoteliersState, Hoteliers, HotelsObjects } from 'types/apis';
+import type { HoteliersState, HotelsObjects, ResponseData, HotelierFetch } from 'types/apis';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchHoteliers, fetchHotelsById } from './hoteliersOperation';
+import { fetchBonus, fetchHoteliers, fetchHotelsById } from './hoteliersOperation';
 
 
 const hoteliersInitialState: HoteliersState = {
@@ -10,6 +10,7 @@ const hoteliersInitialState: HoteliersState = {
   isLoadingHotels: false,
   error: null,
 };
+
 
 const hoteliersSlice = createSlice({
   name: 'hoteliers',
@@ -20,9 +21,14 @@ const hoteliersSlice = createSlice({
       .addCase(fetchHoteliers.pending, state => {
         state.isLoadingHoteliers = true;
       })
-      .addCase(fetchHoteliers.fulfilled, (state, { payload }: PayloadAction<Hoteliers>) => {
+      .addCase(fetchHoteliers.fulfilled, (state, { payload }: PayloadAction<HotelierFetch[]>) => {
         state.isLoadingHoteliers = false;
-        state.hoteliers = payload;
+        state.hoteliers = payload.map(hotelier => ({
+          owner: hotelier._id,
+          status: hotelier.status,
+          yourObjects: hotelier.yourObjects,
+          finances: hotelier.finances,
+        }));
       })
       .addCase(fetchHoteliers.rejected, (state, { payload }) => {
         state.isLoadingHoteliers = false;
@@ -38,6 +44,28 @@ const hoteliersSlice = createSlice({
         );
       })
       .addCase(fetchHotelsById.rejected, (state, { payload }) => {
+        state.isLoadingHotels = false;
+        state.error = payload;
+      })
+      .addCase(fetchBonus.pending, state => {
+        state.isLoadingHotels = true;
+      })
+      .addCase(fetchBonus.fulfilled, (state, { payload }: PayloadAction<ResponseData>) => {
+        state.isLoadingHotels = false;
+        state.hoteliers = state.hoteliers.map(hotelier =>
+          hotelier.owner === payload.data.result._id
+            ? {
+                ...hotelier,
+                finances: {
+                  ...hotelier.finances,
+                  bonus: payload.data.result.finances.bonus,
+                  total: payload.data.result.finances.total,
+                },
+              }
+            : hotelier
+        );
+      })
+      .addCase(fetchBonus.rejected, (state, { payload }) => {
         state.isLoadingHotels = false;
         state.error = payload;
       });
