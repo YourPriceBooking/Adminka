@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useAppSelector, useAppDispatch } from 'App';
+import { useAppSelector } from 'App';
 import type { RootState } from 'App/store';
 import axios, { AxiosResponse } from 'axios';
-import { addEmail } from 'features/access';
+// import { addEmail } from 'features/access';
 import { AddAccessButtonStyled, OpenAddAccess } from './AddAccessButton.styled';
 import { AddEmailAccess } from '../AddEmailAccess';
 
@@ -30,7 +30,7 @@ interface ResponseData {
 
 export const AddAccessButton = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   const dataForEmail = useAppSelector((state: RootState) => state.access.emails[0]);
   const token = useAppSelector((state: RootState) => state.enterToken.token);
@@ -60,10 +60,11 @@ export const AddAccessButton = () => {
         }
       );
 
-      const { status, message, code, data: responseData } = response.data;
+      // const { status, message, code, data: responseData } = response.data;
+      const { status } = response.data;
 
       if (status === 'success') {
-        dispatch(addEmail(responseData.newEmail)); // Викликаємо action для додавання електронної пошти до Redux store
+        // dispatch(addEmail(responseData.newEmail)); // Викликаємо action для додавання електронної пошти до Redux store
       }
 
       setIsOpen(true);
