@@ -30,7 +30,7 @@ const { hoteliers, isLoadingHoteliers } = useSelector(selectorHoteliers);
       dispatch(fetchHoteliers());
     }
     dispatch(fetchFinanceStatistic());
-    // eslint-disable-next-line
+     
   }, [dispatch]);
 
 

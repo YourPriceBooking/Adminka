@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect } from "react";
 import {useSelector } from "react-redux";
-import { fetchHotelsById } from "features/hoteliers/hoteliersOperation";
+import {fetchHotelsById } from "features/hoteliers/hoteliersOperation";
 import { useAppDispatch } from 'App';
 import { selectorHoteliers } from "features/hoteliers/hoteliersSelectors";
 import { Spinner } from "components/shared/Loader";

@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBonus } from 'features/hoteliers/hoteliersOperation';
 import type { Dispatch} from 'react';
+// import { useEffect} from 'react';
 import { selectorBonusHoteliers } from 'features/hoteliers/hoteliersSelectors';
 import {
   Button,
@@ -27,7 +28,6 @@ export const AccountHotelier: React.FC<AccountHotelierProps> = ({id}) => {
     type DispatchAction = Dispatch<any>;
   const dispatch: DispatchAction = useDispatch();
   const data = useSelector(selectorBonusHoteliers);
-  
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
    event.preventDefault()
@@ -42,8 +42,9 @@ export const AccountHotelier: React.FC<AccountHotelierProps> = ({id}) => {
     }
     form.reset()
   };
-  
+
   const hotelierData = data.find(hotelier => hotelier.owner === id)?.finances;
+  
 
   return (
     <Wrapper>
