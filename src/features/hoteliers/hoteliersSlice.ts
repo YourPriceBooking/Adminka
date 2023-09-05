@@ -60,8 +60,7 @@ const hoteliersSlice = createSlice({
                   ...hotelier.finances,
                   bonus: payload.data.result.finances.bonus,
                   total: payload.data.result.finances.total,
-              },
-                status: payload.data.result.status
+                },
               }
             : hotelier
         );

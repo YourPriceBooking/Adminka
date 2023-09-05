@@ -21,6 +21,7 @@ export const fetchHoteliers = createAsyncThunk<HotelierFetch[]>(
       const response = await axios.get(`${baseUrl}/acsess-to-admin${endpoints.hoteliers}`, {
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
+          // eslint-disable-next-line
           Authorization: `Bearer ${authToken.enterToken.token!}`,
         },
         withCredentials: true,
@@ -76,6 +77,7 @@ export const fetchBonus = createAsyncThunk<ResponseData, DataBonus>(
         {
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
+            // eslint-disable-next-line
             Authorization: `Bearer ${authToken.enterToken.token!}`,
           },
           withCredentials: true,
