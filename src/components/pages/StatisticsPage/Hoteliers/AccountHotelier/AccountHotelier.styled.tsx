@@ -121,3 +121,13 @@ export const Button = styled.button`
   }
 `;
 
+export const Error = styled.p`
+  font-family: ${({ theme }) => theme.fonts.segoe};
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 13px/10px;
+  margin-bottom: 15px;
+
+  color: red;
+`;
+
