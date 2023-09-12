@@ -7,6 +7,7 @@ import { accessReducer } from 'features/access/accessSlice';
 import { tokenReducer } from 'features/access/tokenSlice';
 import { hoteliersReducer } from 'features/hoteliers/hoteliersSlice';
 import { financeReducer } from 'features/financeStatistic/financeSlice';
+import { statisticReducer } from 'features/statistic/statisticSlice';
 
 export const rootReducer = combineReducers({
   // server state
@@ -22,4 +23,5 @@ export const rootReducer = combineReducers({
   enterToken: tokenReducer,
   hoteliers: hoteliersReducer,
   financeStatistic: financeReducer,
+  statistic: statisticReducer,
 });

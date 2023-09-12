@@ -46,7 +46,6 @@ export const api = createApi({
   endpoints: () => ({}),
 });
 
-
 export const endpoints = {
   locationDistrict: '/location-district' as const,
   locationCity: '/location-city' as const,
@@ -58,8 +57,8 @@ export const endpoints = {
   hoteliers: '/get-all-hotelier' as const,
   bonus: '/add-bonus' as const,
   financeStatistic: '/get-statistic' as const,
+  statistic: '/statistic' as const,
 };
-
 
 export const frozenArr = Object.freeze([]);
 
