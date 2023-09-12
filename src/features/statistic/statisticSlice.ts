@@ -35,7 +35,6 @@ const statisticSlice = createSlice({
         (state, { payload }: PayloadAction<ResponseStatisticData>) => {
           state.isLoadingStatistic = false;
           state.statistic = { ...payload };
-          console.log('payload.data', payload);
         }
       )
       .addCase(fetchStatistic.rejected, (state, { payload }) => {

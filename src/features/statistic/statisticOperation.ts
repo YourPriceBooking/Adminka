@@ -18,8 +18,6 @@ export const fetchStatistic = createAsyncThunk<ResponseStatisticData>(
         withCredentials: true,
       });
       const data = response.data as ResponseStatisticData;
-      console.log('statistic data', data);
-
       return data;
     } catch (error) {
       return rejectWithValue(error);
