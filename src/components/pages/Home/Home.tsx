@@ -1,8 +1,12 @@
-import { memo, useMemo} from 'react';
+import { memo, useMemo, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import type { Dispatch } from 'react';
+import { getStatistic } from 'features/statistic/statisticSelectors';
 import { Container } from 'components/shared/Container';
 import { routes } from 'routes/routesConfig';
 import { LoaderMiddleware } from 'components/shared/Loader/HomeLoader/LoaderMiddleware';
 import { Link } from 'react-router-dom';
+import { fetchStatistic } from 'features/statistic/statisticOperation';
 import {
   HomeStyled,
   HomeNavListStyled,
@@ -51,7 +55,13 @@ const StatsList = ({ items }: StatsListType) => (
 const StatsListMemoized = memo(StatsList);
 
 const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface) => {
+  // eslint-disable-next-line
+  type DispatchAction = Dispatch<any>;
+  const dispatch: DispatchAction = useDispatch();
 
+  useEffect(() => {
+    dispatch(fetchStatistic());
+  }, [dispatch]);
 
   const statItems = useMemo(
     () => [
@@ -67,7 +77,6 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
     [agents, hoteliers, objects, users]
   );
 
-  
   return (
     <>
       <HomeNavListStyled>
@@ -93,7 +102,7 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
           {routes.adminPageAccess.name}
         </LoaderMiddleware>
         <LoaderMiddleware path={routes.blog.path}>{routes.blog.name}</LoaderMiddleware>
-        <LoaderMiddleware path={routes.mowgliBooking.path} type='mowgli'>
+        <LoaderMiddleware path={routes.mowgliBooking.path} type="mowgli">
           {routes.mowgliBooking.name}
         </LoaderMiddleware>
       </HomeNavListStyled>
@@ -102,11 +111,24 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
   );
 };
 
-export const Home = () => (
-  <HomeStyled>
-    <Container>
-      <HomeNavList users={103} hoteliers={75} agents={75} objects={75} />
+export const Home: React.FC = () => {
+  const statistic = useSelector(getStatistic);
 
-    </Container>
-  </HomeStyled>
-);
+  const { result } = statistic;
+
+  const { amount, objectOnVerification } = result;
+  const { users, hoteliers, agents } = amount;
+
+  return (
+    <HomeStyled>
+      <Container>
+        <HomeNavList
+          users={users}
+          hoteliers={hoteliers}
+          agents={agents}
+          objects={objectOnVerification}
+        />
+      </Container>
+    </HomeStyled>
+  );
+};
