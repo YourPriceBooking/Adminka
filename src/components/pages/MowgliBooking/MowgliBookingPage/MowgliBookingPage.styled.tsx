@@ -36,6 +36,8 @@ export const MowgListBlock = styled.div`
   :active {
     background-color: #b6efa3;
     border: 1px solid #569541;
+    color: #4c4c4c;
+    text-decoration: none;
   }
 
   h1 {
@@ -51,7 +53,7 @@ export const MowgListBlock = styled.div`
 
 export const VerificationList = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   p {
     font-family: Roboto;
     font-size: 15px;
@@ -96,3 +98,4 @@ justify-content: space-between;
     color: #569541;
   }
 `;
+

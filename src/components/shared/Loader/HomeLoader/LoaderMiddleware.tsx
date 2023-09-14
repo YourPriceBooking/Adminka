@@ -8,6 +8,7 @@ type IProps = {
   children: React.ReactNode;
   path: string;
   type?: string;
+  style?: React.CSSProperties;
 };
 
 export const LoaderMiddleware: React.FC<IProps> = ({ children, path, type }) => {

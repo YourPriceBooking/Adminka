@@ -1,5 +1,7 @@
 
-// import { routes } from 'routes/routesConfig';
+import { routes } from 'routes/routesConfig';
+import { Link } from 'react-router-dom';
+// import { LoaderMiddleware } from 'components/shared/Loader/HomeLoader/LoaderMiddleware';
 import {
   MowgliList,
   MowgListBlock,
@@ -12,19 +14,27 @@ import {
 
 // console.log(routes)
 
+
 export const MowgliBookingPage = () => (
   <MowgliBookingMainPage>
     <MowgliList>
       <MowgListBlock>
-        <h1>Objects Verification</h1>
-        <VerificationList>
-          <span>105</span> <p> objects are waiting </p>
-        </VerificationList>
+        <Link to={routes.verification.path.verificationId} style={{color: "inherit"}}>
+          {/* <div>
+          <CustomLoaderMiddleware path={routes.verification.path.verificationId}> */}
+          <h1>Objects Verification</h1>
+          <VerificationList>
+            <span>105</span> <p> objects are waiting </p>
+          </VerificationList>
+          {/* </CustomLoaderMiddleware>
+        </div> */}
+        </Link>
       </MowgListBlock>
       <MowgListBlock>
         <h1>Finance</h1>
       </MowgListBlock>
     </MowgliList>
+
     <MowgliList>
       <MowgListBlock>
         <h1>Statistics and access to cabinets</h1>
