@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const MowgliBookingMainPage = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #535252;
+  background: linear-gradient(170.93deg, #B1E2A6 6.88%, rgba(81, 142, 68, 0) 94.72%);
 `;
 
 export const MowgliList = styled.li `
@@ -36,6 +36,8 @@ export const MowgListBlock = styled.div`
   :active {
     background-color: #b6efa3;
     border: 1px solid #569541;
+    color: #4c4c4c;
+    text-decoration: none;
   }
 
   h1 {
@@ -51,7 +53,7 @@ export const MowgListBlock = styled.div`
 
 export const VerificationList = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   p {
     font-family: Roboto;
     font-size: 15px;
@@ -96,3 +98,4 @@ justify-content: space-between;
     color: #569541;
   }
 `;
+
