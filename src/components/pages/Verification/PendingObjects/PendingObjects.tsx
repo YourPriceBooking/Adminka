@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ObjectCard } from './ObjectCard';
 import { HotelCards } from '../HotelCards';
 
-import { CardsWrapper, Div } from './ObjectCard/ObjectCard.styled';
+import { CardsWrapper, Div, CardsStyle } from './ObjectCard/ObjectCard.styled';
 
 const defaultObjects = 777;
 export const PendingObjects = () => {
@@ -40,13 +40,16 @@ export const PendingObjects = () => {
       <Div>
         {components.map((_, idx) => (
           <Link to="/verification/house-page">
-            <HotelCards
-              // eslint-disable-next-line react/no-array-index-key
-              key={idx}
-              city="Флорида"
-              hotel="Маямский Би"
-              address="Проспект Ватутина, д. 15, кв. 6"
-            />
+            <CardsStyle>
+              <HotelCards
+                // eslint-disable-next-line react/no-array-index-key
+                key={idx}
+                city="Флорида"
+                hotel="Маямский Би"
+                address="Проспект Ватутина, д. 15, кв. 6"
+                style={{ position: 'absolute', top: `${idx * 150}px` }}
+              />
+            </CardsStyle>
           </Link>
         ))}
       </Div>
