@@ -1,7 +1,6 @@
 import styled from 'styled-components/macro';
 
 export const Card = styled.div`
-  position: relative;
   width: 320px;
   height: 141px;
   display: flex;

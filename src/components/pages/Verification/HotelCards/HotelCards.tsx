@@ -6,15 +6,16 @@ type ICard = {
   city: string;
   hotel: string;
   address: string;
-}
-export const HotelCards = ({ city, hotel, address }: ICard) => (
-    <Card>
-      <CardPhoto>
-        <Image alt="picture" />
-      </CardPhoto>
+  style?: React.CSSProperties;
+};
+export const HotelCards = ({ city, hotel, address, style }: ICard & { style?: React.CSSProperties }) => (
+  <Card style={style}>
+    <CardPhoto>
+      <Image alt="picture" />
+    </CardPhoto>
 
-      <div>
-        <Location city={city} hotel={hotel} address={address} />
-      </div>
-    </Card>
+    <div>
+      <Location city={city} hotel={hotel} address={address} />
+    </div>
+  </Card>
 );
