@@ -39,6 +39,9 @@ export const Inner = styled.li.attrs<Props>(({ tabIndex }) => ({
   &:hover {
     border: 0.4px solid ${({ theme }) => theme.colors.border.btnBorderHover};
   }
+  &:active {
+    border: 1px solid ${({ theme }) => theme.colors.border.borderActive};
+  }
 `;
 
 export const TextID = styled.p.attrs<Props>(({ tabIndex }) => ({

@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Wrapper } from "./Users.styled"
+import { Wrapper, InputMain } from './Users.styled';
 import { StatisticsHeader } from '../StatisticsHeader/StatisticsHeader';
 import {UsersList} from "./UsersList/UsersList"
 
@@ -17,7 +17,11 @@ export const Users: React.FC<UsersProps> = ({ isShowUsersPage }) => {
       {isShowUsersPage ? (
         <div>
           <StatisticsHeader type="Users" isShowUsers={isShowUsers} />
-          <UsersList isShowUsers={isShowUsers}  />
+          <InputMain>
+            <img alt="dandruff" src="./loop.pdf" />
+            <input placeholder="Search ID, Name object" />
+          </InputMain>
+          <UsersList isShowUsers={isShowUsers} />
         </div>
       ) : null}
     </Wrapper>
