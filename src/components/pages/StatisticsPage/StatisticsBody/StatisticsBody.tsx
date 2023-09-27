@@ -4,6 +4,7 @@ import { selectorHoteliers } from 'features/hoteliers/hoteliersSelectors';
 import { ListLoader } from 'components/shared/Loader';
 import { ListItem, TextItem, TextSpan, WrapperBody } from './StatisticsBody.styled';
 
+
 type Statistic = {
   title: string;
   value: number;
@@ -13,6 +14,8 @@ type Statistic = {
 type Prop = {
   isShowPage: boolean;
   setIsShowPage: React.Dispatch<React.SetStateAction<boolean>>;
+  isShowUsersPage: boolean;
+  setIsShowUsersPage: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
  const statisticsData: Statistic[] = [
@@ -24,13 +27,18 @@ type Prop = {
    { title: 'Agents:', value: 89, isClicked: false },
  ];
 
-export const StatisticsBody: React.FC<Prop> = ({isShowPage, setIsShowPage}) => {
-     const [statistics, setStatistics] = useState(statisticsData);
-     const [activeIndex, setActiveIndex] = useState<number | null>(-1);
+export const StatisticsBody: React.FC<Prop> = ({
+  isShowPage,
+  setIsShowPage,
+  isShowUsersPage,
+  setIsShowUsersPage,
+}) => {
+  const [statistics, setStatistics] = useState(statisticsData);
+  const [activeIndex, setActiveIndex] = useState<number | null>(-1);
   const { hoteliers, isLoadingHoteliers } = useSelector(selectorHoteliers);
 
   const hoteliersAmount = hoteliers.length && hoteliers.length;
- statisticsData[0].value = hoteliersAmount;
+  statisticsData[0].value = hoteliersAmount;
 
   const handleClick = (index: number) => {
     setActiveIndex(index !== activeIndex ? index : null);
@@ -41,23 +49,29 @@ export const StatisticsBody: React.FC<Prop> = ({isShowPage, setIsShowPage}) => {
     setStatistics(updatedStatistics);
   };
 
-  const togglePage = (title:string) => {
-    if (title === 'Hoteliers:') setIsShowPage(!isShowPage);
-    else setIsShowPage(false)
+  const togglePage = (title: string) => {
+    if (title === 'Hoteliers:') {
+      setIsShowPage(!isShowPage);
+    } else setIsShowPage(false);
+    if (title === 'Users:') {
+      setIsShowUsersPage(!isShowUsersPage);
+    } else setIsShowUsersPage(false);
   };
 
   return (
-    <WrapperBody>
-      {isLoadingHoteliers ? (
-        <ListLoader />
-      ) : (
-        statistics.map(({ title, value, isClicked }, index) => (
-          <ListItem key={title} onClick={() => handleClick(index)} isClicked={isClicked}>
-            <TextItem onClick={() => togglePage(title)}>{title} </TextItem>
-            <TextSpan>{value}</TextSpan>
-          </ListItem>
-        ))
-      )}
-    </WrapperBody>
+    <div>
+      <WrapperBody>
+        {isLoadingHoteliers ? (
+          <ListLoader />
+        ) : (
+          statistics.map(({ title, value, isClicked }, index) => (
+            <ListItem key={title} onClick={() => handleClick(index)} isClicked={isClicked}>
+              <TextItem onClick={() => togglePage(title)}>{title} </TextItem>
+              <TextSpan>{value}</TextSpan>
+            </ListItem>
+          ))
+        )}
+      </WrapperBody>
+    </div>
   );
 };
