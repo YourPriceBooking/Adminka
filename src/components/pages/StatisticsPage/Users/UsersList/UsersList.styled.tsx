@@ -1,0 +1,81 @@
+import styled from 'styled-components/macro';
+
+
+type PropsInner = {
+  border: boolean;
+  position?: boolean | undefined;
+};
+
+type Props = {
+  tabIndex: number;
+};
+
+type PropsWrapper = {
+  tabIndex: number;
+  typePage?: string | undefined;
+};
+
+export const Wrapper = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  cursor: pointer;
+`;
+
+export const Inner = styled.li.attrs<Props>(({ tabIndex }) => ({
+  'data-id': tabIndex,
+}))<PropsInner>`
+  display: ${({ hidden }) => (hidden ? 'none' : 'flex')};
+  align-items: ${({ position }) => (position ? 'flex-start' : 'center')};
+
+  width: 100%;
+  padding: 7px 31px 7px 11px;
+
+  background-color: ${({ theme }) => theme.colors.white};
+  border: ${({ border }) => (border ? '0.7px' : '0.3px')} solid
+    ${({ border, theme }) => (border ? theme.colors.black : theme.colors.border.borderList)};
+
+  &:hover {
+    border: 0.4px solid ${({ theme }) => theme.colors.border.btnBorderHover};
+  }
+  &:active {
+    border: 1px solid ${({ theme }) => theme.colors.border.borderActive};
+  }
+`;
+
+export const TextID = styled.p.attrs<Props>(({ tabIndex }) => ({
+  'data-id': tabIndex,
+}))`
+  white-space: nowrap;
+
+  font-family: ${({ theme }) => theme.fonts.segoe};
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px/12px;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.textThird};
+`;
+
+export const WrapperText = styled.div.attrs<PropsWrapper>(({ tabIndex }) => ({
+  'data-id': tabIndex,
+}))<{ typePage?: string }>`
+  display: flex;
+  gap: 13px;
+
+  width: 77%;
+  white-space: ${({ typePage }) => (typePage && typePage === 'Finance' ? 'wrap' : 'nowrap')};
+  overflow: hidden;
+
+  margin-left: 26px;
+`;
+
+export const TextContent = styled.div.attrs<Props>(({ tabIndex }) => ({
+  'data-id': tabIndex,
+}))`
+display: inline-block
+  font-family: ${({ theme }) => theme.fonts.segoe};
+  font-size: 12px;
+  line-height: 16px/12px;
+  color: ${({ theme }) => theme.colors.textThird};
+`;
