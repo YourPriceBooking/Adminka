@@ -1,7 +1,7 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import { useAppSelector } from 'App';
 import { selectCityById } from 'features/cities';
-import { DataObject } from 'types/addLocation';
+import type { DataObject } from 'types/addLocation';
 import { DistrictItem } from './DistrictItem';
 import { DistrictsListStyled } from './DistrictsList.styled';
 

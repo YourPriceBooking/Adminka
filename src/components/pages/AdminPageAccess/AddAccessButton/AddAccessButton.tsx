@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useAppSelector } from 'App';
 import type { RootState } from 'App/store';
-import axios, { AxiosResponse } from 'axios';
+import type { AxiosResponse } from 'axios';
+import axios from 'axios';
 // import { addEmail } from 'features/access';
 import { AddAccessButtonStyled, OpenAddAccess } from './AddAccessButton.styled';
 import { AddEmailAccess } from '../AddEmailAccess';
 
-interface ResponseData {
+type ResponseData = {
   status: string;
   message: string;
   code: number;

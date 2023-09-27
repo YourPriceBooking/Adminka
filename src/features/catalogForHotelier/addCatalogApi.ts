@@ -1,4 +1,4 @@
-import { IAllObjectHotelier, AddLocation, IResponseAddLocation } from 'types/addLocation';
+import type { IAllObjectHotelier, AddLocation, IResponseAddLocation } from 'types/addLocation';
 import { api, endpoints } from '../api/api';
 
 const catalogApi = api.injectEndpoints({

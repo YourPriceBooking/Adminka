@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { CloseButtonStyled } from './CloseButton.styled';
 
-interface Props {
+type Props = {
   direction: string;
   onClick?: () => void;
   src: string;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import type { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { setToken } from 'features/access/tokenSlice';
 import { useAppDispatch } from 'App';
 import {
@@ -11,7 +12,7 @@ import {
 } from './PasswordField.styled';
 import { Button } from '../Button';
 
-interface ResponseData {
+type ResponseData = {
   status: string;
   data: {
     token: string;

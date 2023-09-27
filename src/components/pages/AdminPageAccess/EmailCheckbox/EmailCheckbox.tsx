@@ -1,6 +1,6 @@
 import { EmailCheckboxStyled } from './EmailCheckbox.styled';
 
-interface EmailCheckboxProps {
+type EmailCheckboxProps = {
   objectsChecked: boolean;
   setObjectsChecked: (checked: boolean) => void;
   languagesChecked: boolean;

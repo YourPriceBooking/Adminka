@@ -1,5 +1,5 @@
 import type { EntityId } from '@reduxjs/toolkit';
-import { DataObject } from 'types/addLocation';
+import type { DataObject } from 'types/addLocation';
 import { EditDistrictForm } from '../EditDistrictForm/EditDistrictForm';
 import { DistrictItemStyled } from './DistrictsList.styled';
 

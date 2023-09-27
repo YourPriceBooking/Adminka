@@ -1,7 +1,7 @@
-import { EntityId } from "@reduxjs/toolkit";
+import type { EntityId } from "@reduxjs/toolkit";
 
 
-export interface IAllObjectHotelier {
+export type IAllObjectHotelier = {
   code: number | undefined;
   getAllEnPages?: DataObject;
   getAllUaPages?: DataObject;
@@ -42,7 +42,7 @@ export type AddLocation = {
   linkOnPhoto: string;
 }
 
-export interface IResponseAddLocation {
+export type IResponseAddLocation = {
   status: string;
   isAdded: boolean;
   message: string;
