@@ -30,7 +30,7 @@ export const Inner = styled.li.attrs<Props>(({ tabIndex }) => ({
   align-items: ${({ position }) => (position ? 'flex-start' : 'center')};
 
   width: 100%;
-  padding: 7px 31px 7px 11px;
+  padding: 12px 31px 12px 11px;
 
   background-color: ${({ theme }) => theme.colors.white};
   border: ${({ border }) => (border ? '0.7px' : '0.3px')} solid

@@ -19,7 +19,7 @@ export const Users: React.FC<UsersProps> = ({ isShowUsersPage }) => {
           <StatisticsHeader type="Users" isShowUsers={isShowUsers} />
           <InputMain>
             <img alt="dandruff" src="./loop.pdf" />
-            <input placeholder="Search ID, Name object" />
+            <input placeholder="Search ID, Name, Surname" />
           </InputMain>
           <UsersList isShowUsers={isShowUsers} />
         </div>

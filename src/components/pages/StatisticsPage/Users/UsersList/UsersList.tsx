@@ -5,8 +5,6 @@ import React from 'react';
 // import { useAppDispatch } from 'App';
 // import { selectorHoteliers } from 'features/hoteliers/hoteliersSelectors';
 import { Spinner } from 'components/shared/Loader';
-import likeIcon from '../../../../../assets/icons/like.svg';
-import dislikeIcon from '../../../../../assets/icons/dislike.svg';
 import { Inner, TextContent, TextID, Wrapper, WrapperText } from './UsersList.styled';
 
 
@@ -17,8 +15,8 @@ type Prop = {
 };
 
 type DataProp = {
-    name: string;
-    status: string;
+  name: string;
+  id: string;
 }
 
 
@@ -36,16 +34,20 @@ export const UsersList: React.FC<Prop> = ({type, isShowUsers }) => {
 
     const data: DataProp[] = [
       {
-        name: 'Mike',
-        status: 'active',
+        name: 'Hopin Viktoria',
+        id: '7874567GHV',
       },
       {
-        name: 'Masha',
-        status: 'active',
+        name: 'Klinton Bill',
+        id: '1123467LON',
       },
       {
-        name: 'Vika',
-        status: 'disabled',
+        name: 'Buch Viktoria',
+        id: '9889T567KI',
+      },
+      {
+        name: 'Klinton Sofia',
+        id: '1123467LON',
       },
     ];
 
@@ -53,7 +55,7 @@ export const UsersList: React.FC<Prop> = ({type, isShowUsers }) => {
     return (
       <Wrapper>
         {data.length > 0 &&
-          data.map(({ name, status }, index) => (
+          data.map(({ name,id }, index) => (
             <Inner
               border={isShowUsers === index}
               hidden={isShowUsers !== index && isShowUsers !== null}
@@ -61,23 +63,16 @@ export const UsersList: React.FC<Prop> = ({type, isShowUsers }) => {
               key={name}
               tabIndex={index}
             >
-              <TextID tabIndex={index}>ID {index}</TextID>
+              <TextID tabIndex={index}>ID {id}</TextID>
               <WrapperText tabIndex={index} typePage={type}>
                 <TextContent tabIndex={index}>
                   {isShowUsers && <Spinner />}
                   {!isShowUsers &&
                     isShowUsers !== index &&
-                    (name && name.length > 6 ? name.slice(0, 6) : name)}
-                  {!isShowUsers && isShowUsers !== index && name && name.length > 0 && '...'}
+                    (name && name.length > 20 ? name.slice(0, 6) : name)}
+                  {/* {!isShowUsers && isShowUsers !== index && name && name.length > 0 && '...'} */}
                 </TextContent>
               </WrapperText>
-              <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
-                {status === 'active' ? (
-                  <img src={likeIcon} alt="like" width="20px" height="20px" />
-                ) : (
-                  <img src={dislikeIcon} alt="dislike" width="20px" height="20px" />
-                )}
-              </div>
             </Inner>
           ))}
       </Wrapper>
