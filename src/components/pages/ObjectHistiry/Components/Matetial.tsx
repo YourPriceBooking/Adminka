@@ -72,7 +72,6 @@ export const Matetial = () => {
                 {data.sizeText}
                 <br /> {data.nameText}
               </PFoldText>
-              {/* Render the buttons if showButtons is true for the current image */}
               {showButtons[`image_${index}`] && (
                 <div>
                   <StyledButton

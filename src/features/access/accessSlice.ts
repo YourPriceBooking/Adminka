@@ -1,7 +1,8 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import type { RootState } from 'App/store';
 
-interface Email {
+type Email = {
   email: string;
   objects: boolean;
   languages: boolean;
@@ -10,7 +11,7 @@ interface Email {
   blog: boolean;
 }
 
-interface EmailsState {
+type EmailsState = {
   emails: Email[];
 }
 

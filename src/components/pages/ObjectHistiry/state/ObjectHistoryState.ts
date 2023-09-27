@@ -13,12 +13,15 @@ export const useObjectHistoryState = () => {
     'Description of the object - checked',
   ];
 
+  const itemsOption = ['No links available', 'There are no obscene words either'];
+
   const [checkedItems, setCheckedItems] = useState<boolean[]>(Array(items.length).fill(false));
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [hasDate, setHasDate] = useState('');
   const [phoneNumbers, setPhoneNumbers] = useState<string[]>(['', '']);
   const [noFurtherChecks, setNoFurtherChecks] = useState(false);
   const [showDateError, setShowDateError] = useState(false);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
 
   return {
     checkedItems,
@@ -34,5 +37,8 @@ export const useObjectHistoryState = () => {
     showDateError,
     setShowDateError,
     items,
+    itemsOption,
+    isButtonClicked,
+    setIsButtonClicked,
   };
 };

@@ -9,19 +9,6 @@ export const DivObjectHistoryMain = styled.div`
   border-radius: 10px;
 `;
 
-export const SpanObjectUp = styled.span`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  font-weight: 900;
-  font-size: 22px;
-  line-height: 30px;
-  color: #006bbe;
-  height: 100%;
-  margin-top: 80px;
-  margin-bottom: 30px;
-`;
 export const HObject = styled.h2`
   font-weight: 900;
   font-size: 33px;
@@ -56,19 +43,7 @@ export const ButtonSubmit = styled.button<{ isSubmitted: boolean }>`
     background: ${props => (props.isSubmitted ? '#A4A5AE' : 'rgba(0, 144, 255, 0.7)')};
   }
 `;
-export const DivTextDown = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 75px;
-  margin-bottom: 90px;
-`;
-export const SpanTextDown = styled.span`
-  font-weight: 700;
-  font-size: 12px;
-  line-height: 16px;
-  color: #006bbe;
-`;
+
 export const InputData = styled.input`
   width: 195px;
   height: 41px;
@@ -116,4 +91,11 @@ export const ImgDoneData = styled.img`
 export const DivAdressChat = styled.div`
   display: flex;
   gap: 120px;
+`;
+
+export const DivItemsOption = styled.div`
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+  margin: 20px 0 -40px 0;
 `;

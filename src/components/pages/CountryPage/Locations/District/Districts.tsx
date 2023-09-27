@@ -4,7 +4,7 @@ import {
   useGetAllObjectsHoteilerQuery
 } from 'features/catalogForHotelier/addCatalogApi';
 import { useAppSelector } from 'App';
-import { DataObject } from 'types/addLocation';
+import type { DataObject } from 'types/addLocation';
 
 import { AddDistrictForm } from './AddDistrictForm';
 import { DistrictsStyled } from './Districts.styled';
@@ -32,7 +32,7 @@ export const Districts = ({ cityId, stateId }: DistrictsProps) => {
       value = 'getAllRuPages';
     }
 
-    return data?.[value] as DataObject;
+    return (data ? data[value] : undefined)!;
   };
 
   return (

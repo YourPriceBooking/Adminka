@@ -14,7 +14,7 @@ type TModalProps = {
 const Modal: FC<TModalProps> = (props: TModalProps): JSX.Element => {
   const { setActive, name, urls } = props
   const [value, copy] = useCopyToClipboard()
-  const allUrls = urls?.map((obj) => obj?.url)?.toString()
+  const allUrls = urls.map((obj) => obj.url).toString()
 
   const AllUrlsCopied = value.copiedValue === allUrls;
   let AllUrlsClassName = `${s.copy__btn}`;

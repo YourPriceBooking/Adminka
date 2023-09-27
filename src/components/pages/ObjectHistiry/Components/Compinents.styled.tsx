@@ -185,8 +185,8 @@ export const DivFrameCamera = styled.div`
 export const DivVarifStartt = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 45px;
   width: 700px;
+  margin: 0 auto;
 `;
 
 export const DivVarifStartText = styled.div`
@@ -227,5 +227,45 @@ export const StyledButton = styled.button`
 
   :hover {
     border: 1px solid #434348;
+  }
+`;
+
+export const DivVerifInfo = styled.div`
+  display: flex;
+  margin-left: -20px;
+  width: 280px;
+`;
+
+export const ImgVerifFinish = styled.img<{ isFinish: boolean }>`
+  margin-left: ${props => (props.isFinish ? '16px' : '28px')};
+`;
+export const ImgVerifStart = styled.img<{ isStart: boolean }>`
+  margin-right: ${props => (props.isStart ? '0' : '27px')};
+`;
+
+export const DivSalesContent = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px;
+`;
+export const ButtonSales = styled.button`
+  position: sticky;
+  margin-left: auto;
+  width: 379px;
+  height: 59px;
+  border: 0.5px solid #787878;
+  border-radius: 33px;
+  background: #fff;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3);
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+
+  &:hover {
+    background: #d1e5ca;
+  }
+
+  &:active {
+    background: #81ba6d;
   }
 `;

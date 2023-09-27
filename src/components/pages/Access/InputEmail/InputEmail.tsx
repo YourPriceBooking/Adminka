@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import type { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { Button } from '../Button/Button';
 import { Input, Message, Placeholder, Div } from './InputEmail.styled';
 import { PasswordField } from '../PasswordField/PasswordField';
