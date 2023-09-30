@@ -1,12 +1,15 @@
-import { PendingObjects } from './PendingObjects';
-import { MainWrapper } from './VerificationCabinet.styled';
-import { VerificationHeader } from './VerifierLogin/VerificationHeader/VerificationHeader';
+import {MainWrapper} from "./VerificationCabinet.styled";
+import {PendingObjects} from "./PendingObjects";
+import {VerificationHeader} from "./VerifierLogin/VerificationHeader";
 
-export const VerificationCabinet = () => (
-  <div>
-    <MainWrapper>
-      <VerificationHeader />
-      <PendingObjects />
-    </MainWrapper>
-  </div>
-);
+export const VerificationCabinet = ({ backgroundBlue }) => {
+  const containerClass = backgroundBlue ? 'blue-background' : 'default-background';
+  return (
+    <div>
+      <MainWrapper containerClass={containerClass}>
+        <VerificationHeader />
+        <PendingObjects />
+      </MainWrapper>
+    </div>
+  );
+};
