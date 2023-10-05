@@ -19,4 +19,11 @@ export const EditCountryInput = styled.input`
   width: 100%;
   padding: 4px 8px;
   font-size: 20px;
+
+  &.disabled {
+    cursor: default;
+    pointer-events: none;
+    border: 1px solid grey;
+    background-color: lightgrey;
+  }
 `;
