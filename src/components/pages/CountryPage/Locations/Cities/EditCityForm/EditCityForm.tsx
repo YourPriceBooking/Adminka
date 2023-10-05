@@ -40,6 +40,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
   const isEng = useAppSelector(selectIsEnglishActiveLang);
 
   const [isEditingCity, setIsEditingCity] = useState(false);
+  const [colorAddDirButton, setColorAddDirButton] = useState<'green' | 'purple'>('green');
   const startEditing = useCallback(() => setIsEditingCity(true), []);
   const stopEditing = useCallback(() => setIsEditingCity(false), []);
 
@@ -47,6 +48,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
 
   const addDir = useCallback(() => {
     toast.success('TODO: Add Directory Fn');
+    setColorAddDirButton('purple');
   }, []);
 
   const addLoc = useCallback(() => {
@@ -171,7 +173,12 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
         disabled={isEditButtonDisabled}
       />
 
-      <UrlDirButton onClick={addDir} disabled={addDirHotelierDisabled} $isEnabled>
+      <UrlDirButton
+        onClick={addDir}
+        disabled={addDirHotelierDisabled}
+        $isEnabled
+        variable={colorAddDirButton}
+      >
         Add Dir <br />
         Hotelier
       </UrlDirButton>
