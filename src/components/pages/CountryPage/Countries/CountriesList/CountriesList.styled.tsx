@@ -3,7 +3,7 @@ import styled from 'styled-components/macro';
 export const CountryListStyled = styled.ul`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: baseline;
   gap: 12px;
 
   max-height: 300px;

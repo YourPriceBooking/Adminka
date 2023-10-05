@@ -124,10 +124,10 @@ export const EditCountryForm = ({
   const editCountryFormInterface = (
     <CountryInputLabel onClick={onClickSetActiveCountryId}>
       <EditCountryInput
+        className={inputDisabled ? 'disabled' : ''}
         type="text"
         value={localCountryName}
         onChange={onChange}
-        disabled={inputDisabled}
         name="editedCountryName"
       />
     </CountryInputLabel>
@@ -150,7 +150,6 @@ export const EditCountryForm = ({
   return (
     <EditCountryFormStyled onSubmit={handleSubmit} ref={formRef}>
       {editCountryFormInterface}
-
       {showOverlay}
     </EditCountryFormStyled>
   );

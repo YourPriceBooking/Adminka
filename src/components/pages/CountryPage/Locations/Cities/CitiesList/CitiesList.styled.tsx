@@ -15,7 +15,7 @@ export const CityItemStyled = styled.li`
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     display: grid;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
     grid-template-columns: 100% 110%;
 

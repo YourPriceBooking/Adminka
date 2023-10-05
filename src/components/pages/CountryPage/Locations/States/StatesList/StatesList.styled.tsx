@@ -9,7 +9,7 @@ export const StateItemStyled = styled.li`
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     display: grid;
-    align-items: center;
+    align-items: baseline;
     grid-template-columns: 31% 33% 36%;
   }
 
