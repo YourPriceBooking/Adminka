@@ -1,28 +1,28 @@
-import type { FormEvent } from 'react';
-import { useRef, useCallback, useState } from 'react';
-import type { EntityId } from '@reduxjs/toolkit';
-import type { EditCity } from 'types/apis';
 import { useAppSelector } from 'App';
-import { toast } from 'react-toastify';
-import {
-  AddDirButton,
-  ButtonsOverlay,
-  EditButton,
-  SubmitAddLocationButton,
-  UrlDirButton,
-} from 'components/shared/Buttons';
-import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
-import { selectCityById, useEditCityMutation } from 'features/cities';
 import { useCloseOnOutsideClick } from 'common/hooks';
-import { selectActiveCountryName } from 'features/countries';
-import { selectStateById } from 'features/states';
 import {
-  EditCityFormStyled,
+  EditButton,
+  UrlDirButton,
+  AddDirButton,
+  SubmitAddLocationButton,
+  ButtonsOverlay,
+} from 'components/shared/Buttons';
+import { useEditCityMutation, selectCityById } from 'features/cities';
+import { selectActiveCountryName } from 'features/countries';
+import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
+import { selectStateById } from 'features/states';
+import { useState, useCallback, useRef } from 'react';
+import { toast } from 'react-toastify';
+import type { FormEvent } from 'react';
+import type { EditCity } from 'types/apis';
+import type { EntityId } from '@reduxjs/toolkit';
+import {
   CityInfo,
-  EditCityPhotoURLInput,
-  EditCityPhotoLabel,
   CityNameLabel,
   CityNameInput,
+  EditCityPhotoLabel,
+  EditCityPhotoURLInput,
+  EditCityFormStyled,
 } from './EditCityForm.styled';
 
 type EditCityFormProps = {
@@ -63,15 +63,8 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
 
   if (!city || !stateName) return null;
 
-  const {
-    stateInternational,
-
-    langCode,
-    cityName,
-    cityInternational,
-    cityCode,
-    cityPhotoURL,
-  } = city;
+  const { stateInternational, langCode, cityName, cityInternational, cityCode, cityPhotoURL } =
+    city;
 
   const isInputDisabled = !isEditingCity;
   const isEditButtonDisabled = isEditingCity;
@@ -105,14 +98,12 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
     const updatedCity: EditCity = {
       stateId,
       stateInternational,
-
       _id: cityId,
       cityName: cityNameTrimmed,
       cityInternational,
       cityCode,
       cityPhotoURL: cityPhotoURLTrimmed,
       cityPhotoAlt: `${cityNameTrimmed}, ${stateName}, ${activeCountryName}`,
-
       langCode: activeLanguageCode,
     };
 
@@ -133,7 +124,6 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
     <CityInfo>
       <CityNameLabel>
         <span>City &nbsp;</span>
-
         <CityNameInput
           type="text"
           name="cityName"
@@ -144,10 +134,8 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
           required
         />
       </CityNameLabel>
-
       <EditCityPhotoLabel>
         <span>Photo</span>
-
         <EditCityPhotoURLInput
           type="url"
           name="cityPhotoURL"
@@ -172,7 +160,6 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
         onClick={startEditing}
         disabled={isEditButtonDisabled}
       />
-
       <UrlDirButton
         onClick={addDir}
         disabled={addDirHotelierDisabled}
@@ -182,7 +169,6 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
         Add Dir <br />
         Hotelier
       </UrlDirButton>
-
       <AddDirButton onClick={addLoc} disabled={addDirUsersDisabled}>
         Add Dir <br />
         for Users
@@ -199,7 +185,6 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
   const showButtonsOverlay = (
     <ButtonsOverlay $isEditing={isEditingCity}>
       {showEditButtons}
-
       {showSubmitButton}
     </ButtonsOverlay>
   );
@@ -207,7 +192,6 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
   return (
     <EditCityFormStyled onSubmit={handleSubmitEditCity} ref={formRef}>
       {showEditCityFormInterface}
-
       {showButtonsOverlay}
     </EditCityFormStyled>
   );

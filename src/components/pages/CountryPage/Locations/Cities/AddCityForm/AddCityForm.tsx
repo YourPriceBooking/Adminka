@@ -1,25 +1,25 @@
-import type { FormEvent } from 'react';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { AddCity } from 'types/apis';
-import { useRef, useCallback, useMemo, useState } from 'react';
-import { toast } from 'react-toastify';
 import { useAppSelector } from 'App';
+import { useCloseOnOutsideClick } from 'common/hooks';
 import { generateCityCode, wait } from 'common/utils';
+import { SubmitAddLocationButton } from 'components/shared/Buttons';
 import { Spinner } from 'components/shared/Loader';
+import { useAddCityMutation, useLazyGetCitiesQuery } from 'features/cities';
+import { selectActiveCountryInternational } from 'features/countries';
 import { selectActiveLanguageId, selectIsEnglishActiveLang } from 'features/languages';
 import { makeSelectStateInternational, useLazyGetStatesQuery } from 'features/states';
-import { useAddCityMutation, useLazyGetCitiesQuery } from 'features/cities';
-import { SubmitAddLocationButton } from 'components/shared/Buttons';
-import { useCloseOnOutsideClick } from 'common/hooks';
-import { selectActiveCountryInternational } from 'features/countries';
+import type { FormEvent } from 'react';
+import { useState, useRef, useCallback, useMemo } from 'react';
+import { toast } from 'react-toastify';
+import type { AddCity } from 'types/apis';
 import { AddLocationButton } from '../../States/AddStateForm/AddStateForm.styled';
 import {
   Row,
-  AddCityFormStyled,
   AddCityPhotoLabel,
   AddCityPhotoInput,
   AddCityNameLabel,
   AddCityNameInput,
+  AddCityFormStyled,
 } from './AddCityForm.styled';
 
 type AddCityFormProps = {
@@ -27,9 +27,11 @@ type AddCityFormProps = {
 };
 
 export const AddCityForm = ({ stateId }: AddCityFormProps) => {
-  const [addCity, { isLoading: isAddingL2 }] = useAddCityMutation();
-  const [getStates, { isLoading: isRefetchingStates }] = useLazyGetStatesQuery();
-  const [getCities, { isLoading: isRefetchingCities }] = useLazyGetCitiesQuery();
+  const [isAddingCity, setIsAddingCity] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const startAdding = useCallback(() => setIsAddingCity(true), []);
+  const stopAdding = useCallback(() => setIsAddingCity(false), []);
 
   const activeCountryInternational = useAppSelector(selectActiveCountryInternational);
   const selectStateInternational = useMemo(() => makeSelectStateInternational(stateId), [stateId]);
@@ -37,14 +39,12 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
   const activeLangId = useAppSelector(selectActiveLanguageId);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
 
-  const [isAddingCity, setIsAddingCity] = useState(false);
-  const startAdding = useCallback(() => setIsAddingCity(true), []);
-  const stopAdding = useCallback(() => setIsAddingCity(false), []);
+  const [addCity, { isLoading: isAddingL2 }] = useAddCityMutation();
+  const [getStates, { isLoading: isRefetchingStates }] = useLazyGetStatesQuery();
+  const [getCities, { isLoading: isRefetchingCities }] = useLazyGetCitiesQuery();
 
   const isPending = isAddingL2 || isRefetchingStates || isRefetchingCities;
   const isSubmitDisabled = !activeLangId || !isEng || isPending;
-
-  const formRef = useRef<HTMLFormElement>(null);
 
   useCloseOnOutsideClick({
     isEditing: isAddingCity,

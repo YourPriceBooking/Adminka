@@ -55,7 +55,6 @@ const StatsList = ({ items }: StatsListType) => (
 const StatsListMemoized = memo(StatsList);
 
 const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface) => {
-  // eslint-disable-next-line
   type DispatchAction = Dispatch<any>;
   const dispatch: DispatchAction = useDispatch();
 
@@ -83,16 +82,16 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
         <LoaderMiddleware path={routes.verification.path.verification}>
           <p>{verification.name}</p>
           <TextSmall>
-            <span>105</span>objects are waiting
+            <span>105</span> objects are waiting
           </TextSmall>
         </LoaderMiddleware>
         <LoaderMiddleware path={finance.path}>
           <p>{finance.name}</p>
         </LoaderMiddleware>
         <LoaderMiddleware path={country.path}>
-          <p>Adding a languages</p> {/* Languages Мови */}
-          <p>Adding a country&apos;s</p> {/* Countries Країни */}
-          <p>Location registers: 1, 2, 3</p> {/* Locations */}
+          <p>Adding a languages</p>
+          <p>Adding a country&apos;s</p>
+          <p>Location registers: 1, 2, 3</p>
         </LoaderMiddleware>
         <LoaderMiddleware path={statistics.path}>
           <p>{statistics.name}</p>
@@ -106,7 +105,7 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
           {routes.mowgliBooking.name}
         </LoaderMiddleware>
       </HomeNavListStyled>
-      <Link to={routes.registerModal.path}>Тимчасовий лінк для Location Register Modal</Link>
+      <Link to={routes.registerModal.path}>Temporary link for Location Register Modal</Link>
     </>
   );
 };

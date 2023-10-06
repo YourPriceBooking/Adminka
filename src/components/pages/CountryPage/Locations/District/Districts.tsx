@@ -1,11 +1,7 @@
-import type { EntityId } from '@reduxjs/toolkit';
+import { useGetAllObjectsHoteilerQuery } from 'features/catalogForHotelier/addCatalogApi';
 import { selectActiveLangCode } from 'features/languages';
-import {
-  useGetAllObjectsHoteilerQuery
-} from 'features/catalogForHotelier/addCatalogApi';
-import { useAppSelector } from 'App';
-import type { DataObject } from 'types/addLocation';
-
+import { useSelector } from 'react-redux';
+import type { EntityId } from '@reduxjs/toolkit';
 import { AddDistrictForm } from './AddDistrictForm';
 import { DistrictsStyled } from './Districts.styled';
 import { DistrictsList } from './DistrictsList';
@@ -15,14 +11,14 @@ type DistrictsProps = {
   stateId: EntityId;
 };
 
-
 type TP = 'getAllEnPages' | 'getAllUaPages' | 'getAllPlPages' | 'getAllRuPages';
 
 export const Districts = ({ cityId, stateId }: DistrictsProps) => {
-  const activeLangCode = useAppSelector(selectActiveLangCode);
+  const activeLangCode = useSelector(selectActiveLangCode);
   const { data } = useGetAllObjectsHoteilerQuery(`${String(activeLangCode?.toLowerCase())}`);
 
-  const getIndexPage = (): DataObject => {
+  // TODO: потрібно констант value для кращого майбутнього розширення
+  const getIndexPage = () => {
     let value: TP = 'getAllEnPages';
     if (activeLangCode === 'UA') {
       value = 'getAllUaPages';
@@ -38,8 +34,7 @@ export const Districts = ({ cityId, stateId }: DistrictsProps) => {
   return (
     <DistrictsStyled>
       <DistrictsList cityId={cityId} stateId={stateId} data={getIndexPage()} />
-
       <AddDistrictForm cityId={cityId} stateId={stateId} />
     </DistrictsStyled>
   );
-}
+};
