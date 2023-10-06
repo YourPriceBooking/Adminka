@@ -169,6 +169,7 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
       state: stateName,
       country: activeCountryName,
       linkOnPhoto: districtPhotoURL,
+      districtInternational,
     };
     await addCityToHoteiler(body);
   };
@@ -223,17 +224,18 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
         $isEnabled={!modalActive}
         variable={saveLocation.length > 0 ? 'purple' : 'green'}
       >
-        {saveLocation.length > 0 ? (
+        URL Dir <br />
+        Hotelier
+        {/* {saveLocation.length > 0 ? (
           <>
             Add Dir <br />
             Hotelier
           </>
         ) : (
           <>
-            URL Dir <br />
-            Hotelier
+            
           </>
-        )}
+        )} */}
       </UrlDirButton>
 
       <AddDirButton onClick={addLoc} disabled={addDirUsersDisabled}>
