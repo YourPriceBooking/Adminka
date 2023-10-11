@@ -2,7 +2,7 @@ import { useCopyToClipboard } from 'common/hooks/ui/forms';
 import { UrlDirButton } from 'components/shared/Buttons';
 import type { Dispatch, FC, SetStateAction } from 'react';
 import type { Location } from 'types/addLocation';
-import s from './index.module.scss'
+import s from './index.module.scss';
 
 type TModalProps = {
   setActive: Dispatch<SetStateAction<boolean>>;
@@ -10,11 +10,10 @@ type TModalProps = {
   urls: Location[];
 };
 
-
 const Modal: FC<TModalProps> = (props: TModalProps): JSX.Element => {
-  const { setActive, name, urls } = props
-  const [value, copy] = useCopyToClipboard()
-  const allUrls = urls.map((obj) => obj.url).toString()
+  const { setActive, name, urls } = props;
+  const [value, copy] = useCopyToClipboard();
+  const allUrls = urls.map(obj => obj.url).toString();
 
   const AllUrlsCopied = value.copiedValue === allUrls;
   let AllUrlsClassName = `${s.copy__btn}`;
@@ -81,6 +80,6 @@ const Modal: FC<TModalProps> = (props: TModalProps): JSX.Element => {
       </div>
     </div>
   );
-}
+};
 
-export default Modal
+export default Modal;

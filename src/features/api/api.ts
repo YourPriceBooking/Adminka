@@ -58,6 +58,7 @@ export const endpoints = {
   bonus: '/add-bonus' as const,
   financeStatistic: '/get-statistic' as const,
   statistic: '/statistic' as const,
+  addDirHotelier: '/catalogForHotelier' as const,
 };
 
 export const frozenArr = Object.freeze([]);

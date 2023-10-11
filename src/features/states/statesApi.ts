@@ -29,6 +29,14 @@ export const statesApi = api.injectEndpoints({
       transformResponse: (result?: OneState) => saveOneState(result),
     }),
 
+    addDirHotelier: builder.mutation<MaybeStatesEntity, any>({
+      query: body => ({
+        url: `${endpoints.addDirHotelier}`,
+        method: 'POST',
+        body,
+      }),
+    }),
+
     editState: builder.mutation<MaybeStatesEntity, EditState>({
       query: ({ _id, ...body }) => ({
         url: `${endpoints.locationState}/${_id}`,
@@ -46,6 +54,7 @@ export const {
   useLazyGetStatesQuery,
   useAddStateMutation,
   useEditStateMutation,
+  useAddDirHotelierMutation,
 } = statesApi;
 
 export const selectStatesResult = statesApi.endpoints.getStates.select();

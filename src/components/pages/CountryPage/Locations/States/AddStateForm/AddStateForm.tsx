@@ -1,28 +1,32 @@
-import type { FormEvent } from 'react';
-import type { AddState } from 'types/apis';
-import { useRef, useCallback, useState } from 'react';
 import { useAppSelector } from 'App';
-import { toast } from 'react-toastify';
-import { generateStateCode, wait } from 'common/utils';
-import {
-  selectActiveCountryId,
-  selectActiveCountryInternational,
-  useLazyGetCountriesQuery,
-} from 'features/countries';
-import { selectIsEnglishActiveLang } from 'features/languages';
-import { useAddStateMutation, useLazyGetStatesQuery } from 'features/states';
 import { useCloseOnOutsideClick } from 'common/hooks';
+import { generateStateCode, wait } from 'common/utils';
 import { SubmitAddLocationButton } from 'components/shared/Buttons';
 import { Spinner } from 'components/shared/Loader';
 import {
-  Row,
+  useLazyGetCountriesQuery,
+  selectActiveCountryId,
+  selectActiveCountryInternational,
+} from 'features/countries';
+import { selectIsEnglishActiveLang } from 'features/languages';
+import { useAddStateMutation, useLazyGetStatesQuery } from 'features/states';
+import type { FormEvent } from 'react';
+import { useState, useRef, useCallback } from 'react';
+import { toast } from 'react-toastify';
+import {
   AddLocationButton,
-  AddStateFormStyled,
+  Row,
   AddStatePhotoLabel,
   AddStatePhotoInput,
   AddStateNameLabel,
   AddStateNameInput,
+  AddStateFormStyled,
 } from './AddStateForm.styled';
+
+type FormData = {
+  statePhotoURL: string;
+  stateName: string;
+};
 
 export const AddStateForm = () => {
   const [addState, { isLoading: isAddingLoc3 }] = useAddStateMutation();
@@ -35,14 +39,14 @@ export const AddStateForm = () => {
 
   const [isRefetchingCountries, setIsRefetchingCountries] = useState(false);
   const [isAddingState, setIsAddingState] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
   const startAdding = useCallback(() => setIsAddingState(true), []);
   const stopAdding = useCallback(() => setIsAddingState(false), []);
 
   const isPending = isLoadingStates || isAddingLoc3 || isLoadingCountries || isRefetchingCountries;
 
   const isSubmitDisabled = !isEng || isPending || !activeCountryId || !activeCountryInternational;
-
-  const formRef = useRef<HTMLFormElement>(null);
 
   useCloseOnOutsideClick({
     isEditing: isAddingState,
@@ -55,26 +59,24 @@ export const AddStateForm = () => {
     if (isSubmitDisabled) return;
 
     const form = e.currentTarget;
+    const formData: FormData = {
+      statePhotoURL: form.statePhotoURL.value.trim(),
+      stateName: form.stateName.value.trim(),
+    };
 
-    const content = new FormData(form);
-    const statePhotoURL = content.get('statePhotoURL')?.toString().trim();
-    const stateName = content.get('stateName')?.toString().trim();
-
-    if (!statePhotoURL || !stateName) {
-      toast('Please provide photo url and State name');
+    if (!formData.statePhotoURL || !formData.stateName) {
+      toast('Please provide photo URL and state name');
       return;
     }
 
-    const newState: AddState = {
+    const newState = {
       countryId: activeCountryId,
       international: activeCountryInternational,
-
-      stateName,
-      stateInternational: stateName,
-      stateCode: generateStateCode(stateName),
-      statePhotoURL,
-      statePhotoAlt: `${stateName}, ${activeCountryInternational}`,
-
+      stateName: formData.stateName,
+      stateInternational: formData.stateName,
+      stateCode: generateStateCode(formData.stateName),
+      statePhotoURL: formData.statePhotoURL,
+      statePhotoAlt: `${formData.stateName}, ${activeCountryInternational}`,
       langCode: 'EN',
     };
 
@@ -83,7 +85,7 @@ export const AddStateForm = () => {
       if (!addedStateEntities) return;
 
       const addedStateName = Object.values(addedStateEntities).find(
-        state => state?.stateInternational === stateName
+        state => state?.stateInternational === formData.stateName
       )?.stateName;
       if (!addedStateName) return;
 
@@ -109,7 +111,7 @@ export const AddStateForm = () => {
       {addLocationButtonLabel}
     </AddLocationButton>
   );
-  //
+
   const showAddStateForm = isAddingState && (
     <Row>
       <AddStatePhotoLabel>
@@ -140,7 +142,6 @@ export const AddStateForm = () => {
   return (
     <AddStateFormStyled onSubmit={handleSubmitAddState} ref={formRef}>
       {showAddStateButton}
-
       {showAddStateForm}
     </AddStateFormStyled>
   );

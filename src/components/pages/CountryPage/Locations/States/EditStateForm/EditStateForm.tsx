@@ -1,21 +1,21 @@
-import type { FormEvent } from 'react';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { EditState } from 'types/apis';
-import { useRef, useCallback, useState } from 'react';
-import { toast } from 'react-toastify';
 import { useAppSelector } from 'App';
-import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
-import { selectStateById, useEditStateMutation } from 'features/states';
-import { selectActiveCountryName } from 'features/countries';
 import { useCloseOnOutsideClick } from 'common/hooks';
-import { ButtonsOverlay, EditButton, SubmitAddLocationButton } from 'components/shared/Buttons';
+import { EditButton, SubmitAddLocationButton, ButtonsOverlay } from 'components/shared/Buttons';
+import { selectActiveCountryName } from 'features/countries';
+import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
+import { useEditStateMutation, selectStateById } from 'features/states';
+import type { FormEvent } from 'react';
+import { useState, useRef, useCallback } from 'react';
+import { toast } from 'react-toastify';
+import type { EditState } from 'types/apis';
 import {
-  EditStateFormStyled,
+  StateInfo,
+  StateNameLabel,
+  StateNameInput,
   EditStatePhotoLabel,
   EditStatePhotoURLInput,
-  StateInfo,
-  StateNameInput,
-  StateNameLabel,
+  EditStateFormStyled,
 } from './EditStateForm.styled';
 
 type EditStateFormProps = {
@@ -23,18 +23,16 @@ type EditStateFormProps = {
 };
 
 export const EditStateForm = ({ stateId }: EditStateFormProps) => {
+  const [isEditing, setIsEditing] = useState(false);
   const [editState, { isLoading }] = useEditStateMutation();
   const stateObj = useAppSelector(state => selectStateById(state, stateId));
   const activeLangCode = useAppSelector(selectActiveLangCode);
   const activeCountryName = useAppSelector(selectActiveCountryName);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
-
-  const [isEditing, setIsEditing] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
   const startEditing = useCallback(() => setIsEditing(true), []);
   const stopEditing = useCallback(() => setIsEditing(false), []);
-
-  const formRef = useRef<HTMLFormElement>(null);
 
   useCloseOnOutsideClick({
     isEditing,
@@ -56,7 +54,6 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
 
   const isInputDisabled = !isEditing;
   const isEditButtonDisabled = isEditing || isLoading;
-
   const isSubmitDisabled = isLoading;
   const $isFirstEdit = langCode === 'EN' && !isEng;
 
@@ -81,10 +78,8 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
 
     const updatedState: EditState = {
       countryId,
-
       _id: stateId,
       international,
-
       stateName: stateNameTrimmed,
       statePhotoURL: statePhotoURLTrimmed,
       statePhotoAlt: statePhotoAltLocalLang,
@@ -154,7 +149,6 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
   const showButtonsOverlay = (
     <ButtonsOverlay $isEditing={isEditing}>
       {showEditButtons}
-
       {showSubmitButton}
     </ButtonsOverlay>
   );
@@ -162,7 +156,6 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
   return (
     <EditStateFormStyled onSubmit={handleSubmitEditState} ref={formRef}>
       {showEditStateFormInterface}
-
       {showButtonsOverlay}
     </EditStateFormStyled>
   );

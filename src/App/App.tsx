@@ -20,7 +20,7 @@ export const App = () => {
           <Layout />
         </AppStyled>
 
-        <ToastContainer position="bottom-center" autoClose={2800} transition={Flip} />
+        <ToastContainer position="top-center" autoClose={2800} transition={Flip} />
       </ScrollContainer>
     </ThemeProvider>
   );

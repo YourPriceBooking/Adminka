@@ -6,7 +6,7 @@ export const UrlDirButtonStyled = styled.button.attrs(
     variable = 'green',
   }: {
     $isEnabled?: boolean;
-    variable?: 'green' | 'purple';
+    variable?: 'green' | 'purple' | 'white';
   }) => ({
     $isEnabled,
     variable,
