@@ -10,7 +10,7 @@ import {
 import { useEditCityMutation, selectCityById } from 'features/cities';
 import { selectActiveCountryName } from 'features/countries';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
-import { selectStateById } from 'features/states';
+import { selectStateById, useAddDirHotelierMutation } from 'features/states';
 import { useState, useCallback, useRef } from 'react';
 import { toast } from 'react-toastify';
 import type { FormEvent } from 'react';
@@ -32,6 +32,7 @@ type EditCityFormProps = {
 
 export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
   const [editCity, { isLoading }] = useEditCityMutation();
+  const [addDirHotelier] = useAddDirHotelierMutation();
   const city = useAppSelector(state => selectCityById(state, cityId));
   const stateName = useAppSelector(state => selectStateById(state, stateId)?.stateName);
 
@@ -40,15 +41,30 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
   const isEng = useAppSelector(selectIsEnglishActiveLang);
 
   const [isEditingCity, setIsEditingCity] = useState(false);
-  const [colorAddDirButton, setColorAddDirButton] = useState<'green' | 'purple'>('green');
+  const [colorAddDirButton, setColorAddDirButton] = useState<string>('green');
   const startEditing = useCallback(() => setIsEditingCity(true), []);
   const stopEditing = useCallback(() => setIsEditingCity(false), []);
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  const addDir = useCallback(() => {
-    toast.success('TODO: Add Directory Fn');
-    setColorAddDirButton('purple');
+  if (!city || !stateName) return null;
+
+  const addDir = useCallback(async () => {
+    try {
+      await addDirHotelier({
+        language: city.langCode,
+        idLocation: city._id,
+        city: city.cityName,
+        state: stateName,
+        country: activeCountryName,
+        linkOnPhoto: city.cityPhotoURL,
+      }).unwrap();
+      setColorAddDirButton('white');
+      toast.success('Successfully Adding a Directory');
+    } catch (err) {
+      toast.error('Failed to add a directory');
+      setColorAddDirButton('green');
+    }
   }, []);
 
   const addLoc = useCallback(() => {
@@ -60,8 +76,6 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
     stopEditing,
     formRef,
   });
-
-  if (!city || !stateName) return null;
 
   const { stateInternational, langCode, cityName, cityInternational, cityCode, cityPhotoURL } =
     city;
@@ -165,6 +179,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
         disabled={addDirHotelierDisabled}
         $isEnabled
         variable={colorAddDirButton}
+        color={colorAddDirButton === 'white' && '#0046e9'}
       >
         Add Dir <br />
         Hotelier

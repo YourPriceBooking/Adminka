@@ -7,7 +7,8 @@ type TUrlDirButton = {
   disabled?: boolean;
   children?: ReactNode;
   $isEnabled?: boolean;
-  variable?: 'green' | 'purple';
+  variable?: string;
+  color?: string | false | undefined | null;
 };
 
 export const UrlDirButton = ({
@@ -17,13 +18,14 @@ export const UrlDirButton = ({
   children,
   $isEnabled = true,
   variable = 'green',
+  color,
 }: TUrlDirButton) => (
   <UrlDirButtonStyled
     type={type}
     disabled={disabled}
     onClick={onClick}
     $isEnabled={$isEnabled}
-    style={{ background: variable }}
+    style={color ? { background: variable, color } : { background: variable }}
   >
     {children}
   </UrlDirButtonStyled>
