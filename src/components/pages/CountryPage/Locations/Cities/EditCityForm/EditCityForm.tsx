@@ -52,7 +52,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
   const addDir = useCallback(async () => {
     try {
       await addDirHotelier({
-        language: city.langCode,
+        language: city.langCode.toLowerCase(),
         idLocation: city._id,
         city: city.cityName,
         state: stateName,
@@ -61,8 +61,9 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
       }).unwrap();
       setColorAddDirButton('white');
       toast.success('Successfully Adding a Directory');
-    } catch (err) {
-      toast.error('Failed to add a directory');
+    } catch (err: any) {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      toast.error(`${err.data.message}`);
       setColorAddDirButton('green');
     }
   }, []);
