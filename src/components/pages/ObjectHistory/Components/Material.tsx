@@ -16,7 +16,7 @@ import {
   StyledButton,
 } from './Compinents.styled';
 
-export const Matetial = () => {
+export const Material = () => {
   const sampleText = `Test document`;
 
   const materialData = [

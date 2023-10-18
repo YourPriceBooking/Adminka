@@ -99,3 +99,10 @@ export const DivItemsOption = styled.div`
   justify-content: center;
   margin: 20px 0 -40px 0;
 `;
+
+export const ButtonTranslation = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0 0 340px;
+`;

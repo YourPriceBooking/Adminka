@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import adress from 'assets/icons/adress.svg';
 import pen from 'assets/icons/pen.svg';
-import { ButAddAdrPen, ButtonCustom, InputCostomed } from './Compinents.styled';
-
-type AddAdressUrlProps = {
-  isSubmitted: boolean;
-}
+import {ButAddAdrPen, ButtonCustom, ButtonTranslationAdr, InputCostomed} from './Compinents.styled';
+import type { AddAdressUrlProps } from '../ObjectHistory.type';
+import {AddTranslationButton} from "./AddTranslationButton";
 
 export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted }) => {
   const [inputText1, setInputText1] = useState('');
@@ -42,7 +40,6 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted }) => {
       />
       <div>
         <InputCostomed type="text" value={inputText1} onChange={handleInputChange1} />
-
         <div />
         <div>
           <ButtonCustom type="submit" onClick={handleSaveButtonClick1} style={{ top: '20px' }}>
@@ -65,6 +62,9 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted }) => {
         )}
         <div />
       </div>
+      <ButtonTranslationAdr>
+        < AddTranslationButton />
+      </ButtonTranslationAdr>
     </div>
   );
 };

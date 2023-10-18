@@ -269,3 +269,24 @@ export const ButtonSales = styled.button`
     background: #81ba6d;
   }
 `;
+
+export const ButtonTranslation = styled.button`
+  width: 229px;
+  height: 59px;
+  border-radius: 7px;
+  background: #0090ff;
+  border: 2px solid #0090ff;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3);
+  color: #FFF;
+  text-align: justify;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+`;
+
+export const ButtonTranslationAdr = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20px;
+`;

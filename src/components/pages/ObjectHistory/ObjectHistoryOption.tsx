@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import { CheckboxLabel, ImgCheckBox, InputBox } from './Components/Compinents.styled';
 import done from '../../../assets/icons/done.svg';
 import { useObjectHistoryState } from './state/ObjectHistoryState';
-import { ButtonSubmit, DivItemsOption } from './ObjectHistory.styled';
+import { ButtonSubmit, DivItemsOption, ButtonTranslation } from './ObjectHistory.styled';
 import { VerifInfo } from './Components/VerifInfo';
+import type { ObjectInfoOption } from './ObjectHistory.type';
+import {AddTranslationButton} from "./Components/AddTranslationButton";
 
-type ObjectInfoProps = {
-  verifInfoStart: string[];
-  verifInfoFinish: string[];
-};
 
-export const ObjectHistoryOption: React.FC<ObjectInfoProps> = ({
+export const ObjectHistoryOption: React.FC<ObjectInfoOption> = ({
   verifInfoStart,
   verifInfoFinish,
 }) => {
@@ -46,7 +44,7 @@ export const ObjectHistoryOption: React.FC<ObjectInfoProps> = ({
 
       <DivItemsOption>
         {itemsOption.map((item, index) => (
-          <div style={{ marginBottom: '20px' }} key={item}>
+          <div style={{ marginBottom: '10px' }} key={item}>
             <CheckboxLabel>{item}</CheckboxLabel>
 
             <InputBox
@@ -60,6 +58,9 @@ export const ObjectHistoryOption: React.FC<ObjectInfoProps> = ({
           </div>
         ))}
       </DivItemsOption>
+      <ButtonTranslation>
+        < AddTranslationButton />
+      </ButtonTranslation>
       <ButtonSubmit
         type="button"
         onClick={handleSendData}

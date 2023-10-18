@@ -5,7 +5,7 @@ import OptionDescriptionComponent from './OptionDescriptionComponent';
 import {
   DivAnimalDesc,
   DivAreaPriceAnimal,
-  DivCardOption,
+  DivCardOption, DivNumberOption,
   DivPriceCard,
   SpanAreaCard,
 } from './Components.styled';
@@ -36,11 +36,12 @@ const CardComponent: React.FC<CardComponentProps> = ({
 }) => (
   <DivCardOption>
     <div>
+      <DivNumberOption>BG32L</DivNumberOption>
+
       <Description hasCard />
       <OptionDescriptionComponent styleCard description={desc} />
       <OptionBedroom />
     </div>
-
     <div style={{ position: 'static', top: 0 }}>
       <GalleryComponent photos={gallery} hasCard />
 
