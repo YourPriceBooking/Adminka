@@ -7,12 +7,7 @@ import {
   ImgVerifFinish,
   ImgVerifStart,
 } from './Compinents.styled';
-
-type VerifInfoProps = {
-  values: string[];
-  verifStart?: boolean;
-  verifFinish?: boolean;
-};
+import type { VerifInfoProps } from '../ObjectHistory.type';
 
 export const VerifInfo: React.FC<VerifInfoProps> = ({
   values,

@@ -18,15 +18,11 @@ import { useObjectHistoryState } from './state/ObjectHistoryState';
 import { AddAdressUrl } from './Components/addAdressUrl';
 import { Address } from './Components/Adress';
 import { Chat } from '../Chat';
-import { Matetial } from './Components/Matetial';
+import { Material } from './Components/Material';
 import { VerifInfo } from './Components/VerifInfo';
+import type { ObjectInfoInfo } from './ObjectHistory.type';
 
-type ObjectInfoProps = {
-  verifInfoStart: string[];
-  verifInfoFinish: string[];
-  isFirst?: boolean;
-};
-export const ObjectHistoryInfo: React.FC<ObjectInfoProps> = ({
+export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
   verifInfoStart,
   verifInfoFinish,
   isFirst = false,
@@ -105,7 +101,7 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoProps> = ({
       <VerifInfo values={verifInfoStart} verifFinish={false} />
 
       <DivContent>
-        <Matetial />
+        <Material />
         <div>
           <DivAdressChat>
             <Address />

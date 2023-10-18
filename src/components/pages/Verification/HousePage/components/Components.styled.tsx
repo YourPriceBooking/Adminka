@@ -288,3 +288,47 @@ export const DivListTitle = styled.div`
   display: flex;
   align-items: center;
 `;
+
+export const ButtonLanguage =styled.button`
+  border: none;
+  border-radius: 5px;
+  background: #EFFDF1;
+  cursor: pointer;
+  margin: 5px;
+  width: 46px;
+  height: 34px;
+`;
+export const DivLanguageOriginal = styled.div`
+  color: #FF6000;
+  text-align: center;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin-top: -12px;
+`;
+
+export const DivButtonsLanguage = styled.div`
+display: flex;
+  margin-top: 10px;
+  margin-bottom: -20px;
+`;
+
+export const DivNumberOption = styled.div`
+  margin-left: auto;
+  margin-right: 55px;
+  margin-bottom: -30px;
+  width: 54.118px;
+  height: 20px;
+  border: 0.5px solid #AEAFBC;
+  border-radius: 4px;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3);
+  background: #FFFFFF;
+  color: #4C4C4C;
+  text-align: center;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+`;
+
