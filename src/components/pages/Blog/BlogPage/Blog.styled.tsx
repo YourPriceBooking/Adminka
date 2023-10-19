@@ -13,18 +13,43 @@ export const HomeStyled = styled.section`
   }
 `;
 
-export const Header = styled.header`
-  
-`
+export const Header = styled.header``;
+
+export const BlogWrapper = styled.div`
+  position: relative;
+`;
+
+export const PopUp = styled.div`
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #00000090;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & > .content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 4px;
+    max-width: 80%;
+    min-width: 50%;
+    width: content-fit;
+    min-height: 40vh;
+  }
+`;
+
 export const PostsList = styled.section`
-  margin: 0 auto;   
-  padding-top: 30px; 
-  display: flex;  
+  margin: 0 auto;
+  padding-top: 30px;
+  display: flex;
   flex-wrap: no-wrap;
   flex-direction: column;
-  align-items: center;  
+  align-items: center;
   gap: 30px;
-`
+`;
 
 export const PostWrapper = styled.article`
   width: 600px;
@@ -33,7 +58,7 @@ export const PostWrapper = styled.article`
   background: #effdf1;
   box-shadow: 0px 0px 4px 0px #00000025;
   display: grid;
-  grid-template-columns: 1fr 1fr; 
+  grid-template-columns: 1fr 1fr;
 `;
 
 export const PostTitle = styled.h2`
