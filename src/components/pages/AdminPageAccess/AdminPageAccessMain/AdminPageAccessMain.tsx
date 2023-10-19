@@ -1,15 +1,25 @@
-import { useAppSelector } from 'App';
-import { selectEmailSlice } from 'features/access';
 import { AdminAccessMainStyled } from './AdminPageAccessMain.styled';
 import { EmailsData } from '../EmailsData';
 import { AddAccessButton } from '../AddAccessButton';
+import { useEmailsData } from '../EmailsData/hooks/useEmailsData';
 
 export const AdminPageAccessMain = () => {
-  const emails = useAppSelector(selectEmailSlice);
+  const { emails, loading } = useEmailsData()
 
-  return (
+  if (loading) {
+    return <p>Loading...</p>
+  }
+
+  if (emails?.data?.result) {
+    return (
       <AdminAccessMainStyled>
-        {emails.length > 0 ? <EmailsData /> : <AddAccessButton />}
+          <EmailsData emails={emails?.data?.result} />
       </AdminAccessMainStyled>
-  );
+    );
+  } 
+    return (
+      <AdminAccessMainStyled>
+      <AddAccessButton />
+      </AdminAccessMainStyled>
+    );
 };

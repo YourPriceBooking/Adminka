@@ -7,9 +7,12 @@ import { AppStyled } from 'App/App.styled';
 
 import { Flip, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+ 
 
 export const App = () => {
   const theme = useCustomTheme();
+
+  
 
   return (
     <ThemeProvider theme={theme}>
@@ -17,7 +20,7 @@ export const App = () => {
         <GlobalStyle />
 
         <AppStyled className="App">
-          <Layout />
+            <Layout />
         </AppStyled>
 
         <ToastContainer position="top-center" autoClose={2800} transition={Flip} />

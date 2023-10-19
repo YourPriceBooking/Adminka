@@ -6,19 +6,24 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { BrowserRouter } from 'react-router-dom';
 import { AppRouter } from 'routes/AppRouter';
 import { getRefs } from 'common/utils';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const { rootRef } = getRefs();
+
+const queryClient = new QueryClient();
 
 const root = createRoot(rootRef);
 root.render(
   <StrictMode>
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <BrowserRouter>
-          <AppRouter />
-        </BrowserRouter>
-      </PersistGate>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <BrowserRouter>
+            <AppRouter />
+          </BrowserRouter>
+        </PersistGate>
+      </Provider>
+    </QueryClientProvider>
   </StrictMode>
 );
 

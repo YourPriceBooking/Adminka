@@ -4,7 +4,6 @@ export const EmailsDataPageStyled = styled.div`
   display: flex;
   margin-top: 78px;
   justify-content: center;
-  overflow-y: auto;
 `;
 export const EmailsMainStyled = styled.div`
   background: #ffffff;
@@ -12,15 +11,16 @@ export const EmailsMainStyled = styled.div`
   box-shadow: 0px 0px 9px 2px rgba(0, 0, 0, 0.25);
   border-radius: 9px;
   margin-right: 20px;
+  overflow-y: auto;
   .button-styled {
     margin: 40px 20px;
   }
 `;
 export const EmailMainHeaderStyled = styled.div`
   display: flex;
-  border-bottom: 1px solid black;
+  // border-bottom: 1px solid black;
   justify-content: space-between;
-  width: 1000px;
+  width: 940px;
   p {
     padding: 22px 60px;
   }
@@ -61,6 +61,7 @@ export const EmailMainBodyStyled = styled.div`
   border-bottom: 1px solid black;
   .email {
     width: 158px;
+    overflow-wrap: break-word;
     height: 13px;
     margin: 43px 0px 43px 20px;
     font-family: 'Roboto';
