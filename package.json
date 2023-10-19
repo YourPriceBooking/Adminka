@@ -23,6 +23,7 @@
     "@types/react-svg": "^5.0.0",
     "axios": "^1.4.0",
     "date-fns": "^2.29.1",
+    "formik": "^2.4.5",
     "modern-normalize": "^1.1.0",
     "polished": "^4.2.2",
     "react": "^18.1.0",
