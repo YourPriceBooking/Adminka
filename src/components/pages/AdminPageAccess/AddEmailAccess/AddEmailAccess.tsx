@@ -47,6 +47,7 @@ export const AddEmailAccess = ({ onClick }: Props) => {
   const [statisticsChecked, setStatisticsChecked] = useState(false);
   const [financeChecked, setFinanceChecked] = useState(false);
   const [blogChecked, setBlogChecked] = useState(false);
+  const [mowgliBookingChecked, setMowgliBookingChecked] = useState(false);
 
   const token = useAppSelector((state: RootState) => state.enterToken.token);
 
@@ -64,6 +65,7 @@ export const AddEmailAccess = ({ onClick }: Props) => {
             statisticsChecked && 'Statistics and access to cabinets',
             languagesChecked && 'Access to the administrative directory',
             blogChecked && 'Blog',
+            mowgliBookingChecked && 'Mowgli Booking'
           ].filter(Boolean),
         },
 
@@ -127,6 +129,8 @@ export const AddEmailAccess = ({ onClick }: Props) => {
             setFinanceChecked={() => setFinanceChecked(!financeChecked)}
             blogChecked={blogChecked}
             setBlogChecked={() => setBlogChecked(!blogChecked)}
+            mowgliBookingChecked={mowgliBookingChecked}
+            setMowgliBookingChecked={() => setMowgliBookingChecked(!mowgliBookingChecked)}
           />
         </AddEmailAccessMainDiv>
       </form>
