@@ -141,7 +141,9 @@ export const EmailsData = ({emails}: {emails: any}) => {
             <EmailMainBodyStyled key={email.id}>
               <p className="email">{email.email}</p>
               <ActiveBlock>
-                <p>{email.status}</p>
+                <p style={email.status === 'not active' ? { color: '#FF6A6A' } : {}}>
+                  {email.status}
+                </p>
                 <div className="buttons">
                   <ButtonBan
                     type="button"

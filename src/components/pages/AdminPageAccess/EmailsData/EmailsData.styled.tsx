@@ -122,6 +122,7 @@ export const ActiveBlock = styled.div`
     line-height: 16px;
     color: #6aff79;
     margin-bottom: 10px;
+    text-transform: capitalize;
   }
   button {
     width: 70px;
