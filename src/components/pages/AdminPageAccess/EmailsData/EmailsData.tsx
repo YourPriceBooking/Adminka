@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'App';
 import type { RootState } from 'App/store';
-import type { AxiosResponse } from 'axios';
+// import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { setToken } from 'features/access/tokenSlice';
-import { useMutation, useQueryClient } from 'react-query';
+// import { useMutation, useQueryClient } from 'react-query';
 import {
   EmailsDataPageStyled,
   EmailsMainStyled,
@@ -22,27 +22,27 @@ import { OpenAddAccess } from '../AddAccessButton/AddAccessButton.styled';
 import { ChangeEmailAccess } from '../ChangeEmailAccess';
 // import { useEmailsData } from './hooks/useEmailsData';
 
-type ResponseData = {
-  status: string;
-  message: string;
-  code: number;
-  data: {
-    newEmail: {
-      email: string;
-      access: [
-        objects: boolean,
-        languages: boolean,
-        statistics: boolean,
-        finance: boolean,
-        blog: boolean
-      ];
-      status: string;
-      id: string;
-      createdAt: string;
-      updatedAt: string;
-    };
-  };
-};
+// type ResponseData = {
+//   status: string;
+//   message: string;
+//   code: number;
+//   data: {
+//     newEmail: {
+//       email: string;
+//       access: [
+//         objects: boolean,
+//         languages: boolean,
+//         statistics: boolean,
+//         finance: boolean,
+//         blog: boolean
+//       ];
+//       status: string;
+//       id: string;
+//       createdAt: string;
+//       updatedAt: string;
+//     };
+//   };
+// };
 
 export const EmailsData = ({emails}: {emails: any}) => {
   const token = useAppSelector((state: RootState) => state.enterToken.token);
@@ -51,7 +51,7 @@ export const EmailsData = ({emails}: {emails: any}) => {
 
   const [banClicked, setBanClicked] = useState(false);
 
-  const queryClient = useQueryClient()
+  // const queryClient = useQueryClient()
 
   const handleLogout = async () => {
     try {
@@ -69,41 +69,42 @@ export const EmailsData = ({emails}: {emails: any}) => {
     }
   };
 
-  const handleChangeBanStatus = async (email: any) => {
-    try {
-      const response: AxiosResponse<ResponseData> = await axios.patch(
-        'https://server-your-price-booking.onrender.com/api/acsess-to-admin/change-status',
-        {
-          email,
-          status: banClicked ? 'active' : 'not active',
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token ?? ''}`,
-          },
-        }
-      );
+  // const handleChangeBanStatus = async (email: any) => {
+  //   try {
+  //     const response: AxiosResponse<ResponseData> = await axios.patch(
+  //       'https://server-your-price-booking.onrender.com/api/acsess-to-admin/change-status',
+  //       {
+  //         email,
+  //         status: banClicked ? 'active' : 'not active',
+  //       },
+  //       {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           Authorization: `Bearer ${token ?? ''}`,
+  //         },
+  //       }
+  //     );
 
-      const { status } = response.data;
+  //     const { status } = response.data;
 
-      return status === 'success';
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-  }
+  //     return status === 'success';
+  //   } catch (error) {
+  //     console.log(error);
+  //     return false;
+  //   }
+  // }
 
-  const mutation = useMutation({
-    mutationFn: handleChangeBanStatus,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['emailsData'] });
-    },
-  });
+  // const mutation = useMutation({
+  //   mutationFn: handleChangeBanStatus,
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({ queryKey: ['emailsData'] });
+  //   },
+  // });
 
-  const handleBanClick = async ({ email }: { email: string }) => {
+  const handleBanClick = async (email: any ) => {
     setBanClicked(!banClicked)
-    mutation.mutate(email)
+    setSelectedItems(email);
+    // mutation.mutate(email)
   };
 
   const handleOpen = (email: any) => {
@@ -145,7 +146,7 @@ export const EmailsData = ({emails}: {emails: any}) => {
                   <ButtonBan
                     type="button"
                     style={{ fontSize: '10.2093px' }}
-                    onClick={() => handleBanClick({ email: email.email })}
+                    onClick={() => handleBanClick(email.email)}
                   >
                     {email.status !== 'active' ? 'Lift the ban' : 'ban'}
                   </ButtonBan>
