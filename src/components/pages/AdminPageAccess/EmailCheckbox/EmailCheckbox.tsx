@@ -11,6 +11,8 @@ type EmailCheckboxProps = {
   setFinanceChecked: (checked: boolean) => void;
   blogChecked: boolean;
   setBlogChecked: (checked: boolean) => void;
+  mowgliBookingChecked: boolean;
+  setMowgliBookingChecked: (checked: boolean) => void;
 }
 
 export const EmailCheckbox = ({
@@ -24,6 +26,8 @@ export const EmailCheckbox = ({
   setFinanceChecked,
   blogChecked,
   setBlogChecked,
+  mowgliBookingChecked,
+  setMowgliBookingChecked,
 }: EmailCheckboxProps) => (
   <EmailCheckboxStyled>
     <div className="forma">
@@ -41,6 +45,7 @@ export const EmailCheckbox = ({
         <label htmlFor="Statistics">Statistics</label>
         <label htmlFor="Finance">Finance</label>
         <label htmlFor="Blog">Blog</label>
+        <label htmlFor="Blog">Mowgli Booking</label>
       </div>
       <div className="inputs">
         <input
@@ -72,6 +77,12 @@ export const EmailCheckbox = ({
           type="checkbox"
           checked={blogChecked}
           onChange={e => setBlogChecked(e.target.checked)}
+        />
+        <input
+          id="Mowgli Booking"
+          type="checkbox"
+          checked={mowgliBookingChecked}
+          onChange={e => setMowgliBookingChecked(e.target.checked)}
         />
       </div>
     </div>

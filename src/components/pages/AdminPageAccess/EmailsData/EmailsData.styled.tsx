@@ -25,13 +25,13 @@ export const EmailMainHeaderStyled = styled.div`
   z-index: 1;
   border-bottom: 1px solid black;
   justify-content: space-between;
-  width: 940px;
+  width: 100%;
   p {
     padding: 22px 60px;
   }
   .check-name {
     display: flex;
-    margin-right: 60px;
+    margin-right: 30px;
     margin-left: 40px;
     p {
       padding: 22px 30px;
@@ -122,6 +122,7 @@ export const ActiveBlock = styled.div`
     line-height: 16px;
     color: #6aff79;
     margin-bottom: 10px;
+    text-transform: capitalize;
   }
   button {
     width: 70px;

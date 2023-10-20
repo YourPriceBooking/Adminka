@@ -21,8 +21,8 @@ export const EmailCheckboxStyled = styled.div`
   .labels{
     display: flex;
     justify-content: space-between;
-    margin-right: 60px;
-    margin-left: -15px;
+    // margin-right: 40px;
+    margin-left: -10px;
   }
 
   & label {
@@ -38,16 +38,20 @@ export const EmailCheckboxStyled = styled.div`
 
   & label:nth-child(2){
     font-size: 11px;
-    margin-left: -45px;
+    margin-left: -50px;
   }
   & label:nth-child(3){
     margin-left: -40px;
   }
   & label:nth-child(4){
-    margin-left: -20px;
+    margin-left: -15px;
   }
   & label:nth-child(5){
     margin-right: 8px;
+  }
+  & label:nth-child(6){
+    margin-left: -30px;
+    margin-right: 40px
   }
 
 

@@ -56,6 +56,8 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
    
   const [blogChecked, setBlogChecked] = useState(!!selectedEmail?.access[4]);
 
+  const [mowgliBookingChecked, setMowgliBookingChecked] = useState(!!selectedEmail?.access[5]);
+
   const token = useAppSelector((state: RootState) => state.enterToken.token);
 
   const queryClient = useQueryClient()
@@ -99,6 +101,7 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
               statisticsChecked && 'Statistics and access to cabinets',
               languagesChecked && 'Access to the administrative directory',
               blogChecked && 'Blog',
+              mowgliBookingChecked && 'Mowgli Booking',
             ].filter(Boolean),
           },
 
@@ -158,7 +161,7 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
       <form onSubmit={handleChangeEmail}>
         <AddEmailAccessMainDiv>
           <AddEmailAccessStyled>
-            <label htmlFor='email'>Enter Email</label>
+            <label htmlFor="email">Enter Email</label>
             <AddEmailAccessInput
               type="email"
               id="email"
@@ -180,14 +183,12 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
             setFinanceChecked={() => setFinanceChecked(!financeChecked)}
             blogChecked={blogChecked}
             setBlogChecked={() => setBlogChecked(!blogChecked)}
+            mowgliBookingChecked={mowgliBookingChecked}
+            setMowgliBookingChecked={() => setMowgliBookingChecked(!mowgliBookingChecked)}
           />
         </AddEmailAccessMainDiv>
       </form>
-      <CloseButton
-        src="CloseButtonWhite.png"
-        onClick={onClick}
-        direction="/admin-page-access"
-      />
+      <CloseButton src="CloseButtonWhite.png" onClick={onClick} direction="/admin-page-access" />
     </MainDiv>
   );
 };
