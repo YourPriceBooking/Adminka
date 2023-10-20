@@ -43,20 +43,22 @@ type ResponseData = {
 
 export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
   const [objectsChecked, setObjectsChecked] = useState(
-    !!selectedEmail?.access[0]
+    !!selectedEmail?.access.includes('Objects Verification')
   );
   const [languagesChecked, setLanguagesChecked] = useState(
-    !!selectedEmail?.access[1]
+    !!selectedEmail?.access.includes('Access to the administrative directory')
   );
   const [statisticsChecked, setStatisticsChecked] = useState(
-    !!selectedEmail?.access[2]
+    !!selectedEmail?.access.includes('Statistics and access to cabinets')
   );
    
-  const [financeChecked, setFinanceChecked] = useState(!!selectedEmail?.access[3]);
+  const [financeChecked, setFinanceChecked] = useState(!!selectedEmail?.access.includes('Finance'));
    
-  const [blogChecked, setBlogChecked] = useState(!!selectedEmail?.access[4]);
+  const [blogChecked, setBlogChecked] = useState(!!selectedEmail?.access.includes('Blog'));
 
-  const [mowgliBookingChecked, setMowgliBookingChecked] = useState(!!selectedEmail?.access[5]);
+  const [mowgliBookingChecked, setMowgliBookingChecked] = useState(
+    !!selectedEmail?.access.includes('Mowgli Booking')
+  );
 
   const token = useAppSelector((state: RootState) => state.enterToken.token);
 
