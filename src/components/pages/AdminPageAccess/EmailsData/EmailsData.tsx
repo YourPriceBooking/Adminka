@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'App';
 import type { RootState } from 'App/store';
+import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { setToken } from 'features/access/tokenSlice';
-
+import { useMutation, useQueryClient } from 'react-query';
 import {
   EmailsDataPageStyled,
   EmailsMainStyled,
@@ -19,6 +20,29 @@ import { CloseButton } from '../CloseButton';
 import { AddAccessButton } from '../AddAccessButton';
 import { OpenAddAccess } from '../AddAccessButton/AddAccessButton.styled';
 import { ChangeEmailAccess } from '../ChangeEmailAccess';
+// import { useEmailsData } from './hooks/useEmailsData';
+
+type ResponseData = {
+  status: string;
+  message: string;
+  code: number;
+  data: {
+    newEmail: {
+      email: string;
+      access: [
+        objects: boolean,
+        languages: boolean,
+        statistics: boolean,
+        finance: boolean,
+        blog: boolean
+      ];
+      status: string;
+      id: string;
+      createdAt: string;
+      updatedAt: string;
+    };
+  };
+};
 
 export const EmailsData = ({emails}: {emails: any}) => {
   const token = useAppSelector((state: RootState) => state.enterToken.token);
@@ -26,6 +50,8 @@ export const EmailsData = ({emails}: {emails: any}) => {
   const [selectedItem, setSelectedItems] = useState<any>()
 
   const [banClicked, setBanClicked] = useState(false);
+
+  const queryClient = useQueryClient()
 
   const handleLogout = async () => {
     try {
@@ -43,9 +69,44 @@ export const EmailsData = ({emails}: {emails: any}) => {
     }
   };
 
+  const handleChangeBanStatus = async (email: any) => {
+    try {
+      const response: AxiosResponse<ResponseData> = await axios.patch(
+        'https://server-your-price-booking.onrender.com/api/acsess-to-admin/change-status',
+        {
+          email,
+          status: banClicked ? 'active' : 'not active',
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token ?? ''}`,
+          },
+        }
+      );
+
+      const { status } = response.data;
+
+      return status === 'success';
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  const mutation = useMutation({
+    mutationFn: handleChangeBanStatus,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['emailsData'] });
+    },
+  });
+
   const handleBanClick = async (email: any ) => {
     setBanClicked(!banClicked)
-    setSelectedItems(email);
+    if (email.access.length === 0) {
+      setSelectedItems(email.email);
+    }
+    mutation.mutate(email.email)
   };
 
   const handleOpen = (email: any) => {
@@ -74,7 +135,7 @@ export const EmailsData = ({emails}: {emails: any}) => {
             <p>Statistics </p>
             <p>Finance</p>
             <p>Blog</p>
-            <p>Mowgli booking</p>
+            <p>Mowgli Booking</p>
           </div>
         </EmailMainHeaderStyled>
 
@@ -90,7 +151,7 @@ export const EmailsData = ({emails}: {emails: any}) => {
                   <ButtonBan
                     type="button"
                     style={{ fontSize: '10.2093px' }}
-                    onClick={() => handleBanClick(email.email)}
+                    onClick={() => handleBanClick(email)}
                   >
                     {email.status !== 'active' ? 'Lift the ban' : 'ban'}
                   </ButtonBan>
@@ -104,12 +165,24 @@ export const EmailsData = ({emails}: {emails: any}) => {
                 </div>
               </ActiveBlock>
               <div className="checkboxs">
-                <p>{email.access[0] ? <CheckedStyle /> : ''}</p>
-                <p> {email.access[1] ? <CheckedStyle /> : ''}</p>
-                <p>{email.access[2] ? <CheckedStyle /> : ''}</p>
-                <p> {email.access[3] ? <CheckedStyle /> : ''}</p>
-                <p>{email.access[4] ? <CheckedStyle /> : ''}</p>
-                <p>{email.access[5] ? <CheckedStyle /> : ''}</p>
+                <p>{email.access.includes('Objects Verification') ? <CheckedStyle /> : ''}</p>
+                <p>{email.access.includes('Finance') ? <CheckedStyle /> : ''}</p>
+                <p>
+                  {email.access.includes('Statistics and access to cabinets') ? (
+                    <CheckedStyle />
+                  ) : (
+                    ''
+                  )}
+                </p>
+                <p>
+                  {email.access.includes('Access to the administrative directory') ? (
+                    <CheckedStyle />
+                  ) : (
+                    ''
+                  )}
+                </p>
+                <p>{email.access.includes('Blog') ? <CheckedStyle /> : ''}</p>
+                <p>{email.access.includes('Mowgli Booking') ? <CheckedStyle /> : ''}</p>
               </div>
             </EmailMainBodyStyled>
             {selectedItem === email.email && (

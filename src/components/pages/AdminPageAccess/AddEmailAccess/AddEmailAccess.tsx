@@ -60,12 +60,12 @@ export const AddEmailAccess = ({ onClick }: Props) => {
         {
           email,
           access: [
-            objectsChecked && 'Objects Verification',
-            financeChecked && 'Finance',
-            statisticsChecked && 'Statistics and access to cabinets',
-            languagesChecked && 'Access to the administrative directory',
-            blogChecked && 'Blog',
-            mowgliBookingChecked && 'Mowgli Booking'
+            objectsChecked ? 'Objects Verification' : '',
+            financeChecked ? 'Finance' : '',
+            statisticsChecked ? 'Statistics and access to cabinets' : '',
+            languagesChecked ? 'Access to the administrative directory' : '',
+            blogChecked ? 'Blog' : '',
+            mowgliBookingChecked ? 'Mowgli Booking' : '',
           ].filter(Boolean),
         },
 
@@ -116,7 +116,7 @@ export const AddEmailAccess = ({ onClick }: Props) => {
               required
               onChange={e => setEmail(e.target.value)}
             />
-            <AddEmailAccessButtonStyled type="submit" disabled={!((objectsChecked || languagesChecked || financeChecked || blogChecked || statisticsChecked || mowgliBookingChecked))}>Add Access</AddEmailAccessButtonStyled>
+            <AddEmailAccessButtonStyled type="submit" disabled={!((objectsChecked || languagesChecked || financeChecked || blogChecked || statisticsChecked || mowgliBookingChecked) && email)}>Add Access</AddEmailAccessButtonStyled>
           </AddEmailAccessStyled>
           <EmailCheckbox
             objectsChecked={objectsChecked}

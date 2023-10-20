@@ -50,13 +50,17 @@ export const EmailMainHeaderStyled = styled.div`
       margin-right: -15px;
     }
     & p:nth-child(3) {
-      margin-right: 15px;
+      margin-right: 10px;
     }
     & p:nth-child(4) {
-      margin-right: 35px;
+      margin-right: 40px;
+    }
+    & p:nth-child(5) {
+      margin-left: -10px;
     }
     & p:nth-child(5) {
       margin-left: -15px;
+      margin-right: 5px;
     }
   }
 `;
