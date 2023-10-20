@@ -27,7 +27,7 @@ export const InputBox = styled.input`
   border: 1px solid ${({ checked }) => (checked ? '#2C6ACC' : '#CC2C2C')};
   background-color: #ffffff;
   box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.25);
-  margin-left: 273px;
+  margin-left: 260px;
   position: relative;
   top: -15px;
 `;

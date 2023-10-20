@@ -95,14 +95,19 @@ export const DivAdressChat = styled.div`
 
 export const DivItemsOption = styled.div`
   display: flex;
-  gap: 50px;
+  flex-wrap: wrap;
+  gap: 20px;
   justify-content: center;
-  margin: 20px 0 -40px 0;
+  margin: 20px auto -40px auto;
+  width: 800px;
 `;
 
 export const ButtonTranslation = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 30px 0 0 340px;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: flex-end;
+  margin: 50px 350px 0;
 `;
+
