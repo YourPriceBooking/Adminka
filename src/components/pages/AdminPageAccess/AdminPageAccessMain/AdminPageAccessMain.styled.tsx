@@ -10,9 +10,9 @@ export const AdminAccessMainStyled = styled.div`
     padding: 36px 91px;
   }
 
-  @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    padding: 100px 133px;
-  }
+  // @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+  //   padding: 100px 133px;
+  // }
 
 `;
 

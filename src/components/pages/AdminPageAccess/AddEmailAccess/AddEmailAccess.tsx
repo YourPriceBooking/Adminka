@@ -114,7 +114,7 @@ export const AddEmailAccess = ({ onClick }: Props) => {
               required
               onChange={e => setEmail(e.target.value)}
             />
-            <AddEmailAccessButtonStyled type="submit">Add Access</AddEmailAccessButtonStyled>
+            <AddEmailAccessButtonStyled type="submit" disabled={!((objectsChecked || languagesChecked || financeChecked || blogChecked || statisticsChecked))}>Add Access</AddEmailAccessButtonStyled>
           </AddEmailAccessStyled>
           <EmailCheckbox
             objectsChecked={objectsChecked}

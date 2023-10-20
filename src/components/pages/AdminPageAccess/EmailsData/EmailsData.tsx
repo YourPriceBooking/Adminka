@@ -137,31 +137,37 @@ export const EmailsData = ({emails}: {emails: any}) => {
 
         {emails.map((email: any) => (
           <>
-          <EmailMainBodyStyled key={email.id}>
-            <p className="email">{email.email}</p>
-            <ActiveBlock>
-              <p>{email.status}</p>
-              <div className="buttons">
-                <ButtonBan type="button" onClick={() => handleBanClick({ email: email.email })}>
-                  {email.status === 'ban' ? 'reban' : 'ban'}
-                </ButtonBan>
-                <ButtonChange type="button" onClick={() => handleOpen(email.email)}>change</ButtonChange>
+            <EmailMainBodyStyled key={email.id}>
+              <p className="email">{email.email}</p>
+              <ActiveBlock>
+                <p>{email.status}</p>
+                <div className="buttons">
+                  <ButtonBan
+                    type="button"
+                    style={{ fontSize: '10.2093px' }}
+                    onClick={() => handleBanClick({ email: email.email })}
+                  >
+                    {email.status !== 'active' ? 'Lift the ban' : 'ban'}
+                  </ButtonBan>
+                  <ButtonChange type="button" onClick={() => handleOpen(email.email)}>
+                    change
+                  </ButtonChange>
+                </div>
+              </ActiveBlock>
+              <div className="checkboxs">
+                <p>{email.access[0] ? <CheckedStyle /> : ''}</p>
+                <p> {email.access[1] ? <CheckedStyle /> : ''}</p>
+                <p>{email.access[2] ? <CheckedStyle /> : ''}</p>
+                <p> {email.access[3] ? <CheckedStyle /> : ''}</p>
+                <p>{email.access[4] ? <CheckedStyle /> : ''}</p>
               </div>
-            </ActiveBlock>
-            <div className="checkboxs">
-              <p>{email.access[0] ? <CheckedStyle /> : ''}</p>
-              <p> {email.access[1] ? <CheckedStyle /> : ''}</p>
-              <p>{email.access[2] ? <CheckedStyle /> : ''}</p>
-              <p> {email.access[3] ? <CheckedStyle /> : ''}</p>
-              <p>{email.access[4] ? <CheckedStyle /> : ''}</p>
-            </div>
-          </EmailMainBodyStyled>
-          {selectedItem === email.email && (
-            <OpenAddAccess>
-              <ChangeEmailAccess selectedEmail={email} onClick={closeChangeAccess} />
-            </OpenAddAccess>
-          )}
-        </>
+            </EmailMainBodyStyled>
+            {selectedItem === email.email && (
+              <OpenAddAccess>
+                <ChangeEmailAccess selectedEmail={email} onClick={closeChangeAccess} />
+              </OpenAddAccess>
+            )}
+          </>
         ))}
         <div className="button-styled">
           <AddAccessButton />

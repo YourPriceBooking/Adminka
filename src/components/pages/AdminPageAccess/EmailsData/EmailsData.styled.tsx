@@ -2,8 +2,8 @@ import styled from 'styled-components/macro';
 
 export const EmailsDataPageStyled = styled.div`
   display: flex;
-  margin-top: 78px;
   justify-content: center;
+  height: 90vh;
 `;
 export const EmailsMainStyled = styled.div`
   background: #ffffff;
@@ -12,13 +12,18 @@ export const EmailsMainStyled = styled.div`
   border-radius: 9px;
   margin-right: 20px;
   overflow-y: auto;
+  height: 92vh;
   .button-styled {
     margin: 40px 20px;
   }
 `;
 export const EmailMainHeaderStyled = styled.div`
   display: flex;
-  // border-bottom: 1px solid black;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-bottom: 1px solid black;
   justify-content: space-between;
   width: 940px;
   p {
@@ -151,7 +156,7 @@ export const ButtonBan = styled.button`
     font-family: 'Segoe UI';
     font-style: normal;
     font-weight: 600;
-    font-size: 12.2093px;
+    font-size: 10.2093px;
     line-height: 16px;
     text-align: center;
     color: #ffffff;
@@ -163,7 +168,7 @@ export const ButtonBan = styled.button`
     font-family: 'Segoe UI';
     font-style: normal;
     font-weight: 600;
-    font-size: 12.2093px;
+    font-size: 10.2093px;
     line-height: 16px;
     text-align: center;
     color: #ffffff;
@@ -178,7 +183,7 @@ export const ButtonChange = styled.button`
     font-family: 'Segoe UI';
     font-style: normal;
     font-weight: 600;
-    font-size: 12.2093px;
+    font-size: 10.2093px;
     line-height: 16px;
     text-align: center;
     color: #ffffff;
@@ -190,7 +195,7 @@ export const ButtonChange = styled.button`
     font-family: 'Segoe UI';
     font-style: normal;
     font-weight: 600;
-    font-size: 12.2093px;
+    font-size: 10.2093px;
     line-height: 16px;
     text-align: center;
     color: #ffffff;

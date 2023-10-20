@@ -85,4 +85,7 @@ export const AddEmailAccessButtonStyled = styled.button`
   :active {
     background-color: #006bbe;
   }
+  :disabled {
+    background-color: #0090ffb2;
+  }
 `;
