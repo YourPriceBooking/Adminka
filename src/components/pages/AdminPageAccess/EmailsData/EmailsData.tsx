@@ -149,7 +149,11 @@ export const EmailsData = ({emails}: {emails: any}) => {
                   >
                     {email.status !== 'active' ? 'Lift the ban' : 'ban'}
                   </ButtonBan>
-                  <ButtonChange type="button" onClick={() => handleOpen(email.email)}>
+                  <ButtonChange
+                    type="button"
+                    style={{ fontSize: '10.2093px' }}
+                    onClick={() => handleOpen(email.email)}
+                  >
                     change
                   </ButtonChange>
                 </div>
