@@ -1,6 +1,9 @@
 import { useState } from 'react';
-import { useAppDispatch } from 'App';
-import { addEmail } from 'features/access';
+import type { AxiosResponse } from 'axios';
+import axios from 'axios';
+import { useAppSelector } from 'App';
+import type { RootState } from 'App/store';
+import { useQueryClient, useMutation } from 'react-query';
 import {
   AddEmailAccessStyled,
   AddEmailAccessInput,
@@ -15,6 +18,28 @@ type Props = {
   onClick?: () => void;
 };
 
+type ResponseData = {
+  status: string;
+  message: string;
+  code: number;
+  data: {
+    newEmail: {
+      email: string;
+      access: [
+        objects: boolean,
+        languages: boolean,
+        statistics: boolean,
+        finance: boolean,
+        blog: boolean
+      ];
+      status: string;
+      id: string;
+      createdAt: string;
+      updatedAt: string;
+    };
+  };
+}
+
 export const AddEmailAccess = ({ onClick }: Props) => {
   const [email, setEmail] = useState('');
   const [objectsChecked, setObjectsChecked] = useState(false);
@@ -23,23 +48,57 @@ export const AddEmailAccess = ({ onClick }: Props) => {
   const [financeChecked, setFinanceChecked] = useState(false);
   const [blogChecked, setBlogChecked] = useState(false);
 
-  const dispatch = useAppDispatch();
+  const token = useAppSelector((state: RootState) => state.enterToken.token);
 
-  const handleAddEmail = (event: React.FormEvent) => {
+  const queryClient = useQueryClient();
+
+  const addNewEmailAccess = async () => {
+    try {
+      const response: AxiosResponse<ResponseData> = await axios.post(
+        'https://server-your-price-booking.onrender.com/api/acsess-to-admin/add-email',
+        {
+          email,
+          access: [
+            objectsChecked && 'Objects Verification',
+            financeChecked && 'Finance',
+            statisticsChecked && 'Statistics and access to cabinets',
+            languagesChecked && 'Access to the administrative directory',
+            blogChecked && 'Blog',
+          ].filter(Boolean),
+        },
+
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token ?? ''}`,
+          },
+        }
+      );
+
+      // const { status, message, code, data: responseData } = response.data;
+      const { status } = response.data;
+
+      onClick?.();
+      return status === 'success';
+    } catch (error) {
+      onClick?.();
+      console.error('Помилка під час додавання емейла', error);
+      return false;
+    }
+  }
+
+  const mutation = useMutation({
+    mutationFn: addNewEmailAccess,
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ['emailsData']})
+    }
+  })
+
+  const handleAddEmail = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const newEmail = {
-      email,
-      objects: objectsChecked,
-      languages: languagesChecked,
-      statistics: statisticsChecked,
-      finance: financeChecked,
-      blog: blogChecked,
-    };
+    mutation.mutate()
 
-    dispatch(addEmail(newEmail));
-
-    onClick?.();
   };
 
   return (
@@ -47,7 +106,7 @@ export const AddEmailAccess = ({ onClick }: Props) => {
       <form onSubmit={handleAddEmail}>
         <AddEmailAccessMainDiv>
           <AddEmailAccessStyled>
-            <p>Enter Email</p>
+            <label htmlFor='email'>Enter Email</label>
             <AddEmailAccessInput
               type="email"
               id="email"
@@ -59,15 +118,15 @@ export const AddEmailAccess = ({ onClick }: Props) => {
           </AddEmailAccessStyled>
           <EmailCheckbox
             objectsChecked={objectsChecked}
-            setObjectsChecked={setObjectsChecked}
+            setObjectsChecked={() => setObjectsChecked(!objectsChecked)}
             languagesChecked={languagesChecked}
-            setLanguagesChecked={setLanguagesChecked}
+            setLanguagesChecked={() => setLanguagesChecked(!languagesChecked)}
             statisticsChecked={statisticsChecked}
-            setStatisticsChecked={setStatisticsChecked}
+            setStatisticsChecked={() => setStatisticsChecked(!statisticsChecked)}
             financeChecked={financeChecked}
-            setFinanceChecked={setFinanceChecked}
+            setFinanceChecked={() => setFinanceChecked(!financeChecked)}
             blogChecked={blogChecked}
-            setBlogChecked={setBlogChecked}
+            setBlogChecked={() => setBlogChecked(!blogChecked)}
           />
         </AddEmailAccessMainDiv>
       </form>

@@ -45,6 +45,7 @@ module.exports = {
     'react/require-default-props': 0,
     'react/jsx-props-no-spreading': 'off',
     'react/react-in-jsx-scope': 'off',
+    "@typescript-eslint/no-floating-promises": "off",
     'react/function-component-definition': [
       'warn',
       { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function' },
