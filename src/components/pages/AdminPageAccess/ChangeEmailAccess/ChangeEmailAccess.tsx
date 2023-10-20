@@ -61,37 +61,79 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
   const queryClient = useQueryClient()
 
   const handleChangeEmailAccess = async () => {
-    try {
-      const response: AxiosResponse<ResponseData> = await axios.patch(
-        'https://server-your-price-booking.onrender.com/api/acsess-to-admin/change-access',
-        {
-          email: selectedEmail.email,
-          access: [
-            objectsChecked && 'Objects Verification',
-            financeChecked && 'Finance',
-            statisticsChecked && 'Statistics and access to cabinets',
-            languagesChecked && 'Access to the administrative directory',
-            blogChecked && 'Blog',
-          ].filter(Boolean),
-        },
-
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token ?? ''}`,
+    if (!(objectsChecked || languagesChecked || financeChecked || blogChecked || statisticsChecked)) {
+      try {
+        const response: AxiosResponse<ResponseData> = await axios.patch(
+          'https://server-your-price-booking.onrender.com/api/acsess-to-admin/change-status',
+          {
+            email: selectedEmail.email,
+            status: 'not active',
           },
-        }
-      );
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token ?? ''}`,
+            },
+          }
+        );
 
-      // const { status, message, code, data: responseData } = response.data;
-      const { status } = response.data;
+        // const { status, message, code, data: responseData } = response.data;
+        const { status } = response.data;
 
-      onClick?.();
-      return status === 'success';
-    } catch (error) {
-      onClick?.();
-      console.error('Помилка під час зміни доступу емейла', error);
-      return false;
+        onClick?.();
+        return status === 'success';
+      } catch (error) {
+        onClick?.();
+        console.error('Помилка під час зміни доступу емейла', error);
+        return false;
+      }
+    } else {
+      try {
+        const response: AxiosResponse<ResponseData> = await axios.patch(
+          'https://server-your-price-booking.onrender.com/api/acsess-to-admin/change-access',
+          {
+            email: selectedEmail.email,
+            access: [
+              objectsChecked && 'Objects Verification',
+              financeChecked && 'Finance',
+              statisticsChecked && 'Statistics and access to cabinets',
+              languagesChecked && 'Access to the administrative directory',
+              blogChecked && 'Blog',
+            ].filter(Boolean),
+          },
+
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token ?? ''}`,
+            },
+          }
+        );
+
+        await axios.patch(
+          'https://server-your-price-booking.onrender.com/api/acsess-to-admin/change-status',
+          {
+            email: selectedEmail.email,
+            status: 'active',
+          },
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token ?? ''}`,
+            },
+          }
+        );
+
+        // const { status, message, code, data: responseData } = response.data;
+        const { status } = response.data;
+
+        onClick?.();
+        return status === 'success';
+      } catch (error) {
+        onClick?.();
+        console.error('Помилка під час зміни доступу емейла', error);
+        return false;
+      }
     }
   }
 

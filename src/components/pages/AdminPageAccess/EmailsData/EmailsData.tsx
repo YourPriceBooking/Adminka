@@ -75,7 +75,7 @@ export const EmailsData = ({emails}: {emails: any}) => {
         'https://server-your-price-booking.onrender.com/api/acsess-to-admin/change-status',
         {
           email,
-          status: banClicked ? 'active' : 'ban',
+          status: banClicked ? 'active' : 'not active',
         },
         {
           headers: {
