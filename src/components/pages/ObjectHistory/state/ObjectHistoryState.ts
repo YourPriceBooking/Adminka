@@ -15,7 +15,8 @@ export const useObjectHistoryState = () => {
     'Translation of the property description and booking options added'
   ];
 
-  const itemsOption = ['Description does not contain links', 'There are no obscene words either'];
+  const itemsOption = ['Description does not contain links', 'There are no obscene words either',
+    'Translation of the property description and booking options added'];
 
   const [checkedItems, setCheckedItems] = useState<boolean[]>(Array(items.length).fill(false));
   const [isSubmitted, setIsSubmitted] = useState(false);
