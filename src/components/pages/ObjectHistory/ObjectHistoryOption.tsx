@@ -6,6 +6,7 @@ import { ButtonSubmit, DivItemsOption, ButtonTranslation } from './ObjectHistory
 import { VerifInfo } from './Components/VerifInfo';
 import type { ObjectInfoOption } from './ObjectHistory.type';
 import {AddTranslationButton} from "./Components/AddTranslationButton";
+import {Chat} from "../Chat";
 
 
 export const ObjectHistoryOption: React.FC<ObjectInfoOption> = ({
@@ -58,9 +59,12 @@ export const ObjectHistoryOption: React.FC<ObjectInfoOption> = ({
           </div>
         ))}
       </DivItemsOption>
+
       <ButtonTranslation>
         < AddTranslationButton />
+        <Chat/>
       </ButtonTranslation>
+
       <ButtonSubmit
         type="button"
         onClick={handleSendData}
