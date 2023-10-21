@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useCallback, useRef } from 'react';
 import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { setToken } from 'features/access/tokenSlice';
@@ -25,6 +25,7 @@ export const PasswordField: React.FC<{
 }> = ({ setIsSend, email }) => {
   const [passwordCode, setPasswordCode] = useState<string>('');
   const [messagePass, setMessagePass] = useState<string>('');
+  const formRef = useRef<HTMLFormElement | null>(null);
   const dispatch = useAppDispatch();
   // const navigate = useNavigate();
 
@@ -34,6 +35,8 @@ export const PasswordField: React.FC<{
   //   const result = passwordCode !== key;
   //   return result;
   // };
+
+
 
   const validPassword = async (): Promise<boolean> => {
     try {
@@ -67,7 +70,21 @@ export const PasswordField: React.FC<{
       // navigate('/');
     }
   };
-
+  // const handleKeyUp = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.key === 'Enter') {
+  //     e.preventDefault();
+  //     await handlePasswordSubmit(e as any); 
+  //   }
+  // };
+  const handleKeyUp = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+          e.preventDefault();
+          if (formRef.current) {
+            formRef.current.dispatchEvent(new Event('submit', { cancelable: true }));
+          }
+        }
+      }, []);
+    
   // console.log(dataForToken)
 
   return (
@@ -84,6 +101,7 @@ export const PasswordField: React.FC<{
           value={passwordCode}
           onChange={handleVerificationCodeChange}
           required
+          onKeyDown={handleKeyUp}
         />
         <Button />
       </form>

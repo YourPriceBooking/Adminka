@@ -1,11 +1,12 @@
-import { memo, useCallback, useEffect } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import {useSelector } from "react-redux";
 import {fetchHotelsById } from "features/hoteliers/hoteliersOperation";
 import { useAppDispatch } from 'App';
 import { selectorHoteliers } from "features/hoteliers/hoteliersSelectors";
 import { Spinner } from "components/shared/Loader";
-import { Inner, TextContent, TextID, Wrapper, WrapperText } from "./HoteliersList.styled";
+import { Inner, TextContent, TextID, Wrapper, WrapperText, YellowButton, SearchInput,FunProf, ClearButton,CloseButton,SearchInputContainer,SearchIcon, LabelForm } from "./HoteliersList.styled";
 import likeIcon from '../../../../../assets/icons/like.svg';
+import pic from '../../../../../assets/icons/pict.svg';
 import dislikeIcon from '../../../../../assets/icons/dislike.svg';
 import { AccountHotelier } from "../AccountHotelier/AccountHotelier";
 
@@ -29,7 +30,12 @@ export const HoteliersList: React.FC<Prop> = memo(
 }) => {
   const dispatch = useAppDispatch();
     const { hoteliers, isLoadingHotels } = useSelector(selectorHoteliers);
-    
+    const [searchQuery, setSearchQuery] = useState<string>('');
+    const [filteredHoteliers, setFilteredHoteliers] = useState(hoteliers);
+    // const [labelVisible, setlabelvisible] = useState(false);
+
+   
+
     const handleClick: HandleClick = useCallback(
       event => {
     const { target } = event;
@@ -47,17 +53,50 @@ export const HoteliersList: React.FC<Prop> = memo(
   },
       [isClicked, setIsShowHotelier, setIsClicked]
     );
-
-
+    const handleClear = () => {
+      setSearchQuery('');
+      setFilteredHoteliers(hoteliers);
+    };
   useEffect(() => {
     if (hoteliers.length > 0) hoteliers.map(({ owner }) => dispatch(fetchHotelsById(owner)));
     // eslint-disable-next-line
   }, [dispatch]);
+  // const handleLabel = (e) => {
+  //     const labelSearch =  labelVisible 
+  // }
+  const handleSearch = () => {
+    const newFilteredHoteliers = searchQuery
+      ? hoteliers.filter(hotelier =>
+          hotelier.hotels?.some(hotel => hotel.toLowerCase().includes(searchQuery.toLowerCase()))
+        )
+      : hoteliers;
+
+    setFilteredHoteliers(newFilteredHoteliers); 
+  };
 
   return (
     <Wrapper onClick={handleClick}>
-      {hoteliers.length > 0 &&
-        hoteliers.map(({ owner, hotels, status }, index) => (
+      <FunProf>
+       <SearchInputContainer>
+        <SearchInput
+         className="input"
+         type="text"
+         placeholder= "Search ID Hoteliers or/and Name object"
+         value={searchQuery}
+         onChange={(e) => setSearchQuery(e.target.value)}
+         />
+         <LabelForm className="label" htmlFor="input-id">Search ID Hoteliers or/and Name object</LabelForm>
+         <SearchIcon src={pic} alt="Search" />
+       </SearchInputContainer>
+         <YellowButton onClick={handleSearch} >Search</YellowButton>
+         <CloseButton>
+         <ClearButton onClick={handleClear} hasText={searchQuery.length > 0}>
+         Close
+         </ClearButton> 
+         </CloseButton>
+         </FunProf>
+      {filteredHoteliers.length > 0 &&
+        filteredHoteliers.map(({ owner, hotels, status }, index) => (
           <Inner
             border={isShowHotelier === index}
             hidden={isShowHotelier !== index && isShowHotelier !== null}

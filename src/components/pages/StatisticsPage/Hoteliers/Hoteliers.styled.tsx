@@ -15,6 +15,21 @@ export const Wrapper = styled.div<Prop>`
   border: 1px solid ${({ theme }) => theme.colors.border.list};
   border-radius: 9px;
 `;
+export const YellowButton = styled.button`
+  width: 108px;
+  height: 38px;
+  background-color: yellow;
+  border: none;
+  border-radius: 50px; 
+  color: black; 
+  font-weight: bold; 
+  cursor: pointer;
+  img {
+    height: 16.57px;
+    width: 16.57px;
+    margin-right: 15px;
+  }
+`;
 
 export const WrapperArrow = styled.div`
   position: absolute;
