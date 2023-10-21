@@ -7,6 +7,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { AppRouter } from 'routes/AppRouter';
 import { getRefs } from 'common/utils';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const { rootRef } = getRefs();
 
@@ -15,6 +18,7 @@ const queryClient = new QueryClient();
 const root = createRoot(rootRef);
 root.render(
   <StrictMode>
+    <ToastContainer/>
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
