@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useAppSelector } from 'App';
 import type { RootState } from 'App/store';
 import { useQueryClient, useMutation } from 'react-query';
+import { toast } from 'react-toastify';
 import {
   AddEmailAccessStyled,
   AddEmailAccessInput,
@@ -84,7 +85,18 @@ export const AddEmailAccess = ({ onClick }: Props) => {
       return status === 'success';
     } catch (error) {
       onClick?.();
+      toast.error('Такий email вже існує. Перевірьте таблицю!', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: 'light',
+      });
       console.error('Помилка під час додавання емейла', error);
+      
       return false;
     }
   }

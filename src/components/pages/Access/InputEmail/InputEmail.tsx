@@ -60,7 +60,7 @@ export const InputEmail: React.FC<{ component: React.FC }> = ({ component: Compo
           setMessage(messageData);
         }
       } catch (error) {
-        setMessage('Помилка під час виконання запиту');
+        setMessage('You entered the wrong door. You do not have access to this section.');
         console.error(error);
       }
     }
