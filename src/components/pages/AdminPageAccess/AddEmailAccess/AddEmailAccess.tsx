@@ -85,16 +85,20 @@ export const AddEmailAccess = ({ onClick }: Props) => {
       return status === 'success';
     } catch (error) {
       onClick?.();
-      toast.error('Такий email вже існує. Перевірьте таблицю!', {
-        position: 'top-center',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-        theme: 'light',
-      });
+      toast.error(
+        'Whoa, whoa, whoa! Suсh mail is already on the list! Just find it and do what you want with it! You are in charge here - act without delay 😅',
+        {
+          position: 'top-center',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+          theme: 'light',
+          style: { background: '#A0F6A9' },
+        }
+      );
       console.error('Помилка під час додавання емейла', error);
       
       return false;
