@@ -33,7 +33,6 @@ export const HoteliersList: React.FC<Prop> = memo(
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [filteredHoteliers, setFilteredHoteliers] = useState(hoteliers);
     // const [labelVisible, setlabelvisible] = useState(false);
-
    
 
     const handleClick: HandleClick = useCallback(
@@ -67,12 +66,14 @@ export const HoteliersList: React.FC<Prop> = memo(
   const handleSearch = () => {
     const newFilteredHoteliers = searchQuery
       ? hoteliers.filter(hotelier =>
+          hotelier.owner.toString().includes(searchQuery) ||
           hotelier.hotels?.some(hotel => hotel.toLowerCase().includes(searchQuery.toLowerCase()))
         )
       : hoteliers;
-
-    setFilteredHoteliers(newFilteredHoteliers); 
+  
+    setFilteredHoteliers(newFilteredHoteliers);
   };
+  
 
   return (
     <Wrapper onClick={handleClick}>
