@@ -16,7 +16,14 @@ export const Wrapper = styled.div<Prop>`
   border: 1px solid ${({ theme }) => theme.colors.border.list};
   border-radius: 9px;
 `;
-
+export const InputContainer= styled.div`
+display:flex;
+align-items:center;
+`;
+export const SearchInputContainer = styled.div`
+display: flex;
+align-items: center;
+`;
 export const InputMain = styled.div`
   display: flex;
   align-items: center;
