@@ -88,3 +88,9 @@ export const tagList = (result: Result, type: Type) => [
 ];
 
 export const tag = (id: EntityId | 'LIST', type: Type) => [{ type, id }];
+
+
+
+
+
+

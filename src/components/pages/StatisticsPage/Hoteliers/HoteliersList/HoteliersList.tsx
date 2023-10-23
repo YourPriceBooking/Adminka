@@ -33,7 +33,7 @@ export const HoteliersList: React.FC<Prop> = memo(
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [filteredHoteliers, setFilteredHoteliers] = useState(hoteliers);
     // const [labelVisible, setlabelvisible] = useState(false);
-   
+    const [isClearClicked, setIsClearClicked] = useState(false);
 
     const handleClick: HandleClick = useCallback(
       event => {
@@ -55,6 +55,7 @@ export const HoteliersList: React.FC<Prop> = memo(
     const handleClear = () => {
       setSearchQuery('');
       setFilteredHoteliers(hoteliers);
+      setIsClearClicked(false);
     };
   useEffect(() => {
     if (hoteliers.length > 0) hoteliers.map(({ owner }) => dispatch(fetchHotelsById(owner)));
@@ -70,7 +71,7 @@ export const HoteliersList: React.FC<Prop> = memo(
           hotelier.hotels?.some(hotel => hotel.toLowerCase().includes(searchQuery.toLowerCase()))
         )
       : hoteliers;
-  
+      setIsClearClicked(true);
     setFilteredHoteliers(newFilteredHoteliers);
   };
   
@@ -89,12 +90,13 @@ export const HoteliersList: React.FC<Prop> = memo(
          <LabelForm className="label" htmlFor="input-id">Search ID Hoteliers or/and Name object</LabelForm>
          <SearchIcon src={pic} alt="Search" />
        </SearchInputContainer>
-         <YellowButton onClick={handleSearch} >Search</YellowButton>
-         <CloseButton>
+        
+         {isClearClicked ? (<CloseButton>
          <ClearButton onClick={handleClear} hasText={searchQuery.length > 0}>
          Close
          </ClearButton> 
-         </CloseButton>
+         </CloseButton>) :  <YellowButton onClick={handleSearch} >Search</YellowButton>}
+         
          </FunProf>
       {filteredHoteliers.length > 0 &&
         filteredHoteliers.map(({ owner, hotels, status }, index) => (
@@ -109,9 +111,7 @@ export const HoteliersList: React.FC<Prop> = memo(
             <WrapperText tabIndex={index} typePage={type}>
               <TextContent tabIndex={index}>
                 {isLoadingHotels && <Spinner />}
-                {!isLoadingHotels &&
-                  isShowHotelier !== index &&
-                  (hotels && hotels.length > 6 ? hotels.slice(0, 6).join(' ') : hotels?.join(' '))}
+                {!isLoadingHotels && isShowHotelier !== index && (hotels && hotels.length > 6 ? hotels.slice(0, 6).join(' ') : hotels?.join(' '))}
                 {!isLoadingHotels &&
                   isShowHotelier !== index &&
                   hotels &&

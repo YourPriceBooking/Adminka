@@ -76,7 +76,7 @@ cursor: pointer;
 padding: 5px 10px; 
 text-align: center;
  position: relative;
-font-size:12px;
+font-size:18px;
 font-weight:400;
 &.input:focus + label {
   display: block;
