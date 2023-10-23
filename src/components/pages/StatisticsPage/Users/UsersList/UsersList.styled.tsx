@@ -77,7 +77,7 @@ cursor: pointer;
 padding: 5px 10px; 
 text-align: center;
  position: relative;
-font-size:12px;
+font-size:19px;
 font-weight:400;
 &.input:focus + label {
   display: block;
@@ -125,6 +125,7 @@ width: 30px;
   right: 690px;
   transform: translateY(-50%);
   cursor: pointer;
+  
 
 left:811px;
   &:before{

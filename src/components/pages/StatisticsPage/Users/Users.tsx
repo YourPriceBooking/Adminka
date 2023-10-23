@@ -19,13 +19,6 @@ export const Users: React.FC<UsersProps> = ({ isShowUsersPage }) => {
       {isShowUsersPage ? (
         <div>
           <StatisticsHeader type="Users" isShowUsers={isShowUsers} />
-          {/* <InputMain>
-            <img alt="dandruff" src="./loop.pdf"/>
-            <input placeholder="Search ID, Name, Surname" 
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          </InputMain> */}
           <UsersList isShowUsers={isShowUsers} searchQuery={searchQuery} onSearch={handleSearch}/>
         </div>
       ) : null}
