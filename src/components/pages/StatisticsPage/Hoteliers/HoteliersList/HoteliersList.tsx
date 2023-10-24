@@ -4,7 +4,7 @@ import {fetchHotelsById } from "features/hoteliers/hoteliersOperation";
 import { useAppDispatch } from 'App';
 import { selectorHoteliers } from "features/hoteliers/hoteliersSelectors";
 import { Spinner } from "components/shared/Loader";
-import { Inner, TextContent, TextID, Wrapper, WrapperText, YellowButton, SearchInput,FunProf, ClearButton,CloseButton,SearchInputContainer,SearchIcon, LabelForm } from "./HoteliersList.styled";
+import { Inner, TextContent, TextID, Wrapper, WrapperText, YellowButton, SearchInput,FunProf, ClearButton,SearchInputContainer,SearchIcon, LabelForm } from "./HoteliersList.styled";
 import likeIcon from '../../../../../assets/icons/like.svg';
 import pic from '../../../../../assets/icons/pict.svg';
 import dislikeIcon from '../../../../../assets/icons/dislike.svg';
@@ -91,11 +91,9 @@ export const HoteliersList: React.FC<Prop> = memo(
          <SearchIcon src={pic} alt="Search" />
        </SearchInputContainer>
         
-         {isClearClicked ? (<CloseButton>
-         <ClearButton onClick={handleClear} hasText={searchQuery.length > 0}>
-         Close
-         </ClearButton> 
-         </CloseButton>) :  <YellowButton onClick={handleSearch} >Search</YellowButton>}
+         {isClearClicked ? (
+         <ClearButton onClick={handleClear} hasText={searchQuery.length > 0}>Close</ClearButton> 
+         ) :  <YellowButton onClick={handleSearch} >Search</YellowButton>}
          
          </FunProf>
       {filteredHoteliers.length > 0 &&
