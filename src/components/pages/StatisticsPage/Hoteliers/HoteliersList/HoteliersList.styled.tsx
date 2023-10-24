@@ -131,39 +131,41 @@ export const CloseIcon =styled.img`
 
 
 export const ClearButton = styled.button<{ hasText: boolean }>`
-  width: 30px;
-  height: 16px;
-  background-color: transparent;
-  border: none;
-  color:red;
-  display: flex;
-  align-items: center;
-  // top:82px;
-  position: absolute;
-  color: #4C4C4C;
-  text-align: center;
-  font-family: Segoe UI;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  margin-top:23px;
-  right: 800px;
-  transform: translateY(-50%);
-  cursor: pointer;
-  display: ${(props) => (props.hasText ? 'block' : 'none')};
-  &:before{
-    content:"";
-    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1L11 11" stroke="%234C4C4C" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.0001 1L1.00009 11" stroke="%234C4C4C" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-  display:block;
-  width: 10px;
-  background-size:10px;
-  height: 10px;
-  position:absolute;
-  
-  left:-6px;
-  top:30%;
-  transform: translateX(-50%);
+width: 30px;
+height: 16px;
+background-color: transparent;
+border: none;
+color:red;
+display: flex;
+align-items: center;
+// top:82px;
+position: absolute;
+color: #4C4C4C;
+text-align: center;
+font-family: Segoe UI;
+font-size: 12px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+right: 800px;
+transform: translateY(-50%);
+cursor: pointer;
+margin-top:23px;
+
+left:700px;
+&:before{
+  content:"";
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1L11 11" stroke="%234C4C4C" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.0001 1L1.00009 11" stroke="%234C4C4C" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+display:block;
+width: 10px;
+background-size:10px;
+height: 10px;
+position:absolute;
+
+left:-6px;
+top:30%;
+transform: translateX(-50%);
+}
   }
 `;
 export const Inner = styled.li.attrs<Props>(({ tabIndex }) => ({
