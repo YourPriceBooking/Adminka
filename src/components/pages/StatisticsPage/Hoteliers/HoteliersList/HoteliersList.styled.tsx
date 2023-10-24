@@ -147,7 +147,7 @@ export const ClearButton = styled.button<{ hasText: boolean }>`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  right: 690px;
+  right: 800px;
   transform: translateY(-50%);
   cursor: pointer;
   display: ${(props) => (props.hasText ? 'block' : 'none')};
