@@ -147,6 +147,7 @@ export const ClearButton = styled.button<{ hasText: boolean }>`
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  margin-top:23px;
   right: 800px;
   transform: translateY(-50%);
   cursor: pointer;
