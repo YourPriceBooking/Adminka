@@ -122,12 +122,12 @@ width: 30px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  right: 690px;
+  right: 800px;
   transform: translateY(-50%);
   cursor: pointer;
   
 
-left:811px;
+left:620px;
   &:before{
     content:"";
     background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1L11 11" stroke="%234C4C4C" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.0001 1L1.00009 11" stroke="%234C4C4C" stroke-linecap="round" stroke-linejoin="round"/></svg>');
