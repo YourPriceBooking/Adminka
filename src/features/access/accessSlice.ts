@@ -17,8 +17,8 @@ type EmailsState = {
 
 const initialState: EmailsState = {
   emails: [],
-};
 
+};
 const emailsSlice = createSlice({
   name: 'emails',
   initialState,
