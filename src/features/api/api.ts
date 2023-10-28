@@ -30,7 +30,7 @@ export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl,
-
+    
     //  TODO: 'ADD authorization'
     // prepareHeaders: (headers, { getState }) => {
     //   const token = getState().auth.token;

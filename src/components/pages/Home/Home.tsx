@@ -1,4 +1,4 @@
-import { memo, useMemo, useEffect } from 'react';
+import { memo, useMemo, useEffect,useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { Dispatch } from 'react';
 import { getStatistic } from 'features/statistic/statisticSelectors';
@@ -7,6 +7,7 @@ import { routes } from 'routes/routesConfig';
 import { LoaderMiddleware } from 'components/shared/Loader/HomeLoader/LoaderMiddleware';
 import { Link } from 'react-router-dom';
 import { fetchStatistic } from 'features/statistic/statisticOperation';
+import { baseUrl, endpoints } from 'features/api';
 import {
   HomeStyled,
   HomeNavListStyled,
@@ -25,7 +26,11 @@ type HomeNavListInterface = {
   agents: number;
   objects: number;
 };
-
+type DataProp = {
+  _id: string;
+  lastName: string;
+  firstName: string;
+};
 type StatItem = {
   text: {
     en: string;
@@ -112,18 +117,48 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
 
 export const Home: React.FC = () => {
   const statistic = useSelector(getStatistic);
-
+  const [usersCount, setUsersCount] = useState(0);
+  const [hoteliersCount, setHoteliersCount] = useState<number>(0);
   const { result } = statistic;
 
   const { amount, objectOnVerification } = result;
-  const { users, hoteliers, agents } = amount;
+  const { agents } = amount;
+  
+  useEffect(() => {
+    fetch('https://server-your-price-booking.onrender.com/api/acsess-to-admin/get-all-users')
+      .then(response => response.json())
+      .then((data: { code: number; users: DataProp[] }) => {
+        if (data.code === 200 && data.users && Array.isArray(data.users)) {
+          setUsersCount(data.users.length);
+          console.log('edg',hoteliersCount);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching user data:', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    fetch(`${baseUrl}/acsess-to-admin${endpoints.hoteliers}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data && typeof data.count === 'number') {
+          setHoteliersCount(data.count as number);
+        } else {
+          console.error('Invalid or missing count data from API');
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching hoteliers count:', error);
+      }); 
+  }, []);
 
   return (
     <HomeStyled>
       <Container>
         <HomeNavList
-          users={users}
-          hoteliers={hoteliers}
+          users={usersCount}
+          hoteliers={hoteliersCount}
           agents={agents}
           objects={objectOnVerification}
         />
