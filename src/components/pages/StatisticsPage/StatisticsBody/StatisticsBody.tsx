@@ -19,7 +19,7 @@ type Prop = {
 };
 
  const statisticsData: Statistic[] = [
-   { title: 'Hoteliers:', value: 35, isClicked: false },
+   { title: 'Hoteliers:', value: 0, isClicked: false },
    { title: 'Objects:', value: 30, isClicked: false },
    { title: 'Booking Options:', value: 1555, isClicked: false },
    { title: 'Users:', value: 103, isClicked: false },
