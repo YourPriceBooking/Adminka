@@ -1,176 +1,65 @@
-// import React, { useState } from 'react';
-// import axios from 'axios';
+import type { FormEvent } from 'react';
+import { useFromLocation } from 'common/hooks';
+import { useAppDispatch } from 'App';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { login, selectIsLoggedIn } from 'features/common';
+import { loginPageStyles } from './LoginPage.styled';
 
+export const LoginPage = () => {
+  const appDispatch = useAppDispatch();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const from = useFromLocation();
+  const nav = useNavigate();
 
-// const LoginPage = () => {
-//   const [email, setEmail] = useState('');
-//   const [verificationCode, setVerificationCode] = useState('');
-//   const [isCodeSent, setIsCodeSent] = useState(false);
-//   const [userRole, setUserRole] = useState<string | null>(null);
+  const onLogin = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-//   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     setEmail(e.target.value);
-//   };
-  
-//   const handleVerificationCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     setVerificationCode(e.target.value);
-//   };
-//   // const sendEmail = async () => {
-//   //   try {
-//   //     const response = await axios.get(
-//   //       'https://server-your-price-booking.onrender.com/api/acsess-to-admin/check-admin/',
-//   //       {
-//   //         params: {
-//   //           email: `${email}`, // Pass the email as a query parameter
-//   //         },
-//   //       }
-//   //     );
-  
-//   //     const { status, data } = response.data;
-//   //     if (status === 'success') {
-//   //       setIsCodeSent(true);
-//   //     } else {
-//   //       console.error('Email verification failed');
-//   //     }
-//   //   } catch (error) {
-//   //     console.error('Error while verifying the email', error);
-//   //   }
-//   // };
-//   const sendVerificationCode = async () => {
-//     try {
-//       const response = await axios.get(
-//         'https://server-your-price-booking.onrender.com/api/acsess-to-admin/check-admin/',
-//         {
-//           params: {
-//             email: `${email}`,
-//           },
-//         }
-//       );
+    const form = e.currentTarget;
+    const formData = new FormData(form);
 
-  
-//       const { status, data } = response.data;
-//       if (status === 'success') {
-//         if (data && data.role) {
-//           setIsCodeSent(true);
-//           setUserRole(data.role as string | null);
-//         } else {
-//           console.error('Role information is missing in the response data');
-//         }
-//       } else {
-//         console.error('Verification failed');
-//       }
-//     } catch (error) {
-//       console.error('Error while verifying the secret code', error);
-//     }
-//   };
+    const password = formData.get('password')?.toString().trim();
+    if (!password) return;
 
-//   const verifyCode = async () => {
-//     try {
-//       if (userRole === 'superadmin') {
-//         console.log('Super Admin Access');
-//       } else if (userRole === 'admin') {
-//         console.log('Admin Access');
-//       } else {
-//         console.error('Invalid user role');
-//       }
-//     } catch (error) {
-//       console.error('Code verification failed', error);
-//     }
-//   };
-
-//   return (
-//     <div>
-//       {isCodeSent ? (
-//         <div>
-//           <label>Email:
-//             <input type="email" value={email} onChange={handleEmailChange} />
-//           </label>
-//           <label>Verification Code:
-//             <input type="text" value={verificationCode} onChange={handleVerificationCodeChange} />
-//           </label>
-//           <button type="button" onClick={verifyCode}>Verify Code</button>
-//         </div>
-//       ) : (
-//         <div>
-//           <label>Email:
-//             <input type="email" value={email} onChange={handleEmailChange} />
-//           </label>
-//           <button type="button" onClick={sendVerificationCode}>Send Verification Code</button>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export { LoginPage };
-import React, { useState } from 'react';
-import axios from 'axios';  // Make sure to import Axios
-
-
-const LoginPage = () => {
-  const [email, setEmail] = useState<string>('');
-  const [secretCode, setSecretCode] = useState<string>('');
-  const [loggedInUser, setLoggedInUser] = useState<{ role: string; token: string }>({
-    role: '',
-    token: '',
-  });
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
+    appDispatch(login(password));
   };
-  const checkAdminEmail = async () => {
-    try {
-      const response = await axios.post(
-        'https://server-your-price-booking.onrender.com/api/acsess-to-admin/check-admin/'
-      );
-      setEmail(response.data.email as string);
-    } catch (error) {
-      console.error('Error checking admin email:', error);
+
+  useEffect(() => {
+    if (isLoggedIn && from) {
+      nav(from);
     }
-  };
-
-  const loginAdmin = async () => {
-    try {
-      const response = await axios.post(
-        'https://server-your-price-booking.onrender.com/api/acsess-to-admin/log-in-admin/',
-        {
-          email,
-          secretCode,
-        }
-      );
-      setLoggedInUser(response.data.user as { role: string; token: string });
-    } catch (error) {
-      console.error('Error logging in:', error);
-    }
-  };
+  }, [from, isLoggedIn, nav]);
 
   return (
-    <div>
-    <div>
-      <p>Admin Email: {email}</p>
-      <input
-          type="email"
-          placeholder="Enter Email"
-          value={email}
-          onChange={handleEmailChange}
-        />
-        <button type="button" onClick={checkAdminEmail}>Send code</button>
-      <input
-        type="text" 
-        placeholder="Enter Secret Code"
-        value={secretCode}
-        onChange={(e) => setSecretCode(e.target.value)}
-      />
-      <button type="submit" onClick={loginAdmin}>Login</button>
+    <div style={loginPageStyles.container}>
+      <form style={loginPageStyles.form} onSubmit={onLogin}>
+        <div style={loginPageStyles.isHidden}>
+          <label style={loginPageStyles.label}>
+            <span style={loginPageStyles.span}>Username</span>
+            <input
+              style={loginPageStyles.input}
+              type="text"
+              name="username"
+              autoComplete="username"
+            />
+          </label>
+        </div>
+
+        <label style={loginPageStyles.label}>
+          <span style={loginPageStyles.span}>Password</span>
+          <input
+            style={loginPageStyles.input}
+            type="password"
+            name="password"
+            autoComplete="current-password"
+          />
+        </label>
+
+        <button style={loginPageStyles.button} type="submit">
+          Login
+        </button>
+      </form>
     </div>
-  {loggedInUser && (
-    <div>
-      <p>Welcome, {loggedInUser.role}</p>
-      <p>Token: {loggedInUser.token}</p>
-    </div>
-  )}
-</div>
   );
 };
-
-export  {LoginPage};
-
