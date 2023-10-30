@@ -67,7 +67,6 @@ export const LoginPage = () => {
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage('');
     setEmail(e.target.value);
-    setShowPasswordField(true)
   };
 
   const handleInputFocus = () => {
