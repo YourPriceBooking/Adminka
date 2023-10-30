@@ -1,65 +1,101 @@
-import type { FormEvent } from 'react';
 import { useFromLocation } from 'common/hooks';
-import { useAppDispatch } from 'App';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { login, selectIsLoggedIn } from 'features/common';
-import { loginPageStyles } from './LoginPage.styled';
+import { selectIsLoggedIn } from 'features/common';
+import type { AxiosResponse } from 'axios';
+import axios from 'axios';
+import { Button } from '../Access/Button';
+import { Message, Input, Placeholder, Div } from '../Access/InputEmail/InputEmail.styled';
+import { PasswordField } from '../Access/PasswordField';
 
 export const LoginPage = () => {
-  const appDispatch = useAppDispatch();
+  
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const from = useFromLocation();
   const nav = useNavigate();
 
-  const onLogin = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-
-    const password = formData.get('password')?.toString().trim();
-    if (!password) return;
-
-    appDispatch(login(password));
-  };
-
   useEffect(() => {
     if (isLoggedIn && from) {
-      nav(from);
+      nav('/menu');
     }
   }, [from, isLoggedIn, nav]);
 
+  const [email, setEmail] = useState<string>('');
+  const [message, setMessage] = useState('');
+  const [showPasswordField, setShowPasswordField] = useState<boolean>(false);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+  const [isSend, setIsSend] = useState<boolean>(false);
+
+  // const key = 'maestro_@ukr.net';
+
+  const validEmail = (): boolean => {
+    const regEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regEmail.test(email);
+  };
+
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!validEmail()) {
+      setMessage('Недійсна електронна пошта');
+    } else {
+      try {
+        const response: AxiosResponse<{ status: string; messageData: string }> = await axios.post(
+          'https://server-your-price-booking.onrender.com/api/acsess-to-admin/check-admin/',
+          {
+            email: `${email}`,
+          }
+        );
+
+        const { status, messageData } = response.data;
+
+        if (status === 'success') {
+          setMessage(`Код підтвердження надіслано на електронну пошту: ${email}`);
+          setShowPasswordField(true);
+        } else {
+          setMessage(messageData);
+        }
+      } catch (error) {
+        setMessage('You entered the wrong door. You do not have access to this section.');
+        console.error(error);
+      }
+    }
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMessage('');
+    setEmail(e.target.value);
+    setShowPasswordField(true)
+  };
+
+  const handleInputFocus = () => {
+    setIsFocused(true);
+  };
+
   return (
-    <div style={loginPageStyles.container}>
-      <form style={loginPageStyles.form} onSubmit={onLogin}>
-        <div style={loginPageStyles.isHidden}>
-          <label style={loginPageStyles.label}>
-            <span style={loginPageStyles.span}>Username</span>
-            <input
-              style={loginPageStyles.input}
-              type="text"
-              name="username"
-              autoComplete="username"
+    <Div hasValue={isSend}>
+      {!isSend && (
+        <div>
+          <Message>{message && <p>{message}</p>}</Message>
+          <form onSubmit={handleSubmit}>
+            <Input
+              type="email"
+              name="email"
+              value={email}
+              required
+              onChange={handleEmailChange}
+              onFocus={handleInputFocus}
             />
-          </label>
+            {!showPasswordField && <Button />}
+          </form>
+          <Placeholder hasValue={email !== ''} isFocused={isFocused}>
+            E-mail:
+          </Placeholder>
+          {showPasswordField && <PasswordField email={email} setIsSend={setIsSend} />}
         </div>
-
-        <label style={loginPageStyles.label}>
-          <span style={loginPageStyles.span}>Password</span>
-          <input
-            style={loginPageStyles.input}
-            type="password"
-            name="password"
-            autoComplete="current-password"
-          />
-        </label>
-
-        <button style={loginPageStyles.button} type="submit">
-          Login
-        </button>
-      </form>
-    </div>
+      )}
+    </Div>
   );
 };

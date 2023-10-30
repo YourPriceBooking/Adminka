@@ -2,7 +2,6 @@ import { fetchHoteliers } from 'features/hoteliers/hoteliersOperation';
 import type { Dispatch } from 'redux';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { InputEmail } from '../Access/InputEmail';
 import { Inner, Wrapper } from './Statistics.styled';
 import { StatisticsBody } from './StatisticsBody/StatisticsBody';
 import { StatisticsHeader } from './StatisticsHeader/StatisticsHeader';
@@ -39,7 +38,5 @@ export const StatisticsPage = () => {
 };
 
 export const Statistics = () => (
-  <div>
-    <InputEmail component={StatisticsPage} />
-  </div>
+  <StatisticsPage />
 );

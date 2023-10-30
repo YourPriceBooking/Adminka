@@ -14,9 +14,8 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login(state, { payload }: PayloadAction<string>) {
-      console.log('payload', payload)
-      if (payload === '333') {
-        state.isLoggedIn = true;
+      if (payload !== '') {
+          state.isLoggedIn = true;
       }
     },
 

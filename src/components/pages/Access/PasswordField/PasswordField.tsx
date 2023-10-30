@@ -3,6 +3,8 @@ import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { setToken } from 'features/access/tokenSlice';
 import { useAppDispatch } from 'App';
+import { login } from 'features/common';
+// import { useNavigate } from 'react-router-dom';
 import {
   Input,
   EnterPass,
@@ -13,11 +15,16 @@ import {
 import { Button } from '../Button';
 
 type ResponseData = {
-  status: string;
-  data: {
-    token: string;
+  status: string
+  code: number;
+  user: {
+    _id: string
+    access: string[]
+    status: string
+    role: string
+    token: string
   };
-}
+};
 
 export const PasswordField: React.FC<{
   setIsSend: React.Dispatch<React.SetStateAction<boolean>>;
@@ -48,8 +55,9 @@ export const PasswordField: React.FC<{
         }
       );
 
-      const { status, data } = response.data;
-      dispatch(setToken(data.token));
+      const { status, user } = response.data;
+      dispatch(setToken(user.token));
+      dispatch(login(email));
       return status === 'success';
     } catch (error) {
       console.error('Помилка під час перевірки секретного коду', error);
@@ -67,7 +75,7 @@ export const PasswordField: React.FC<{
       setMessagePass('You entered a wrong verification code, try again');
     } else {
       setIsSend(true);
-      // navigate('/');
+      // navigate('/menu');
     }
   };
   // const handleKeyUp = async (e: React.KeyboardEvent<HTMLInputElement>) => {
