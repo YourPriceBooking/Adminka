@@ -34,6 +34,14 @@ export const LoginPage = () => {
     return regEmail.test(email);
   };
 
+  useEffect(() => {
+    const access = localStorage.getItem('user-email-with-code');
+
+    if (access === email) {
+      setShowPasswordField(true);
+    }
+  }, [email]);
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,6 +49,7 @@ export const LoginPage = () => {
     if (!validEmail()) {
       setMessage('Недійсна електронна пошта');
     } else {
+      localStorage.setItem('user-email-with-code', email);
       try {
         const response: AxiosResponse<{ status: string; messageData: string }> = await axios.post(
           'https://server-your-price-booking.onrender.com/api/acsess-to-admin/check-admin/',
