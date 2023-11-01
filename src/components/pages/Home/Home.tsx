@@ -7,6 +7,7 @@ import { routes } from 'routes/routesConfig';
 import { LoaderMiddleware } from 'components/shared/Loader/HomeLoader/LoaderMiddleware';
 import { Link } from 'react-router-dom';
 import { fetchStatistic } from 'features/statistic/statisticOperation';
+import { haveAccess } from 'features/common';
 import {
   HomeStyled,
   HomeNavListStyled,
@@ -57,6 +58,7 @@ const StatsListMemoized = memo(StatsList);
 const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface) => {
   type DispatchAction = Dispatch<any>;
   const dispatch: DispatchAction = useDispatch();
+  const isHaveAccess = useSelector(haveAccess);
 
   useEffect(() => {
     dispatch(fetchStatistic());
@@ -76,34 +78,59 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
     [agents, hoteliers, objects, users]
   );
 
+  console.log(isHaveAccess)
+
   return (
     <>
       <HomeNavListStyled>
-        <LoaderMiddleware path={routes.verification.path.verification}>
-          <p>{verification.name}</p>
-          <TextSmall>
-            <span>105</span> objects are waiting
-          </TextSmall>
-        </LoaderMiddleware>
-        <LoaderMiddleware path={finance.path}>
-          <p>{finance.name}</p>
-        </LoaderMiddleware>
-        <LoaderMiddleware path={country.path}>
-          <p>Adding a languages</p>
-          <p>Adding a country&apos;s</p>
-          <p>Location registers: 1, 2, 3</p>
-        </LoaderMiddleware>
-        <LoaderMiddleware path={statistics.path}>
-          <p>{statistics.name}</p>
-          <StatsListMemoized items={statItems} />
-        </LoaderMiddleware>
-        <LoaderMiddleware path={routes.adminPageAccess.path}>
-          {routes.adminPageAccess.name}
-        </LoaderMiddleware>
-        <LoaderMiddleware path={routes.blog.path}>{routes.blog.name}</LoaderMiddleware>
-        <LoaderMiddleware path={routes.mowgliBooking.path} type="mowgli">
-          {routes.mowgliBooking.name}
-        </LoaderMiddleware>
+        {!!isHaveAccess.includes('Objects Verification') || isHaveAccess.includes('all') ? (
+          <LoaderMiddleware path={routes.verification.path.verification}>
+            <p>{verification.name}</p>
+            <TextSmall>
+              <span>105</span> objects are waiting
+            </TextSmall>
+          </LoaderMiddleware>
+        ) : null}
+
+        {!!isHaveAccess.includes('Finance') || isHaveAccess.includes('all') ? (
+          <LoaderMiddleware path={finance.path}>
+            <p>{finance.name}</p>
+          </LoaderMiddleware>
+        ) : null}
+
+        {!!isHaveAccess.includes('Access to the administrative directory') ||
+        isHaveAccess.includes('all') ? (
+          <LoaderMiddleware path={country.path}>
+            <p>Adding a languages</p>
+            <p>Adding a country&apos;s</p>
+            <p>Location registers: 1, 2, 3</p>
+          </LoaderMiddleware>
+        ) : null}
+
+        {!!isHaveAccess.includes('Statistics and access to cabinets') ||
+        isHaveAccess.includes('all') ? (
+          <LoaderMiddleware path={statistics.path}>
+            <p>{statistics.name}</p>
+            <StatsListMemoized items={statItems} />
+          </LoaderMiddleware>
+        ) : null}
+
+        {!!isHaveAccess.includes('Access to the administrative directory') ||
+        isHaveAccess.includes('all') ? (
+          <LoaderMiddleware path={routes.adminPageAccess.path}>
+            {routes.adminPageAccess.name}
+          </LoaderMiddleware>
+        ) : null}
+
+        {!!isHaveAccess.includes('Blog') || isHaveAccess.includes('all') ? (
+          <LoaderMiddleware path={routes.blog.path}>{routes.blog.name}</LoaderMiddleware>
+        ) : null}
+
+        {!!isHaveAccess.includes('Mowgli Booking') || isHaveAccess.includes('all') ? (
+          <LoaderMiddleware path={routes.mowgliBooking.path} type="mowgli">
+            {routes.mowgliBooking.name}
+          </LoaderMiddleware>
+        ) : null}
       </HomeNavListStyled>
       <Link to={routes.registerModal.path}>Temporary link for Location Register Modal</Link>
     </>

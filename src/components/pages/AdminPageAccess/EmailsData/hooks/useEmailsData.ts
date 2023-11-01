@@ -3,6 +3,8 @@ import { useQuery } from "react-query";
 import type { AxiosResponse } from "axios";
 import axios from "axios"
 import { useState } from "react"
+import { useAppSelector } from "App";
+import type { RootState } from "App/store";
 
 type ResponseData = {
   status: string;
@@ -31,10 +33,17 @@ export const useEmailsData = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const token = useAppSelector((state: RootState) => state.enterToken.token);
+
   const fetchEmailsData = async () => {
     try {
       const response: AxiosResponse<ResponseData[]> = await axios.get(
-        'https://server-your-price-booking.onrender.com/api/acsess-to-admin/get-all-admin'
+        'https://server-your-price-booking.onrender.com/api/acsess-to-admin/get-all-admin', {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token!}`
+          }
+        }
       );
 
       const { data } = response;
@@ -48,9 +57,7 @@ export const useEmailsData = () => {
     }
   };
 
-  const query = useQuery({ queryKey: ['emailsData'], queryFn: fetchEmailsData });
-
-  console.log(query)
+  useQuery({ queryKey: ['emailsData'], queryFn: fetchEmailsData });
 
   return { emails, loading, error };
 };

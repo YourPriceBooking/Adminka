@@ -4,9 +4,11 @@ import type { RootState } from 'App/store';
 
 type AuthState = {
   isLoggedIn: boolean;
+  access: string[]
 };
 const initialState: AuthState = {
   isLoggedIn: false,
+  access: []
 };
 
 const authSlice = createSlice({
@@ -19,12 +21,18 @@ const authSlice = createSlice({
       }
     },
 
+    setAccess(state, { payload }: PayloadAction<string[]>) {
+      state.access = payload
+    },
+
     logout(state) {
       state.isLoggedIn = false;
+      state.access = []
     },
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout,setAccess } = authSlice.actions;
 export const authReducer = authSlice.reducer;
 export const selectIsLoggedIn = (state: RootState) => state.auth.isLoggedIn;
+export const haveAccess = (state: RootState) => state.auth.access

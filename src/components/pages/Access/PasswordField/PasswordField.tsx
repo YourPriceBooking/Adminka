@@ -1,9 +1,9 @@
 import React, { useState , useCallback, useRef } from 'react';
-import type { AxiosResponse } from 'axios';
+// import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { setToken } from 'features/access/tokenSlice';
 import { useAppDispatch } from 'App';
-import { login } from 'features/common';
+import { login, setAccess } from 'features/common';
 // import { useNavigate } from 'react-router-dom';
 import {
   Input,
@@ -14,7 +14,7 @@ import {
 } from './PasswordField.styled';
 import { Button } from '../Button';
 
-type ResponseData = {
+type ResponseDataAdmin = {
   status: string
   code: number;
   user: {
@@ -23,6 +23,16 @@ type ResponseData = {
     status: string
     role: string
     token: string
+  };
+};
+
+type ResponseDataSuperAdmin = {
+  status: string;
+  code: number;
+  result: {
+    _id: string;
+    role: string;
+    token: string;
   };
 };
 
@@ -47,7 +57,7 @@ export const PasswordField: React.FC<{
 
   const validPassword = async (): Promise<boolean> => {
     try {
-      const response: AxiosResponse<ResponseData> = await axios.post(
+      const response = await axios.post<ResponseDataAdmin | ResponseDataSuperAdmin>(
         'https://server-your-price-booking.onrender.com/api/acsess-to-admin/log-in-admin/',
         {
           email: `${email}`,
@@ -55,10 +65,27 @@ export const PasswordField: React.FC<{
         }
       );
 
-      const { status, user } = response.data;
-      dispatch(setToken(user.token));
-      dispatch(login(email));
-      return status === 'success';
+      if ('user' in response.data) {
+        // response.data - об'єкт типу ResponseDataAdmin
+        const { status, user } = response.data;
+        dispatch(setToken(user.token));
+        dispatch(login(email));
+        dispatch(setAccess(user.access))
+        return status === 'success';
+      }
+      if ('result' in response.data) {
+        // response.data - об'єкт типу ResponseDataSuperAdmin
+        const { status, result } = response.data;
+        dispatch(setToken(result.token));
+        dispatch(login(email));
+        dispatch(setAccess(['all']))
+        return status === 'success';
+      }
+
+      return false
+
+
+      
     } catch (error) {
       console.error('Помилка під час перевірки секретного коду', error);
       return false;
