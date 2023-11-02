@@ -12,4 +12,5 @@ export const AdminPageAccess = lazy(() => import('./AdminPageAccess'));
 export const FinancePage = lazy(() => import('./FinancePage'));
 export const Blog = lazy(() => import('./Blog'));
 export const HousePageVerif = lazy(() => import('./HousePage'));
+export const MowgliBookingStatisticPage = lazy(() => import('./MowgliBookingStatisticPage'));
 

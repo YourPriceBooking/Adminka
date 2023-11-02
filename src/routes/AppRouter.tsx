@@ -12,7 +12,8 @@ const {
   statistics,
   finance,
   blog,
-  mowgliBooking
+  mowgliBooking,
+  mowgliBookingStatistics,
 } = routes;
 
 export const AppRouter = () => (
@@ -41,6 +42,7 @@ export const AppRouter = () => (
         <Route path={finance.path} element={<finance.element />} />
         <Route path={blog.path} element={<blog.element />} />
         <Route path={mowgliBooking.path} element={<mowgliBooking.element />} />
+        <Route path={mowgliBookingStatistics.path} element={<mowgliBookingStatistics.element />} />
         {/* <Route path="/location" element={<Location />} /> */}
       </Route>
 

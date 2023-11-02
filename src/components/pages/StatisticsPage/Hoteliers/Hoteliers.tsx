@@ -36,4 +36,5 @@ export const Hoteliers: React.FC<Prop> = ({ page }) => {
         />
     </Wrapper> 
   );
-      };
+};
+      
