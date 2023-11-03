@@ -1,6 +1,6 @@
 import { memo, useCallback, useState } from 'react';
 
-import { AccountHotelier } from 'components/pages/StatisticsPage/Hoteliers/AccountHotelier/AccountHotelier';
+// import { AccountHotelier } from 'components/pages/StatisticsPage/Hoteliers/AccountHotelier/AccountHotelier';
 import {
   Inner,
   TextContent,
@@ -132,12 +132,12 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
                       ? hotels.slice(0, 6).join(' ')
                       : hotels?.join(' '))}
                   {isShowHotelier !== index && hotels && hotels.length > 0 && '...'}
-                  {isShowHotelier === index && type && type === 'Finance' && (
+                  {/* {isShowHotelier === index && type && type === 'Finance' && (
                     <>
                       {hotels?.join(' ')}
                       <AccountHotelier id={owner} />
                     </>
-                  )}
+                  )} */}
                 </TextContent>
               </WrapperText>
               {/* <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
