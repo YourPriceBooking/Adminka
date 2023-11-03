@@ -83,7 +83,7 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
   return (
     <>
       <HomeNavListStyled>
-        {!!isHaveAccess.includes('Objects Verification') || isHaveAccess.includes('all') ? (
+        {!!isHaveAccess.includes('Objects Verification') || !!isHaveAccess.includes('all') ? (
           <LoaderMiddleware path={routes.verification.path.verification}>
             <p>{verification.name}</p>
             <TextSmall>
@@ -92,14 +92,14 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
           </LoaderMiddleware>
         ) : null}
 
-        {!!isHaveAccess.includes('Finance') || isHaveAccess.includes('all') ? (
+        {!!isHaveAccess.includes('Finance') || !!isHaveAccess.includes('all') ? (
           <LoaderMiddleware path={finance.path}>
             <p>{finance.name}</p>
           </LoaderMiddleware>
         ) : null}
 
         {!!isHaveAccess.includes('Access to the administrative directory') ||
-        isHaveAccess.includes('all') ? (
+        !!isHaveAccess.includes('all') ? (
           <LoaderMiddleware path={country.path}>
             <p>Adding a languages</p>
             <p>Adding a country&apos;s</p>
@@ -108,7 +108,7 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
         ) : null}
 
         {!!isHaveAccess.includes('Statistics and access to cabinets') ||
-        isHaveAccess.includes('all') ? (
+        !!isHaveAccess.includes('all') ? (
           <LoaderMiddleware path={statistics.path}>
             <p>{statistics.name}</p>
             <StatsListMemoized items={statItems} />
@@ -116,17 +116,17 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
         ) : null}
 
         {!!isHaveAccess.includes('Access to the administrative directory') ||
-        isHaveAccess.includes('all') ? (
+        !!isHaveAccess.includes('all') ? (
           <LoaderMiddleware path={routes.adminPageAccess.path}>
             {routes.adminPageAccess.name}
           </LoaderMiddleware>
         ) : null}
 
-        {!!isHaveAccess.includes('Blog') || isHaveAccess.includes('all') ? (
+        {!!isHaveAccess.includes('Blog') || !!isHaveAccess.includes('all') ? (
           <LoaderMiddleware path={routes.blog.path}>{routes.blog.name}</LoaderMiddleware>
         ) : null}
 
-        {!!isHaveAccess.includes('Mowgli Booking') || isHaveAccess.includes('all') ? (
+        {!!isHaveAccess.includes('Mowgli Booking') || !!isHaveAccess.includes('all') ? (
           <LoaderMiddleware path={routes.mowgliBooking.path} type="mowgli">
             {routes.mowgliBooking.name}
           </LoaderMiddleware>

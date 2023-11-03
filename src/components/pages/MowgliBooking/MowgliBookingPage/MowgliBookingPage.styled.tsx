@@ -16,13 +16,11 @@ export const MowgliList = styled.li `
 export const MowgListBlock = styled.div`
   width: 290px;
   height: 290px;
-  top: 74px;
-  left: 93px;
   border-radius: 9px;
   border: 1px;
   background-color: white;
   margin-left: 80px;
-  margin-top: 70px;
+  margin-top: 35px;
   color: #4c4c4c;
   padding: 20px;
   display: flex;
