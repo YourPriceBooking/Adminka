@@ -127,7 +127,7 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
   );
 
   const addLocationButtonLabel = isPending ? <Spinner /> : '+2';
-  const showAddLocationButton = isEng && !isAddingCity && !isPending && stateId && (
+  const showAddLocationButton = !isAddingCity && !isPending && stateId && (
     <AddLocationButton type="button" onClick={startAdding}>
       {addLocationButtonLabel}
     </AddLocationButton>
