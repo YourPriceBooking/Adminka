@@ -37,7 +37,7 @@ export const MowgliBookingUsersList: React.FC<Prop> = memo(
     const [filteredUsers, setFilteredUsers] = useState<Users[]>([]);
     const [isSearching, setIsSearching] = useState(false); // Track search status
 
-    const hardcodedHoteliers: Users[] = [
+    const hardcodedUsers: Users[] = [
       {
         owner: '1',
         users: ['Hopin Viktoria '],
@@ -86,20 +86,20 @@ export const MowgliBookingUsersList: React.FC<Prop> = memo(
 
     const handleClear = () => {
       setSearchQuery('');
-      setFilteredUsers(hardcodedHoteliers);
+      setFilteredUsers(hardcodedUsers);
       setIsSearching(false);
     };
 
     const handleSearch = () => {
-      const newFilteredHoteliers = searchQuery
-        ? hardcodedHoteliers.filter(
+      const newFilteredUsers = searchQuery
+        ? hardcodedUsers.filter(
             hotelier =>
               hotelier.owner.toString().includes(searchQuery) ||
               hotelier.users?.some(user => user.toLowerCase().includes(searchQuery.toLowerCase()))
           )
-        : hardcodedHoteliers;
+        : hardcodedUsers;
       setIsSearching(true);
-      setFilteredUsers(newFilteredHoteliers);
+      setFilteredUsers(newFilteredUsers);
     };
 
     return (
