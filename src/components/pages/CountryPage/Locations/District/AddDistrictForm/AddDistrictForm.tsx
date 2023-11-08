@@ -144,7 +144,7 @@ export const AddDistrictForm = ({ cityId, stateId }: AddDistrictFormProps) => {
     </Row>
   );
 
-  const showAddDistrictButton = isEng && !isAddingDistrict && cityId && (
+  const showAddDistrictButton = !isAddingDistrict && cityId && (
     <AddLocationButton type="button" onClick={startAdding} disabled={isPending}>
       {addLocationButtonLabel}
     </AddLocationButton>
