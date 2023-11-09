@@ -106,7 +106,7 @@ export const AddStateForm = () => {
   const addLocationButtonLabel = isPending ? <Spinner /> : '+3';
   const submitAddLocationButtonLabel = isPending ? <Spinner /> : 'Add Loc 3';
 
-  const showAddStateButton = isEng && !isAddingState && activeCountryId && (
+  const showAddStateButton = !isAddingState && activeCountryId && (
     <AddLocationButton type="button" onClick={startAdding}>
       {addLocationButtonLabel}
     </AddLocationButton>
