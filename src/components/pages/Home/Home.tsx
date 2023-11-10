@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 import { fetchStatistic } from 'features/statistic/statisticOperation';
 import { haveAccess } from 'features/common';
 import { fetchVerification } from 'features/verification/verificationOperation';
+import { useAppSelector } from 'App';
+import { getCountVerification } from 'features/verification/verificationSelectors';
 import {
   HomeStyled,
   HomeNavListStyled,
@@ -59,7 +61,9 @@ const StatsListMemoized = memo(StatsList);
 const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface) => {
   type DispatchAction = Dispatch<any>;
   const dispatch: DispatchAction = useDispatch();
+
   const isHaveAccess = useSelector(haveAccess);
+  const countVerification = useAppSelector(getCountVerification);
 
   useEffect(() => {
     dispatch(fetchStatistic());
@@ -89,7 +93,7 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
           <LoaderMiddleware path={routes.verification.path.verification}>
             <p>{verification.name}</p>
             <TextSmall>
-              <span>105</span> objects are waiting
+              <span>{countVerification}</span> objects are waiting
             </TextSmall>
           </LoaderMiddleware>
         ) : null}
