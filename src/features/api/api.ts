@@ -59,6 +59,7 @@ export const endpoints = {
   financeStatistic: '/get-statistic' as const,
   statistic: '/statistic' as const,
   addDirHotelier: '/catalogForHotelier' as const,
+  amountObjectInCountry: '/get-amount-object-in-country' as const,
 };
 
 export const frozenArr = Object.freeze([]);
@@ -88,9 +89,3 @@ export const tagList = (result: Result, type: Type) => [
 ];
 
 export const tag = (id: EntityId | 'LIST', type: Type) => [{ type, id }];
-
-
-
-
-
-

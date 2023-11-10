@@ -1,13 +1,16 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useAppSelector } from 'App';
+import { getVerification } from 'features/verification/verificationSelectors';
 import { ObjectCard } from './ObjectCard';
 import { HotelCards } from '../HotelCards';
 
 import { CardsWrapper, Div, CardsStyle } from './ObjectCard/ObjectCard.styled';
 
-const defaultObjects = 777;
 export const PendingObjects = () => {
   const [components, setComponents] = useState<string[]>([]);
+
+  const verificationList = useAppSelector(getVerification);
 
   const onClick = () => {
     if (components.length < 3) {
@@ -18,24 +21,34 @@ export const PendingObjects = () => {
   return (
     <>
       <CardsWrapper>
-        <ObjectCard
-          country="Ukraine"
-          objects={defaultObjects}
-          onClick={onClick}
-          components={components}
-        />
-        <ObjectCard
-          country="Poland"
-          objects={defaultObjects}
-          onClick={onClick}
-          components={components}
-        />
-        <ObjectCard
-          country="USA"
-          objects={defaultObjects}
-          onClick={onClick}
-          components={components}
-        />
+        {verificationList !== null &&
+          Object.keys(verificationList).map(country => {
+            const verification = verificationList[country];
+            return (
+              <ObjectCard
+                key={country}
+                country={country}
+                // objects={defaultObjects}
+                onClick={onClick}
+                components={components}
+                count={verification}
+              />
+            );
+          })}
+        {/* 
+          
+          <ObjectCard
+            country="Poland"
+            objects={defaultObjects}
+            onClick={onClick}
+            components={components}
+          />
+          <ObjectCard
+            country="USA"
+            objects={defaultObjects}
+            onClick={onClick}
+            components={components}
+          /> */}
       </CardsWrapper>
       <Div>
         {components.map((_, idx) => (

@@ -1,21 +1,16 @@
-import { useState } from 'react';
 import { Wrapper, Button, Country, Text, Object, Span } from './ObjectCard.styled';
 
 type ObjectType = {
   country: string;
-  objects: number;
   onClick: () => void;
   components: string[];
+  count: number;
 };
-export const ObjectCard = ({ country, objects, onClick, components }: ObjectType) => {
-  const [pendingObjects, setPendingObjects] = useState(objects);
-
+export const ObjectCard = ({ country, onClick, components, count }: ObjectType) => {
   const addCardOnHandleClick = () => {
-     if (components.length < 3) {
-         setPendingObjects(prevState => prevState - 1);
-         onClick();
-     }
-
+    if (components.length < 3) {
+      onClick();
+    }
   };
 
   return (
@@ -24,7 +19,7 @@ export const ObjectCard = ({ country, objects, onClick, components }: ObjectType
       <Text>pending verification</Text>
       <Object>
         <Span>Objects</Span>
-        <Span>{pendingObjects}</Span>
+        <Span>{count}</Span>
       </Object>
       <Button onClick={addCardOnHandleClick} type="button">
         Take one object for verification

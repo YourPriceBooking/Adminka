@@ -8,6 +8,7 @@ import { LoaderMiddleware } from 'components/shared/Loader/HomeLoader/LoaderMidd
 import { Link } from 'react-router-dom';
 import { fetchStatistic } from 'features/statistic/statisticOperation';
 import { haveAccess } from 'features/common';
+import { fetchVerification } from 'features/verification/verificationOperation';
 import {
   HomeStyled,
   HomeNavListStyled,
@@ -62,6 +63,7 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
 
   useEffect(() => {
     dispatch(fetchStatistic());
+    dispatch(fetchVerification());
   }, [dispatch]);
 
   const statItems = useMemo(
@@ -78,7 +80,7 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
     [agents, hoteliers, objects, users]
   );
 
-  console.log(isHaveAccess)
+  console.log(isHaveAccess);
 
   return (
     <>
