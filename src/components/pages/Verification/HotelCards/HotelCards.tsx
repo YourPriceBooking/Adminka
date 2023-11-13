@@ -1,21 +1,28 @@
 import { Card, CardPhoto } from './HotelCards.styled';
-import { Image } from "./Image";
-import { Location } from "./Location";
+import { Image } from './Image';
+import { Location } from './Location';
 
 type ICard = {
   city: string;
   hotel: string;
   address: string;
   style?: React.CSSProperties;
+  imgSrc: string;
 };
-export const HotelCards = ({ city, hotel, address, style }: ICard & { style?: React.CSSProperties }) => (
+export const HotelCards = ({
+  city,
+  hotel,
+  address,
+  style,
+  imgSrc,
+}: ICard & { style?: React.CSSProperties }) => (
   <Card style={style}>
     <CardPhoto>
-      <Image alt="picture" />
+      <Image src={imgSrc} />
     </CardPhoto>
 
     <div>
-      <Location city={city} hotel={hotel} address={address} />
+      <Location city={city} hotel={hotel} address={address.replace(', undefined', '')} />
     </div>
   </Card>
 );

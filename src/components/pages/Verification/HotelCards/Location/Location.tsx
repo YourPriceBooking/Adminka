@@ -15,16 +15,20 @@ type City = {
   hotel: string;
   address: string;
 };
+
+// const getIcon = () => {
+
+// }
+
 export const Location = ({ city, hotel, address }: City) => (
-  
-    <Wrapper>
-      <Header>
-        <img src={apartHotelIcon} alt="apart hotel" />
-        {hotel.length < 10 ? <HotelName>{hotel}</HotelName> : <HotelNameXs>{hotel}</HotelNameXs>}
-      </Header>
-      <CityWrapper>
-        {city.length < 10 ? <CityName>{city}</CityName> : <CityNameXs>{city}</CityNameXs>}
-      </CityWrapper>
-      <Address>{address}</Address>
-    </Wrapper>
+  <Wrapper>
+    <Header>
+      <img src={apartHotelIcon} alt="apart hotel" />
+      {hotel.length < 10 ? <HotelName>{hotel}</HotelName> : <HotelNameXs>{hotel}</HotelNameXs>}
+    </Header>
+    <CityWrapper>
+      {city.length < 10 ? <CityName>{city}</CityName> : <CityNameXs>{city}</CityNameXs>}
+    </CityWrapper>
+    <Address>{address}</Address>
+  </Wrapper>
 );

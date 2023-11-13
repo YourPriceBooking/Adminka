@@ -2,15 +2,13 @@ import { Wrapper, Button, Country, Text, Object, Span } from './ObjectCard.style
 
 type ObjectType = {
   country: string;
-  onClick: () => void;
-  components: string[];
+  onClick: (country: string) => void;
+  // components: string[];
   count: number;
 };
-export const ObjectCard = ({ country, onClick, components, count }: ObjectType) => {
+export const ObjectCard = ({ country, onClick, count }: ObjectType) => {
   const addCardOnHandleClick = () => {
-    if (components.length < 3) {
-      onClick();
-    }
+    onClick(country);
   };
 
   return (

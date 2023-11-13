@@ -45,12 +45,11 @@ module.exports = {
     'react/require-default-props': 0,
     'react/jsx-props-no-spreading': 'off',
     'react/react-in-jsx-scope': 'off',
-    "@typescript-eslint/no-floating-promises": "off",
+    '@typescript-eslint/no-floating-promises': 'off',
     'react/function-component-definition': [
       'warn',
       { namedComponents: 'arrow-function', unnamedComponents: 'arrow-function' },
     ],
-
     '@typescript-eslint/consistent-type-imports': 'warn',
     '@typescript-eslint/consistent-type-definitions': ['warn', 'type'],
     '@typescript-eslint/no-invalid-void-type': ['off'],
@@ -70,7 +69,8 @@ module.exports = {
     '@typescript-eslint/no-unsafe-call': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',
     '@typescript-eslint/no-unsafe-member-access': 'off',
-    "react-hooks/rules-of-hooks": "off",
+    'react-hooks/rules-of-hooks': 'off',
+    '@typescript-eslint/no-unsafe-return': 'off',
 
     'linebreak-style': 0,
   },

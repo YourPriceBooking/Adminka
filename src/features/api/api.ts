@@ -60,6 +60,8 @@ export const endpoints = {
   statistic: '/statistic' as const,
   addDirHotelier: '/catalogForHotelier' as const,
   amountObjectInCountry: '/get-amount-object-in-country' as const,
+  verificationObjects: '/get-earlier-object' as const,
+  getObjectTypes: '/get-objects' as const,
 };
 
 export const frozenArr = Object.freeze([]);

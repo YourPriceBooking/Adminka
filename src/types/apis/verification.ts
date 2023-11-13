@@ -1,17 +1,78 @@
-export type VerificationData = Record<string, number>;
+export type Address = {
+  country: string;
+  state: string;
+  city: string;
+  street: string;
+  house: string;
+  apartment: string;
+  zipCode: string;
+  phone: string;
+  email: string;
+};
 
-export type ResponseVerificationData = {
+export type Type = {
+  _id: string;
+  type: string;
+};
+
+export type Photo = {
+  id: string;
+  url: string;
+  position: string;
+  _id: string;
+};
+
+export type VerificationCountryList = Record<string, number>;
+
+export type ResponseVerificationCountryList = {
   code: number;
   status: string;
-  result: VerificationData;
+  result: VerificationCountryList;
+};
+
+export type VerificationObject = {
+  address: Address;
+  _id: string;
+  type: Type;
+  objectName: string;
+  photos: Photo[];
+};
+
+export type VerificationObjectType = {
+  object: [
+    {
+      _id: string;
+      langCode: string;
+      objects: {
+        id: string;
+        _id: string;
+        type: string;
+        stars?: string;
+      }[];
+    }
+  ];
+};
+
+export type ResponseVerificationObject = {
+  code: number;
+  status: string;
+  result: VerificationObject[];
+};
+
+export type ResponseVerificationTypeObjects = {
+  code: number;
+  status: string;
+  data: VerificationObjectType;
 };
 
 export type VerificationState = {
   verification: {
-    result: VerificationData | null;
+    result: VerificationCountryList | null;
   };
+  object: {
+    result: VerificationObject | null;
+  };
+  types: VerificationObjectType | null;
   isLoadingVerification: boolean;
   error: null | unknown;
 };
-
-// {"code":200,"status":"success","result":{"USA":6,"Ukraine":60,"Poland":16}}

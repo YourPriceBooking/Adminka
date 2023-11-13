@@ -6,7 +6,7 @@ export const getCountVerification = (state: RootState) => {
   const { verification } = state.verification;
   let count = 0;
 
-  if (verification && verification.result !== null) {
+  if (verification.result !== null) {
     Object.values(verification.result).forEach(value => {
       count += value;
     });
@@ -14,3 +14,8 @@ export const getCountVerification = (state: RootState) => {
 
   return count;
 };
+
+export const getVerificationObject = (state: RootState) => state.verification.object.result;
+
+export const getVerificationTypeObjects = (state: RootState) =>
+  state.verification.types?.object[0].objects;
