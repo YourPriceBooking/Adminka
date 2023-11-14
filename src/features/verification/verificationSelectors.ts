@@ -15,7 +15,22 @@ export const getCountVerification = (state: RootState) => {
   return count;
 };
 
-export const getVerificationObject = (state: RootState) => state.verification.object.result;
+export const getVerificationObject = (state: RootState) => {
+  const object = state.verification.object.result;
+  const verificationType = state.verification.types?.object[0].objects.find(
+    type => type.id === object?.type.id
+  );
+
+  if (!verificationType) {
+    return object;
+  }
+
+  if (!object) {
+    return null;
+  }
+
+  return { ...object, type: verificationType };
+};
 
 export const getVerificationTypeObjects = (state: RootState) =>
   state.verification.types?.object[0].objects;

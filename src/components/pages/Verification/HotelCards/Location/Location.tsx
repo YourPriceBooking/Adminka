@@ -14,16 +14,18 @@ type City = {
   city: string;
   hotel: string;
   address: string;
+  type: string;
 };
 
-// const getIcon = () => {
-
-// }
-
-export const Location = ({ city, hotel, address }: City) => (
+export const Location = ({ city, hotel, address, type }: City) => (
   <Wrapper>
     <Header>
-      <img src={apartHotelIcon} alt="apart hotel" />
+      <div className="icon">
+        <svg className="icon-svg">
+          <use href={`${apartHotelIcon}#home`} />
+        </svg>
+        <div className="icon-text">{type}</div>
+      </div>
       {hotel.length < 10 ? <HotelName>{hotel}</HotelName> : <HotelNameXs>{hotel}</HotelNameXs>}
     </Header>
     <CityWrapper>

@@ -11,7 +11,7 @@ export type Address = {
 };
 
 export type Type = {
-  _id: string;
+  id: string;
   type: string;
 };
 

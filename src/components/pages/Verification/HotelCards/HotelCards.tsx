@@ -8,6 +8,7 @@ type ICard = {
   address: string;
   style?: React.CSSProperties;
   imgSrc: string;
+  type: string;
 };
 export const HotelCards = ({
   city,
@@ -15,6 +16,7 @@ export const HotelCards = ({
   address,
   style,
   imgSrc,
+  type,
 }: ICard & { style?: React.CSSProperties }) => (
   <Card style={style}>
     <CardPhoto>
@@ -22,7 +24,12 @@ export const HotelCards = ({
     </CardPhoto>
 
     <div>
-      <Location city={city} hotel={hotel} address={address.replace(', undefined', '')} />
+      <Location
+        type={type}
+        city={city}
+        hotel={hotel}
+        address={address.replace(', undefined', '')}
+      />
     </div>
   </Card>
 );

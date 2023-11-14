@@ -5,12 +5,14 @@ import {
   getVerificationObject,
 } from 'features/verification/verificationSelectors';
 import { fetchVerificationObject } from 'features/verification/verificationOperation';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { clearVerificationObject } from 'features/verification/verificationSlice';
+import { Link } from 'react-router-dom';
 import { ObjectCard } from './ObjectCard';
 
 import { CardsStyle, CardsWrapper, Div } from './ObjectCard/ObjectCard.styled';
 import { HotelCards } from '../HotelCards';
+// import { HotelCards } from '../HotelCards';
 
 export const PendingObjects = () => {
   const dispatch = useAppDispatch();
@@ -36,14 +38,7 @@ export const PendingObjects = () => {
           Object.keys(verificationCountryList).map(country => {
             const verification = verificationCountryList[country];
             return (
-              <ObjectCard
-                key={country}
-                country={country}
-                // objects={defaultObjects}
-                onClick={onClick}
-                // components={components}
-                count={verification}
-              />
+              <ObjectCard key={country} country={country} onClick={onClick} count={verification} />
             );
           })}
       </CardsWrapper>
@@ -56,6 +51,7 @@ export const PendingObjects = () => {
                 hotel={verificationObject.objectName}
                 address={`${verificationObject.address.street}, ${verificationObject.address.house}, ${verificationObject.address.apartment}`}
                 imgSrc={verificationObject.photos[0].url}
+                type={verificationObject.type.type}
               />
             </CardsStyle>
           </Link>

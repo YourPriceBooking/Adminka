@@ -55,7 +55,7 @@ const verificationSlice = createSlice({
         fetchVerificationObject.fulfilled,
         (state, { payload }: PayloadAction<ResponseVerificationObject>) => {
           state.object.result = {
-            ...payload.result[0],
+            ...payload.result[payload.result.length - 1],
           };
         }
       )
