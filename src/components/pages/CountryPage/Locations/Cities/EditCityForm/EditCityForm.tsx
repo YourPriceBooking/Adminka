@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import type { FormEvent } from 'react';
 import type { EditCity } from 'types/apis';
 import type { EntityId } from '@reduxjs/toolkit';
+import { changeUKToUA } from 'utils/api';
 import {
   CityInfo,
   CityNameLabel,
@@ -52,7 +53,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
   const addDir = useCallback(async () => {
     try {
       await addDirHotelier({
-        language: city.langCode.toLowerCase(),
+        language: changeUKToUA(city.langCode.toLowerCase()),
         idLocation: city._id,
         city: city.cityName,
         state: stateName,

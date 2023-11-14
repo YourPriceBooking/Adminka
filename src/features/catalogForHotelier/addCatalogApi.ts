@@ -1,4 +1,5 @@
 import type { IAllObjectHotelier, AddLocation, IResponseAddLocation } from 'types/addLocation';
+import { changeUKToUA } from 'utils/api';
 import { api, endpoints } from '../api/api';
 
 const catalogApi = api.injectEndpoints({
@@ -7,7 +8,7 @@ const catalogApi = api.injectEndpoints({
       query: lang => ({
         url: endpoints.catalogForHotelier,
         params: {
-          language: lang,
+          language: changeUKToUA(lang),
         },
       }),
       providesTags: () => ['AddLocation'],

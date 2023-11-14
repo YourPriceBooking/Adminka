@@ -25,6 +25,7 @@ import {
   SubmitAddLocationButton,
   UrlDirButton,
 } from 'components/shared/Buttons';
+import { changeUKToUA } from 'utils/api';
 import {
   EditDistrictFormStyled,
   DistrictInfo,
@@ -162,7 +163,7 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
 
   const handleAdd = async () => {
     const body = {
-      language: activeLangCode.toLowerCase(),
+      language: changeUKToUA(activeLangCode.toLowerCase()),
       idLocation: districtId,
       district: districtName,
       city: cityName,
