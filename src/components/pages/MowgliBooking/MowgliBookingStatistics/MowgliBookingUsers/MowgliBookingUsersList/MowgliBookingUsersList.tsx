@@ -1,6 +1,6 @@
-import { memo, useCallback, useState } from 'react';
+import { memo, useState } from 'react';
 
-import { AccountHotelier } from 'components/pages/StatisticsPage/Hoteliers/AccountHotelier/AccountHotelier';
+// import { AccountHotelier } from 'components/pages/StatisticsPage/Hoteliers/AccountHotelier/AccountHotelier';
 import {
   Inner,
   TextContent,
@@ -13,6 +13,7 @@ import {
   ClearButton,
   SearchInputContainer,
   LabelForm,
+  TextEmail,
 } from './MowgliBookingUsersList.styled';
 
 type Prop = {
@@ -25,14 +26,17 @@ type Prop = {
 
 type Users = {
   owner: string;
+  id: string;
+  email: string;
   users: string[] | undefined;
   status: 'active' | 'inactive';
 };
 
-type HandleClick = (event: React.MouseEvent<HTMLUListElement>) => void;
+// type HandleClick = (event: React.MouseEvent<HTMLUListElement>) => void;
+// ({ type, isShowUsers, setIsShowUsers, isClicked, setIsClicked });
 
 export const MowgliBookingUsersList: React.FC<Prop> = memo(
-  ({ type, isShowUsers, setIsShowUsers, isClicked, setIsClicked }) => {
+  ({ type, isShowUsers}) => {
     const [searchQuery, setSearchQuery] = useState<string>('');
 
     const [isSearching, setIsSearching] = useState(false); // Track search status
@@ -40,56 +44,68 @@ export const MowgliBookingUsersList: React.FC<Prop> = memo(
     const hardcodedUsers: Users[] = [
       {
         owner: '1',
+        id: '1123467LON',
+        email: 'henrinkwinta@gmail.com',
         users: ['Hopin Viktoria '],
         status: 'active',
       },
       {
         owner: '2',
+        id: '1123467LON',
+        email: 'henrinkwinta@gmail.com',
         users: ['Klinton Sofia'],
         status: 'inactive',
       },
       {
         owner: '3',
+        id: '1123467LON',
+        email: 'henrinkwinta@gmail.com',
         users: ['Klinton Dasha'],
         status: 'inactive',
       },
       {
         owner: '4',
+        id: '1123467LON',
+        email: 'henrinkwinta@gmail.com',
         users: ['Klinton Bill'],
         status: 'inactive',
       },
       {
         owner: '5',
+        id: '1123467LON',
+        email: 'henrinkwinta@gmail.com',
         users: ['Buch Viktoria'],
         status: 'inactive',
       },
       {
         owner: '6',
+        id: '1123467LON',
+        email: 'henrinkwinta@gmail.com',
         users: ['Bus Viktor'],
-        status: 'inactive',
+        status: 'active',
       },
     ];
 
 
     const [filteredUsers, setFilteredUsers] = useState<Users[]>(hardcodedUsers);
     
-    const handleClick: HandleClick = useCallback(
-      event => {
-        const { target } = event;
-        if (
-          target instanceof HTMLDivElement ||
-          target instanceof HTMLParagraphElement ||
-          target instanceof HTMLLIElement
-        ) {
-          const index = Number(target.dataset.id);
-          if (!isClicked) {
-            setIsShowUsers(index);
-            setIsClicked(true);
-          }
-        }
-      },
-      [isClicked, setIsShowUsers, setIsClicked]
-    );
+    // const handleClick: HandleClick = useCallback(
+    //   event => {
+    //     const { target } = event;
+    //     if (
+    //       target instanceof HTMLDivElement ||
+    //       target instanceof HTMLParagraphElement ||
+    //       target instanceof HTMLLIElement
+    //     ) {
+    //       const index = Number(target.dataset.id);
+    //       if (!isClicked) {
+    //         setIsShowUsers(index);
+    //         setIsClicked(true);
+    //       }
+    //     }
+    //   },
+    //   [isClicked, setIsShowUsers, setIsClicked]
+    // );
 
  const handleClear = () => {
    setSearchQuery('');
@@ -102,9 +118,9 @@ export const MowgliBookingUsersList: React.FC<Prop> = memo(
  const handleSearch = () => {
    const newFilteredUsers = searchQuery
      ? hardcodedUsers.filter(
-         hotelier =>
-           hotelier.owner.toString().includes(searchQuery) ||
-           hotelier.users?.some(user => user.toLowerCase().includes(searchQuery.toLowerCase()))
+         users =>
+           users.owner.toString().includes(searchQuery) ||
+           users.users?.some(user => user.toLowerCase().includes(searchQuery.toLowerCase()))
        )
      : hardcodedUsers;
    setIsSearching(true);
@@ -113,13 +129,13 @@ export const MowgliBookingUsersList: React.FC<Prop> = memo(
 
 
     return (
-      <Wrapper onClick={handleClick}>
+      <Wrapper >
         <FunProf>
           <SearchInputContainer>
             <SearchInput
               className="input"
               type="text"
-              placeholder="Search ID Hoteliers or/and Name object"
+              placeholder="Search ID, Name, Surname/E mail"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
             />
@@ -137,35 +153,36 @@ export const MowgliBookingUsersList: React.FC<Prop> = memo(
           )}
         </FunProf>
         {filteredUsers.length > 0 &&
-          filteredUsers.map(({ owner, users }, index) => (
+          filteredUsers.map(({ id, users, email, status }, index) => (
             <Inner
               border={isShowUsers === index}
               hidden={isShowUsers !== index && isShowUsers !== null}
               position={isShowUsers !== null}
-              key={owner}
+              key={id}
               tabIndex={index}
             >
-              <TextID tabIndex={index}>ID {owner}</TextID>
+              <TextEmail tabIndex={index}>{email}</TextEmail>
+              <TextID tabIndex={index}>ID {id}</TextID>
               <WrapperText tabIndex={index} typePage={type}>
                 <TextContent tabIndex={index}>
                   {isShowUsers !== index &&
                     (users && users.length > 6 ? users.slice(0, 6).join(' ') : users?.join(' '))}
                   {isShowUsers !== index && users && users.length > 0 && '...'}
-                  {isShowUsers === index && type && type === 'Finance' && (
-                    <>
-                      {users?.join(' ')}
-                      <AccountHotelier id={owner} />
-                    </>
-                  )}
+                  {/* {isShowUsers === index && type && type === 'Finance' && (
+                    // <>
+                    //   {users?.join(' ')}
+                    //   <AccountHotelier id={id} />
+                    // </>
+                  )} */}
                 </TextContent>
               </WrapperText>
-              {/* <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
+              <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
                 {status === 'active' ? (
-                  // Display your active icon
+                  <img src="/noactive.png" alt="active" />
                 ) : (
-                  // Display your inactive icon
+                  <span>NoActive</span>
                 )}
-              </div> */}
+              </div>
             </Inner>
           ))}
       </Wrapper>

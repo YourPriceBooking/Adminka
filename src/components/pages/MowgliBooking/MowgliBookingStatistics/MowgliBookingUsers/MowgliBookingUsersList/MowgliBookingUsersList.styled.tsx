@@ -157,7 +157,7 @@ left:-6px;
 top:30%;
 transform: translateX(-50%);
 }
-  }
+  
 `;
 export const Inner = styled.li.attrs<Props>(({ tabIndex }) => ({
   'data-id': tabIndex,
@@ -166,6 +166,7 @@ export const Inner = styled.li.attrs<Props>(({ tabIndex }) => ({
   align-items: ${({ position }) => (position ? 'flex-start' : 'center')};
 
   width: 100%;
+  height:40px;
   padding: 7px 31px 7px 11px;
 
   background-color: ${({ theme }) => theme.colors.white};
@@ -174,6 +175,10 @@ export const Inner = styled.li.attrs<Props>(({ tabIndex }) => ({
 
   &:hover {
     border: 0.4px solid ${({ theme }) => theme.colors.border.btnBorderHover};
+  }
+
+  :active {
+    border: 1px solid black;
   }
 `;
 
@@ -188,6 +193,19 @@ export const TextID = styled.p.attrs<Props>(({ tabIndex }) => ({
   line-height: 16px/12px;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.textThird};
+`;
+
+export const TextEmail = styled.p.attrs<Props>(({ tabIndex }) => ({
+  'data-id': tabIndex,
+}))`
+  white-space: nowrap;
+
+  font-family: ${({ theme }) => theme.fonts.segoe};
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15.96px;
+  color: ${({ theme }) => theme.colors.textThird};
+  margin-right: 15px;
 `;
 
 export const WrapperText = styled.div.attrs<PropsWrapper>(({ tabIndex }) => ({
@@ -206,7 +224,7 @@ export const WrapperText = styled.div.attrs<PropsWrapper>(({ tabIndex }) => ({
 export const TextContent = styled.div.attrs<Props>(({ tabIndex }) => ({
   'data-id': tabIndex,
 }))`
-display: inline-block
+display: inline-block;
   font-family: ${({ theme }) => theme.fonts.segoe};
   font-size: 12px;
   line-height: 16px/12px;
