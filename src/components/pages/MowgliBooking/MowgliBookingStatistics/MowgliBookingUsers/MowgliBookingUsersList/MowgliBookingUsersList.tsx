@@ -34,7 +34,7 @@ type HandleClick = (event: React.MouseEvent<HTMLUListElement>) => void;
 export const MowgliBookingUsersList: React.FC<Prop> = memo(
   ({ type, isShowUsers, setIsShowUsers, isClicked, setIsClicked }) => {
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const [filteredUsers, setFilteredUsers] = useState<Users[]>([]);
+
     const [isSearching, setIsSearching] = useState(false); // Track search status
 
     const hardcodedUsers: Users[] = [
@@ -63,9 +63,16 @@ export const MowgliBookingUsersList: React.FC<Prop> = memo(
         users: ['Buch Viktoria'],
         status: 'inactive',
       },
-      // Add more hardcoded data as needed
+      {
+        owner: '6',
+        users: ['Bus Viktor'],
+        status: 'inactive',
+      },
     ];
 
+
+    const [filteredUsers, setFilteredUsers] = useState<Users[]>(hardcodedUsers);
+    
     const handleClick: HandleClick = useCallback(
       event => {
         const { target } = event;
@@ -84,23 +91,26 @@ export const MowgliBookingUsersList: React.FC<Prop> = memo(
       [isClicked, setIsShowUsers, setIsClicked]
     );
 
-    const handleClear = () => {
-      setSearchQuery('');
-      setFilteredUsers(hardcodedUsers);
-      setIsSearching(false);
-    };
+ const handleClear = () => {
+   setSearchQuery('');
+   setFilteredUsers(hardcodedUsers);
+   setIsSearching(false);
+ };
 
-    const handleSearch = () => {
-      const newFilteredUsers = searchQuery
-        ? hardcodedUsers.filter(
-            hotelier =>
-              hotelier.owner.toString().includes(searchQuery) ||
-              hotelier.users?.some(user => user.toLowerCase().includes(searchQuery.toLowerCase()))
-          )
-        : hardcodedUsers;
-      setIsSearching(true);
-      setFilteredUsers(newFilteredUsers);
-    };
+    
+
+ const handleSearch = () => {
+   const newFilteredUsers = searchQuery
+     ? hardcodedUsers.filter(
+         hotelier =>
+           hotelier.owner.toString().includes(searchQuery) ||
+           hotelier.users?.some(user => user.toLowerCase().includes(searchQuery.toLowerCase()))
+       )
+     : hardcodedUsers;
+   setIsSearching(true);
+   setFilteredUsers(newFilteredUsers);
+ };
+
 
     return (
       <Wrapper onClick={handleClick}>
