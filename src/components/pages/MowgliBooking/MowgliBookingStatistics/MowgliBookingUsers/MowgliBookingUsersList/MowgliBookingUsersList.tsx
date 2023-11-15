@@ -129,7 +129,7 @@ export const MowgliBookingUsersList: React.FC<Prop> = memo(
 
 
     return (
-      <Wrapper >
+      <Wrapper>
         <FunProf>
           <SearchInputContainer>
             <SearchInput
@@ -166,8 +166,12 @@ export const MowgliBookingUsersList: React.FC<Prop> = memo(
               <WrapperText tabIndex={index} typePage={type}>
                 <TextContent tabIndex={index}>
                   {isShowUsers !== index &&
-                    (users && users.length > 6 ? users.slice(0, 6).join(' ') : users?.join(' '))}
-                  {isShowUsers !== index && users && users.length > 0 && '...'}
+                    (users && users.length > 0 ? (
+                      <>
+                        {users[0].length > 30 ? `${users[0].slice(0, 30)}...` : users[0]}
+                        {users.length > 1 && '...'}
+                      </>
+                    ) : null)}
                   {/* {isShowUsers === index && type && type === 'Finance' && (
                     // <>
                     //   {users?.join(' ')}
@@ -177,11 +181,7 @@ export const MowgliBookingUsersList: React.FC<Prop> = memo(
                 </TextContent>
               </WrapperText>
               <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
-                {status === 'deleted' ? (
-                  <img src="/noactive.png" alt="active" />
-                ) : (
-                  null
-                )}
+                {status === 'deleted' ? <img src="/noactive.png" alt="active" /> : null}
               </div>
             </Inner>
           ))}

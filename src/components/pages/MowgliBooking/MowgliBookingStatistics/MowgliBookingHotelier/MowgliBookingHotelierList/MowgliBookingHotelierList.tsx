@@ -52,7 +52,7 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
         owner: '2',
         id: '1123467LON',
         email: 'henrinkwinta@gmail.com',
-        hotel: ['Polo Tron Мотел на західній вулиці...'],
+        hotel: ['Polo Tron Мотел на західній вулиці'],
         status: 'inactive',
       },
       {
@@ -164,8 +164,13 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
               <WrapperText tabIndex={index} typePage={type}>
                 <TextContent tabIndex={index}>
                   {isShowHotelier !== index &&
-                    (hotel && hotel.length > 6 ? hotel.slice(0, 6).join(' ') : hotel?.join(' '))}
-                  {isShowHotelier !== index && hotel && hotel.length > 0 && '...'}
+                    (hotel && hotel.length > 0 ? (
+                      <>
+                        {hotel[0].length > 30 ? `${hotel[0].slice(0, 30)}...` : hotel[0]}
+                        {hotel.length > 1 && '...'}
+                      </>
+                    ) : null)}
+
                   {/* {isShowHotelier === index && type && type === 'Finance' && (
                     <>
                       {hotels?.join(' ')}
