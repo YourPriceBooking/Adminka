@@ -64,8 +64,8 @@ export const SearchInput = styled.input`
 
   width: 558px;
   height: 48px;
-  background: linear-gradient(0deg, #d0d0d0, #d0d0d0), linear-gradient(0deg, #f4f4f4, #f4f4f4);
-  border: 0.3px solid #d0d0d0;
+  background-color: #f4f4f4;
+  border: 0.3px solid #D0D0D0;
   border-radius: 50px;
   color: #4c4c4c;
   cursor: pointer;
@@ -87,8 +87,7 @@ export const SearchInput = styled.input`
     font-size: 14px;
     position: absolute;
     top: 50%; /* Center vertically */
-    left: 0;
-    right: 0;
+    margin-left: 50px;
     transform: translateY(-50%);
     transition: top 0.2s, font-size 0.2s; /* Smooth transition for top and font-size */
   }

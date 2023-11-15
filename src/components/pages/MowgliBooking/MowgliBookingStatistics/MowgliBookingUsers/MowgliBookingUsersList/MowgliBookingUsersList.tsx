@@ -29,7 +29,7 @@ type Users = {
   id: string;
   email: string;
   users: string[] | undefined;
-  status: 'active' | 'inactive';
+  status: 'active' | 'inactive' | 'deleted';
 };
 
 // type HandleClick = (event: React.MouseEvent<HTMLUListElement>) => void;
@@ -75,14 +75,14 @@ export const MowgliBookingUsersList: React.FC<Prop> = memo(
         id: '1123467LON',
         email: 'henrinkwinta@gmail.com',
         users: ['Buch Viktoria'],
-        status: 'inactive',
+        status: 'deleted',
       },
       {
         owner: '6',
         id: '1123467LON',
         email: 'henrinkwinta@gmail.com',
         users: ['Bus Viktor'],
-        status: 'active',
+        status: 'deleted',
       },
     ];
 
@@ -177,10 +177,10 @@ export const MowgliBookingUsersList: React.FC<Prop> = memo(
                 </TextContent>
               </WrapperText>
               <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
-                {status === 'active' ? (
+                {status === 'deleted' ? (
                   <img src="/noactive.png" alt="active" />
                 ) : (
-                  <span>NoActive</span>
+                  null
                 )}
               </div>
             </Inner>
