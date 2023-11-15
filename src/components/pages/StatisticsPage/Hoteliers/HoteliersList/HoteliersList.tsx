@@ -68,13 +68,12 @@ export const HoteliersList: React.FC<Prop> = memo(
       if (hoteliers.length > 0) hoteliers.map(({ owner }) => dispatch(fetchHotelsById(owner)));
       // eslint-disable-next-line
     }, [dispatch]);
-    // const handleLabel = (e) => {
-    //     const labelSearch =  labelVisible
-    // }
+
     const handleSearch = () => {
       const newFilteredHoteliers = searchQuery
         ? hoteliers.filter(
             hotelier =>
+              hotelier.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
               hotelier.owner.toString().includes(searchQuery) ||
               hotelier.hotels?.some(hotel =>
                 hotel.toLowerCase().includes(searchQuery.toLowerCase())
@@ -90,14 +89,20 @@ export const HoteliersList: React.FC<Prop> = memo(
         <FunProf>
           <SearchInputContainer>
             <SearchInput
+              id="searchInput"
               className="input"
               type="text"
-              placeholder="Search ID Hoteliers or/and Name object"
+              placeholder="Search ID Hoteliers or/and Name object, E-mail"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
+              onKeyUp={e => {
+                if (e.key === 'Enter') {
+                  handleSearch();
+                }
+              }}
             />
             <LabelForm className="label" htmlFor="input-id">
-              Search ID Hoteliers or/and Name object
+              Search ID Hoteliers or/and Name object, E-mail
             </LabelForm>
             <SearchIcon src={pic} alt="Search" />
           </SearchInputContainer>
