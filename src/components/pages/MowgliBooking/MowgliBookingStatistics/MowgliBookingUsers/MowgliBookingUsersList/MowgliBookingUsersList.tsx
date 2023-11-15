@@ -127,6 +127,7 @@ export const MowgliBookingUsersList: React.FC<Prop> = memo(
    setFilteredUsers(newFilteredUsers);
  };
 
+    
 
     return (
       <Wrapper>
@@ -139,6 +140,7 @@ export const MowgliBookingUsersList: React.FC<Prop> = memo(
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
             />
+            <img src="lupaIcon.png" alt="lupa" className="search-icon" />
             <LabelForm className="label" htmlFor="input-id">
               Search ID Hoteliers or/and Name object
             </LabelForm>

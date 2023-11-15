@@ -46,6 +46,16 @@ export const SearchInputContainer = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+
+  .search-icon {
+    position: absolute;
+    left: 17px;
+    top: 17px;
+    cursor: pointer;
+    color: #62636780;
+    width: 16.57px;
+    height: 16.65px;
+  }
 `;
 
 export const SearchInput = styled.input`
@@ -70,7 +80,8 @@ export const SearchInput = styled.input`
   color: #4c4c4c;
   cursor: pointer;
   padding: 5px 10px;
-  text-align: center;
+  text-align: left;
+  padding-left: 50px;
   position: relative;
   font-size: 18px;
   font-weight: 400;
