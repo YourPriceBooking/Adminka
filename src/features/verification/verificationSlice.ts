@@ -16,9 +16,7 @@ const verificationInitialState: VerificationState = {
   verification: {
     result: null,
   },
-  object: {
-    result: null,
-  },
+  objects: [],
   types: null,
   isLoadingVerification: false,
   error: null,
@@ -29,9 +27,7 @@ const verificationSlice = createSlice({
   initialState: verificationInitialState,
   reducers: {
     clearVerificationObject: state => {
-      state.object = {
-        result: null,
-      };
+      state.objects = [];
     },
   },
   extraReducers: builder => {
@@ -54,9 +50,9 @@ const verificationSlice = createSlice({
       .addCase(
         fetchVerificationObject.fulfilled,
         (state, { payload }: PayloadAction<ResponseVerificationObject>) => {
-          state.object.result = {
-            ...payload.result[payload.result.length - 1],
-          };
+          state.objects.push({
+            result: { ...payload.result[payload.result.length - 1] },
+          });
         }
       )
 

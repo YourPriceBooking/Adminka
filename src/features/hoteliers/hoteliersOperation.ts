@@ -29,14 +29,16 @@ export const fetchHoteliers = createAsyncThunk<HotelierFetch[]>(
       const data = response.data as DataHoteliers;
 
       const uniqueOwners = new Set<string>();
-             const hoteliers: HotelierFetch[] = [];
+      const hoteliers: HotelierFetch[] = [];
 
-             data.data.result.forEach(({ finances, status, yourObjects, _id }: HotelierFetch) => {
-               if (_id && !uniqueOwners.has(_id)) {
-                 uniqueOwners.add(_id);
-                 hoteliers.push({ _id, status, finances, yourObjects });
-               }
-             });
+      data.data.result.forEach(
+        ({ finances, status, yourObjects, _id, email, firstName, lastName }: HotelierFetch) => {
+          if (_id && !uniqueOwners.has(_id)) {
+            uniqueOwners.add(_id);
+            hoteliers.push({ _id, status, finances, yourObjects, email, firstName, lastName });
+          }
+        }
+      );
 
       return hoteliers;
     } catch (error) {
@@ -69,7 +71,7 @@ export const fetchBonus = createAsyncThunk<ResponseData, DataBonus>(
   'hoteliers/fetchBonus',
   async (bonusData: DataBonus, { rejectWithValue, getState }) => {
     try {
-      const authToken = getState() as RootState
+      const authToken = getState() as RootState;
 
       const response = await axios.patch(
         `${baseUrl}/acsess-to-admin${endpoints.bonus}`,
@@ -85,12 +87,9 @@ export const fetchBonus = createAsyncThunk<ResponseData, DataBonus>(
       );
       const data = response.data as ResponseData;
 
-      return data
+      return data;
     } catch (error) {
       return rejectWithValue(error);
     }
   }
 );
-
-
-

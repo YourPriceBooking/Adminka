@@ -43,19 +43,19 @@ export const PendingObjects = () => {
           })}
       </CardsWrapper>
       <Div>
-        {verificationObject && (
+        {verificationObject.map(({ result }) => (
           <Link to="/verification/house-page">
             <CardsStyle>
               <HotelCards
-                city={verificationObject.address.city}
-                hotel={verificationObject.objectName}
-                address={`${verificationObject.address.street}, ${verificationObject.address.house}, ${verificationObject.address.apartment}`}
-                imgSrc={verificationObject.photos[0].url}
-                type={verificationObject.type.type}
+                city={result.address.city}
+                hotel={result.objectName}
+                address={`${result.address.street}, ${result.address.house}, ${result.address.apartment}`}
+                imgSrc={result.photos[0].url}
+                type={result.type.type}
               />
             </CardsStyle>
           </Link>
-        )}
+        ))}
       </Div>
     </>
   );

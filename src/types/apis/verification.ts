@@ -69,9 +69,9 @@ export type VerificationState = {
   verification: {
     result: VerificationCountryList | null;
   };
-  object: {
-    result: VerificationObject | null;
-  };
+  objects: {
+    result: VerificationObject;
+  }[];
   types: VerificationObjectType | null;
   isLoadingVerification: boolean;
   error: null | unknown;

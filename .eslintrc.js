@@ -71,6 +71,7 @@ module.exports = {
     '@typescript-eslint/no-unsafe-member-access': 'off',
     'react-hooks/rules-of-hooks': 'off',
     '@typescript-eslint/no-unsafe-return': 'off',
+    "@typescript-eslint/restrict-template-expressions": "off",
 
     'linebreak-style': 0,
   },

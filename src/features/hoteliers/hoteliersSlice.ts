@@ -3,14 +3,12 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchBonus, fetchHoteliers, fetchHotelsById } from './hoteliersOperation';
 
-
 const hoteliersInitialState: HoteliersState = {
   hoteliers: [],
   isLoadingHoteliers: false,
   isLoadingHotels: false,
   error: null,
 };
-
 
 const hoteliersSlice = createSlice({
   name: 'hoteliers',
@@ -28,6 +26,7 @@ const hoteliersSlice = createSlice({
           status: hotelier.status,
           yourObjects: hotelier.yourObjects,
           finances: hotelier.finances,
+          email: hotelier.email,
         }));
       })
       .addCase(fetchHoteliers.rejected, (state, { payload }) => {
@@ -69,7 +68,6 @@ const hoteliersSlice = createSlice({
         state.isLoadingHotels = false;
         state.error = payload;
       });
-      
   },
 });
 

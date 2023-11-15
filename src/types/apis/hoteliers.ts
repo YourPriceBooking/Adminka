@@ -10,10 +10,13 @@ export type HotelierFetch = {
   status: string;
   yourObjects: number;
   _id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
 };
 
-export type HotelFetch = string[]
-  
+export type HotelFetch = string[];
+
 export type DataHoteliers = {
   code: number;
   status: string;
@@ -32,6 +35,7 @@ export type Hoteliers = {
   hotels?: string[] | undefined;
   yourObjects?: number | undefined;
   finances?: Finances;
+  email: string;
 }[];
 
 export type HoteliersState = {
@@ -45,7 +49,7 @@ export type HoteliersSelector = {
   hoteliers: {
     hoteliers: [];
     isLoading: boolean;
-    error: null | unknown
+    error: null | unknown;
   };
 };
 
@@ -82,7 +86,3 @@ export type DataBonus = {
   id: string;
   amount: number;
 };
-
-
-
-

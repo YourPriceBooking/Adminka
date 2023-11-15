@@ -16,20 +16,25 @@ export const getCountVerification = (state: RootState) => {
 };
 
 export const getVerificationObject = (state: RootState) => {
-  const object = state.verification.object.result;
-  const verificationType = state.verification.types?.object[0].objects.find(
-    type => type.id === object?.type.id
-  );
+  const { objects } = state.verification;
 
-  if (!verificationType) {
+  return objects.map(object => {
+    const verificationType = state.verification.types?.object[0].objects.find(
+      type => type.id === object.result.type.id
+    );
+
+    if (verificationType) {
+      return {
+        ...object,
+        result: {
+          ...object.result,
+          type: verificationType,
+        },
+      };
+    }
+
     return object;
-  }
-
-  if (!object) {
-    return null;
-  }
-
-  return { ...object, type: verificationType };
+  });
 };
 
 export const getVerificationTypeObjects = (state: RootState) =>
