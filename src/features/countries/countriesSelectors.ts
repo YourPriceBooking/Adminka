@@ -31,3 +31,5 @@ export const selectActiveCountryInternational = createSelector(
   selectActiveCountry,
   activeCountry => activeCountry?.international
 );
+
+export const getAddDirHotelier = (state: RootState) => state.country.addDirHotelier;

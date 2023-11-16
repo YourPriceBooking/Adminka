@@ -1,4 +1,4 @@
-import { useAppSelector } from 'App';
+import { useAppDispatch, useAppSelector } from 'App';
 import { useCloseOnOutsideClick } from 'common/hooks';
 import {
   EditButton,
@@ -8,10 +8,10 @@ import {
   ButtonsOverlay,
 } from 'components/shared/Buttons';
 import { useEditCityMutation, selectCityById } from 'features/cities';
-import { selectActiveCountryName } from 'features/countries';
+import { selectActiveCountryName, setAddDirHotelier } from 'features/countries';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { selectStateById, useAddDirHotelierMutation } from 'features/states';
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import type { FormEvent } from 'react';
 import type { EditCity } from 'types/apis';
@@ -32,6 +32,7 @@ type EditCityFormProps = {
 };
 
 export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
+  const dispatch = useAppDispatch();
   const [editCity, { isLoading }] = useEditCityMutation();
   const [addDirHotelier] = useAddDirHotelierMutation();
   const city = useAppSelector(state => selectCityById(state, cityId));
@@ -48,6 +49,20 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
 
   const formRef = useRef<HTMLFormElement>(null);
 
+  useEffect(() => {
+    const addDirHotelierList = localStorage.getItem('addDirHotelier');
+
+    if (addDirHotelierList) {
+      const parseAddDir: any[] = JSON.parse(addDirHotelierList);
+
+      parseAddDir.forEach(({ lang, country }) => {
+        if (lang === activeLanguageCode && country === activeCountryName) {
+          setColorAddDirButton('white');
+        }
+      });
+    }
+  }, []);
+
   if (!city || !stateName) return null;
 
   const addDir = useCallback(async () => {
@@ -60,10 +75,29 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
         country: activeCountryName,
         linkOnPhoto: city.cityPhotoURL,
       }).unwrap();
+      dispatch(setAddDirHotelier({ lang: activeLanguageCode, status: true }));
+
+      const addDirHotelierList = localStorage.getItem('addDirHotelier');
+
+      if (addDirHotelierList) {
+        const parseAddDir = JSON.parse(addDirHotelierList);
+
+        localStorage.setItem(
+          'addDirHotelier',
+          JSON.stringify([
+            ...parseAddDir,
+            { lang: activeLanguageCode, status: true, country: activeCountryName },
+          ])
+        );
+      } else {
+        localStorage.setItem(
+          'addDirHotelier',
+          JSON.stringify([{ lang: activeLanguageCode, status: true, country: activeCountryName }])
+        );
+      }
       setColorAddDirButton('white');
       toast.success('Successfully Adding a Directory');
     } catch (err: any) {
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       toast.error(`${err.data.message}`);
       setColorAddDirButton('green');
     }
