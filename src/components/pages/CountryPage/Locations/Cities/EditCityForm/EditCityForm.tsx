@@ -11,7 +11,7 @@ import { useEditCityMutation, selectCityById } from 'features/cities';
 import { selectActiveCountryName, setAddDirHotelier } from 'features/countries';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { selectStateById, useAddDirHotelierMutation } from 'features/states';
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import type { FormEvent } from 'react';
 import type { EditCity } from 'types/apis';
@@ -33,6 +33,7 @@ type EditCityFormProps = {
 
 export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
   const dispatch = useAppDispatch();
+
   const [editCity, { isLoading }] = useEditCityMutation();
   const [addDirHotelier] = useAddDirHotelierMutation();
   const city = useAppSelector(state => selectCityById(state, cityId));
@@ -44,28 +45,15 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
 
   const [isEditingCity, setIsEditingCity] = useState(false);
   const [colorAddDirButton, setColorAddDirButton] = useState<string>('green');
-  const startEditing = useCallback(() => setIsEditingCity(true), []);
-  const stopEditing = useCallback(() => setIsEditingCity(false), []);
+
+  const startEditing = () => setIsEditingCity(true);
+  const stopEditing = () => setIsEditingCity(false);
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  useEffect(() => {
-    const addDirHotelierList = localStorage.getItem('addDirHotelier');
-
-    if (addDirHotelierList) {
-      const parseAddDir: any[] = JSON.parse(addDirHotelierList);
-
-      parseAddDir.forEach(({ lang, country }) => {
-        if (lang === activeLanguageCode && country === activeCountryName) {
-          setColorAddDirButton('white');
-        }
-      });
-    }
-  }, []);
-
   if (!city || !stateName) return null;
 
-  const addDir = useCallback(async () => {
+  const addDir = async () => {
     try {
       await addDirHotelier({
         language: changeUKToUA(city.langCode.toLowerCase()),
@@ -101,17 +89,31 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
       toast.error(`${err.data.message}`);
       setColorAddDirButton('green');
     }
-  }, []);
+  };
 
-  const addLoc = useCallback(() => {
+  const addLoc = () => {
     toast.success('TODO: Add Location Fn');
-  }, []);
+  };
 
   useCloseOnOutsideClick({
     isEditing: isEditingCity,
     stopEditing,
     formRef,
   });
+
+  useEffect(() => {
+    const addDirHotelierList = localStorage.getItem('addDirHotelier');
+
+    if (addDirHotelierList) {
+      const parseAddDir: any[] = JSON.parse(addDirHotelierList);
+
+      parseAddDir.forEach(({ lang, country }) => {
+        if (lang === activeLanguageCode && country === activeCountryName) {
+          setColorAddDirButton('white');
+        }
+      });
+    }
+  }, [activeLanguageCode, activeCountryName]);
 
   const { stateInternational, langCode, cityName, cityInternational, cityCode, cityPhotoURL } =
     city;
