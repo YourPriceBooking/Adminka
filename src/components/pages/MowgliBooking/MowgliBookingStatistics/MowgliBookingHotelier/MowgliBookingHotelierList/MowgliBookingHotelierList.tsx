@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from 'react';
+import { memo, useState } from 'react';
 
 // import { AccountHotelier } from 'components/pages/StatisticsPage/Hoteliers/AccountHotelier/AccountHotelier';
 import {
@@ -13,7 +13,8 @@ import {
   ClearButton,
   SearchInputContainer,
   LabelForm,
-} from "./MowgliBookingHotelierList.styled"
+  TextEmail,
+} from './MowgliBookingHotelierList.styled';
 
 type Prop = {
   type?: string;
@@ -25,50 +26,84 @@ type Prop = {
 
 type Hotelier = {
   owner: string;
-  hotels: string[] | undefined;
-  status: 'active' | 'inactive';
+  id: string;
+  email: string;
+  hotel: string[] | undefined;
+  status: 'active' | 'inactive' | "deleted";
 };
 
-type HandleClick = (event: React.MouseEvent<HTMLUListElement>) => void;
+// type HandleClick = (event: React.MouseEvent<HTMLUListElement>) => void;
 
 export const MowgliBookingHotelierList: React.FC<Prop> = memo(
-  ({ type, isShowHotelier, setIsShowHotelier, isClicked, setIsClicked }) => {
+  ({ type, isShowHotelier }) => {
    
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const [filteredHoteliers, setFilteredHoteliers] = useState<Hotelier[]>([]);
     const [isSearching, setIsSearching] = useState(false); // Track search status
 
     const hardcodedHoteliers: Hotelier[] = [
       {
         owner: '1',
-        hotels: ['Hotel A', 'Hotel B', 'Hotel C'],
-        status: 'active',
+        id: '1123467LON',
+        email: 'henrinkwinta@gmail.com',
+        hotel: ['Hilton Hotel Viktoria'],
+        status: 'deleted',
       },
       {
         owner: '2',
-        hotels: ['Hotel X', 'Hotel Y'],
+        id: '1123467LON',
+        email: 'henrinkwinta@gmail.com',
+        hotel: ['Polo Tron Мотел на західній вулиці'],
         status: 'inactive',
       },
-      // Add more hardcoded data as needed
+      {
+        owner: '3',
+        id: '1123467LON',
+        email: 'henrinkwinta@gmail.com',
+        hotel: ['Kapo de jecob Хостел у Івана'],
+        status: 'inactive',
+      },
+      {
+        owner: '4',
+        id: '1123467LON',
+        email: 'henrinkwinta@gmail.com',
+        hotel: ['Polo Tron Мотел на західній вулиці'],
+        status: 'inactive',
+      },
+      {
+        owner: '5',
+        id: '1123467LON',
+        email: 'henrinkwinta@gmail.com',
+        hotel: ['Hilton Hotel Viktoria'],
+        status: 'active',
+      },
+      {
+        owner: '6',
+        id: '1123467LON',
+        email: 'henrinkwinta@gmail.com',
+        hotel: ['Hilton Hotel Viktoria'],
+        status: 'inactive',
+      },
     ];
 
-    const handleClick: HandleClick = useCallback(
-      event => {
-        const { target } = event;
-        if (
-          target instanceof HTMLDivElement ||
-          target instanceof HTMLParagraphElement ||
-          target instanceof HTMLLIElement
-        ) {
-          const index = Number(target.dataset.id);
-          if (!isClicked) {
-            setIsShowHotelier(index);
-            setIsClicked(true);
-          }
-        }
-      },
-      [isClicked, setIsShowHotelier, setIsClicked]
-    );
+      const [filteredHoteliers, setFilteredHoteliers] = useState<Hotelier[]>(hardcodedHoteliers);
+
+    // const handleClick: HandleClick = useCallback(
+    //   event => {
+    //     const { target } = event;
+    //     if (
+    //       target instanceof HTMLDivElement ||
+    //       target instanceof HTMLParagraphElement ||
+    //       target instanceof HTMLLIElement
+    //     ) {
+    //       const index = Number(target.dataset.id);
+    //       if (!isClicked) {
+    //         setIsShowHotelier(index);
+    //         setIsClicked(true);
+    //       }
+    //     }
+    //   },
+    //   [isClicked, setIsShowHotelier, setIsClicked]
+    // );
 
     const handleClear = () => {
       setSearchQuery('');
@@ -81,7 +116,7 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
              ? hardcodedHoteliers.filter(
                  hotelier =>
                    hotelier.owner.toString().includes(searchQuery) ||
-                   hotelier.hotels?.some(hotel =>
+                   hotelier.hotel?.some(hotel =>
                      hotel.toLowerCase().includes(searchQuery.toLowerCase())
                    )
                )
@@ -92,16 +127,17 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
   
 
     return (
-      <Wrapper onClick={handleClick}>
+      <Wrapper>
         <FunProf>
           <SearchInputContainer>
             <SearchInput
               className="input"
               type="text"
-              placeholder="Search ID Hoteliers or/and Name object"
+              placeholder="Search ID Hoteliers or/and Name object/E mail"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
             />
+            <img src="lupaIcon.png" alt="lupa" className="search-icon" />
             <LabelForm className="label" htmlFor="input-id">
               Search ID Hoteliers or/and Name object
             </LabelForm>
@@ -116,7 +152,7 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
           )}
         </FunProf>
         {filteredHoteliers.length > 0 &&
-          filteredHoteliers.map(({ owner, hotels }, index) => (
+          filteredHoteliers.map(({ owner, hotel, email, id, status }, index) => (
             <Inner
               border={isShowHotelier === index}
               hidden={isShowHotelier !== index && isShowHotelier !== null}
@@ -124,14 +160,18 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
               key={owner}
               tabIndex={index}
             >
-              <TextID tabIndex={index}>ID {owner}</TextID>
+              <TextEmail tabIndex={index}>{email}</TextEmail>
+              <TextID tabIndex={index}>ID {id}</TextID>
               <WrapperText tabIndex={index} typePage={type}>
                 <TextContent tabIndex={index}>
                   {isShowHotelier !== index &&
-                    (hotels && hotels.length > 6
-                      ? hotels.slice(0, 6).join(' ')
-                      : hotels?.join(' '))}
-                  {isShowHotelier !== index && hotels && hotels.length > 0 && '...'}
+                    (hotel && hotel.length > 0 ? (
+                      <>
+                        {hotel[0].length > 30 ? `${hotel[0].slice(0, 30)}...` : hotel[0]}
+                        {hotel.length > 1 && '...'}
+                      </>
+                    ) : null)}
+
                   {/* {isShowHotelier === index && type && type === 'Finance' && (
                     <>
                       {hotels?.join(' ')}
@@ -140,13 +180,11 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
                   )} */}
                 </TextContent>
               </WrapperText>
-              {/* <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
-                {status === 'active' ? (
-                  // Display your active icon
-                ) : (
-                  // Display your inactive icon
-                )}
-              </div> */}
+              <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
+                {status === 'deleted' ? <img src="/noactive.png" alt="deleted" /> : null}
+                {status === 'active' ? <img src="/activeGreen.png" alt="active" /> : null}
+                {status === 'inactive' ? <img src="/inactiveRed.png" alt="inactive" /> : null}
+              </div>
             </Inner>
           ))}
       </Wrapper>

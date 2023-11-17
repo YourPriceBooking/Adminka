@@ -38,7 +38,7 @@ export const MowgliBookingStatistics = () => {
             />
           </Inner>
           {isShowPage && <MowgliBookingHoteliers />}
-          {isShowUsersPage && <MowgliBookingUsers />}
+          {isShowUsersPage     && <MowgliBookingUsers />}
         </MowgliBookingMainStatistics>
       </Main>
     );
