@@ -5,13 +5,13 @@ import { useObjectHistoryState } from './state/ObjectHistoryState';
 import { ButtonSubmit, DivItemsOption, ButtonTranslation } from './ObjectHistory.styled';
 import { VerifInfo } from './Components/VerifInfo';
 import type { ObjectInfoOption } from './ObjectHistory.type';
-import {AddTranslationButton} from "./Components/AddTranslationButton";
-import {Chat} from "../Chat";
-
+import { AddTranslationButton } from './Components/AddTranslationButton';
+import { Chat } from '../Chat';
 
 export const ObjectHistoryOption: React.FC<ObjectInfoOption> = ({
   verifInfoStart,
   verifInfoFinish,
+  handleTranslate,
 }) => {
   const { checkedItems, itemsOption, isSubmitted, setIsSubmitted, setCheckedItems } =
     useObjectHistoryState();
@@ -61,8 +61,8 @@ export const ObjectHistoryOption: React.FC<ObjectInfoOption> = ({
       </DivItemsOption>
 
       <ButtonTranslation>
-        < AddTranslationButton />
-        <Chat/>
+        <AddTranslationButton handleTranslate={handleTranslate} />
+        <Chat />
       </ButtonTranslation>
 
       <ButtonSubmit

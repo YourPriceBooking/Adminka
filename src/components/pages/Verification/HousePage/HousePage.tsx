@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import adress from 'assets/icons/adress.svg';
 import apartHotelIcon from 'assets/icons/apartHotelIcon.svg';
+import axios from 'axios';
+import { useAppSelector } from 'App';
+import type { RootState } from 'App/store';
 import { RatingComponent } from './components/Rating';
 import { PriceComponent } from './components/PriceComponent';
 import { ButtonClose } from './components/ButtonClose';
@@ -47,31 +50,63 @@ const desc: string[] = [
   'ночной бар',
   'спорт зал',
 ];
-export const HousePage: React.FC = () => (
-  <div style={{}}>
-    <DivMain>
-      <DivPage>
-        <ButtonClose />
-        <div>
-          <ImgHotel src={apartHotelIcon} alt="" />
-          <Name>Дом Пабло Эскобара</Name>
-          <RatingComponent rating={4.4} />
-          <ImgAsress src={adress} alt="" />
-          <PAdress>ул. Джона Маккейна, д.88, г. Киев, Украина</PAdress>
-          <PriceComponent minPrice={500} maxPrice={1000} checkIn="14:00" checkOut="15:00" />
-          <GalleryComponent photos={photos} hasCard={false} />
+export const HousePage: React.FC = () => {
+  const [description, setDescription] = useState<Record<string, string>>({
+    ru: 'Здесь мы пишем про объект - описание объекта. Commons-logo.svg Медиафайлы на Викискладе Па́бло Эми́лио Эскобар Гави́рия (исп. Pablo Emilio Escobar Gaviria; 1 декабря 1949 — 2 декабря 1993) — колумбийский наркобарон и террорист. Эскобара называют «Королем кокаина», поскольку он был лидером Медельинского картеля, контролировавшего к концу 1980 года 80 % от мирового рынка кокаина[4].',
+  });
 
-          <Description hasCard={false} />
+  const token = useAppSelector((state: RootState) => state.enterToken.token);
 
-          <VideoComponent videoId="eoGdSempEuQ" />
-          <OptionDescriptionComponent styleCard={false} description={desc} />
-          <PaymentComponent />
-          <Reviews />
-        </div>
-        <ListOptionComponent />
+  const handleTranslate = async () => {
+    try {
+      const response = await axios.patch(
+        `https://server-your-price-booking.onrender.com/api/hotels-verification/add-a-translation`,
+        {
+          id: '6521b17efa494fab9ac88707',
+          description: Object.values(description),
+          languages: ['en', 'uk', 'pl', 'ru'],
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const { data } = response;
+      console.log(data);
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      setDescription({ ...description, ...data.translate });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  return (
+    <div style={{}}>
+      <DivMain>
+        <DivPage>
+          <ButtonClose />
+          <div>
+            <ImgHotel src={apartHotelIcon} alt="" />
+            <Name>Дом Пабло Эскобара</Name>
+            <RatingComponent rating={4.4} />
+            <ImgAsress src={adress} alt="" />
+            <PAdress>ул. Джона Маккейна, д.88, г. Киев, Украина</PAdress>
+            <PriceComponent minPrice={500} maxPrice={1000} checkIn="14:00" checkOut="15:00" />
+            <GalleryComponent photos={photos} hasCard={false} />
 
-        <ObjectHistory />
-      </DivPage>
-    </DivMain>
-  </div>
-);
+            <Description hasCard={false} text={description} />
+
+            <VideoComponent videoId="eoGdSempEuQ" />
+            <OptionDescriptionComponent styleCard={false} description={desc} />
+            <PaymentComponent />
+            <Reviews />
+          </div>
+          <ListOptionComponent />
+
+          <ObjectHistory handleTranslate={handleTranslate} />
+        </DivPage>
+      </DivMain>
+    </div>
+  );
+};

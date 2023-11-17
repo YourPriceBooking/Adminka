@@ -26,8 +26,8 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
   verifInfoStart,
   verifInfoFinish,
   isFirst = false,
+  handleTranslate,
 }) => {
-
   const {
     checkedItems,
     setCheckedItems,
@@ -107,7 +107,7 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
             <Address />
             <Chat />
           </DivAdressChat>
-          {isFirst && <AddAdressUrl isSubmitted={isSubmitted} />}
+          {isFirst && <AddAdressUrl isSubmitted={isSubmitted} handleTranslate={handleTranslate} />}
           <DivText>Next verification date</DivText>
           <InputData
             type="text"

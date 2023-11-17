@@ -6,7 +6,7 @@ import { VerifInfo } from './Components/VerifInfo';
 import { ObjectHistoryOption } from './ObjectHistoryOption';
 import { SalesHistory } from './Components/SalesHistory';
 
-const ObjectHistory: React.FC = () => {
+const ObjectHistory: React.FC<{ handleTranslate: any }> = ({ handleTranslate }) => {
   const verifValues = ['Object added', '00:12 22/12/2023', 'Hotelier ID 435473'];
   const verifValuesStart = ['First verification started', '07:59 22/12/2023', 'Verifier ID 435473'];
   const verifValuesFinish = [
@@ -60,6 +60,7 @@ const ObjectHistory: React.FC = () => {
         <VerifInfo values={verifValues} />
 
         <ObjectHistoryInfo
+          handleTranslate={handleTranslate}
           verifInfoStart={verifValuesStart}
           verifInfoFinish={verifValuesFinish}
           isFirst
@@ -76,6 +77,7 @@ const ObjectHistory: React.FC = () => {
         <VerifInfo values={verifObjectOptionDelete} />
 
         <ObjectHistoryOption
+          handleTranslate={handleTranslate}
           verifInfoStart={verifOptionStart}
           verifInfoFinish={verifOptionFinish}
         />

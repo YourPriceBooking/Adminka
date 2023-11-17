@@ -2,11 +2,13 @@ export type ObjectInfoInfo = {
   verifInfoStart: string[];
   verifInfoFinish: string[];
   isFirst?: boolean;
+  handleTranslate?: any;
 };
 
 export type ObjectInfoOption = {
   verifInfoStart: string[];
   verifInfoFinish: string[];
+  handleTranslate: any;
 };
 
 export type VerifInfoProps = {
@@ -17,4 +19,5 @@ export type VerifInfoProps = {
 
 export type AddAdressUrlProps = {
   isSubmitted: boolean;
-}
+  handleTranslate?: any;
+};

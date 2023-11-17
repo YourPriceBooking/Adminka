@@ -277,12 +277,17 @@ export const ButtonTranslation = styled.button`
   background: #0090ff;
   border: 2px solid #0090ff;
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3);
-  color: #FFF;
+  color: #fff;
   text-align: justify;
   font-size: 11px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  &:disabled,
+  &[disabled] {
+    opacity: 0.5;
+  }
 `;
 
 export const ButtonTranslationAdr = styled.div`

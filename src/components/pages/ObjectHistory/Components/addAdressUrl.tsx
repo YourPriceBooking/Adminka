@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import adress from 'assets/icons/adress.svg';
 import pen from 'assets/icons/pen.svg';
-import {ButAddAdrPen, ButtonCustom, ButtonTranslationAdr, InputCostomed} from './Compinents.styled';
+import {
+  ButAddAdrPen,
+  ButtonCustom,
+  ButtonTranslationAdr,
+  InputCostomed,
+} from './Compinents.styled';
 import type { AddAdressUrlProps } from '../ObjectHistory.type';
-import {AddTranslationButton} from "./AddTranslationButton";
+import { AddTranslationButton } from './AddTranslationButton';
 
-export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted }) => {
+export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted, handleTranslate }) => {
   const [inputText1, setInputText1] = useState('');
   const [inputText2, setInputText2] = useState('');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -63,7 +68,7 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted }) => {
         <div />
       </div>
       <ButtonTranslationAdr>
-        < AddTranslationButton />
+        <AddTranslationButton handleTranslate={handleTranslate} />
       </ButtonTranslationAdr>
     </div>
   );
