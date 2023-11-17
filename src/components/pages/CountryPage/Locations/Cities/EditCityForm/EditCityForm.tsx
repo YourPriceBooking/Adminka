@@ -202,7 +202,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
     </CityInfo>
   );
 
-  const addDirHotelierDisabled = false;
+  const addDirHotelierDisabled = colorAddDirButton === 'white';
   const addDirUsersDisabled = true;
 
   const showEditButtons = !isEditingCity && (
