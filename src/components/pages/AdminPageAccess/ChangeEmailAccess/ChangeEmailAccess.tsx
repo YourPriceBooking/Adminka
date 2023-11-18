@@ -46,7 +46,7 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
     !!selectedEmail?.access.includes('Objects Verification')
   );
   const [languagesChecked, setLanguagesChecked] = useState(
-    !!selectedEmail?.access.includes('Access to the administrative directory')
+    !!selectedEmail?.access.includes('Adding a languages Adding a country`s Location registers')
   );
   const [statisticsChecked, setStatisticsChecked] = useState(
     !!selectedEmail?.access.includes('Statistics and access to cabinets')
@@ -65,7 +65,7 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
   const queryClient = useQueryClient()
 
   const handleChangeEmailAccess = async () => {
-    if (!(objectsChecked || languagesChecked || financeChecked || blogChecked || statisticsChecked)) {
+    if (!(objectsChecked || languagesChecked || financeChecked || blogChecked || statisticsChecked || mowgliBookingChecked)) {
       try {
         const response: AxiosResponse<ResponseData> = await axios.patch(
           'https://server-your-price-booking.onrender.com/api/acsess-to-admin/change-status',

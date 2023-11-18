@@ -114,8 +114,7 @@ const HomeNavList = ({ users, hoteliers, agents, objects, bookingOption }: HomeN
           </LoaderMiddleware>
         ) : null}
 
-        {
-        isHaveAccess.includes('all') ? (
+        {isHaveAccess.includes('all') ? (
           <LoaderMiddleware path={routes.adminPageAccess.path}>
             {routes.adminPageAccess.name}
           </LoaderMiddleware>

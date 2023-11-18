@@ -129,11 +129,11 @@ export const EmailsData = ({emails}: {emails: any}) => {
               <br />
               Verification
             </p>
+            <p>Finance</p>
+            <p>Statistics </p>
             <p>
               Adding a languages <br /> Adding a countrys <br /> Location registers: <br /> 1, 2, 3
             </p>
-            <p>Statistics </p>
-            <p>Finance</p>
             <p>Blog</p>
             <p>Mowgli Booking</p>
           </div>

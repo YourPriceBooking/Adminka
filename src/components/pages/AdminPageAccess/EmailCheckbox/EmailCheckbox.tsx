@@ -55,11 +55,12 @@ export const EmailCheckbox = ({
           onChange={e => setObjectsChecked(e.target.checked)}
         />
         <input
-          id="languages"
+          id="Finance"
           type="checkbox"
-          checked={languagesChecked}
-          onChange={e => setLanguagesChecked(e.target.checked)}
+          checked={financeChecked}
+          onChange={e => setFinanceChecked(e.target.checked)}
         />
+
         <input
           id="Statistics"
           type="checkbox"
@@ -67,10 +68,10 @@ export const EmailCheckbox = ({
           onChange={e => setStatisticsChecked(e.target.checked)}
         />
         <input
-          id="Finance"
+          id="languages"
           type="checkbox"
-          checked={financeChecked}
-          onChange={e => setFinanceChecked(e.target.checked)}
+          checked={languagesChecked}
+          onChange={e => setLanguagesChecked(e.target.checked)}
         />
         <input
           id="Blog"
