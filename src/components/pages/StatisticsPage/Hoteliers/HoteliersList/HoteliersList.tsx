@@ -21,6 +21,7 @@ import {
 import likeIcon from '../../../../../assets/icons/like.svg';
 import pic from '../../../../../assets/icons/pict.svg';
 import dislikeIcon from '../../../../../assets/icons/dislike.svg';
+import deletedIcon from '../../../../../assets/icons/deletedIcon.svg';
 import { AccountHotelier } from '../AccountHotelier/AccountHotelier';
 
 type Prop = {
@@ -150,10 +151,14 @@ export const HoteliersList: React.FC<Prop> = memo(
                 </TextContent>
               </WrapperText>
               <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
-                {status === 'active' ? (
+                {status === 'active' && (
                   <img src={likeIcon} alt="like" width="20px" height="20px" />
-                ) : (
+                )}
+                {status === 'not active' && (
                   <img src={dislikeIcon} alt="dislike" width="20px" height="20px" />
+                )}
+                {status === 'deleted' && (
+                  <img src={deletedIcon} alt="dislike" width="20px" height="20px" />
                 )}
               </div>
             </Inner>
