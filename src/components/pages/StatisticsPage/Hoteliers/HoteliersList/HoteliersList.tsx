@@ -40,7 +40,7 @@ export const HoteliersList: React.FC<Prop> = memo(
     const { hoteliers, isLoadingHotels } = useSelector(selectorHoteliers);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [filteredHoteliers, setFilteredHoteliers] = useState(hoteliers);
-    // const [labelVisible, setlabelvisible] = useState(false);
+
     const [isClearClicked, setIsClearClicked] = useState(false);
 
     const handleClick: HandleClick = useCallback(
