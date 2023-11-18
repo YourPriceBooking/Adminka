@@ -46,6 +46,16 @@ export const SearchInputContainer = styled.div`
   display: flex;
   align-items: center;
   position: relative;
+
+  .search-icon {
+    position: absolute;
+    left: 17px;
+    top: 17px;
+    cursor: pointer;
+    color: #62636780;
+    width: 16.57px;
+    height: 16.65px;
+  }
 `;
 
 export const SearchInput = styled.input`
@@ -64,13 +74,14 @@ export const SearchInput = styled.input`
 
   width: 558px;
   height: 48px;
-  background: linear-gradient(0deg, #d0d0d0, #d0d0d0), linear-gradient(0deg, #f4f4f4, #f4f4f4);
-  border: 0.3px solid #d0d0d0;
+  background-color: #f4f4f4;
+  border: 0.3px solid #D0D0D0;
   border-radius: 50px;
   color: #4c4c4c;
   cursor: pointer;
   padding: 5px 10px;
-  text-align: center;
+  text-align: left;
+  padding-left: 50px;
   position: relative;
   font-size: 18px;
   font-weight: 400;
@@ -87,8 +98,7 @@ export const SearchInput = styled.input`
     font-size: 14px;
     position: absolute;
     top: 50%; /* Center vertically */
-    left: 0;
-    right: 0;
+    margin-left: 50px;
     transform: translateY(-50%);
     transition: top 0.2s, font-size 0.2s; /* Smooth transition for top and font-size */
   }
@@ -157,7 +167,7 @@ left:-6px;
 top:30%;
 transform: translateX(-50%);
 }
-  }
+  
 `;
 export const Inner = styled.li.attrs<Props>(({ tabIndex }) => ({
   'data-id': tabIndex,
@@ -166,6 +176,7 @@ export const Inner = styled.li.attrs<Props>(({ tabIndex }) => ({
   align-items: ${({ position }) => (position ? 'flex-start' : 'center')};
 
   width: 100%;
+  height:40px;
   padding: 7px 31px 7px 11px;
 
   background-color: ${({ theme }) => theme.colors.white};
@@ -174,6 +185,10 @@ export const Inner = styled.li.attrs<Props>(({ tabIndex }) => ({
 
   &:hover {
     border: 0.4px solid ${({ theme }) => theme.colors.border.btnBorderHover};
+  }
+
+  :active {
+    border: 1px solid black;
   }
 `;
 
@@ -188,6 +203,19 @@ export const TextID = styled.p.attrs<Props>(({ tabIndex }) => ({
   line-height: 16px/12px;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.textThird};
+`;
+
+export const TextEmail = styled.p.attrs<Props>(({ tabIndex }) => ({
+  'data-id': tabIndex,
+}))`
+  white-space: nowrap;
+
+  font-family: ${({ theme }) => theme.fonts.segoe};
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15.96px;
+  color: ${({ theme }) => theme.colors.textThird};
+  margin-right: 15px;
 `;
 
 export const WrapperText = styled.div.attrs<PropsWrapper>(({ tabIndex }) => ({
@@ -206,7 +234,7 @@ export const WrapperText = styled.div.attrs<PropsWrapper>(({ tabIndex }) => ({
 export const TextContent = styled.div.attrs<Props>(({ tabIndex }) => ({
   'data-id': tabIndex,
 }))`
-display: inline-block
+display: inline-block;
   font-family: ${({ theme }) => theme.fonts.segoe};
   font-size: 12px;
   line-height: 16px/12px;

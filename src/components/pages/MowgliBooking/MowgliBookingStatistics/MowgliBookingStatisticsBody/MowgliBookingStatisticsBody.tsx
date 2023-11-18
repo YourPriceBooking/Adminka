@@ -33,6 +33,7 @@ export const MowgliBookingStatisticsBody: React.FC<Prop> = ({
   const [statistics, setStatistics] = useState(statisticsData);
   const [activeIndex, setActiveIndex] = useState<number | null>(-1);
   
+  
 
  
 
