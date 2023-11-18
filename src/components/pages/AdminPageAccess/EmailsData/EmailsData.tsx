@@ -175,7 +175,9 @@ export const EmailsData = ({emails}: {emails: any}) => {
                   )}
                 </p>
                 <p>
-                  {email.access.includes('Access to the administrative directory') ? (
+                  {email.access.includes(
+                    'Adding a languages Adding a country`s Location registers'
+                  ) ? (
                     <CheckedStyle />
                   ) : (
                     ''

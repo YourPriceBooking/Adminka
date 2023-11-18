@@ -36,14 +36,14 @@ export const EmailCheckbox = ({
           Objects
           <br /> Verification
         </label>
+        <label htmlFor="Finance">Finance</label>
+        <label htmlFor="Statistics">Statistics</label>
         <label htmlFor="languages">
           Adding a languages
           <br /> Adding a countrys
           <br /> Location registers: <br />
           1, 2, 3
         </label>
-        <label htmlFor="Statistics">Statistics</label>
-        <label htmlFor="Finance">Finance</label>
         <label htmlFor="Blog">Blog</label>
         <label htmlFor="Blog">Mowgli Booking</label>
       </div>

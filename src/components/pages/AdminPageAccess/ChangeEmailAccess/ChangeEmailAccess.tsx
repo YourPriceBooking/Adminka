@@ -101,7 +101,7 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
               objectsChecked && 'Objects Verification',
               financeChecked && 'Finance',
               statisticsChecked && 'Statistics and access to cabinets',
-              languagesChecked && 'Access to the administrative directory',
+              languagesChecked && 'Adding a languages Adding a country`s Location registers',
               blogChecked && 'Blog',
               mowgliBookingChecked && 'Mowgli Booking',
             ].filter(Boolean),
