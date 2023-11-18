@@ -6,7 +6,7 @@ import { fetchStatistic } from './statisticOperation';
 const statisticInitialState: StatisticState = {
   statistic: {
     result: {
-      objectOnVerification: 0,
+      amountOfObject: 0,
       amount: {
         users: 0,
         hoteliers: 0,

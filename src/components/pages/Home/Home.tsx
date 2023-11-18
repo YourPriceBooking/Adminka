@@ -8,9 +8,6 @@ import { LoaderMiddleware } from 'components/shared/Loader/HomeLoader/LoaderMidd
 import { Link } from 'react-router-dom';
 import { fetchStatistic } from 'features/statistic/statisticOperation';
 import { haveAccess } from 'features/common';
-import { fetchObjectTypes, fetchVerification } from 'features/verification/verificationOperation';
-import { useAppSelector } from 'App';
-import { getCountVerification } from 'features/verification/verificationSelectors';
 import {
   HomeStyled,
   HomeNavListStyled,
@@ -28,6 +25,7 @@ type HomeNavListInterface = {
   hoteliers: number;
   agents: number;
   objects: number;
+  bookingOption: number;
 };
 
 type StatItem = {
@@ -58,17 +56,13 @@ const StatsList = ({ items }: StatsListType) => (
 
 const StatsListMemoized = memo(StatsList);
 
-const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface) => {
+const HomeNavList = ({ users, hoteliers, agents, objects, bookingOption }: HomeNavListInterface) => {
   type DispatchAction = Dispatch<any>;
   const dispatch: DispatchAction = useDispatch();
-
   const isHaveAccess = useSelector(haveAccess);
-  const countVerification = useAppSelector(getCountVerification);
 
   useEffect(() => {
     dispatch(fetchStatistic());
-    dispatch(fetchVerification());
-    dispatch(fetchObjectTypes());
   }, [dispatch]);
 
   const statItems = useMemo(
@@ -79,34 +73,32 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
       { text: { en: 'Objects: ', ua: "Об'єкти ", ru: 'Объекты: ' }, data: objects },
       {
         text: { en: 'Booking Options:', ua: 'Варіанти бронювання', ru: 'Варианты бронирования:' },
-        data: objects,
+        data: bookingOption,
       },
     ],
-    [agents, hoteliers, objects, users]
+    [agents, hoteliers, objects, users, bookingOption]
   );
-
-  console.log(isHaveAccess);
 
   return (
     <>
       <HomeNavListStyled>
-        {!!isHaveAccess.includes('Objects Verification') || !!isHaveAccess.includes('all') ? (
+        {!!isHaveAccess.includes('Objects Verification') || isHaveAccess.includes('all') ? (
           <LoaderMiddleware path={routes.verification.path.verification}>
             <p>{verification.name}</p>
             <TextSmall>
-              <span>{countVerification}</span> objects are waiting
+              <span>105</span> objects are waiting
             </TextSmall>
           </LoaderMiddleware>
         ) : null}
 
-        {!!isHaveAccess.includes('Finance') || !!isHaveAccess.includes('all') ? (
+        {!!isHaveAccess.includes('Finance') || isHaveAccess.includes('all') ? (
           <LoaderMiddleware path={finance.path}>
             <p>{finance.name}</p>
           </LoaderMiddleware>
         ) : null}
 
         {!!isHaveAccess.includes('Access to the administrative directory') ||
-        !!isHaveAccess.includes('all') ? (
+        isHaveAccess.includes('all') ? (
           <LoaderMiddleware path={country.path}>
             <p>Adding a languages</p>
             <p>Adding a country&apos;s</p>
@@ -115,7 +107,7 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
         ) : null}
 
         {!!isHaveAccess.includes('Statistics and access to cabinets') ||
-        !!isHaveAccess.includes('all') ? (
+        isHaveAccess.includes('all') ? (
           <LoaderMiddleware path={statistics.path}>
             <p>{statistics.name}</p>
             <StatsListMemoized items={statItems} />
@@ -123,17 +115,17 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
         ) : null}
 
         {!!isHaveAccess.includes('Access to the administrative directory') ||
-        !!isHaveAccess.includes('all') ? (
+        isHaveAccess.includes('all') ? (
           <LoaderMiddleware path={routes.adminPageAccess.path}>
             {routes.adminPageAccess.name}
           </LoaderMiddleware>
         ) : null}
 
-        {!!isHaveAccess.includes('Blog') || !!isHaveAccess.includes('all') ? (
+        {!!isHaveAccess.includes('Blog') || isHaveAccess.includes('all') ? (
           <LoaderMiddleware path={routes.blog.path}>{routes.blog.name}</LoaderMiddleware>
         ) : null}
 
-        {!!isHaveAccess.includes('Mowgli Booking') || !!isHaveAccess.includes('all') ? (
+        {!!isHaveAccess.includes('Mowgli Booking') || isHaveAccess.includes('all') ? (
           <LoaderMiddleware path={routes.mowgliBooking.path} type="mowgli">
             {routes.mowgliBooking.name}
           </LoaderMiddleware>
@@ -149,8 +141,10 @@ export const Home: React.FC = () => {
 
   const { result } = statistic;
 
-  const { amount, objectOnVerification } = result;
+  const { amount, amountOfObject, amountOfBookingOption } = result;
   const { users, hoteliers, agents } = amount;
+
+  console.log(result)
 
   return (
     <HomeStyled>
@@ -159,7 +153,8 @@ export const Home: React.FC = () => {
           users={users}
           hoteliers={hoteliers}
           agents={agents}
-          objects={objectOnVerification}
+          objects={amountOfObject}
+          bookingOption={amountOfBookingOption}
         />
       </Container>
     </HomeStyled>
