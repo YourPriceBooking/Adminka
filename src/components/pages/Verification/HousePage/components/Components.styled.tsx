@@ -289,27 +289,26 @@ export const DivListTitle = styled.div`
   align-items: center;
 `;
 
-export const ButtonLanguage =styled.button`
+export const ButtonLanguage = styled.button`
   border: none;
   border-radius: 5px;
-  background: #EFFDF1;
+  background: #effdf1;
   cursor: pointer;
   margin: 5px;
-  width: 46px;
+  min-width: 46px;
   height: 34px;
 `;
 export const DivLanguageOriginal = styled.div`
-  color: #FF6000;
+  color: #ff6000;
   text-align: center;
-  font-size: 10px;
+  font-size: 11px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  margin-top: -12px;
 `;
 
 export const DivButtonsLanguage = styled.div`
-display: flex;
+  display: flex;
   margin-top: 10px;
   margin-bottom: -20px;
 `;
@@ -320,15 +319,14 @@ export const DivNumberOption = styled.div`
   margin-bottom: -30px;
   width: 54.118px;
   height: 20px;
-  border: 0.5px solid #AEAFBC;
+  border: 0.5px solid #aeafbc;
   border-radius: 4px;
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3);
-  background: #FFFFFF;
-  color: #4C4C4C;
+  background: #ffffff;
+  color: #4c4c4c;
   text-align: center;
   font-size: 13px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
 `;
-

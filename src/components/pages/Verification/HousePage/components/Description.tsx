@@ -36,13 +36,13 @@ const LanguageButton: React.FC<LanguageButtonProps> = ({
       style={active ? buttonStyles.active : buttonStyles.inactive}
     >
       {showOriginal && <DivLanguageOriginal>original</DivLanguageOriginal>}
-      <div>{language}</div>
+      {language && <div>{language}</div>}
     </ButtonLanguage>
   );
 };
 
 export const Description: React.FC<DescriptionComponentProps> = ({ hasCard, text }) => {
-  const [language, setLanguage] = useState('ru');
+  const [language, setLanguage] = useState('original');
 
   const handleLanguageChange = (newLanguage: string) => {
     setLanguage(newLanguage);
@@ -59,15 +59,14 @@ export const Description: React.FC<DescriptionComponentProps> = ({ hasCard, text
   return (
     <div>
       <PDescription hasStyle={hasCard}>
-        <p>Здесь мы пишем про объект - описание объекта.</p>
         {text
           ? text[language]
           : 'Commons-logo.svg Медиафайлы на Викискладе Па́бло Эми́лио Эскобар Гави́рия (исп. Pablo Emilio Escobar Gaviria; 1 декабря 1949 — 2 декабря 1993) — колумбийский наркобарон и террорист. Эскобара называют «Королем кокаина», поскольку он был лидером Медельинского картеля, контролировавшего к концу 1980 года 80 % от мирового рынка кокаина[4].'}
         <DivButtonsLanguage>
-          {languages.map(lang => (
+          {languages.map((lang, index) => (
             <LanguageButton
               key={lang.code}
-              language={lang.code}
+              language={index === 0 ? '' : lang.code}
               active={language === lang.code}
               showOriginal={lang.showOriginal}
               onClick={() => handleLanguageChange(lang.code)}
