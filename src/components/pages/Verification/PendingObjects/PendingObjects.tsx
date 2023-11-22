@@ -4,7 +4,10 @@ import {
   getVerification,
   getVerificationObject,
 } from 'features/verification/verificationSelectors';
-import { fetchVerificationObject } from 'features/verification/verificationOperation';
+import {
+  fetchVerification,
+  fetchVerificationObject,
+} from 'features/verification/verificationOperation';
 // import { Link } from 'react-router-dom';
 import { clearVerificationObject } from 'features/verification/verificationSlice';
 import { Link } from 'react-router-dom';
@@ -21,15 +24,18 @@ export const PendingObjects = () => {
   const verificationObject = useAppSelector(getVerificationObject);
 
   const onClick = (country: string) => {
-    dispatch(fetchVerificationObject(country));
+    if (verificationObject.length <= 18) {
+      dispatch(fetchVerificationObject(country));
+    }
   };
 
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    dispatch(fetchVerification());
+
+    return () => {
       dispatch(clearVerificationObject());
-    },
-    []
-  );
+    };
+  }, []);
 
   return (
     <>
@@ -38,13 +44,19 @@ export const PendingObjects = () => {
           Object.keys(verificationCountryList).map(country => {
             const verification = verificationCountryList[country];
             return (
-              <ObjectCard key={country} country={country} onClick={onClick} count={verification} />
+              <ObjectCard
+                key={country}
+                country={country}
+                onClick={onClick}
+                count={verification}
+                disabled={verificationObject.length >= 18}
+              />
             );
           })}
       </CardsWrapper>
       <Div>
         {verificationObject.map(({ result }) => (
-          <Link to="/verification/house-page">
+          <Link key={Math.random()} to="/verification/house-page">
             <CardsStyle>
               <HotelCards
                 city={result.address.city}

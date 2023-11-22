@@ -5,8 +5,9 @@ type ObjectType = {
   onClick: (country: string) => void;
   // components: string[];
   count: number;
+  disabled: boolean;
 };
-export const ObjectCard = ({ country, onClick, count }: ObjectType) => {
+export const ObjectCard = ({ country, onClick, count, disabled }: ObjectType) => {
   const addCardOnHandleClick = () => {
     onClick(country);
   };
@@ -19,7 +20,7 @@ export const ObjectCard = ({ country, onClick, count }: ObjectType) => {
         <Span>Objects</Span>
         <Span>{count}</Span>
       </Object>
-      <Button onClick={addCardOnHandleClick} type="button">
+      <Button onClick={addCardOnHandleClick} type="button" disabled={disabled}>
         Take one object for verification
       </Button>
     </Wrapper>

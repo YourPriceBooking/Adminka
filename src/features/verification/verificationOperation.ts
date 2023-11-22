@@ -40,7 +40,7 @@ export const fetchVerificationObject = createAsyncThunk<ResponseVerificationObje
 
       const data = response.data as ResponseVerificationObject;
 
-      return data;
+      return { ...data, country };
     } catch (error) {
       return rejectWithValue(error);
     }

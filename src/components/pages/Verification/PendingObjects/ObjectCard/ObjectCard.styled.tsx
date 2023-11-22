@@ -71,12 +71,10 @@ export const Div = styled.div`
   /* display: flex;
   flex-direction: column ; */
   position: relative;
-  background-color: #ebedfe;
+  // background-color: #ebedfe;
 `;
 
 export const CardsStyle = styled.div`
-/* width: 40px;
+  /* width: 40px;
 height: 0px; */
-position: absolute;
-left: 40%;
-`
+`;

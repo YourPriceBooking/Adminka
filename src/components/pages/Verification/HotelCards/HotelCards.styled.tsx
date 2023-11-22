@@ -19,13 +19,11 @@ export const Card = styled.div`
   }
 
   &:last-child {
-    margin-bottom: 0px;
+    margin-bottom: 1rem;
   }
- 
 `;
 export const CardPhoto = styled.div`
   position: relative;
 
   margin-top: 14px;
 `;
-

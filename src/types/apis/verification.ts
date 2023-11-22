@@ -56,6 +56,7 @@ export type VerificationObjectType = {
 export type ResponseVerificationObject = {
   code: number;
   status: string;
+  country: string;
   result: VerificationObject[];
 };
 
@@ -70,6 +71,7 @@ export type VerificationState = {
     result: VerificationCountryList | null;
   };
   objects: {
+    country: string;
     result: VerificationObject;
   }[];
   types: VerificationObjectType | null;

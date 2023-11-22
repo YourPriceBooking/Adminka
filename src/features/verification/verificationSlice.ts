@@ -46,13 +46,50 @@ const verificationSlice = createSlice({
         state.isLoadingVerification = false;
         state.error = payload;
       })
-      // GET VERIFICATION OBJECTS
+      // SET VERIFICATION OBJECTS
       .addCase(
         fetchVerificationObject.fulfilled,
         (state, { payload }: PayloadAction<ResponseVerificationObject>) => {
-          state.objects.push({
-            result: { ...payload.result[payload.result.length - 1] },
-          });
+          let countryObjectsCount = -1;
+
+          if (state.verification.result) {
+            countryObjectsCount = state.verification.result[payload.country];
+          }
+
+          if (countryObjectsCount !== 0) {
+            if (state.objects.length > 0) {
+              const findCountry = state.objects.filter(
+                object => object.country === payload.country
+              );
+
+              if (findCountry.length > 0) {
+                state.objects.push({
+                  country: payload.country,
+                  result: { ...payload.result[payload.result.length - (findCountry.length + 1)] },
+                });
+              } else {
+                state.objects.push({
+                  country: payload.country,
+                  result: { ...payload.result[payload.result.length - 1] },
+                });
+              }
+            } else {
+              state.objects.push({
+                country: payload.country,
+                result: { ...payload.result[payload.result.length - 1] },
+              });
+            }
+
+            if (state.verification.result) {
+              const findCountry = state.objects.filter(
+                object => object.country === payload.country
+              );
+
+              const newCout = payload.result.length - findCountry.length;
+
+              state.verification.result[payload.country] = newCout;
+            }
+          }
         }
       )
 
