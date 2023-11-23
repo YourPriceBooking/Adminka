@@ -32,9 +32,11 @@ export const MowgliBookingPage = () => {
         </div> */}
           </Link>
         </MowgListBlock>
-        <MowgListBlock>
-          <h1>Finance</h1>
-        </MowgListBlock>
+        <Link to={routes.mowgliBookingFinance.path} style={{ color: 'inherit' }}>
+          <MowgListBlock>
+            <h1>Finance</h1>
+          </MowgListBlock>
+        </Link>
       </MowgliList>
       <MowgliList>
         <MowgListBlock>
