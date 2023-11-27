@@ -1,8 +1,10 @@
 
-import {  Main } from './MowgliBookingFinance.styled';
+import { Main } from './MowgliBookingFinance.styled';
+import { MowgliBookingFinanceMain } from './MowgliBookingFinanceMain';
+
 
 export const MowgliBookingFinance = () => (
     <Main>
-      <p>Hello!</p>
+      <MowgliBookingFinanceMain/>
     </Main>
   );
