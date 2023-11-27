@@ -15,9 +15,9 @@ import {
   ClearButtoned,
 } from './UsersList.styled';
 import pi from '../../../../../assets/icons/pict.svg';
-import likeIcon from '../../../../../assets/icons/like.svg';
+// import likeIcon from '../../../../../assets/icons/like.svg';
 import deletedIcon from '../../../../../assets/icons/deletedIcon.svg';
-import dislikeIcon from '../../../../../assets/icons/dislike.svg';
+// import dislikeIcon from '../../../../../assets/icons/dislike.svg';
 
 type Prop = {
   type?: string;
@@ -39,6 +39,7 @@ export const UsersList: React.FC<
   const [isLoading, setIsLoading] = useState(true);
   const [isSearchClicked, setIsSearchClicked] = useState(false);
   const [isClearClicked, setIsClearClicked] = useState(false);
+
   useEffect(() => {
     fetch('https://server-your-price-booking.onrender.com/api/acsess-to-admin/get-all-users')
       .then(response => response.json())
@@ -141,12 +142,12 @@ export const UsersList: React.FC<
               </TextContent>
             </WrapperText>
             <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
-              {user.status === 'active' && (
+              {/* {user.status === 'active' && (
                 <img src={likeIcon} alt="like" width="20px" height="20px" />
               )}
               {user.status === 'not active' && (
                 <img src={dislikeIcon} alt="dislike" width="20px" height="20px" />
-              )}
+              )} */}
               {user.status === 'deleted' && (
                 <img src={deletedIcon} alt="dislike" width="20px" height="20px" />
               )}

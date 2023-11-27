@@ -19,11 +19,7 @@ export type StatisticState = {
   statistic: {
     result: {
       objectOnVerification: number;
-      amount: {
-        users: number;
-        hoteliers: number;
-        agents: number;
-      };
+      amount: Record<string, number>;
       activeObject: number;
       amountOfBookingOption: number;
     };

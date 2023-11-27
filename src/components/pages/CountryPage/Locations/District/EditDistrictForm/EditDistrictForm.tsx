@@ -1,7 +1,7 @@
 import type { FormEvent } from 'react';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { EditDistrict } from 'types/apis';
-import { useRef, useCallback, useState } from 'react';
+import { useRef, useCallback, useState, useMemo } from 'react';
 import { toast } from 'react-toastify';
 import { useAppSelector } from 'App';
 import {
@@ -11,8 +11,8 @@ import {
 } from 'features/districts';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { useCloseOnOutsideClick } from 'common/hooks';
-import { selectActiveCountryName } from 'features/countries';
-import { selectStateById } from 'features/states';
+import { selectActiveCountryInternational, selectActiveCountryName } from 'features/countries';
+import { makeSelectStateInternational, selectStateById } from 'features/states';
 import { selectCityById } from 'features/cities';
 import { wait } from 'common/utils';
 import { useAddCityToHoteilerMutation } from 'features/catalogForHotelier/addCatalogApi';
@@ -48,6 +48,9 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
 
   const district = useAppSelector(state => selectDistrictById(state, districtId));
   const activeCountryName = useAppSelector(selectActiveCountryName);
+  const countryInternational = useAppSelector(selectActiveCountryInternational);
+  const selectStateInternational = useMemo(() => makeSelectStateInternational(stateId), [stateId]);
+  const stateInternational = useAppSelector(selectStateInternational);
   const stateName = useAppSelector(state => selectStateById(state, stateId)?.stateName);
   const cityName = useAppSelector(state => selectCityById(state, cityId)?.cityName);
 
@@ -84,12 +87,10 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
 
   const {
     cityInternational,
-
     districtName,
     districtInternational,
     districtCode,
     districtPhotoURL,
-
     langCode,
   } = district;
 
@@ -171,7 +172,12 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
       country: activeCountryName,
       linkOnPhoto: districtPhotoURL,
       districtInternational,
+      cityInternational,
+      stateInternational,
+      countryInternational,
     };
+    console.log(body);
+
     await addCityToHoteiler(body);
   };
 

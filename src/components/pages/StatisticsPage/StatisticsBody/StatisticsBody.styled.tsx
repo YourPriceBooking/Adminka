@@ -2,8 +2,7 @@ import styled from 'styled-components/macro';
 
 type Props = {
   isClicked: boolean;
-}
-
+};
 
 export const WrapperBody = styled.ul`
   display: flex;
@@ -35,6 +34,11 @@ export const ListItem = styled.li<Props>`
   justify-content: space-between;
   cursor: pointer;
 
+  &.disabled {
+    pointer-events: none;
+    cursor: default;
+  }
+
   > p {
     font-weight: ${({ isClicked }) => (isClicked ? 600 : 300)};
   }
@@ -62,7 +66,6 @@ export const ListItem = styled.li<Props>`
   }
 `;
 
-
 export const TextItem = styled.p`
   font-family: ${({ theme }) => theme.fonts.roboto};
   font-size: 18px;
@@ -75,7 +78,6 @@ export const TextItem = styled.p`
     line-height: 25px/21px;
   }
 `;
-
 
 export const TextSpan = styled.span`
   font-family: ${({ theme }) => theme.fonts.roboto};
