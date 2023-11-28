@@ -1,14 +1,3 @@
-// import { Main } from './MowgliBookingFinanceMain.styled';
-
-// export const MowgliBookingFinanceMain = () => (
-  
-//   <Main>
-//     <p>Hello!</p>
-//   </Main>
-// );
-
-
-
 
 // import type { Dispatch } from 'react';
 // import { useEffect } from 'react';
@@ -33,7 +22,7 @@ export const MowgliBookingFinanceMain: React.FC = () => {
   //   hoteliersPaidWithBonuses,
   //   refundsOfUnspentMoneyToHoteliers,
   // } = finances;
-  // eslint-disable-next-line
+
   // type DispatchAction = Dispatch<any>;
   // const dispatch: DispatchAction = useDispatch();
 
