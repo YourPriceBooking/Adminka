@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { PostsList } from './Blog.styled';
-import { Button } from './components/Button';
+import { BlogContainer, Header, PostsList } from './Blog.styled';
+import { Button } from './components/Button/Button';
 import { ListItem } from './components/ListItem';
 import type { Post } from './types/Post';
 import AddEditPost from './components/AddEditPost';
@@ -25,8 +25,35 @@ const mockData: Post[] = [
     description: 'ololololol',
   },
 ];
+
+const mockLanguage = [
+  {
+    id: 0,
+    code: 'EN',
+  },
+  {
+    id: 1,
+    code: 'PL',
+  },
+  {
+    id: 2,
+    code: 'UA',
+  },
+  {
+    id: 3,
+    code: 'RU',
+  },
+  // {
+  //   id: 4,
+  //   code: 'TR',
+  // },
+  // {
+  //   id: 5,
+  //   code: 'FR',
+  // },
+];
 export const BlogPage = () => {
-  const [isAddEditPopupOpen, setAddEditPopupOpen] = useState(false); 
+  const [isAddEditPopupOpen, setAddEditPopupOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<Post | undefined>(undefined);
 
   const handleEditPost = (post: Post) => {
@@ -40,9 +67,23 @@ export const BlogPage = () => {
   };
 
   return (
-    <div>
-      <div>Nav</div>
-      <Button onClick={handleAddPost}>+ Add</Button>
+    <BlogContainer>
+      <Header>
+        <div>
+          <Button type="navigate" onClick={handleAddPost}>
+            Add New
+          </Button>
+          <p>PUBLICATIONS</p>
+        </div>
+        <div>
+          {mockLanguage.map(lang => (
+            <Button type="navigate" onClick={() => console.log(lang.code)}>
+              {lang.code}
+            </Button>
+          ))}
+        </div>
+      </Header>
+
       <PostsList>
         {mockData.map(post => (
           <ListItem key={post.id} post={post} onClick={() => handleEditPost(post)} />
@@ -57,6 +98,6 @@ export const BlogPage = () => {
         }}
         post={selectedPost}
       />
-    </div>
+    </BlogContainer>
   );
 };

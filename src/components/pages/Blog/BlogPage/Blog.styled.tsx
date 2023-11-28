@@ -13,7 +13,33 @@ export const HomeStyled = styled.section`
   }
 `;
 
-export const Header = styled.header``;
+export const BlogContainer = styled.div`
+  padding-top: 1rem;
+  background: #fff;
+  height: 100vh;
+  margin: 1rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  border-radius: 9px;
+`;
+
+export const Header = styled.header`
+  background: rgba(106, 255, 121, 1);
+  box-shadow: 0px 0px 4.069767475128174px 0px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  font-size: 23px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+  padding: 0.5rem 3rem 0.5rem 0.5rem;
+
+  & div {
+    display: flex;
+    align-items: center;
+  }
+`;
 
 export const BlogWrapper = styled.div`
   position: relative;
