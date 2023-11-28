@@ -8,7 +8,11 @@ import {
   ButtonsOverlay,
 } from 'components/shared/Buttons';
 import { useEditCityMutation, selectCityById } from 'features/cities';
-import { selectActiveCountryName, setAddDirHotelier } from 'features/countries';
+import {
+  selectActiveCountryInternational,
+  selectActiveCountryName,
+  setAddDirHotelier,
+} from 'features/countries';
 import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { selectStateById, useAddDirHotelierMutation } from 'features/states';
 import { useState, useRef, useEffect } from 'react';
@@ -38,6 +42,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
   const [addDirHotelier] = useAddDirHotelierMutation();
   const city = useAppSelector(state => selectCityById(state, cityId));
   const stateName = useAppSelector(state => selectStateById(state, stateId)?.stateName);
+  const countryInternational = useAppSelector(selectActiveCountryInternational);
 
   const activeLanguageCode = useAppSelector(selectActiveLangCode);
   const activeCountryName = useAppSelector(selectActiveCountryName);
@@ -53,6 +58,9 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
 
   if (!city || !stateName) return null;
 
+  const { stateInternational, langCode, cityName, cityInternational, cityCode, cityPhotoURL } =
+    city;
+
   const addDir = async () => {
     try {
       await addDirHotelier({
@@ -62,6 +70,9 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
         state: stateName,
         country: activeCountryName,
         linkOnPhoto: city.cityPhotoURL,
+        cityInternational,
+        stateInternational,
+        countryInternational,
       }).unwrap();
       dispatch(setAddDirHotelier({ lang: activeLanguageCode, status: true }));
 
@@ -114,9 +125,6 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
       });
     }
   }, [activeLanguageCode, activeCountryName]);
-
-  const { stateInternational, langCode, cityName, cityInternational, cityCode, cityPhotoURL } =
-    city;
 
   const isInputDisabled = !isEditingCity;
   const isEditButtonDisabled = isEditingCity;
