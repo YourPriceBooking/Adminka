@@ -51,6 +51,7 @@ export const StatisticsBody: React.FC<Prop> = ({
     setStatistics(updatedStatistics);
   }, [hoteliers, statisticsObjects]);
 
+
   const handleClick = (index: number) => {
     setActiveIndex(prevIndex => (index !== prevIndex ? index : null));
     const updatedStatistics = statistics.map((stat, i) => ({

@@ -36,14 +36,14 @@ export const EmailCheckbox = ({
           Objects
           <br /> Verification
         </label>
+        <label htmlFor="Finance">Finance</label>
+        <label htmlFor="Statistics">Statistics</label>
         <label htmlFor="languages">
           Adding a languages
           <br /> Adding a countrys
           <br /> Location registers: <br />
           1, 2, 3
         </label>
-        <label htmlFor="Statistics">Statistics</label>
-        <label htmlFor="Finance">Finance</label>
         <label htmlFor="Blog">Blog</label>
         <label htmlFor="Blog">Mowgli Booking</label>
       </div>
@@ -55,11 +55,12 @@ export const EmailCheckbox = ({
           onChange={e => setObjectsChecked(e.target.checked)}
         />
         <input
-          id="languages"
+          id="Finance"
           type="checkbox"
-          checked={languagesChecked}
-          onChange={e => setLanguagesChecked(e.target.checked)}
+          checked={financeChecked}
+          onChange={e => setFinanceChecked(e.target.checked)}
         />
+
         <input
           id="Statistics"
           type="checkbox"
@@ -67,10 +68,10 @@ export const EmailCheckbox = ({
           onChange={e => setStatisticsChecked(e.target.checked)}
         />
         <input
-          id="Finance"
+          id="languages"
           type="checkbox"
-          checked={financeChecked}
-          onChange={e => setFinanceChecked(e.target.checked)}
+          checked={languagesChecked}
+          onChange={e => setLanguagesChecked(e.target.checked)}
         />
         <input
           id="Blog"

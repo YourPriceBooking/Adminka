@@ -2,6 +2,7 @@ import { Navigate, Routes, Route } from 'react-router-dom';
 import { routes } from './routesConfig';
 import { PrivateRoute } from './PrivateRoute';
 
+
 const {
   login,
   menu,
@@ -15,6 +16,7 @@ const {
   mowgliBooking,
   mowgliBookingStatistics,
   post,
+  mowgliBookingFinance,
 } = routes;
 
 export const AppRouter = () => (
@@ -45,6 +47,7 @@ export const AppRouter = () => (
         <Route path={post.path} element={<post.element />} />
         <Route path={mowgliBooking.path} element={<mowgliBooking.element />} />
         <Route path={mowgliBookingStatistics.path} element={<mowgliBookingStatistics.element />} />
+        <Route path={mowgliBookingFinance.path} element={<mowgliBookingFinance.element />} />
         {/* <Route path="/location" element={<Location />} /> */}
       </Route>
 
