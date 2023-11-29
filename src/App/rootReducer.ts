@@ -9,6 +9,7 @@ import { hoteliersReducer } from 'features/hoteliers/hoteliersSlice';
 import { financeReducer } from 'features/financeStatistic/financeSlice';
 import { statisticReducer } from 'features/statistic/statisticSlice';
 import { verificationReducer } from 'features/verification/verificationSlice';
+import { blogReducer } from 'features/blog/blogSlice';
 
 export const rootReducer = combineReducers({
   // server state
@@ -26,4 +27,5 @@ export const rootReducer = combineReducers({
   financeStatistic: financeReducer,
   statistic: statisticReducer,
   verification: verificationReducer,
+  blog: blogReducer,
 });

@@ -57,13 +57,11 @@ export const PopUp = styled.div`
   justify-content: center;
 
   & > .content {
-    background-color: #fff;
+    background-color: rgb(255, 255, 255);
     padding: 30px;
     border-radius: 4px;
-    max-width: 80%;
-    min-width: 50%;
-    width: content-fit;
-    min-height: 40vh;
+    min-width: 95%;
+    min-height: 95vh;
   }
 `;
 

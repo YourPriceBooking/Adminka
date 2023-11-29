@@ -1,4 +1,5 @@
 import { App } from 'App';
+import PostPage from 'components/pages/Blog/PostPage/PostPage';
 import {
   CountryPage,
   LoginPage,
@@ -41,6 +42,7 @@ export const routes = {
     element: AdminPageAccess,
   },
   blog: { path: '/blog', name: 'Blog', element: Blog },
+  post: { path: '/blog/post/:id', name: 'Post', element: PostPage },
   mowgliBooking: { path: '/mowgli-booking', name: 'Mowgli booking', element: mowgliBookingPage },
   registerModal: { path: '/registerModal', name: 'registerModal', element: RegisterModalPage },
   mowgliBookingStatistics: {

@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BlogContainer, Header, PostsList } from './Blog.styled';
 import { Button } from './components/Button/Button';
 import { ListItem } from './components/ListItem';
 import type { Post } from './types/Post';
-import AddEditPost from './components/AddEditPost';
 
 const mockData: Post[] = [
   {
@@ -30,6 +29,7 @@ const mockLanguage = [
   {
     id: 0,
     code: 'EN',
+    isActive: true,
   },
   {
     id: 1,
@@ -43,34 +43,27 @@ const mockLanguage = [
     id: 3,
     code: 'RU',
   },
-  // {
-  //   id: 4,
-  //   code: 'TR',
-  // },
-  // {
-  //   id: 5,
-  //   code: 'FR',
-  // },
 ];
 export const BlogPage = () => {
-  const [isAddEditPopupOpen, setAddEditPopupOpen] = useState(false);
-  const [selectedPost, setSelectedPost] = useState<Post | undefined>(undefined);
+  console.log('add');
+  // const [isAddEditPopupOpen, setAddEditPopupOpen] = useState(false);
+  // const [selectedPost, setSelectedPost] = useState<Post | undefined>(undefined);
 
-  const handleEditPost = (post: Post) => {
-    setSelectedPost(post);
-    setAddEditPopupOpen(true);
-  };
+  // const handleEditPost = (post: Post) => {
+  //   setSelectedPost(post);
+  //   setAddEditPopupOpen(true);
+  // };
 
-  const handleAddPost = () => {
-    setSelectedPost(undefined);
-    setAddEditPopupOpen(true);
-  };
+  // const handleAddPost = () => {
+  //   setSelectedPost(undefined);
+  //   setAddEditPopupOpen(true);
+  // };
 
   return (
     <BlogContainer>
       <Header>
         <div>
-          <Button type="navigate" onClick={handleAddPost}>
+          <Button type="navigate" onClick={() => console.log('lang.code')}>
             Add New
           </Button>
           <p>PUBLICATIONS</p>
@@ -86,10 +79,10 @@ export const BlogPage = () => {
 
       <PostsList>
         {mockData.map(post => (
-          <ListItem key={post.id} post={post} onClick={() => handleEditPost(post)} />
+          <ListItem key={post.id} post={post} onClick={() => console.log('lang.code')} />
         ))}
       </PostsList>
-      <AddEditPost
+      {/* <AddEditPost
         isOpen={isAddEditPopupOpen}
         onClose={() => setAddEditPopupOpen(false)}
         onSubmit={(updatedPost: Post) => {
@@ -97,7 +90,7 @@ export const BlogPage = () => {
           setAddEditPopupOpen(false);
         }}
         post={selectedPost}
-      />
+      /> */}
     </BlogContainer>
   );
 };

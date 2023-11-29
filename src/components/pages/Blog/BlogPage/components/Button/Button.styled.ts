@@ -2,7 +2,7 @@ import styled from 'styled-components/macro';
 
 export const ButtonContainer = styled.button`
   background: rgb(255, 255, 255);
-  color: rgb(0, 0, 0);
+  color: rgba(96, 246, 111, 1);
   text-transform: uppercase;
   border: none;
   padding: 0.5rem;
@@ -12,4 +12,8 @@ export const ButtonContainer = styled.button`
   font-weight: bold;
   min-width: 70px;
   margin-right: 6px;
+
+  &:hover {
+    color: rgba(5, 109, 16, 1);
+  }
 `;
