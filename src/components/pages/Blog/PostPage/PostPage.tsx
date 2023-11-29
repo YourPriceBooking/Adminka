@@ -4,6 +4,7 @@ import { useAppSelector } from 'App';
 import { getPost } from 'features/blog/blogSelector';
 import { BlogContainer, Header } from '../BlogPage/Blog.styled';
 import { Button } from '../BlogPage/components/Button/Button';
+import { PostContent } from './PostPage.styled';
 
 // type AddEditPostProps = {
 //   isOpen: boolean;
@@ -70,6 +71,22 @@ const PostPage: React.FC = () => {
           ))}
         </div>
       </Header>
+      <PostContent>
+        <div className="title">
+          <input type="text" placeholder="Title" />
+          <input
+            className="description"
+            type="text"
+            placeholder="Description (description of the article, which is not displayed in the article, but is used as a meta tag)"
+          />
+        </div>
+
+        <div className="text">
+          <textarea name="text" placeholder="Text post">
+            text
+          </textarea>
+        </div>
+      </PostContent>
     </BlogContainer>
   );
 };
