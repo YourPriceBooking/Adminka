@@ -1,5 +1,5 @@
 export type StatisticData = {
-  amountOfObject: number;
+  objectOnVerification: number;
   amount: {
     users: number;
     hoteliers: number;
@@ -20,7 +20,6 @@ export type StatisticState = {
     result: {
       objectOnVerification: number;
       amount: Record<string, number>;
-      amountOfObject: number;
       activeObject: number;
       amountOfBookingOption: number;
     };
