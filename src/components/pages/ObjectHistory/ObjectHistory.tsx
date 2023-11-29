@@ -7,46 +7,58 @@ import { ObjectHistoryOption } from './ObjectHistoryOption';
 import { SalesHistory } from './Components/SalesHistory';
 
 const ObjectHistory: React.FC<{ handleTranslate: any }> = ({ handleTranslate }) => {
-  const verifValues = ['Object added', '00:12 22/12/2023', 'Hotelier ID 435473'];
-  const verifValuesStart = ['First verification started', '07:59 22/12/2023', 'Verifier ID 435473'];
+  const verifValues = ['Object ID 45454454 added', '00:12 22/12/2023', 'Hotelier ID 435473'];
+  const verifValuesStart = [
+    'First verification Object ID 45454454 started  ',
+    '07:59 22/12/2023',
+    'Verifier ID 435473',
+  ];
   const verifValuesFinish = [
-    'First verification finished',
+    'First verification Object ID 45454454 finished ',
     '07:59 22/12/2023',
     'Verifier ID 435473',
   ];
 
   const verifValuesStartNext = [
-    'Next verification started',
+    'Next verification Object ID 45454454 started ',
     '07:59 22/12/2023',
     'Verifier ID 435473',
   ];
   const verifValuesFinishNext = [
-    'Next verification finished',
+    'Next verification Object ID 45454454 finished   ',
     '07:59 22/12/2023',
     'Verifier ID 435473',
   ];
 
-  const verifObjectDelete = ['Object deleted', '07:59 22/12/2023', 'Verifier ID 435473'];
-  const verifObjectRestore = ['Object restored', '07:59 22/12/2023', 'Verifier ID 435473'];
+  const verifObjectDelete = [
+    'Object ID 45454454 deleted ',
+    '07:59 22/12/2023',
+    'Verifier ID 435473',
+  ];
+  const verifObjectRestore = [
+    'Object ID 45454454 restored',
+    '07:59 22/12/2023',
+    'Verifier ID 435473',
+  ];
 
   const verifObjectOptionAdd = [
-    'Booking option 357RT added',
+    'Booking option 357RT  ID 45454454 added        ',
     '07:59 22/12/2023',
     'Verifier ID 435473',
   ];
   const verifObjectOptionDelete = [
-    'Booking option 357RT deleted',
+    'Booking option 357RT ID 45454454 deleted  ',
     '07:59 22/12/2023',
     'Verifier ID 435473',
   ];
 
   const verifOptionStart = [
-    'First verification Booking option 357RT started',
+    'First verification Booking option  357RT  ID 45454454 started',
     '07:59 22/12/2023',
     'Verifier ID 435473',
   ];
   const verifOptionFinish = [
-    'First verification Booking option 357RT finished',
+    'First verification Booking option 357RT  ID 45454454 finished',
     '07:59 22/12/2023',
     'Verifier ID 435473',
   ];
