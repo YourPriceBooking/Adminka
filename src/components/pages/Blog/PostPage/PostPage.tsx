@@ -1,5 +1,7 @@
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import backArrow from 'assets/icons/backarrow.svg';
+import { useAppSelector } from 'App';
+import { getPost } from 'features/blog/blogSelector';
 import { BlogContainer, Header } from '../BlogPage/Blog.styled';
 import { Button } from '../BlogPage/components/Button/Button';
 
@@ -49,18 +51,23 @@ const ButtonsHeader = [
 
 const PostPage: React.FC = () => {
   const { id } = useParams();
-  console.log(id);
+
+  if (!id) return <Navigate to="/blog" replace />;
+
+  const post = useAppSelector(state => getPost(state, id));
+
+  if (!post) return <Navigate to="/blog" replace />;
 
   return (
     <BlogContainer>
       <Header>
         <div>
           <img src={backArrow} alt="arrow" />
-          <div>
-            {ButtonsHeader.map(({ title }) => (
-              <Button onClick={() => console.log(title)}>{title}</Button>
-            ))}
-          </div>
+        </div>
+        <div>
+          {ButtonsHeader.map(({ title }) => (
+            <Button onClick={() => console.log(title)}>{title}</Button>
+          ))}
         </div>
       </Header>
     </BlogContainer>

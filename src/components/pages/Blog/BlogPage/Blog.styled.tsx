@@ -83,6 +83,11 @@ export const PostWrapper = styled.article`
   box-shadow: 0px 0px 4px 0px #00000025;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  cursor: pointer;
+
+  &:hover {
+    border: solid 1px #000;
+  }
 `;
 
 export const PostTitle = styled.h2`

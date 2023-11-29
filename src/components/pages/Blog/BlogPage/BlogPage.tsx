@@ -1,29 +1,10 @@
 import React from 'react';
+import { useAppSelector } from 'App';
+import { getAllPosts } from 'features/blog/blogSelector';
+import { useNavigate } from 'react-router-dom';
 import { BlogContainer, Header, PostsList } from './Blog.styled';
 import { Button } from './components/Button/Button';
 import { ListItem } from './components/ListItem';
-import type { Post } from './types/Post';
-
-const mockData: Post[] = [
-  {
-    id: 1,
-    title: 'Your Price Booking in the our life',
-    publicationDate: new Date('12/10/2023'),
-    changeDate: new Date('12/10/2023'),
-    author: 'Taras Shevchenko',
-    imageUrl: 'https://www.bing.com/',
-    description: 'ololololol',
-  },
-  {
-    id: 2,
-    title: 'Your Price Booking in the our life',
-    publicationDate: new Date('12/10/2023'),
-    changeDate: new Date('12/10/2023'),
-    author: 'Taras Shevchenko',
-    imageUrl: 'https://www.bing.com/',
-    description: 'ololololol',
-  },
-];
 
 const mockLanguage = [
   {
@@ -45,25 +26,15 @@ const mockLanguage = [
   },
 ];
 export const BlogPage = () => {
-  console.log('add');
-  // const [isAddEditPopupOpen, setAddEditPopupOpen] = useState(false);
-  // const [selectedPost, setSelectedPost] = useState<Post | undefined>(undefined);
+  const navigate = useNavigate();
 
-  // const handleEditPost = (post: Post) => {
-  //   setSelectedPost(post);
-  //   setAddEditPopupOpen(true);
-  // };
-
-  // const handleAddPost = () => {
-  //   setSelectedPost(undefined);
-  //   setAddEditPopupOpen(true);
-  // };
+  const posts = useAppSelector(getAllPosts);
 
   return (
     <BlogContainer>
       <Header>
         <div>
-          <Button type="navigate" onClick={() => console.log('lang.code')}>
+          <Button type="navigate" onClick={() => navigate(`/blog/post/new`)}>
             Add New
           </Button>
           <p>PUBLICATIONS</p>
@@ -78,8 +49,8 @@ export const BlogPage = () => {
       </Header>
 
       <PostsList>
-        {mockData.map(post => (
-          <ListItem key={post.id} post={post} onClick={() => console.log('lang.code')} />
+        {posts.map(post => (
+          <ListItem key={post.id} post={post} onClick={() => navigate(`/blog/post/${post.id}`)} />
         ))}
       </PostsList>
       {/* <AddEditPost

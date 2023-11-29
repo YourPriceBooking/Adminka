@@ -37,6 +37,7 @@ export const ListItem: React.FC<ListItemProps> = ({ post, onClick }) => (
     </div>
     <div>
       <PostTitle>Description:</PostTitle>
+      <p>{post.description}</p>
     </div>
   </PostWrapper>
 );
