@@ -163,22 +163,28 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
   };
 
   const handleAdd = async () => {
-    const body = {
-      language: changeUKToUA(activeLangCode.toLowerCase()),
-      idLocation: districtId,
-      district: districtName,
-      city: cityName,
-      state: stateName,
-      country: activeCountryName,
-      linkOnPhoto: districtPhotoURL,
-      districtInternational,
-      cityInternational,
-      stateInternational,
-      countryInternational,
-    };
-    console.log(body);
+    try {
+      const body = {
+        language: changeUKToUA(activeLangCode.toLowerCase()),
+        idLocation: districtId,
+        district: districtName,
+        city: cityName,
+        state: stateName,
+        country: activeCountryName,
+        linkOnPhoto: districtPhotoURL,
+        districtInternational,
+        cityInternational,
+        stateInternational,
+        countryInternational,
+      };
+      await addCityToHoteiler(body);
 
-    await addCityToHoteiler(body);
+      toast.success(`District added`);
+    } catch (err) {
+      console.log(err);
+
+      toast.error(`Error: adding a distinct`);
+    }
   };
 
   const saveLocation = Object.values<Location>(data || {}).filter(
