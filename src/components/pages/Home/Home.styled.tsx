@@ -19,66 +19,70 @@ export const HomeNavListStyled = styled.ul`
   justify-content: center;
   gap: 72px;
 
-  > li:nth-of-type(1) {
-    > div {
-      gap: 65px;
-    }
+  // > li:nth-of-type(1) {
+  //   > div {
+  //     gap: 65px;
+  //   }
 
-    @media screen and (max-width: 767px) {
-      padding: 113px 20px 0;
-    }
+  //   @media screen and (max-width: 767px) {
+  //     padding: 113px 20px 0;
+  //   }
 
-    padding: 113px 25px 0;
+  //   padding: 113px 25px 0;
 
-    :hover {
-      padding: 113px 24px 0;
-    }
-  }
+  //   :hover {
+  //     padding: 113px 24px 0;
+  //   }
+  // }
 
-  > li:nth-of-type(2) {
-    padding: 118px 0 140px;
-  }
+  // > li:nth-of-type(2) {
+  //   padding: 118px 0 140px;
+  // }
 
-  > li:nth-of-type(3) {
-    > div {
-      font-size: 23px;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 32px;
+  // > li:nth-of-type(3) {
+  //   > div {
+  //     font-size: 23px;
+  //     flex-direction: column;
+  //     align-items: flex-start;
+  //     gap: 32px;
 
-      > p {
-        text-align: left;
-      }
-    }
+  //     > p {
+  //       text-align: left;
+  //     }
+  //   }
 
-    @media screen and (max-width: 767px) {
-      padding: 73px 37px 0;
-    }
-    padding: 75px 42px 0;
+  //   @media screen and (max-width: 767px) {
+  //     padding: 73px 37px 0;
+  //   }
+  //   padding: 75px 42px 0;
 
-    :hover {
-      padding: 75px 41px 0;
-    }
-  }
+  //   :hover {
+  //     padding: 75px 41px 0;
+  //   }
+  // }
 
-  > li:nth-of-type(4) {
-    padding: 17px 22px 0;
-  }
+  // > li:nth-of-type(4) {
+  //   padding: 17px 22px 0;
+  // }
 
-  > li:nth-of-type(5) {
-    padding: 89px 32px 0;
-  }
+  // > li:nth-of-type(5) {
+  //   padding: 89px 32px 0;
+  // }
 
-  > li:nth-of-type(6) {
-    padding: 89px 32px 0;
-  }
+  // > li:nth-of-type(6) {
+  //   padding: 89px 32px 0;
+  // }
 
-  > li:nth-of-type(7) {
-    padding: 39px 40px 0;
-    max-height: 111px;
-  }
+  // > li:nth-of-type(7) {
+  //   padding: 39px 40px 0;
+  //   max-height: 111px;
+  // }
 
   > li {
+    align-items: center;
+    justify-content: center;
+    padding-left: 20px;
+    padding-right: 20px;
     :hover {
       border: 2px solid ${({ theme }) => theme.colors.border.hoverBorder};
     }

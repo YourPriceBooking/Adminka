@@ -12,6 +12,7 @@ import {
   Blog,
   HousePageVerif,
   MowgliBookingStatisticPage,
+  MowgliBookingFinancePage,
 } from 'pages';
 import RegisterModalPage from 'pages/RegisterModalPage';
 import mowgliBookingPage from 'pages/mowgliBooking';
@@ -49,5 +50,10 @@ export const routes = {
     path: '/mowgliBookingStatistics',
     name: 'Mowgli Booking Statistics',
     element: MowgliBookingStatisticPage,
+  },
+  mowgliBookingFinance: {
+    path: '/mowgliBookingFinance',
+    name: 'Mowgli Booking Finance',
+    element: MowgliBookingFinancePage,
   },
 };

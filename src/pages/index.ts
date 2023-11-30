@@ -13,4 +13,4 @@ export const FinancePage = lazy(() => import('./FinancePage'));
 export const Blog = lazy(() => import('./Blog'));
 export const HousePageVerif = lazy(() => import('./HousePage'));
 export const MowgliBookingStatisticPage = lazy(() => import('./MowgliBookingStatisticPage'));
-
+export const MowgliBookingFinancePage = lazy(() => import('./MowgliBookingFinancePage'));
