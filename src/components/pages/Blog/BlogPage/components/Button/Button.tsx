@@ -5,10 +5,16 @@ type ButtonProps = {
   children: ReactNode;
   onClick: (event: MouseEvent<HTMLButtonElement>) => void;
   type?: 'navigate';
+  active?: boolean;
 };
 
-export const Button = ({ children, onClick, type = 'navigate' }: ButtonProps) => (
-  <ButtonContainer className={type} type="button" onClick={event => onClick(event)}>
+export const Button = ({ children, onClick, type = 'navigate', active }: ButtonProps) => (
+  <ButtonContainer
+    className={type}
+    disabled={active}
+    type="button"
+    onClick={event => onClick(event)}
+  >
     {children}
   </ButtonContainer>
 );

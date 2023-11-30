@@ -13,7 +13,8 @@ export const ButtonContainer = styled.button`
   min-width: 70px;
   margin-right: 6px;
 
-  &:hover {
+  &:hover,
+  &:disabled {
     color: rgba(5, 109, 16, 1);
   }
 `;

@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import backArrow from 'assets/icons/backarrow.svg';
 import { useAppSelector } from 'App';
 import { getPost } from 'features/blog/blogSelector';
+import { useFormik } from 'formik';
 import { BlogContainer, Header } from '../BlogPage/Blog.styled';
 import { Button } from '../BlogPage/components/Button/Button';
 import { PostContent } from './PostPage.styled';
@@ -53,11 +55,38 @@ const ButtonsHeader = [
 const PostPage: React.FC = () => {
   const { id } = useParams();
 
+  const formik = useFormik({
+    initialValues: {
+      title: '',
+      author: '',
+      description: '',
+      text: '',
+    },
+    onSubmit: values => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
+
+  const [activeParam, setActiveParam] = useState('');
+
   if (!id) return <Navigate to="/blog" replace />;
 
   const post = useAppSelector(state => getPost(state, id));
 
   if (!post) return <Navigate to="/blog" replace />;
+
+  // function makeTextBold() {
+  //   document.execCommand('bold');
+  // }
+
+  // function makeTextItalic() {
+  //   document.execCommand('italic');
+  // }
+
+  const handleContentEditableChange = (e: React.FormEvent<HTMLDivElement>) => {
+    const newValue = e.currentTarget.textContent;
+    formik.setFieldValue('text', newValue);
+  };
 
   return (
     <BlogContainer>
@@ -67,25 +96,54 @@ const PostPage: React.FC = () => {
         </div>
         <div>
           {ButtonsHeader.map(({ title }) => (
-            <Button onClick={() => console.log(title)}>{title}</Button>
+            <Button active={title === activeParam} onClick={() => setActiveParam(title)}>
+              {title}
+            </Button>
           ))}
         </div>
       </Header>
       <PostContent>
-        <div className="title">
-          <input type="text" placeholder="Title" />
-          <input
-            className="description"
-            type="text"
-            placeholder="Description (description of the article, which is not displayed in the article, but is used as a meta tag)"
-          />
-        </div>
+        <form onSubmit={formik.handleSubmit}>
+          <div className="title">
+            <input
+              id="title"
+              type="text"
+              placeholder="Title"
+              onChange={formik.handleChange}
+              value={formik.values.title}
+            />
+            <input
+              id="author"
+              className="smallInput"
+              type="text"
+              placeholder="Author"
+              onChange={formik.handleChange}
+              value={formik.values.author}
+            />
+            <input
+              id="description"
+              className="smallInput"
+              type="text"
+              placeholder="Description (description of the article, which is not displayed in the article, but is used as a meta tag)"
+              onChange={formik.handleChange}
+              value={formik.values.description}
+            />
+          </div>
 
-        <div className="text">
-          <textarea name="text" placeholder="Text post">
-            text
-          </textarea>
-        </div>
+          <div className="text">
+            {/* <img src="https://content1.rozetka.com.ua/goods/images/big/364873994.jpg" alt="a" /> */}
+            <div
+              id="text"
+              className="textarea"
+              contentEditable
+              data-placeholder="Enter your text here..."
+              onInput={handleContentEditableChange}
+              onBlur={formik.handleBlur}
+            />
+          </div>
+
+          <button type="submit">Submit</button>
+        </form>
       </PostContent>
     </BlogContainer>
   );

@@ -13,7 +13,7 @@ export const PostContent = styled.div`
   }
 
   & input,
-  & textarea {
+  & .textarea {
     width: inherit;
     height: inherit;
     padding: 1rem;
@@ -24,17 +24,19 @@ export const PostContent = styled.div`
     border-bottom: 1px solid #000;
   }
 
-  & .description::placeholder {
+  & .smallInput::placeholder {
     font-size: 1rem;
     font-weight: 500;
   }
 
-  & .description {
+  & .smallInput {
     padding: 0.5rem;
     font-size: 1rem;
   }
 
-  & textarea {
-    resize: none;
+  & .textarea:empty:before {
+    content: attr(data-placeholder);
+    color: grey;
+    cursor: text;
   }
 `;
