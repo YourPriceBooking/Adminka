@@ -24,6 +24,8 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted, handleT
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [savedText2, setSavedText2] = useState('');
 
+  const [disableEditingPointLink, setDisableEditingPointLink] = useState(false);
+
   const handleInputChange1 = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputText1(event.target.value);
   };
@@ -34,7 +36,8 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted, handleT
 
   const handleSaveButtonClick1 = () => {
     setSavedText1(inputText1);
-    setInputText1('');
+    // setInputText1('');
+    setDisableEditingPointLink(true);
   };
 
   const handleSaveButtonClick2 = () => {
@@ -50,14 +53,15 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted, handleT
             data: { result },
           } = await axios.get(`${baseUrl}${endpoints.getIdVerificationObject}?hotelsId=${hotelId}`);
 
+          console.log(hotelId);
           if (result && result.length > 0) {
-            await axios.patch(`${baseUrl}${endpoints.addPointToMap}`, {
-              id: result[0]._id,
-              pointOnTheMap: savedText1,
-            });
+            // await axios.patch(`${baseUrl}${endpoints.addPointToMap}`, {
+            //   id: result[0]._id,
+            //   pointOnTheMap: savedText1,
+            // });
             toast.success('SUCCESS');
           } else {
-            toast.error('Error: Hotel Id NOT Found');
+            toast.error('Error: Hotel Id  Found');
           }
         } else {
           toast.error('Error: IS NOT URL ON POINT');
@@ -80,7 +84,12 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted, handleT
         style={{ width: '27px', height: '39px', marginBottom: '-50px' }}
       />
       <div>
-        <InputCostomed type="text" value={inputText1} onChange={handleInputChange1} />
+        <InputCostomed
+          type="text"
+          value={inputText1}
+          onChange={handleInputChange1}
+          disabled={disableEditingPointLink}
+        />
         <div />
         <div>
           <ButtonCustom type="submit" onClick={handleSaveButtonClick1} style={{ top: '20px' }}>
@@ -97,7 +106,7 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted, handleT
           Add video to YouTube and object page
         </ButtonCustom>
         {!isSubmitted && (
-          <ButAddAdrPen type="button">
+          <ButAddAdrPen type="button" onClick={() => setDisableEditingPointLink(false)}>
             <img src={pen} alt="pen" />
           </ButAddAdrPen>
         )}

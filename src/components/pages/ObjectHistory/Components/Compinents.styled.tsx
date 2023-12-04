@@ -209,7 +209,6 @@ export const ButAddAdrPen = styled.button`
   position: absolute;
   left: 710px;
   top: 30px;
-  pointer-events: none;
 `;
 
 export const StyledButton = styled.button`
