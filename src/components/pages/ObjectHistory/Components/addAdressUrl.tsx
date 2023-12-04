@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
+import { baseUrl, endpoints } from 'features/api';
 import adress from 'assets/icons/adress.svg';
 import pen from 'assets/icons/pen.svg';
 import {
@@ -11,9 +15,11 @@ import type { AddAdressUrlProps } from '../ObjectHistory.type';
 import { AddTranslationButton } from './AddTranslationButton';
 
 export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted, handleTranslate }) => {
+  const { hotelId } = useParams();
+
   const [inputText1, setInputText1] = useState('');
   const [inputText2, setInputText2] = useState('');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const [savedText1, setSavedText1] = useState('');
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [savedText2, setSavedText2] = useState('');
@@ -35,6 +41,36 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted, handleT
     setSavedText2(inputText2);
     setInputText2('');
   };
+
+  useEffect(() => {
+    async function sendPoint() {
+      try {
+        if (savedText1.includes('http')) {
+          const {
+            data: { result },
+          } = await axios.get(`${baseUrl}${endpoints.getIdVerificationObject}?hotelsId=${hotelId}`);
+
+          if (result && result.length > 0) {
+            await axios.patch(`${baseUrl}${endpoints.addPointToMap}`, {
+              id: result[0]._id,
+              pointOnTheMap: savedText1,
+            });
+            toast.success('SUCCESS');
+          } else {
+            toast.error('Error: Hotel Id NOT Found');
+          }
+        } else {
+          toast.error('Error: IS NOT URL ON POINT');
+        }
+      } catch (err: any) {
+        toast.error(`Error: ${err.response.data.message}`);
+      }
+    }
+
+    if (savedText1.length > 0) {
+      sendPoint();
+    }
+  }, [savedText1]);
 
   return (
     <div style={{ marginBottom: '30px', position: 'relative' }}>

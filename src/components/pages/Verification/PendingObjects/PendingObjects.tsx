@@ -56,7 +56,11 @@ export const PendingObjects = () => {
       </CardsWrapper>
       <Div>
         {verificationObject.map(({ result }) => (
-          <Link key={Math.random()} to="/verification/house-page">
+          <Link
+            key={Math.random()}
+            to={`/verification/house-page/${result._id}`}
+            state={{ hotelId: result._id }}
+          >
             <CardsStyle>
               <HotelCards
                 city={result.address.city}

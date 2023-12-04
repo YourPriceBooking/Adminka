@@ -62,6 +62,8 @@ export const endpoints = {
   amountObjectInCountry: '/get-amount-object-in-country' as const,
   verificationObjects: '/get-earlier-object' as const,
   getObjectTypes: '/get-objects' as const,
+  addPointToMap: '/hotels-verification/add-point-on-the-map' as const,
+  getIdVerificationObject: '/hotels-verification/get-document' as const,
 };
 
 export const frozenArr = Object.freeze([]);
@@ -87,7 +89,7 @@ export enum Keys {
 
 export const tagList = (result: Result, type: Type) => [
   { type, id: 'LIST' },
-  ...(result ? result.ids.map(id => ({ type, id })) : []),
+  ...(result ? result.ids.map((id: any) => ({ type, id })) : []),
 ];
 
 export const tag = (id: EntityId | 'LIST', type: Type) => [{ type, id }];

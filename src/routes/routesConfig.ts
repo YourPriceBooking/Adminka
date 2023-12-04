@@ -26,7 +26,7 @@ export const routes = {
     path: {
       verification: '/verification',
       verificationId: '/verification/:verificationId',
-      verificationPage: '/verification/house-page',
+      verificationPage: '/verification/house-page/:hotelId',
     },
     name: 'Objects Verification',
     element: { VerificationCabinetPage, VerificationPage, HousePageVerif },
