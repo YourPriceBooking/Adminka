@@ -16,6 +16,8 @@ import {
   TextEmail,
 } from './MowgliBookingHotelierList.styled';
 
+import { MowgliAccountHotelier } from '../MowgliBookingHotelierAccount/MowgliBookingHotelierAccount';
+
 type Prop = {
   type?: string;
   isShowHotelier: number | null;
@@ -38,7 +40,7 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
   ({ type, isShowHotelier }) => {
    
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const [isSearching, setIsSearching] = useState(false); // Track search status
+    const [isSearching, setIsSearching] = useState(false); 
 
     const hardcodedHoteliers: Hotelier[] = [
       {
@@ -172,12 +174,10 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
                       </>
                     ) : null)}
 
-                  {/* {isShowHotelier === index && type && type === 'Finance' && (
-                    <>
-                      {hotels?.join(' ')}
-                      <AccountHotelier id={owner} />
-                    </>
-                  )} */}
+                  {isShowHotelier === index && type && type === 'Finance' && (
+                    console.log("Here!"),
+                    <MowgliAccountHotelier id={owner} />
+                  )}
                 </TextContent>
               </WrapperText>
               <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
