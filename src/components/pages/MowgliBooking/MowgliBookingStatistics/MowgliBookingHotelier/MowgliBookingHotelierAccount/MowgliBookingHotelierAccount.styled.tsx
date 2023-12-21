@@ -44,6 +44,7 @@ export const Title = styled.p`
   font-weight: 600;
   font-size: 13px;
   line-height: 17px/13px;
+  margin-bottom: 15px;
 
   color: ${({ theme }) => theme.colors.textAccent};
 `;
@@ -75,7 +76,7 @@ export const SecondaryText = styled.p`
   font-weight: 600;
   font-size: 10px;
   line-height: 13px/10px;
-
+  margin-right: 15px;
   color: ${({ theme }) => theme.colors.textThird};
 `;
 
@@ -112,6 +113,7 @@ export const Button = styled.button`
 
   padding: 16px 35px;
   margin-left: 26px;
+  margin-top: 25px;
 
   color: ${({ theme }) => theme.colors.buttonTextColor};
 
@@ -129,4 +131,24 @@ export const Error = styled.p`
   margin-bottom: 15px;
 
   color: red;
+`;
+
+export const HotelierInfo = styled.div`
+    display: flex;
+    justify-content: space-between;
+`
+export const TextInfoId = styled.p`
+  font-family: ${({ theme }) => theme.fonts.segoe};
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 15.96px;
+  color: #4c4c4c;
+`;
+export const TextOtherInfo = styled.p`
+  font-family: ${({ theme }) => theme.fonts.segoe};
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0em;
+  text-align: left;
 `;

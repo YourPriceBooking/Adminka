@@ -10,10 +10,17 @@ import {
   Wrapper,
   Form,
   Error,
+  HotelierInfo,
+  TextInfoId,
+  TextOtherInfo,
 } from './MowgliBookingHotelierAccount.styled';
 
 type AccountHotelierProps = {
   id: string;
+  hotel?: string[];
+    email: string;
+    status: string;
+  onReturnToList: () => void;
 };
 
 // type DataBonus = {
@@ -21,11 +28,17 @@ type AccountHotelierProps = {
 //   amount: number;
 // };
 
-export const MowgliAccountHotelier: React.FC<AccountHotelierProps> = () => {
+export const MowgliAccountHotelier: React.FC<AccountHotelierProps> = ({
+  id,
+  hotel,
+    email,
+  status,
+  onReturnToList,
+}) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [dummyData] = useState({
     total: 5000,
-    currency: 'USD',
+    currency:'USD',
     bonus: 200,
     money: 4800,
   });
@@ -53,11 +66,19 @@ export const MowgliAccountHotelier: React.FC<AccountHotelierProps> = () => {
     form.reset();
     setErrorMessage(null);
   };
-    
-  
 
   return (
     <Wrapper>
+      <HotelierInfo>
+        <TextInfoId>ID {id}</TextInfoId>
+        <TextOtherInfo>{hotel}</TextOtherInfo>
+        <TextOtherInfo>{email}</TextOtherInfo>
+        <TextOtherInfo>
+          {status === 'deleted' ? <img src="/noactive.png" alt="deleted" /> : null}
+          {status === 'active' ? <img src="/activeGreen.png" alt="active" /> : null}
+          {status === 'inactive' ? <img src="/inactiveRed.png" alt="inactive" /> : null}
+        </TextOtherInfo>
+      </HotelierInfo>
       <Inner>
         <Title>Total in your account now:</Title>
         <Text>{dummyData.total}</Text>
@@ -80,6 +101,7 @@ export const MowgliAccountHotelier: React.FC<AccountHotelierProps> = () => {
         <Text>{dummyData.currency}</Text>
         <Button>Send BONUS now</Button>
       </Form>
+      <Button onClick={onReturnToList}>Return to List</Button>
     </Wrapper>
   );
 };
