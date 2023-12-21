@@ -53,7 +53,7 @@ export const Text = styled.p`
   font-family: ${({ theme }) => theme.fonts.segoe};
   font-weight: 600;
   font-size: 13px;
-  line-height: 17px/13px;
+  margin-right: 10px;
 
   text-transform: uppercase;
 
@@ -66,7 +66,7 @@ export const SubTitle = styled.p`
   font-size: 12px;
   line-height: 16px/12px;
 
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 
   color: rgba(101, 101, 101, 0.5);
 `;
@@ -152,3 +152,10 @@ export const TextOtherInfo = styled.p`
   letter-spacing: 0em;
   text-align: left;
 `;
+export const ReturnButton = styled.button`
+    position: absolute;
+    left: 5px;
+    top: 20px;
+    border: none;
+    background-color: white;
+`

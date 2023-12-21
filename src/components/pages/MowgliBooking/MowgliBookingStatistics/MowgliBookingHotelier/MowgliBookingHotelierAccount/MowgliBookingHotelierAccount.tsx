@@ -13,6 +13,7 @@ import {
   HotelierInfo,
   TextInfoId,
   TextOtherInfo,
+  ReturnButton,
 } from './MowgliBookingHotelierAccount.styled';
 
 type AccountHotelierProps = {
@@ -67,41 +68,45 @@ export const MowgliAccountHotelier: React.FC<AccountHotelierProps> = ({
     setErrorMessage(null);
   };
 
-  return (
-    <Wrapper>
-      <HotelierInfo>
-        <TextInfoId>ID {id}</TextInfoId>
-        <TextOtherInfo>{hotel}</TextOtherInfo>
-        <TextOtherInfo>{email}</TextOtherInfo>
-        <TextOtherInfo>
-          {status === 'deleted' ? <img src="/noactive.png" alt="deleted" /> : null}
-          {status === 'active' ? <img src="/activeGreen.png" alt="active" /> : null}
-          {status === 'inactive' ? <img src="/inactiveRed.png" alt="inactive" /> : null}
-        </TextOtherInfo>
-      </HotelierInfo>
-      <Inner>
-        <Title>Total in your account now:</Title>
-        <Text>{dummyData.total}</Text>
-        <Text>{dummyData.currency}</Text>
-      </Inner>
-      <SubTitle>detailed deposit:</SubTitle>
-      <Inner>
-        <SecondaryText>Total bonus:</SecondaryText>
-        <Text>{dummyData.bonus}</Text>
-        <Text>{dummyData.currency}</Text>
-      </Inner>
-      <Inner>
-        <SecondaryText>Total money:</SecondaryText>
-        <Text>{dummyData.money}</Text>
-        <Text>{dummyData.currency}</Text>
-      </Inner>
-      {errorMessage && <Error>{errorMessage}</Error>}
-      <Form onSubmit={handleSubmit}>
-        <Input type="number" name="input" />
-        <Text>{dummyData.currency}</Text>
-        <Button>Send BONUS now</Button>
-      </Form>
-      <Button onClick={onReturnToList}>Return to List</Button>
-    </Wrapper>
-  );
+    return (
+      <div>
+            <ReturnButton onClick={onReturnToList}>
+                <img src='/return.png' alt='return' />
+            </ReturnButton>
+        <Wrapper>
+          <HotelierInfo>
+            <TextInfoId>ID {id}</TextInfoId>
+            <TextOtherInfo>{hotel}</TextOtherInfo>
+            <TextOtherInfo>{email}</TextOtherInfo>
+            <TextOtherInfo>
+              {status === 'deleted' ? <img src="/noactive.png" alt="deleted" /> : null}
+              {status === 'active' ? <img src="/activeGreen.png" alt="active" /> : null}
+              {status === 'inactive' ? <img src="/inactiveRed.png" alt="inactive" /> : null}
+            </TextOtherInfo>
+          </HotelierInfo>
+          <Inner>
+            <Title>Total in your account now:</Title>
+            <Text>{dummyData.total}</Text>
+            <Text>{dummyData.currency}</Text>
+          </Inner>
+          <SubTitle>detailed deposit:</SubTitle>
+          <Inner>
+            <SecondaryText>Total bonus:</SecondaryText>
+            <Text>{dummyData.bonus}</Text>
+            <Text>{dummyData.currency}</Text>
+          </Inner>
+          <Inner>
+            <SecondaryText>Total money:</SecondaryText>
+            <Text>{dummyData.money}</Text>
+            <Text>{dummyData.currency}</Text>
+          </Inner>
+          {errorMessage && <Error>{errorMessage}</Error>}
+          <Form onSubmit={handleSubmit}>
+            <Input type="number" name="input" />
+            <Text>{dummyData.currency}</Text>
+            <Button>Send BONUS now</Button>
+          </Form>
+        </Wrapper>
+      </div>
+    );
 };
