@@ -9,7 +9,7 @@ import { Hoteliers } from './Hoteliers/Hoteliers';
 import { Users } from './Users/Users';
 
 export const StatisticsPage = () => {
-  const [isShowPage, setIsShowPage] = useState<boolean>(false);
+  const [isShowHotelierPage, setIsShowHotelierPage] = useState<boolean>(false);
   const [isShowUsersPage, setIsShowUsersPage] = useState(false);
   // eslint-disable-next-line
   type DispatchAction = Dispatch<any>;
@@ -24,13 +24,13 @@ export const StatisticsPage = () => {
       <Inner>
         <StatisticsHeader type="Statistic" />
         <StatisticsBody
-          setIsShowPage={setIsShowPage}
-          isShowPage={isShowPage}
+          setIsShowHotelierPage={setIsShowHotelierPage}
+          isShowHotelierPage={isShowHotelierPage}
           isShowUsersPage={isShowUsersPage}
           setIsShowUsersPage={setIsShowUsersPage}
         />
       </Inner>
-      {isShowPage && <Hoteliers />}
+      {isShowHotelierPage && <Hoteliers />}
       {isShowUsersPage && <Users />}
     </Wrapper>
   );

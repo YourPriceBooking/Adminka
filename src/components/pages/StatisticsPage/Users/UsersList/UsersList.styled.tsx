@@ -18,8 +18,6 @@ export const Wrapper = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 3px;
-
-  cursor: pointer;
 `;
 export const InputContainer = styled.div`
   display: flex;
@@ -158,6 +156,7 @@ export const Inner = styled.li.attrs<Props>(({ tabIndex }) => ({
 
   width: 100%;
   padding: 12px 31px 12px 11px;
+  cursor: pointer;
 
   background-color: ${({ theme }) => theme.colors.white};
   border: ${({ border }) => (border ? '0.7px' : '0.3px')} solid
