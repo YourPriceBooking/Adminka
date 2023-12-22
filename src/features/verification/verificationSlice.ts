@@ -14,7 +14,7 @@ import {
 
 const verificationInitialState: VerificationState = {
   verification: {
-    result: null,
+    onVerification: null,
   },
   objects: [],
   types: null,
@@ -52,8 +52,8 @@ const verificationSlice = createSlice({
         (state, { payload }: PayloadAction<ResponseVerificationObject>) => {
           let countryObjectsCount = -1;
 
-          if (state.verification.result) {
-            countryObjectsCount = state.verification.result[payload.country];
+          if (state.verification.onVerification) {
+            countryObjectsCount = state.verification.onVerification[payload.country];
           }
 
           if (countryObjectsCount !== 0) {
@@ -80,14 +80,14 @@ const verificationSlice = createSlice({
               });
             }
 
-            if (state.verification.result) {
+            if (state.verification.onVerification) {
               const findCountry = state.objects.filter(
                 object => object.country === payload.country
               );
 
               const newCout = payload.result.length - findCountry.length;
 
-              state.verification.result[payload.country] = newCout;
+              state.verification.onVerification[payload.country] = newCout;
             }
           }
         }

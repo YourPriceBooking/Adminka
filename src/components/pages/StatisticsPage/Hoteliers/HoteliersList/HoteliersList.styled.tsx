@@ -19,7 +19,6 @@ export const Wrapper = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 3px;
-  cursor: pointer;
 `;
 export const FunProf = styled.div`
   display: flex;
@@ -68,7 +67,6 @@ export const SearchInput = styled.input`
   border: 0.3px solid #d0d0d0;
   border-radius: 50px;
   color: #4c4c4c;
-  cursor: pointer;
   padding: 5px 10px;
   text-align: center;
   position: relative;
@@ -167,6 +165,7 @@ export const Inner = styled.li.attrs<Props>(({ tabIndex }) => ({
 
   width: 100%;
   padding: 7px 31px 7px 11px;
+  cursor: pointer;
 
   background-color: ${({ theme }) => theme.colors.white};
   border: ${({ border }) => (border ? '0.7px' : '0.3px')} solid

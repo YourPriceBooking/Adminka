@@ -29,8 +29,6 @@ export const StatisticsBody: React.FC<Prop> = ({
   const { hoteliers, isLoadingHoteliers } = useSelector(selectorHoteliers);
   const statisticsObjects = useSelector(getStatistic);
 
-  console.log(activeIndex);
-
   useEffect(() => {
     const initialStatisticsData: Statistic[] = [
       { title: 'Hoteliers:', value: hoteliers.length, isClicked: false },
@@ -51,13 +49,18 @@ export const StatisticsBody: React.FC<Prop> = ({
     setStatistics(updatedStatistics);
   }, [hoteliers, statisticsObjects]);
 
-
   const handleClick = (index: number) => {
     setActiveIndex(prevIndex => (index !== prevIndex ? index : null));
+
+    console.log('Old index', index);
+    console.log('Active index', activeIndex);
+
     const updatedStatistics = statistics.map((stat, i) => ({
       ...stat,
       isClicked: i === index,
     }));
+
+    console.log('updatedStatistics', updatedStatistics);
     setStatistics(updatedStatistics);
   };
 

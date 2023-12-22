@@ -43,9 +43,9 @@ export const UsersList: React.FC<
   useEffect(() => {
     fetch('https://server-your-price-booking.onrender.com/api/acsess-to-admin/get-all-users')
       .then(response => response.json())
-      .then((datae: { code: number; users: DataProp[] }) => {
-        if (datae.code === 200 && datae.users && Array.isArray(datae.users)) {
-          const users = datae.users.map(user => ({
+      .then((date: { code: number; users: DataProp[] }) => {
+        if (date.code === 200 && date.users && Array.isArray(date.users)) {
+          const users = date.users.map(user => ({
             _id: user._id,
             lastName: user.lastName,
             firstName: user.firstName,

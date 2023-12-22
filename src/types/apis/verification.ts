@@ -27,7 +27,7 @@ export type VerificationCountryList = Record<string, number>;
 export type ResponseVerificationCountryList = {
   code: number;
   status: string;
-  result: VerificationCountryList;
+  onVerification: VerificationCountryList;
 };
 
 export type VerificationObject = {
@@ -68,7 +68,7 @@ export type ResponseVerificationTypeObjects = {
 
 export type VerificationState = {
   verification: {
-    result: VerificationCountryList | null;
+    onVerification: VerificationCountryList | null;
   };
   objects: {
     country: string;

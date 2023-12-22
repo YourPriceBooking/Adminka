@@ -1,17 +1,18 @@
 import type { RootState } from 'App/store';
 
-export const getVerification = (state: RootState) => state.verification.verification.result;
+export const getVerification = (state: RootState) => state.verification.verification.onVerification;
 
 export const getCountVerification = (state: RootState) => {
   const { verification } = state.verification;
   let count = 0;
 
-  if (verification.result !== null) {
-    Object.values(verification.result).forEach(value => {
+  if (verification.onVerification) {
+    Object.values(verification.onVerification).forEach(value => {
       count += value;
     });
   }
-
+  // eslint-disable-next-line no-debugger
+  debugger;
   return count;
 };
 

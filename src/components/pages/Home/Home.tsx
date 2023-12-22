@@ -85,7 +85,7 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
     [agents, hoteliers, objects, users]
   );
 
-  console.log(isHaveAccess);
+  console.log(countVerification);
 
   return (
     <>

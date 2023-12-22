@@ -17,7 +17,6 @@ export const StatisticsPage = () => {
 
   useEffect(() => {
     dispatch(fetchHoteliers());
-     
   }, [dispatch]);
 
   return (
@@ -32,11 +31,9 @@ export const StatisticsPage = () => {
         />
       </Inner>
       {isShowPage && <Hoteliers />}
-      {isShowUsersPage && <Users isShowUsersPage={isShowUsersPage} />}
+      {isShowUsersPage && <Users />}
     </Wrapper>
   );
 };
 
-export const Statistics = () => (
-  <StatisticsPage />
-);
+export const Statistics = () => <StatisticsPage />;

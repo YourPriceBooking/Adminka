@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { fetchHotelsById } from 'features/hoteliers/hoteliersOperation';
 import { useAppDispatch } from 'App';
@@ -32,10 +32,8 @@ type Prop = {
   setIsClicked: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-type HandleClick = (event: React.MouseEvent<HTMLUListElement>) => void;
-
 export const HoteliersList: React.FC<Prop> = memo(
-  ({ type, isShowHotelier, setIsShowHotelier, isClicked, setIsClicked }) => {
+  ({ type, isShowHotelier, setIsShowHotelier, setIsClicked }) => {
     const dispatch = useAppDispatch();
     const { hoteliers, isLoadingHotels } = useSelector(selectorHoteliers);
     const [searchQuery, setSearchQuery] = useState<string>('');
@@ -43,23 +41,31 @@ export const HoteliersList: React.FC<Prop> = memo(
 
     const [isClearClicked, setIsClearClicked] = useState(false);
 
-    const handleClick: HandleClick = useCallback(
-      event => {
-        const { target } = event;
-        if (
-          target instanceof HTMLDivElement ||
-          target instanceof HTMLParagraphElement ||
-          target instanceof HTMLLIElement
-        ) {
-          const index = Number(target.dataset.id);
-          if (!isClicked) {
-            setIsShowHotelier(index);
-            setIsClicked(true);
-          }
-        }
-      },
-      [isClicked, setIsShowHotelier, setIsClicked]
-    );
+    // const handleClick: HandleClick = useCallback(
+    //   event => {
+    //     const { target } = event;
+    //     if (
+    //       target instanceof HTMLDivElement ||
+    //       target instanceof HTMLParagraphElement ||
+    //       target instanceof HTMLLIElement
+    //     ) {
+    //       const index = Number(target.dataset.id);
+    //       if (!isClicked) {
+    //         console.log('HoteliersList', index);
+    //         setIsShowHotelier(index);
+    //         setIsClicked(true);
+    //       }
+    //     }
+    //   },
+    //   [isClicked, setIsShowHotelier, setIsClicked]
+    // );
+
+    const handleClick = (e: React.MouseEvent<HTMLLIElement>) => {
+      const index = e.currentTarget.tabIndex;
+      setIsShowHotelier(index);
+      setIsClicked(true);
+    };
+
     const handleClear = () => {
       setSearchQuery('');
       setFilteredHoteliers(hoteliers);
@@ -86,7 +92,7 @@ export const HoteliersList: React.FC<Prop> = memo(
     };
 
     return (
-      <Wrapper onClick={handleClick}>
+      <Wrapper>
         <FunProf>
           <SearchInputContainer>
             <SearchInput
@@ -124,6 +130,7 @@ export const HoteliersList: React.FC<Prop> = memo(
               position={isShowHotelier !== null}
               key={owner}
               tabIndex={index}
+              onClick={handleClick}
             >
               <TextID tabIndex={index}>
                 <b>{email}</b>
