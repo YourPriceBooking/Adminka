@@ -11,8 +11,6 @@ export const getCountVerification = (state: RootState) => {
       count += value;
     });
   }
-  // eslint-disable-next-line no-debugger
-  debugger;
   return count;
 };
 

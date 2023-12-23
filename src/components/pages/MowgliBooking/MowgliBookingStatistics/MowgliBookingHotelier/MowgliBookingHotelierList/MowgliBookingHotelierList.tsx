@@ -16,6 +16,8 @@ import {
   TextEmail,
 } from './MowgliBookingHotelierList.styled';
 
+import { MowgliAccountHotelier } from '../MowgliBookingHotelierAccount/MowgliBookingHotelierAccount';
+
 type Prop = {
   type?: string;
   isShowHotelier: number | null;
@@ -35,10 +37,10 @@ type Hotelier = {
 // type HandleClick = (event: React.MouseEvent<HTMLUListElement>) => void;
 
 export const MowgliBookingHotelierList: React.FC<Prop> = memo(
-  ({ type, isShowHotelier }) => {
-   
+  ({ type, isShowHotelier, setIsShowHotelier, setIsClicked }) => {
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const [isSearching, setIsSearching] = useState(false); // Track search status
+    const [isSearching, setIsSearching] = useState(false);
+    const [showAccount, setShowAccount] = useState(false);
 
     const hardcodedHoteliers: Hotelier[] = [
       {
@@ -85,7 +87,7 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
       },
     ];
 
-      const [filteredHoteliers, setFilteredHoteliers] = useState<Hotelier[]>(hardcodedHoteliers);
+    const [filteredHoteliers, setFilteredHoteliers] = useState<Hotelier[]>(hardcodedHoteliers);
 
     // const handleClick: HandleClick = useCallback(
     //   event => {
@@ -108,85 +110,101 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
     const handleClear = () => {
       setSearchQuery('');
       setFilteredHoteliers(hardcodedHoteliers);
-      setIsSearching(false); 
+      setIsSearching(false);
     };
-        
-         const handleSearch = () => {
-           const newFilteredHoteliers = searchQuery
-             ? hardcodedHoteliers.filter(
-                 hotelier =>
-                   hotelier.owner.toString().includes(searchQuery) ||
-                   hotelier.hotel?.some(hotel =>
-                     hotel.toLowerCase().includes(searchQuery.toLowerCase())
-                   )
-               )
-             : hardcodedHoteliers;
-           setIsSearching(true);
-           setFilteredHoteliers(newFilteredHoteliers);
-         };
-  
+
+    const handleSearch = () => {
+      const newFilteredHoteliers = searchQuery
+        ? hardcodedHoteliers.filter(
+            hotelier =>
+              hotelier.owner.toString().includes(searchQuery) ||
+              hotelier.hotel?.some(hotel => hotel.toLowerCase().includes(searchQuery.toLowerCase()))
+          )
+        : hardcodedHoteliers;
+      setIsSearching(true);
+      setFilteredHoteliers(newFilteredHoteliers);
+    };
+
+  const handleClickTextContent = (owner: string) => {
+    const index = filteredHoteliers.findIndex(hotelier => hotelier.owner === owner);
+    setIsShowHotelier(index);
+    setIsClicked(true);
+    setShowAccount(true);
+  };
+
+    const handleReturnToList = () => {
+      setShowAccount(false);
+      setIsShowHotelier(null);
+      setIsClicked(false);
+    };
 
     return (
       <Wrapper>
-        <FunProf>
-          <SearchInputContainer>
-            <SearchInput
-              className="input"
-              type="text"
-              placeholder="Search ID Hoteliers or/and Name object/E mail"
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-            />
-            <img src="lupaIcon.png" alt="lupa" className="search-icon" />
-            <LabelForm className="label" htmlFor="input-id">
-              Search ID Hoteliers or/and Name object
-            </LabelForm>
-          </SearchInputContainer>
+        {showAccount ? (
+          <MowgliAccountHotelier
+            id={filteredHoteliers[isShowHotelier!].owner}
+            hotel={filteredHoteliers[isShowHotelier!].hotel}
+            email={filteredHoteliers[isShowHotelier!].email}
+            status={filteredHoteliers[isShowHotelier!].status}
+            onReturnToList={handleReturnToList}
+          />
+        ) : (
+          <>
+            <FunProf>
+              <SearchInputContainer>
+                <SearchInput
+                  className="input"
+                  type="text"
+                  placeholder="Search ID Hoteliers or/and Name object/E mail"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                />
+                <img src="lupaIcon.png" alt="lupa" className="search-icon" />
+                <LabelForm className="label" htmlFor="input-id">
+                  Search ID Hoteliers or/and Name object
+                </LabelForm>
+              </SearchInputContainer>
 
-          {isSearching ? (
-            <ClearButton onClick={handleClear} hasText={searchQuery.length > 0}>
-              Close
-            </ClearButton>
-          ) : (
-            <YellowButton onClick={handleSearch}>Search</YellowButton>
-          )}
-        </FunProf>
-        {filteredHoteliers.length > 0 &&
-          filteredHoteliers.map(({ owner, hotel, email, id, status }, index) => (
-            <Inner
-              border={isShowHotelier === index}
-              hidden={isShowHotelier !== index && isShowHotelier !== null}
-              position={isShowHotelier !== null}
-              key={owner}
-              tabIndex={index}
-            >
-              <TextEmail tabIndex={index}>{email}</TextEmail>
-              <TextID tabIndex={index}>ID {id}</TextID>
-              <WrapperText tabIndex={index} typePage={type}>
-                <TextContent tabIndex={index}>
-                  {isShowHotelier !== index &&
-                    (hotel && hotel.length > 0 ? (
-                      <>
-                        {hotel[0].length > 30 ? `${hotel[0].slice(0, 30)}...` : hotel[0]}
-                        {hotel.length > 1 && '...'}
-                      </>
-                    ) : null)}
-
-                  {/* {isShowHotelier === index && type && type === 'Finance' && (
-                    <>
-                      {hotels?.join(' ')}
-                      <AccountHotelier id={owner} />
-                    </>
-                  )} */}
-                </TextContent>
-              </WrapperText>
-              <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
-                {status === 'deleted' ? <img src="/noactive.png" alt="deleted" /> : null}
-                {status === 'active' ? <img src="/activeGreen.png" alt="active" /> : null}
-                {status === 'inactive' ? <img src="/inactiveRed.png" alt="inactive" /> : null}
-              </div>
-            </Inner>
-          ))}
+              {isSearching ? (
+                <ClearButton onClick={handleClear} hasText={searchQuery.length > 0}>
+                  Close
+                </ClearButton>
+              ) : (
+                <YellowButton onClick={handleSearch}>Search</YellowButton>
+              )}
+            </FunProf>
+            {filteredHoteliers.length > 0 &&
+              filteredHoteliers.map(({ owner, hotel, email, id, status }, index) => (
+                <Inner
+                  border={isShowHotelier === index}
+                  hidden={isShowHotelier !== index && isShowHotelier !== null}
+                  position={isShowHotelier !== null}
+                  key={owner}
+                  tabIndex={index}
+                  onClick={() => handleClickTextContent(owner)} // Updated this line
+                >
+                  <TextEmail tabIndex={index}>{email}</TextEmail>
+                  <TextID tabIndex={index}>ID {id}</TextID>
+                  <WrapperText tabIndex={index} typePage={type}>
+                    <TextContent tabIndex={index}>
+                      {isShowHotelier !== index &&
+                        (hotel && hotel.length > 0 ? (
+                          <>
+                            {hotel[0].length > 30 ? `${hotel[0].slice(0, 30)}...` : hotel[0]}
+                            {hotel.length > 1 && '...'}
+                          </>
+                        ) : null)}
+                    </TextContent>
+                  </WrapperText>
+                  <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
+                    {status === 'deleted' ? <img src="/noactive.png" alt="deleted" /> : null}
+                    {status === 'active' ? <img src="/activeGreen.png" alt="active" /> : null}
+                    {status === 'inactive' ? <img src="/inactiveRed.png" alt="inactive" /> : null}
+                  </div>
+                </Inner>
+              ))}
+          </>
+        )}
       </Wrapper>
     );
   }
