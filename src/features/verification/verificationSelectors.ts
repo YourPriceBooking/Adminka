@@ -1,41 +1,50 @@
 import type { RootState } from 'App/store';
 
-export const getVerification = (state: RootState) => state.verification.verification.onVerification;
+export const getOnVerification = (state: RootState) =>
+  state.verification.verification.onVerification;
+export const getAddedToVerification = (state: RootState) => state.verification.verification.added;
 
 export const getCountVerification = (state: RootState) => {
   const { verification } = state.verification;
-  let count = 0;
 
-  if (verification.onVerification) {
-    Object.values(verification.onVerification).forEach(value => {
-      count += value;
-    });
-  }
-  // eslint-disable-next-line no-debugger
-  debugger;
-  return count;
+  return {
+    amountOfAdded: verification.amountOfAdded,
+    amountOnVerification: verification.amountOnVerification,
+  };
 };
 
 export const getVerificationObject = (state: RootState) => {
   const { objects } = state.verification;
 
-  return objects.map(object => {
-    const verificationType = state.verification.types?.object[0].objects.find(
-      type => type.id === object.result.type.id
-    );
+  if (!objects) return null;
 
-    if (verificationType) {
-      return {
-        ...object,
-        result: {
-          ...object.result,
+  let newObjects = objects;
+
+  Object.keys(objects).forEach(country => {
+    const object = objects[country];
+
+    const results = object.map(obj => {
+      const verificationType = state.verification.types?.object[0].objects.find(
+        type => type.id === obj.type.id
+      );
+
+      if (verificationType) {
+        return {
+          ...obj,
           type: verificationType,
-        },
-      };
-    }
+        };
+      }
 
-    return object;
+      return obj;
+    });
+
+    newObjects = {
+      ...newObjects,
+      [country]: results,
+    };
   });
+
+  return newObjects;
 };
 
 export const getVerificationTypeObjects = (state: RootState) =>

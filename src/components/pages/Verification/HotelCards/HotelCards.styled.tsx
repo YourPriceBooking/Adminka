@@ -17,10 +17,6 @@ export const Card = styled.div`
   &:hover {
     border: 1px solid #4c4c4c;
   }
-
-  &:last-child {
-    margin-bottom: 1rem;
-  }
 `;
 export const CardPhoto = styled.div`
   position: relative;

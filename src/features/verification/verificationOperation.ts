@@ -37,7 +37,6 @@ export const fetchVerificationObject = createAsyncThunk<ResponseVerificationObje
           withCredentials: true,
         }
       );
-
       const data = response.data as ResponseVerificationObject;
 
       return { ...data, country };

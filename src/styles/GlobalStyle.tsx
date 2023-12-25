@@ -92,7 +92,6 @@ export const GlobalStyle = styled.createGlobalStyle`
     height: 100vh;
     margin: 0;
     overflow: hidden;
- 
 
     font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell,
       'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -102,6 +101,10 @@ export const GlobalStyle = styled.createGlobalStyle`
     background-color: ${({ theme }) => theme.colors.bg.body};
 
     transition: background-color ${({ theme }) => theme.transition[250]};
+
+    &.orange {
+      background: #ffe5b4;
+    }
   }
 
   code {

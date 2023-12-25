@@ -28,6 +28,9 @@ export type ResponseVerificationCountryList = {
   code: number;
   status: string;
   onVerification: VerificationCountryList;
+  added: VerificationCountryList;
+  amountOnVerification: number;
+  amountOfAdded: number;
 };
 
 export type VerificationObject = {
@@ -69,11 +72,11 @@ export type ResponseVerificationTypeObjects = {
 export type VerificationState = {
   verification: {
     onVerification: VerificationCountryList | null;
+    added: VerificationCountryList | null;
+    amountOnVerification: number;
+    amountOfAdded: number;
   };
-  objects: {
-    country: string;
-    result: VerificationObject;
-  }[];
+  objects: Record<string, VerificationObject[]>;
   types: VerificationObjectType | null;
   isLoadingVerification: boolean;
   error: null | unknown;

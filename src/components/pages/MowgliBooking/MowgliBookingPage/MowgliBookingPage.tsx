@@ -26,7 +26,7 @@ export const MowgliBookingPage = () => {
           <CustomLoaderMiddleware path={routes.verification.path.verificationId}> */}
             <h1>Objects Verification</h1>
             <VerificationList>
-              <span>{countVerification}</span> <p> objects are waiting </p>
+              <span>{countVerification.amountOnVerification}</span> <p> objects are waiting </p>
             </VerificationList>
             {/* </CustomLoaderMiddleware>
         </div> */}

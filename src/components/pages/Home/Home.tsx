@@ -85,8 +85,6 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
     [agents, hoteliers, objects, users]
   );
 
-  console.log(countVerification);
-
   return (
     <>
       <HomeNavListStyled>
@@ -94,7 +92,10 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
           <LoaderMiddleware path={routes.verification.path.verification}>
             <p>{verification.name}</p>
             <TextSmall>
-              <span>{countVerification}</span> objects are waiting
+              Objects added <span>{countVerification.amountOfAdded}</span>
+            </TextSmall>
+            <TextSmall>
+              Objects on verif <span>{countVerification.amountOnVerification}</span>
             </TextSmall>
           </LoaderMiddleware>
         ) : null}

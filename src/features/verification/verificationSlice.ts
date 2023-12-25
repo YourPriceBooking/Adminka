@@ -15,8 +15,15 @@ import {
 const verificationInitialState: VerificationState = {
   verification: {
     onVerification: null,
+    added: null,
+    amountOfAdded: 0,
+    amountOnVerification: 0,
   },
-  objects: [],
+  objects: {
+    USA: [],
+    Ukraine: [],
+    Poland: [],
+  },
   types: null,
   isLoadingVerification: false,
   error: null,
@@ -27,7 +34,14 @@ const verificationSlice = createSlice({
   initialState: verificationInitialState,
   reducers: {
     clearVerificationObject: state => {
-      state.objects = [];
+      state.objects = {
+        USA: [],
+        Ukraine: [],
+        Poland: [],
+      };
+    },
+    deleteVerificationCountry: (state, { payload }: PayloadAction<{ country: string }>) => {
+      delete state.objects[payload.country];
     },
   },
   extraReducers: builder => {
@@ -57,35 +71,38 @@ const verificationSlice = createSlice({
           }
 
           if (countryObjectsCount !== 0) {
-            if (state.objects.length > 0) {
-              const findCountry = state.objects.filter(
-                object => object.country === payload.country
-              );
-
-              if (findCountry.length > 0) {
-                state.objects.push({
-                  country: payload.country,
-                  result: { ...payload.result[payload.result.length - (findCountry.length + 1)] },
-                });
+            if (state.objects) {
+              if (state.objects[payload.country]) {
+                state.objects[payload.country].push(
+                  payload.result[
+                    payload.result.length - (state.objects[payload.country].length + 1)
+                  ]
+                );
               } else {
-                state.objects.push({
-                  country: payload.country,
-                  result: { ...payload.result[payload.result.length - 1] },
-                });
+                state.objects = {
+                  ...state.objects,
+                  [payload.country]: [
+                    {
+                      ...payload.result[payload.result.length - 1],
+                    },
+                  ],
+                };
               }
             } else {
-              state.objects.push({
-                country: payload.country,
-                result: { ...payload.result[payload.result.length - 1] },
-              });
+              const newObject = {
+                [payload.country]: [
+                  {
+                    ...payload.result[payload.result.length - 1],
+                  },
+                ],
+              };
+              state.objects = newObject;
             }
 
             if (state.verification.onVerification) {
-              const findCountry = state.objects.filter(
-                object => object.country === payload.country
-              );
+              const countryList = state.objects[payload.country];
 
-              const newCout = payload.result.length - findCountry.length;
+              const newCout = payload.result.length - countryList.length;
 
               state.verification.onVerification[payload.country] = newCout;
             }
@@ -103,6 +120,6 @@ const verificationSlice = createSlice({
   },
 });
 
-export const { clearVerificationObject } = verificationSlice.actions;
+export const { clearVerificationObject, deleteVerificationCountry } = verificationSlice.actions;
 
 export const verificationReducer = verificationSlice.reducer;

@@ -39,10 +39,21 @@ export const Text = styled.p`
 export const Object = styled.div`
   margin-bottom: 20px;
   display: flex;
-  gap: 48px;
+  width: inherit;
+  justify-content: space-evenly;
+  cursor: pointer;
+
+  &.disabled {
+    pointer-events: none;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 export const Span = styled.span`
   display: block;
+  width: max-content;
 `;
 export const Button = styled.button`
   font-family: 'Segoe UI';
@@ -50,14 +61,16 @@ export const Button = styled.button`
   font-weight: 700;
   font-size: 11px;
   line-height: 15px;
-  background-color: #aeafbc;
+  background-color: rgba(173, 196, 217, 1);
   color: #ffffff;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
   border-radius: 7px;
   border: none;
+  padding: 0.7rem;
+  max-width: 150px;
 
   &:hover {
-    background-color: #9c9daf;
+    background-color: rgba(168, 213, 255, 1);
     box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
   }
 
@@ -68,13 +81,57 @@ export const Button = styled.button`
 `;
 
 export const Div = styled.div`
-  /* display: flex;
-  flex-direction: column ; */
+  display: flex;
+  justify-content: center;
   position: relative;
   // background-color: #ebedfe;
 `;
 
 export const CardsStyle = styled.div`
-  /* width: 40px;
-height: 0px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 300px;
+  height: max-content;
+  width: max-content;
+  background: #fff;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-right: 1rem;
+
+  & .cardBlockHeader {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+
+    & .left {
+      display: flex;
+      gap: 15px;
+
+      div {
+        cursor: pointer;
+      }
+    }
+
+    span {
+      font-weight: 520;
+    }
+    span:last-child {
+      color: rgba(0, 107, 190, 1);
+    }
+    span.text {
+      color: rgba(174, 175, 188, 1);
+    }
+  }
+
+  & .buttonBlock {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+  }
+
+  & .list {
+    display: flex;
+    flex-direction: column;
+  }
 `;

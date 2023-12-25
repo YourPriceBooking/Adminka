@@ -1,13 +1,12 @@
-import { Wrapper, Button, Country, Text, Object, Span } from './ObjectCard.styled';
+import { Wrapper, Country, Text, Object, Span } from './ObjectCard.styled';
 
 type ObjectType = {
   country: string;
   onClick: (country: string) => void;
-  // components: string[];
+  countAdded: number;
   count: number;
-  disabled: boolean;
 };
-export const ObjectCard = ({ country, onClick, count, disabled }: ObjectType) => {
+export const ObjectCard = ({ country, onClick, count, countAdded }: ObjectType) => {
   const addCardOnHandleClick = () => {
     onClick(country);
   };
@@ -16,13 +15,17 @@ export const ObjectCard = ({ country, onClick, count, disabled }: ObjectType) =>
     <Wrapper>
       <Country>{country}</Country>
       <Text>pending verification</Text>
-      <Object>
-        <Span>Objects</Span>
+      <Object
+        // className={`${disabled ? 'disabled' : ''}`}
+        className="disabled"
+      >
+        <Span>Objects added: </Span>
+        <Span>{countAdded}</Span>
+      </Object>
+      <Object onClick={addCardOnHandleClick}>
+        <Span>Objects on verif: </Span>
         <Span>{count}</Span>
       </Object>
-      <Button onClick={addCardOnHandleClick} type="button" disabled={disabled}>
-        Take one object for verification
-      </Button>
     </Wrapper>
   );
 };

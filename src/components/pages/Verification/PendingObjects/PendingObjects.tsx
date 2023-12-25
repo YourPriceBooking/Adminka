@@ -1,78 +1,120 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'App';
 import {
-  getVerification,
+  getAddedToVerification,
+  getOnVerification,
   getVerificationObject,
 } from 'features/verification/verificationSelectors';
 import {
   fetchVerification,
   fetchVerificationObject,
 } from 'features/verification/verificationOperation';
-// import { Link } from 'react-router-dom';
-import { clearVerificationObject } from 'features/verification/verificationSlice';
+import {
+  clearVerificationObject,
+  deleteVerificationCountry,
+} from 'features/verification/verificationSlice';
 import { Link } from 'react-router-dom';
 import { ObjectCard } from './ObjectCard';
 
-import { CardsStyle, CardsWrapper, Div } from './ObjectCard/ObjectCard.styled';
+import { Button, CardsStyle, CardsWrapper, Div } from './ObjectCard/ObjectCard.styled';
 import { HotelCards } from '../HotelCards';
-// import { HotelCards } from '../HotelCards';
 
 export const PendingObjects = () => {
   const dispatch = useAppDispatch();
 
-  const verificationCountryList = useAppSelector(getVerification);
+  const onVerification = useAppSelector(getOnVerification);
+  const addedToVerification = useAppSelector(getAddedToVerification);
   const verificationObject = useAppSelector(getVerificationObject);
 
   const onClick = (country: string) => {
-    if (verificationObject.length <= 18) {
-      dispatch(fetchVerificationObject(country));
-    }
+    dispatch(fetchVerificationObject(country));
   };
 
   useEffect(() => {
     dispatch(fetchVerification());
+    const body = document.getElementsByTagName('body');
 
+    if (body[0]) {
+      body[0].className = 'orange';
+    }
     return () => {
       dispatch(clearVerificationObject());
+      if (body[0]) {
+        body[0].className = '';
+      }
     };
   }, []);
 
   return (
     <>
       <CardsWrapper>
-        {verificationCountryList !== null &&
-          Object.keys(verificationCountryList).map(country => {
-            const verification = verificationCountryList[country];
+        {onVerification !== null &&
+          addedToVerification !== null &&
+          Object.keys(onVerification).map(country => {
+            const verification = onVerification[country];
+            const added = addedToVerification[country];
             return (
               <ObjectCard
                 key={country}
                 country={country}
                 onClick={onClick}
                 count={verification}
-                disabled={verificationObject.length >= 18}
+                countAdded={added}
+                // disabled={verificationObject.length >= 18}
               />
             );
           })}
       </CardsWrapper>
-      <Div>
-        {verificationObject.map(({ result }) => (
-          <Link
-            key={Math.random()}
-            to={`/verification/house-page/${result._id}`}
-            state={{ hotelId: result._id }}
-          >
-            <CardsStyle>
-              <HotelCards
-                city={result.address.city}
-                hotel={result.objectName}
-                address={`${result.address.street}, ${result.address.house}, ${result.address.apartment}`}
-                imgSrc={result.photos[0].url}
-                type={result.type.type}
-              />
-            </CardsStyle>
-          </Link>
-        ))}
-      </Div>
+      {verificationObject && (
+        <Div>
+          {Object.keys(verificationObject).map(country => {
+            const list = verificationObject[country];
+
+            return (
+              <CardsStyle>
+                <div className="cardBlockHeader">
+                  <p className="left">
+                    {list.length === 0 && (
+                      <div onClick={() => dispatch(deleteVerificationCountry({ country }))}>X</div>
+                    )}
+                    <p>
+                      <b>{country}</b> <span className="text">pending verification</span>
+                    </p>
+                  </p>
+                  <p>
+                    Objects on verif <span>{list.length}</span>
+                  </p>
+                </div>
+                <div className="buttonBlock">
+                  <Button disabled={list.length === 5} onClick={() => onClick(country)}>
+                    Take one object for verification
+                  </Button>
+                </div>
+                <div className="list">
+                  {list.map(item => (
+                    <Link
+                      key={Math.random()}
+                      to={`/verification/house-page/${item._id}`}
+                      state={{ hotelId: item._id }}
+                    >
+                      <HotelCards
+                        city={item.address.city}
+                        hotel={item.objectName}
+                        address={`${item.address.street}, ${item.address.house}, ${item.address.apartment}`}
+                        imgSrc={item.photos[0].url}
+                        type={item.type.type}
+                      />
+                    </Link>
+                  ))}
+                </div>
+              </CardsStyle>
+            );
+          })}
+        </Div>
+      )}
     </>
   );
 };
