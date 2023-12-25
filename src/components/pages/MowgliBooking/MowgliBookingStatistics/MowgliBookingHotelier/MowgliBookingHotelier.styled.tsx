@@ -9,6 +9,7 @@ export const Wrapper = styled.div<Prop>`
   padding: ${({ padding }) => (padding ? '21px 54px 79px 62px' : '21px 54px')};
 
   margin-top: 34px;
+  margin-bottom: 40px;
 
   background-color: ${({ theme }) => theme.colors.white};
 
