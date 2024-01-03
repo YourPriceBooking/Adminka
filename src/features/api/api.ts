@@ -64,6 +64,7 @@ export const endpoints = {
   getObjectTypes: '/get-objects' as const,
   addPointToMap: '/hotels-verification/add-point-on-the-map' as const,
   getIdVerificationObject: '/hotels-verification/get-document' as const,
+  addYouTubeLink: '/hotels-verification/add-you-tube-link' as const,
 };
 
 export const frozenArr = Object.freeze([]);

@@ -16,12 +16,12 @@ import { AddTranslationButton } from './AddTranslationButton';
 
 export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted, handleTranslate }) => {
   const { hotelId } = useParams();
-
+  console.log({ hotelId });
   const [inputText1, setInputText1] = useState('');
   const [inputText2, setInputText2] = useState('');
 
   const [savedText1, setSavedText1] = useState('');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
   const [savedText2, setSavedText2] = useState('');
 
   const [disableEditingPointLink, setDisableEditingPointLink] = useState(false);
@@ -42,7 +42,7 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted, handleT
 
   const handleSaveButtonClick2 = () => {
     setSavedText2(inputText2);
-    setInputText2('');
+    setInputText2(inputText2);
   };
 
   useEffect(() => {
@@ -53,12 +53,11 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted, handleT
             data: { result },
           } = await axios.get(`${baseUrl}${endpoints.getIdVerificationObject}?hotelsId=${hotelId}`);
 
-          console.log(hotelId);
           if (result && result.length > 0) {
-            // await axios.patch(`${baseUrl}${endpoints.addPointToMap}`, {
-            //   id: result[0]._id,
-            //   pointOnTheMap: savedText1,
-            // });
+            await axios.patch(`${baseUrl}${endpoints.addPointToMap}`, {
+              id: result[0]._id,
+              pointOnTheMap: savedText1,
+            });
             toast.success('SUCCESS');
           } else {
             toast.error('Error: Hotel Id  Found');
@@ -75,6 +74,36 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted, handleT
       sendPoint();
     }
   }, [savedText1]);
+
+  useEffect(() => {
+    async function sendYouTubeLink() {
+      try {
+        if (savedText2.includes('http')) {
+          const {
+            data: { result },
+          } = await axios.get(`${baseUrl}${endpoints.getIdVerificationObject}?hotelsId=${hotelId}`);
+
+          if (result && result.length > 0) {
+            await axios.patch(`${baseUrl}${endpoints.addYouTubeLink}`, {
+              id: result[0]._id,
+              youTubeLink: savedText2,
+            });
+            toast.success('SUCCESS');
+          } else {
+            toast.error('Error: Hotel Id  Found');
+          }
+        } else {
+          toast.error('Error: IS NOT URL ON LINK');
+        }
+      } catch (err: any) {
+        toast.error(`Error: ${err.response.data.message}`);
+      }
+    }
+
+    if (savedText2.length > 0) {
+      sendYouTubeLink();
+    }
+  }, [savedText2]);
 
   return (
     <div style={{ marginBottom: '30px', position: 'relative' }}>
