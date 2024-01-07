@@ -16,7 +16,7 @@ import { AddTranslationButton } from './AddTranslationButton';
 
 export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted, handleTranslate }) => {
   const { hotelId } = useParams();
-  console.log({ hotelId });
+
   const [inputText1, setInputText1] = useState('');
   const [inputText2, setInputText2] = useState('');
 
