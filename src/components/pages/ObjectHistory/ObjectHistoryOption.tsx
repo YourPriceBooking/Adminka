@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { CheckboxLabel, ImgCheckBox, InputBox } from './Components/Compinents.styled';
 import done from '../../../assets/icons/done.svg';
 import { useObjectHistoryState } from './state/ObjectHistoryState';
-import { ButtonSubmit, DivItemsOption, ButtonTranslation } from './ObjectHistory.styled';
+import {
+  ButtonSubmit,
+  DivItemsOption,
+  ButtonTranslation,
+  DivButtons,
+} from './ObjectHistory.styled';
 import { VerifInfo } from './Components/VerifInfo';
 import type { ObjectInfoOption } from './ObjectHistory.type';
 import { AddTranslationButton } from './Components/AddTranslationButton';
@@ -65,14 +70,16 @@ export const ObjectHistoryOption: React.FC<ObjectInfoOption> = ({
         <Chat />
       </ButtonTranslation>
 
-      <ButtonSubmit
-        type="button"
-        onClick={handleSendData}
-        disabled={isSubmitted || !isAnyCheckboxSelected}
-        isSubmitted={isSubmitted}
-      >
-        Verify
-      </ButtonSubmit>
+      <DivButtons>
+        <ButtonSubmit
+          type="button"
+          onClick={handleSendData}
+          disabled={isSubmitted || !isAnyCheckboxSelected}
+          isSubmitted={isSubmitted}
+        >
+          Verify
+        </ButtonSubmit>
+      </DivButtons>
 
       {isVerifInfoVisible && <VerifInfo values={verifInfoFinish} verifStart={false} />}
     </div>

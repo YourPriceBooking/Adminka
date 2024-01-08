@@ -1,7 +1,13 @@
 import React from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+
+import { baseUrl, endpoints } from 'features/api';
+import { toast } from 'react-toastify';
 import {
   ButtonSubmit,
   DivAdressChat,
+  DivButtons,
   DivContent,
   /* DivObjectHistoryMain, */
   /* HObject, */
@@ -28,6 +34,8 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
   isFirst = false,
   handleTranslate,
 }) => {
+  const { hotelId } = useParams();
+
   const {
     checkedItems,
     setCheckedItems,
@@ -96,6 +104,25 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
     }
   };
 
+  const handleNotVerif = async () => {
+    try {
+      const response = await axios.delete(
+        `${baseUrl}${endpoints.deleteVerification}?hotelsId=${hotelId}`
+      );
+
+      if (response.data.code !== 200) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        toast.error(response.data.message);
+      } else {
+        setIsSubmitted(true);
+        toast.success('OK');
+      }
+      console.log(response);
+    } catch (err: any) {
+      console.log(err);
+    }
+  };
+
   return (
     <div>
       <VerifInfo values={verifInfoStart} verifFinish={false} />
@@ -107,7 +134,13 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
             <Address />
             <Chat />
           </DivAdressChat>
-          {isFirst && <AddAdressUrl isSubmitted={isSubmitted} handleTranslate={handleTranslate} />}
+          {isFirst && (
+            <AddAdressUrl
+              isSubmitted={isSubmitted}
+              handleTranslate={handleTranslate}
+              hotelId={hotelId}
+            />
+          )}
           <DivText>Next verification date</DivText>
           <InputData
             type="text"
@@ -149,14 +182,21 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
           <p style={{ color: 'red' }}>Please enter a date.</p>
         )}
       </DivContent>
-      <ButtonSubmit
-        type="button"
-        onClick={handleSendItems}
-        disabled={isSubmitted}
-        isSubmitted={isSubmitted}
-      >
-        Verify
-      </ButtonSubmit>
+      <DivButtons>
+        <ButtonSubmit
+          type="button"
+          onClick={handleSendItems}
+          disabled={isSubmitted}
+          isSubmitted={isSubmitted}
+        >
+          Verify
+        </ButtonSubmit>
+        {isFirst && (
+          <ButtonSubmit type="button" onClick={handleNotVerif} isSubmitted={isSubmitted}>
+            Not Verify
+          </ButtonSubmit>
+        )}
+      </DivButtons>
       {isButtonClicked && <VerifInfo values={verifInfoFinish} verifStart={false} />}
     </div>
   );

@@ -21,8 +21,12 @@ export const DivContent = styled.div`
   width: 56%;
   margin: 0 auto;
 `;
+export const DivButtons = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  margin: 21px 0;
+`;
 export const ButtonSubmit = styled.button<{ isSubmitted: boolean }>`
-  margin: 49px 0 49px 36%;
   align-items: center;
   background: ${props => (props.isSubmitted ? '#A4A5AE' : '#0090FF')};
   box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3);
@@ -110,4 +114,3 @@ export const ButtonTranslation = styled.div`
   align-items: flex-end;
   margin: 50px 350px 0;
 `;
-
