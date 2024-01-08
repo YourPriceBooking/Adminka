@@ -47,26 +47,27 @@ export const api = createApi({
 });
 
 export const endpoints = {
-  locationDistrict: '/location-district' as const,
-  locationCity: '/location-city' as const,
-  locationState: '/location-state' as const,
-  countries: '/countries' as const,
-  languages: '/languages' as const,
-  catalogForHotelier: '/catalogForHotelier' as const,
-  hotels: '/hotels' as const,
-  hoteliers: '/get-all-hotelier' as const,
-  bonus: '/add-bonus' as const,
-  financeStatistic: '/get-statistic' as const,
-  statistic: '/statistic' as const,
-  addDirHotelier: '/catalogForHotelier' as const,
-  amountObjectInCountry: '/get-amount-object-in-country' as const,
-  verificationObjects: '/get-earlier-object' as const,
-  getObjectTypes: '/get-objects' as const,
-  addPointToMap: '/hotels-verification/add-point-on-the-map' as const,
-  getIdVerificationObject: '/hotels-verification/get-document' as const,
-  addYouTubeLink: '/hotels-verification/add-you-tube-link' as const,
-  finishVerification: '/hotels-verification/finish-verification' as const,
-};
+  locationDistrict: '/location-district',
+  locationCity: '/location-city',
+  locationState: '/location-state',
+  countries: '/countries',
+  languages: '/languages',
+  catalogForHotelier: '/catalogForHotelier',
+  hotels: '/hotels',
+  hoteliers: '/get-all-hotelier',
+  bonus: '/add-bonus',
+  financeStatistic: '/get-statistic',
+  statistic: '/statistic',
+  addDirHotelier: '/catalogForHotelier',
+  amountObjectInCountry: '/get-amount-object-in-country',
+  verificationObjects: '/get-earlier-object',
+  getObjectTypes: '/get-objects',
+  addPointToMap: '/hotels-verification/add-point-on-the-map',
+  getIdVerificationObject: '/hotels-verification/get-document',
+  deleteVerification: '/hotels-verification/delete-verification',
+  addYouTubeLink: '/hotels-verification/add-you-tube-link',
+  finishVerification: '/hotels-verification/finish-verification',
+} as const;
 
 export const frozenArr = Object.freeze([]);
 

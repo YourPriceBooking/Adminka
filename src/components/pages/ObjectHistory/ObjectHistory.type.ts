@@ -20,4 +20,5 @@ export type VerifInfoProps = {
 export type AddAdressUrlProps = {
   isSubmitted: boolean;
   handleTranslate?: any;
+  hotelId: string | undefined;
 };

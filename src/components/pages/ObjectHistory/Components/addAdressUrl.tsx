@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useParams } from 'react-router-dom';
 import { baseUrl, endpoints } from 'features/api';
 import adress from 'assets/icons/adress.svg';
 import pen from 'assets/icons/pen.svg';
@@ -14,9 +13,11 @@ import {
 import type { AddAdressUrlProps } from '../ObjectHistory.type';
 import { AddTranslationButton } from './AddTranslationButton';
 
-export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({ isSubmitted, handleTranslate }) => {
-  const { hotelId } = useParams();
-
+export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({
+  isSubmitted,
+  handleTranslate,
+  hotelId,
+}) => {
   const [inputText1, setInputText1] = useState('');
   const [inputText2, setInputText2] = useState('');
 
