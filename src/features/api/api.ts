@@ -66,6 +66,8 @@ export const endpoints = {
   getIdVerificationObject: '/hotels-verification/get-document',
   deleteVerification: '/hotels-verification/delete-verification',
   deleteAddedObject: '/hotels-verification/delete-object',
+  addYouTubeLink: '/hotels-verification/add-you-tube-link',
+  finishVerification: '/hotels-verification/finish-verification',
 } as const;
 
 export const frozenArr = Object.freeze([]);

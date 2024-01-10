@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import { baseUrl, endpoints } from 'features/api';
 import { toast } from 'react-toastify';
@@ -53,6 +53,7 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
     isButtonClicked,
     setIsButtonClicked,
   } = useObjectHistoryState();
+  const navigate = useNavigate();
 
   const handleCheckboxChange = (index: number) => {
     if (!isSubmitted) {
@@ -66,20 +67,6 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
         setHasDate('');
       }
     }
-  };
-
-  const handleSendItems = () => {
-    if (!hasDate && !noFurtherChecks) {
-      setShowDateError(true);
-      return;
-    }
-
-    const selectedItems = items.filter((_, index) => checkedItems[index]);
-    // eslint-disable-next-line no-console
-    console.log(selectedItems);
-    setIsSubmitted(true);
-
-    setIsButtonClicked(true);
   };
 
   const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,6 +88,33 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
         newPhoneNumbers[index] = value;
         return newPhoneNumbers;
       });
+    }
+  };
+
+  const handleSendItems = async () => {
+    if (!hasDate && !noFurtherChecks) {
+      setShowDateError(true);
+      return;
+    }
+
+    const selectedItems = items.filter((_, index) => checkedItems[index]);
+    // eslint-disable-next-line no-console
+    console.log(selectedItems);
+    setIsSubmitted(true);
+
+    setIsButtonClicked(true);
+
+    try {
+      await axios.patch(`${baseUrl}${endpoints.finishVerification}`, {
+        id: hotelId,
+        phone1: phoneNumbers[0],
+        phone2: phoneNumbers[1],
+        nextVerificationDate: hasDate,
+      });
+      toast.success('SUCCESS');
+      navigate('/verification/house-page', { replace: true });
+    } catch (error) {
+      toast.error(`Error: OBJECT DON'T VERIFY`);
     }
   };
 
