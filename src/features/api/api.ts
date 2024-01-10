@@ -65,6 +65,7 @@ export const endpoints = {
   addPointToMap: '/hotels-verification/add-point-on-the-map',
   getIdVerificationObject: '/hotels-verification/get-document',
   deleteVerification: '/hotels-verification/delete-verification',
+  deleteAddedObject: '/hotels-verification/delete-object',
 } as const;
 
 export const frozenArr = Object.freeze([]);

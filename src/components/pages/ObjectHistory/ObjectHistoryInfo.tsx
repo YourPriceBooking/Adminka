@@ -111,8 +111,17 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
       );
 
       if (response.data.code !== 200) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        toast.error(response.data.message);
+        const responseAdded = await axios.delete(
+          `${baseUrl}${endpoints.deleteAddedObject}?id=${hotelId}`
+        );
+
+        if (responseAdded.data.code === 200) {
+          toast.success('OK');
+          setIsSubmitted(true);
+        } else {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+          toast.error(response.data.message);
+        }
       } else {
         setIsSubmitted(true);
         toast.success('OK');
