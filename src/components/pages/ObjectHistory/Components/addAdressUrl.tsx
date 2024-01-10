@@ -81,7 +81,7 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({
       try {
         if (savedText2.includes('http')) {
           const {
-            data: { result },
+            data: { result, message },
           } = await axios.get(`${baseUrl}${endpoints.getIdVerificationObject}?hotelsId=${hotelId}`);
 
           if (result && result.length > 0) {
@@ -91,7 +91,8 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({
             });
             toast.success('SUCCESS');
           } else {
-            toast.error('Error: Hotel Id  Found');
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+            toast.error(message);
           }
         } else {
           toast.error('Error: IS NOT URL ON LINK');
