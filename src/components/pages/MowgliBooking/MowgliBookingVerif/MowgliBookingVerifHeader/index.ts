@@ -1,1 +1,1 @@
-export { MowgliBookingVerifHeader } from "./MowgliBookingVerifHeader"
+export  * from "./MowgliBookingVerifHeader"
