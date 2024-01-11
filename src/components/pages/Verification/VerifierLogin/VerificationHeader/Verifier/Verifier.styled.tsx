@@ -19,9 +19,9 @@ export const Text = styled.p`
   padding-left: 29px;
   font-family: 'Segoe UI';
   font-style: normal;
-  font-weight: 600;
+  font-weight: bold;
   font-size: 10px;
-  line-height: 13px;
+  line-height: 16px;
   border: none;
   color: #4c4c4c;
 `;
@@ -58,5 +58,55 @@ export const Btn = styled.button`
   }
   &:active {
     background: #e4e0e0;
+  }
+`;
+
+export const ModalContainer = styled.div`
+  width: 50vw;
+  height: 90vh;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #787878;
+  border-radius: 10px;
+  z-index: 90;
+  text-align: center;
+
+  & h1 {
+    color: rgba(0, 144, 255, 1);
+    font-size: 33px;
+    line-height: 43.89px;
+  }
+`;
+
+export const ModalContent = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+
+  & table {
+    width: 70%;
+    text-align: left;
+
+    & td:first-child {
+      font-weight: bold;
+      width: 25%;
+    }
+
+    & td {
+      padding-bottom: 1rem;
+
+      &.date {
+        width: 50%;
+        text-align: center;
+      }
+    }
+
+    & td:last-child.active {
+      color: rgba(0, 107, 190, 1);
+    }
+    & td:last-child {
+      color: rgba(255, 96, 0, 1);
+      width: 15%;
+    }
   }
 `;

@@ -4,11 +4,13 @@ import type { RootState } from 'App/store';
 
 type AuthState = {
   isLoggedIn: boolean;
-  access: string[]
+  email: string;
+  access: string[];
 };
 const initialState: AuthState = {
   isLoggedIn: false,
-  access: []
+  email: '',
+  access: [],
 };
 
 const authSlice = createSlice({
@@ -17,22 +19,24 @@ const authSlice = createSlice({
   reducers: {
     login(state, { payload }: PayloadAction<string>) {
       if (payload !== '') {
-          state.isLoggedIn = true;
+        state.isLoggedIn = true;
+        state.email = payload;
       }
     },
 
     setAccess(state, { payload }: PayloadAction<string[]>) {
-      state.access = payload
+      state.access = payload;
     },
 
     logout(state) {
       state.isLoggedIn = false;
-      state.access = []
+      state.email = '';
+      state.access = [];
     },
   },
 });
 
-export const { login, logout,setAccess } = authSlice.actions;
+export const { login, logout, setAccess } = authSlice.actions;
 export const authReducer = authSlice.reducer;
 export const selectIsLoggedIn = (state: RootState) => state.auth.isLoggedIn;
-export const haveAccess = (state: RootState) => state.auth.access
+export const haveAccess = (state: RootState) => state.auth.access;
