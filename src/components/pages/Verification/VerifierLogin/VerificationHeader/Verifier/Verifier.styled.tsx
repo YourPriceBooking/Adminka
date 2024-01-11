@@ -62,7 +62,7 @@ export const Btn = styled.button`
 `;
 
 export const ModalContainer = styled.div`
-  width: 50vw;
+  max-width: 90vw;
   height: 90vh;
   overflow: hidden;
   background: #ffffff;
@@ -70,11 +70,35 @@ export const ModalContainer = styled.div`
   border-radius: 10px;
   z-index: 90;
   text-align: center;
+  padding: 1rem;
 
   & h1 {
     color: rgba(0, 144, 255, 1);
-    font-size: 33px;
     line-height: 43.89px;
+  }
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    width: 90vw;
+
+    & h1 {
+      font-size: 25px;
+    }
+  }
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    width: 80vw;
+
+    & h1 {
+      font-size: 25px;
+    }
+  }
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    width: 50vw;
+
+    & h1 {
+      font-size: 33px;
+    }
   }
 `;
 
@@ -89,7 +113,6 @@ export const ModalContent = styled.div`
 
     & td:first-child {
       font-weight: bold;
-      width: 25%;
     }
 
     & td {
@@ -107,6 +130,42 @@ export const ModalContent = styled.div`
     & td:last-child {
       color: rgba(255, 96, 0, 1);
       width: 15%;
+    }
+  }
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: 10px;
+
+    & table {
+      width: 100%;
+
+      & td.active {
+        width: 25%;
+      }
+
+      & td.date {
+        width: 40%;
+      }
+    }
+  }
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    font-size: 14px;
+  }
+
+  @media screen and (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    & table {
+      width: 90%;
+
+      & td:first-child {
+        width: 25%;
+      }
+
+      & td {
+        &.date {
+          width: 50%;
+        }
+      }
     }
   }
 `;
