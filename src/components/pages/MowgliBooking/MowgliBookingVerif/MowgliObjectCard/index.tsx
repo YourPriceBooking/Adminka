@@ -1,0 +1,1 @@
+export { MowgliObjectCard } from './MowgliObjectCard';

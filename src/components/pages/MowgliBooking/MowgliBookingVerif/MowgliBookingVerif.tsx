@@ -1,10 +1,25 @@
 
 import { MowgliBookingVerifHeader } from './MowgliBookingVerifHeader';
-import { MowgliBookingMainPage } from './MowgliBookingVerif.styled';
+import { MowgliObjectCard } from './MowgliObjectCard';
+import { MowgliObjectCardSecond } from './MowgliObjectCardSecond';
+import { MowgliBookingMainPage, CardsWrapper } from './MowgliBookingVerif.styled';
 
 
 export const MowgliBookingVerif = () => (
-    <MowgliBookingMainPage>
-        <MowgliBookingVerifHeader/>
+  <MowgliBookingMainPage>
+    <MowgliBookingVerifHeader />
+    <CardsWrapper>
+      <MowgliObjectCard />
+      <MowgliObjectCard />
+      <MowgliObjectCard />
+    </CardsWrapper>
+    <CardsWrapper>
+      <MowgliObjectCardSecond />
+      <MowgliObjectCardSecond />
+      <MowgliObjectCardSecond />
+    </CardsWrapper>
   </MowgliBookingMainPage>
 );
+
+
+
