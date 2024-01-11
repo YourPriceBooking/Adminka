@@ -12,11 +12,14 @@ export const useObjectHistoryState = () => {
     'Districts (register 3) added',
     'Description of the object - checked',
     'Description does not contain links',
-    'Translation of the property description and booking options added'
+    'Translation of the property description and booking options added',
   ];
 
-  const itemsOption = ['Description does not contain links', 'There are no obscene words either',
-    'Translation of the property description and booking options added'];
+  const itemsOption = [
+    'Description does not contain links',
+    'There are no obscene words either',
+    'Translation of the property description and booking options added',
+  ];
 
   const [checkedItems, setCheckedItems] = useState<boolean[]>(Array(items.length).fill(false));
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -25,6 +28,8 @@ export const useObjectHistoryState = () => {
   const [noFurtherChecks, setNoFurtherChecks] = useState(false);
   const [showDateError, setShowDateError] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
+
+  const isAllChecked = checkedItems.every(item => item);
 
   return {
     checkedItems,
@@ -43,5 +48,6 @@ export const useObjectHistoryState = () => {
     itemsOption,
     isButtonClicked,
     setIsButtonClicked,
+    isAllChecked,
   };
 };

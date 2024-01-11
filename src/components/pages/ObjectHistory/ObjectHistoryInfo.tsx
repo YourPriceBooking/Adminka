@@ -52,6 +52,7 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
     items,
     isButtonClicked,
     setIsButtonClicked,
+    isAllChecked,
   } = useObjectHistoryState();
   const navigate = useNavigate();
 
@@ -93,6 +94,11 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
 
   const handleSendItems = async () => {
     if (!hasDate && !noFurtherChecks) {
+      setShowDateError(true);
+      return;
+    }
+
+    if (!isAllChecked) {
       setShowDateError(true);
       return;
     }
@@ -204,6 +210,7 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
         {showDateError && !hasDate && !noFurtherChecks && (
           <p style={{ color: 'red' }}>Please enter a date.</p>
         )}
+        {!isAllChecked && showDateError && <p style={{ color: 'red' }}>Please check all params.</p>}
       </DivContent>
       <DivButtons>
         <ButtonSubmit
