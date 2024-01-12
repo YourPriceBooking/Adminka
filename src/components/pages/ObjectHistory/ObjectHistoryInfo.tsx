@@ -53,6 +53,7 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
     isButtonClicked,
     setIsButtonClicked,
     isAllChecked,
+    entryPhoneNumber,
   } = useObjectHistoryState();
   const navigate = useNavigate();
 
@@ -99,6 +100,11 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
     }
 
     if (!isAllChecked) {
+      setShowDateError(true);
+      return;
+    }
+
+    if (!entryPhoneNumber) {
       setShowDateError(true);
       return;
     }
@@ -211,6 +217,9 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
           <p style={{ color: 'red' }}>Please enter a date.</p>
         )}
         {!isAllChecked && showDateError && <p style={{ color: 'red' }}>Please check all params.</p>}
+        {!entryPhoneNumber && showDateError && (
+          <p style={{ color: 'red' }}>Please Enter Phone Numbers.</p>
+        )}
       </DivContent>
       <DivButtons>
         <ButtonSubmit

@@ -31,6 +31,8 @@ export const useObjectHistoryState = () => {
 
   const isAllChecked = checkedItems.every(item => item);
 
+  const entryPhoneNumber = phoneNumbers.some(phone => phone !== '');
+
   return {
     checkedItems,
     setCheckedItems,
@@ -49,5 +51,6 @@ export const useObjectHistoryState = () => {
     isButtonClicked,
     setIsButtonClicked,
     isAllChecked,
+    entryPhoneNumber,
   };
 };
