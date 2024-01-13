@@ -50,18 +50,18 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({
     async function sendPoint() {
       try {
         if (savedText1.includes('http')) {
-          const {
-            data: { result },
-          } = await axios.get(`${baseUrl}${endpoints.getIdVerificationObject}?hotelsId=${hotelId}`);
+          const { data } = await axios.get(
+            `${baseUrl}${endpoints.getIdVerificationObject}?hotelsId=${hotelId}`
+          );
 
-          if (result && result.length > 0) {
+          if (data.result && data.result.length > 0) {
             await axios.patch(`${baseUrl}${endpoints.addPointToMap}`, {
-              id: result[0]._id,
+              id: data.result[0]._id,
               pointOnTheMap: savedText1,
             });
             toast.success('SUCCESS');
           } else {
-            toast.error('Error: Hotel Id  Found');
+            toast.error(`Error: ${data.message}`);
           }
         } else {
           toast.error('Error: IS NOT URL ON POINT');
