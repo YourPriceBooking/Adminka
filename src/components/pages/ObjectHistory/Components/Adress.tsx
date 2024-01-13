@@ -29,8 +29,6 @@ export const Address = () => {
 
       <div>
         <SpanAdress>Location Register 1</SpanAdress>
-        {/* eslint-disable-next-line react/no-unescaped-entities */}
-        <DidAdress>Pechers'kyi district</DidAdress>
         <ListBtn onClick={handleButtonClick} style={{ marginBottom: '25px' }}>
           <RegisterButton
             index={0}
