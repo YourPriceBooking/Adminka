@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   margin-bottom: 14px;
   display: flex;
   flex-direction: row;
-  background: rgba(76, 76, 76, 0.28);
+  background: #D1D1D1;
   backdrop-filter: blur(7.5px);
 `;
 

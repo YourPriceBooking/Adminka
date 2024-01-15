@@ -16,7 +16,7 @@ export const Wrapper = styled.div`
   height: 158px;
   display: flex;
   flex-direction: column;
-  font-family: 'Segoe UI';
+  font-family: ${({ theme }) => theme.fonts.segoe};
   font-style: normal;
   font-weight: 700;
   font-size: 11px;
@@ -29,7 +29,12 @@ export const Wrapper = styled.div`
   padding: 20px 10px;
 `;
 export const Country = styled.h2`
-  margin-bottom: 5px;
+  font-family: ${({ theme }) => theme.fonts.segoe};
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 15px;
+  letter-spacing: 0em;
+  text-align: center;
 `;
 export const Text = styled.p`
   margin-bottom: 20px;
@@ -42,6 +47,7 @@ export const Object = styled.div`
   width: inherit;
   justify-content: space-evenly;
   cursor: pointer;
+  color: #626367;
 
   &.disabled {
     pointer-events: none;
@@ -56,21 +62,21 @@ export const Span = styled.span`
   width: max-content;
 `;
 export const Button = styled.button`
-  font-family: 'Segoe UI';
+  font-family: ${({ theme }) => theme.fonts.segoe};
   font-style: normal;
   font-weight: 700;
   font-size: 11px;
   line-height: 15px;
-  background-color: rgba(173, 196, 217, 1);
+  background-color: #aeafbc;
   color: #ffffff;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
   border-radius: 7px;
   border: none;
-  padding: 0.7rem;
+  padding: 3px;
   max-width: 150px;
 
   &:hover {
-    background-color: rgba(168, 213, 255, 1);
+    background-color: #9c9daf;
     box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
   }
 

@@ -18,11 +18,11 @@ export const Text = styled.p`
   /* margin-bottom: 46px; */
   padding-top: 18px;
   padding-left: 29px;
-  font-family: 'Segoe UI';
+  font-family: ${({ theme }) => theme.fonts.segoe};
   font-style: normal;
-  font-weight: bold;
+  font-weight: 700;
   font-size: 10px;
-  line-height: 16px;
+  line-height: 14px;
   border: none;
   color: #4c4c4c;
 `;
@@ -35,10 +35,10 @@ export const BtnWrapper = styled.div`
 export const Btn = styled.button`
   width: 149px;
   height: 25px;
-  font-family: 'Segoe UI';
+  font-family: ${({ theme }) => theme.fonts.segoe};
   font-style: normal;
   font-weight: 600;
-  font-size: 10px;
+  font-size: 9px;
   line-height: 13px;
   text-align: center;
   border: none;
@@ -54,10 +54,10 @@ export const Btn = styled.button`
     background: #efeeee;
   }
   :focus {
-    border: 0.33px solid ${({ theme }) => theme.colors.textThird};
     outline: none;
   }
   &:active {
+    border: none;
     background: #e4e0e0;
   }
 `;

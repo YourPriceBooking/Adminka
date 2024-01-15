@@ -1,17 +1,20 @@
-import { Wrapper, Country, Text, Object, Span } from './MowgliObjectCard.styled';
+import { Wrapper, Country, Text, Object, Span, Button } from './MowgliObjectCard.styled';
 
+type DataType = {
+  country: string;
+  objects: string;
+};
 
-export const MowgliObjectCard = () => (
-    <Wrapper>
-        <Country>Ukraine</Country>
-        <Text>pending verification</Text>
-        <Object>
-          <Span>Objects added: </Span>
-          <Span>0</Span>
-        </Object>
-        <Object>
-          <Span>Objects on verif: </Span>
-          <Span>0</Span>
-        </Object>
-      </Wrapper>
-  );
+export const MowgliObjectCard = ({ country, objects }: DataType) => (
+  <Wrapper>
+    <Country>{country}</Country>
+    <Text>pending verification</Text>
+    <Object>
+      <Span>Objects</Span>
+      <Span>{objects}</Span>
+    </Object>
+    <div className="buttonBlock">
+      <Button>Take one object for verification</Button>
+    </div>
+  </Wrapper>
+);

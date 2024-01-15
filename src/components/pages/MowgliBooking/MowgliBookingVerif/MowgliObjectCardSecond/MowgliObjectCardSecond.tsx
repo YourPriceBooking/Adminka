@@ -1,34 +1,35 @@
 
 
-import {Button, CardsStyle } from "./MowgliObjectCardSecond.styled";
+import {
+  MainBlock,
+  CardsStyle,
+  CardsMain,
+  Photo,
+  CardsDetails,
+  CardsDetailsHeader,
+  HotelName,
+} from './MowgliObjectCardSecond.styled';
 
 export const MowgliObjectCardSecond = () => (
-
-<CardsStyle>
-  <div className="cardBlockHeader">
-    <p className="left">
-        <div >X</div>
-      <p>
-        <b>USA</b> <span className="text">pending verification</span>
-      </p>
-    </p>
-    <p>
-      Objects on verif <span>0</span>
-    </p>
-  </div>
-  <div className="buttonBlock">
-    <Button>
-      Take one object for verification
-    </Button>
-  </div>
-        {/* <HotelCards
-          city={item.address.city}
-          hotel={item.objectName}
-          address={`${item.address.street}, ${item.address.house}, ${item.address.apartment}`}
-          imgSrc={item.photos[0].url}
-          type={item.type.type}
-        /> */}
-     
-</CardsStyle>
+  <MainBlock>
+    <CardsStyle>
+      <CardsMain>
+        <Photo>
+          <img src="HotelPhoto.png" alt="Hotel" />
+        </Photo>
+        <CardsDetails>
+          <CardsDetailsHeader>
+            <HotelName>
+              <img src="HotelIcon.png" alt="Hotel" />
+              <h5>Маямский Би</h5>
+            </HotelName>
+            <span>Флорида</span>
+          </CardsDetailsHeader>
+          <p>Проспект Ватутина,д.15,</p>
+          <p>кв.6</p>
+        </CardsDetails>
+      </CardsMain>
+    </CardsStyle>
+  </MainBlock>
 );
 
