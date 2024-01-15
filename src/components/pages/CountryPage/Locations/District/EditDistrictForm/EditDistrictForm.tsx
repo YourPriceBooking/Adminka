@@ -58,6 +58,7 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
   const isEng = useAppSelector(selectIsEnglishActiveLang);
 
   const [isEditing, setIsEditing] = useState(false);
+  const [colorAddDirButton, setColorAddDirButton] = useState<string>('green');
   const startEditing = useCallback(() => setIsEditing(true), []);
   const stopEditing = useCallback(() => setIsEditing(false), []);
 
@@ -65,7 +66,6 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
 
   const [addCityToHoteiler] = useAddCityToHoteilerMutation();
 
-  /* const [buttonDisabled, setButtonDisabled] = useState(false); */
   const [modalActive, setModalActive] = useState(false);
 
   /*   const addDir = useCallback(() => {
@@ -92,6 +92,7 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
     districtCode,
     districtPhotoURL,
     langCode,
+    page,
   } = district;
 
   const isPending = isEditingL1 || isRefetchingDistricts;
@@ -178,10 +179,12 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
         countryInternational,
       };
       await addCityToHoteiler(body);
-
+      setColorAddDirButton('white');
+      await getDistricts();
       toast.success(`District added`);
     } catch (err) {
       console.log(err);
+      setColorAddDirButton('green');
 
       toast.error(`Error: adding a distinct`);
     }
@@ -221,6 +224,7 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
     </DistrictInfo>
   );
 
+  const addDirHotelierDisabled = colorAddDirButton === 'white' || page;
   const addDirUsersDisabled = true;
 
   const showEditButtons = !isEditing && (
@@ -232,23 +236,14 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
       />
 
       <UrlDirButton
-        disabled={modalActive}
-        onClick={saveLocation.length > 0 ? () => setModalActive(true) : handleAdd}
-        $isEnabled={!modalActive}
-        variable={saveLocation.length > 0 ? 'purple' : 'green'}
+        onClick={handleAdd}
+        disabled={addDirHotelierDisabled}
+        $isEnabled
+        variable={addDirHotelierDisabled ? 'white' : 'green'}
+        color={!addDirHotelierDisabled ? 'white' : '#0046e9'}
       >
         URL Dir <br />
         Hotelier
-        {/* {saveLocation.length > 0 ? (
-          <>
-            Add Dir <br />
-            Hotelier
-          </>
-        ) : (
-          <>
-            
-          </>
-        )} */}
       </UrlDirButton>
 
       <AddDirButton onClick={addLoc} disabled={addDirUsersDisabled}>

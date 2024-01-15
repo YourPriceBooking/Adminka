@@ -11,7 +11,7 @@ export type City = {
   cityCode: string;
   cityPhotoURL: string;
   cityPhotoAlt: string;
-
+  pages: boolean;
   langCode: string;
 
   districts: District[];
@@ -30,6 +30,7 @@ export type CityWithDistrictsIds = {
   cityPhotoURL: string;
   cityPhotoAlt: string;
   langCode: string;
+  pages: boolean;
 
   districts: EntityId[];
   createdAt: string;

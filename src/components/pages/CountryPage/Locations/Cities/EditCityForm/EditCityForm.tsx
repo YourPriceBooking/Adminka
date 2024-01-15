@@ -7,7 +7,7 @@ import {
   SubmitAddLocationButton,
   ButtonsOverlay,
 } from 'components/shared/Buttons';
-import { useEditCityMutation, selectCityById } from 'features/cities';
+import { useEditCityMutation, selectCityById, useLazyGetCitiesQuery } from 'features/cities';
 import {
   selectActiveCountryInternational,
   selectActiveCountryName,
@@ -40,6 +40,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
 
   const [editCity, { isLoading }] = useEditCityMutation();
   const [addDirHotelier] = useAddDirHotelierMutation();
+  const [getCities] = useLazyGetCitiesQuery();
   const city = useAppSelector(state => selectCityById(state, cityId));
   const stateName = useAppSelector(state => selectStateById(state, stateId)?.stateName);
   const countryInternational = useAppSelector(selectActiveCountryInternational);
@@ -58,8 +59,15 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
 
   if (!city || !stateName) return null;
 
-  const { stateInternational, langCode, cityName, cityInternational, cityCode, cityPhotoURL } =
-    city;
+  const {
+    stateInternational,
+    langCode,
+    cityName,
+    cityInternational,
+    cityCode,
+    cityPhotoURL,
+    pages,
+  } = city;
 
   const addDir = async () => {
     try {
@@ -95,6 +103,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
         );
       }
       setColorAddDirButton('white');
+      getCities();
       toast.success('Successfully Adding a Directory');
     } catch (err: any) {
       toast.error(`${err.data.message}`);
@@ -210,7 +219,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
     </CityInfo>
   );
 
-  const addDirHotelierDisabled = colorAddDirButton === 'white';
+  const addDirHotelierDisabled = colorAddDirButton === 'white' || pages;
   const addDirUsersDisabled = true;
 
   const showEditButtons = !isEditingCity && (
