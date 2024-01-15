@@ -21,7 +21,7 @@ export const MowgliBookingPage = () => {
     <MowgliBookingMainPage>
       <MowgliList>
         <MowgListBlock>
-          <Link to={routes.verification.path.verificationId} style={{ color: 'inherit' }}>
+          <Link to={routes.mowgliBookingVerif.path} style={{ color: 'inherit' }}>
             {/* <div>
           <CustomLoaderMiddleware path={routes.verification.path.verificationId}> */}
             <h1>Objects Verification</h1>
