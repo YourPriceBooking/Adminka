@@ -1,34 +1,31 @@
-import { useState } from "react";
-import { Button, TitleBtn, Wrapper } from "./RegisterButton.styled";
-import { ModalButton } from "../ModalButton/ModalButton";
+import { useState } from 'react';
+import { Button, TitleBtn, Wrapper } from './RegisterButton.styled';
+import { ModalButton } from '../ModalButton/ModalButton';
 
 type Props = {
   title: string;
   index: number;
   activeButtonIndex: number;
+  closeList?: () => void;
 };
 
-export const RegisterButton: React.FC<Props> = ({
-  title,
-  index,
-  activeButtonIndex,
-}) => {
+export const RegisterButton: React.FC<Props> = ({ title, index, activeButtonIndex, closeList }) => {
   const [NameCountry, setNameCountry] = useState<string | null>(null);
 
   const handleClick = (el: string) => {
     setNameCountry(el);
+    if (closeList) {
+      closeList();
+    }
   };
 
   return (
     <Wrapper>
       <Button tabIndex={index}>
         {NameCountry && NameCountry}
-        {NameCountry ? <TitleBtn>{title}</TitleBtn>: title}
+        {NameCountry ? <TitleBtn>{title}</TitleBtn> : title}
       </Button>
-      {index === activeButtonIndex && (
-        <ModalButton title={title} onClick={handleClick} />
-      )}
+      {index === activeButtonIndex && <ModalButton title={title} onClick={handleClick} />}
     </Wrapper>
   );
 };
-

@@ -6,11 +6,9 @@ import { ListBtn } from '../../ButtonRegisterModal/ListButton/ListButton.styled'
 export const Address = () => {
   const [activeButtonIndex, setActiveButtonIndex] = useState<number>(-1);
 
-  const handleButtonClick = (event: React.MouseEvent<HTMLUListElement>): void => {
-    const { target } = event;
-    if (target instanceof HTMLButtonElement) {
-      const index = Number(target.dataset.index ?? '-1');
-      setActiveButtonIndex(index === activeButtonIndex ? -1 : index);
+  const handleClickButton = (num: number) => {
+    if (num !== activeButtonIndex) {
+      setActiveButtonIndex(num);
     } else {
       setActiveButtonIndex(-1);
     }
@@ -28,21 +26,31 @@ export const Address = () => {
       </div>
 
       <div>
-        <SpanAdress>Location Register 1</SpanAdress>
-        <ListBtn onClick={handleButtonClick} style={{ marginBottom: '25px' }}>
-          <RegisterButton
-            index={0}
-            key="Location Register 1"
-            title="Location Register 1"
-            activeButtonIndex={activeButtonIndex}
-          />
-        </ListBtn>
-        <ListBtn onClick={handleButtonClick} style={{ marginBottom: '25px' }}>
+        <ListBtn onClick={() => handleClickButton(1)} style={{ marginBottom: '25px' }}>
           <RegisterButton
             index={1}
             key="Location Register 1"
             title="Location Register 1"
             activeButtonIndex={activeButtonIndex}
+            closeList={() => handleClickButton(-1)}
+          />
+        </ListBtn>
+        <ListBtn onClick={() => handleClickButton(2)} style={{ marginBottom: '25px' }}>
+          <RegisterButton
+            index={2}
+            key="Location Register 2"
+            title="Location Register 2"
+            activeButtonIndex={activeButtonIndex}
+            closeList={() => handleClickButton(-1)}
+          />
+        </ListBtn>
+        <ListBtn onClick={() => handleClickButton(3)} style={{ marginBottom: '25px' }}>
+          <RegisterButton
+            index={3}
+            key="Location Register 3"
+            title="Location Register 3"
+            activeButtonIndex={activeButtonIndex}
+            closeList={() => handleClickButton(-1)}
           />
         </ListBtn>
       </div>

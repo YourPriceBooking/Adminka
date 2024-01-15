@@ -1,4 +1,4 @@
-import React, { useState , useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 // import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { setToken } from 'features/access/tokenSlice';
@@ -15,14 +15,14 @@ import {
 import { Button } from '../Button';
 
 type ResponseDataAdmin = {
-  status: string
+  status: string;
   code: number;
   user: {
-    _id: string
-    access: string[]
-    status: string
-    role: string
-    token: string
+    _id: string;
+    access: string[];
+    status: string;
+    role: string;
+    token: string;
   };
 };
 
@@ -53,8 +53,6 @@ export const PasswordField: React.FC<{
   //   return result;
   // };
 
-
-
   const validPassword = async (): Promise<boolean> => {
     try {
       const response = await axios.post<ResponseDataAdmin | ResponseDataSuperAdmin>(
@@ -70,7 +68,7 @@ export const PasswordField: React.FC<{
         const { status, user } = response.data;
         dispatch(setToken(user.token));
         dispatch(login(email));
-        dispatch(setAccess(user.access))
+        dispatch(setAccess(user.access));
         return status === 'success';
       }
       if ('result' in response.data) {
@@ -78,14 +76,11 @@ export const PasswordField: React.FC<{
         const { status, result } = response.data;
         dispatch(setToken(result.token));
         dispatch(login(email));
-        dispatch(setAccess(['all']))
+        dispatch(setAccess(['all']));
         return status === 'success';
       }
 
-      return false
-
-
-      
+      return false;
     } catch (error) {
       console.error('Помилка під час перевірки секретного коду', error);
       return false;
@@ -108,18 +103,18 @@ export const PasswordField: React.FC<{
   // const handleKeyUp = async (e: React.KeyboardEvent<HTMLInputElement>) => {
   //   if (e.key === 'Enter') {
   //     e.preventDefault();
-  //     await handlePasswordSubmit(e as any); 
+  //     await handlePasswordSubmit(e as any);
   //   }
   // };
   const handleKeyUp = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-          e.preventDefault();
-          if (formRef.current) {
-            formRef.current.dispatchEvent(new Event('submit', { cancelable: true }));
-          }
-        }
-      }, []);
-    
+      e.preventDefault();
+      if (formRef.current) {
+        formRef.current.dispatchEvent(new Event('submit', { cancelable: true }));
+      }
+    }
+  }, []);
+
   // console.log(dataForToken)
 
   return (
@@ -140,7 +135,7 @@ export const PasswordField: React.FC<{
         />
         <Button />
       </form>
-      <VerifPass>Verification code - valid for 3 minutes</VerifPass>
+      <VerifPass>Verification code - valid for 30 minutes</VerifPass>
     </PasswordFieldWrapper>
   );
 };
