@@ -6,6 +6,12 @@ import { ListBtn } from '../../ButtonRegisterModal/ListButton/ListButton.styled'
 export const Address = () => {
   const [activeButtonIndex, setActiveButtonIndex] = useState<number>(-1);
 
+  const [data, setData] = useState<any>({
+    'Location Register 1': '',
+    'Location Register 2': [],
+    'Location Register 3': [],
+  });
+
   const handleClickButton = (num: number) => {
     if (num !== activeButtonIndex) {
       setActiveButtonIndex(num);
@@ -32,7 +38,17 @@ export const Address = () => {
             key="Location Register 1"
             title="Location Register 1"
             activeButtonIndex={activeButtonIndex}
-            closeList={() => handleClickButton(-1)}
+            closeList={({ elData }) => {
+              setData({
+                ...data,
+                'Location Register 2': elData?.map(el => ({
+                  title: el.cityName,
+                  data: el.districts,
+                })),
+              });
+              handleClickButton(-1);
+            }}
+            data={data['Location Register 1']}
           />
         </ListBtn>
         <ListBtn onClick={() => handleClickButton(2)} style={{ marginBottom: '25px' }}>
@@ -41,7 +57,17 @@ export const Address = () => {
             key="Location Register 2"
             title="Location Register 2"
             activeButtonIndex={activeButtonIndex}
-            closeList={() => handleClickButton(-1)}
+            closeList={({ elData }) => {
+              setData({
+                ...data,
+                'Location Register 3': elData?.map(el => ({
+                  title: el.stateName,
+                  data: el.cities,
+                })),
+              });
+              handleClickButton(-1);
+            }}
+            data={data['Location Register 2']}
           />
         </ListBtn>
         <ListBtn onClick={() => handleClickButton(3)} style={{ marginBottom: '25px' }}>
@@ -50,7 +76,10 @@ export const Address = () => {
             key="Location Register 3"
             title="Location Register 3"
             activeButtonIndex={activeButtonIndex}
-            closeList={() => handleClickButton(-1)}
+            closeList={() => {
+              handleClickButton(-1);
+            }}
+            data={data['Location Register 2']}
           />
         </ListBtn>
       </div>

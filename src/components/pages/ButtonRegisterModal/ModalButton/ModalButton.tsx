@@ -6,7 +6,8 @@ import { ModalWrapper, Text } from './ModalButton.styled';
 
 type Props = {
   title: string;
-  onClick: (el: string) => void;
+  onClick: (data: { elTitle: string; elData?: any[]; type: string }) => void;
+  data?: any[];
 };
 
 // const LocationRegister1 = [
@@ -48,21 +49,24 @@ type Props = {
 //   'Львів',
 // ];
 
-type LocationRegisters = Record<string, string[]>;
+type LocationRegisters = Record<string, { title: string; type: string; data?: any[] }[]>;
 
-export const ModalButton: React.FC<Props> = ({ title, onClick }) => {
+export const ModalButton: React.FC<Props> = ({ title, onClick, data }) => {
   const [locationRegisters, setLocationRegisters] = useState<LocationRegisters>({
     'Location Register 1': [],
     'Location Register 2': [],
     'Location Register 3': [],
   });
-  const [loading, setLoading] = useState(false);
 
-  const locationRegister = locationRegisters[title];
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function fetch() {
       try {
+        if (data && data.length > 0) {
+          setLocationRegisters({ ...locationRegisters, [title]: data });
+          return;
+        }
         if (locationRegisters[title].length > 0) {
           return;
         }
@@ -75,38 +79,17 @@ export const ModalButton: React.FC<Props> = ({ title, onClick }) => {
               },
             } = await axios.get(`${baseUrl}${endpoints.locationState}`);
 
-            const statesByLangCode = states.filter((city: any) => city.langCode === 'EN');
-            const statesNames: string[] = statesByLangCode.map((city: any) => city.stateName);
-            setLocationRegisters({ ...locationRegisters, [title]: statesNames });
+            const statesByLangCode = states.filter((state: any) => state.langCode === 'EN');
+            const mappingStates: { title: string; type: string; data: any[] }[] =
+              statesByLangCode.map((state: any) => ({
+                title: state.stateName,
+                type: title,
+                data: state.cities,
+              }));
+
+            setLocationRegisters({ ...locationRegisters, [title]: mappingStates });
             break;
           }
-          case 'Location Register 2': {
-            const {
-              data: {
-                data: { cities },
-              },
-            } = await axios.get(`${baseUrl}${endpoints.locationCity}`);
-
-            const citiesByLangCode = cities.filter((city: any) => city.langCode === 'EN');
-            const citiesNames: string[] = citiesByLangCode.map((city: any) => city.cityName);
-            setLocationRegisters({ ...locationRegisters, [title]: citiesNames });
-            break;
-          }
-          case 'Location Register 3': {
-            const {
-              data: {
-                data: { districts },
-              },
-            } = await axios.get(`${baseUrl}${endpoints.locationDistrict}`);
-
-            const districtsByLangCode = districts.filter((city: any) => city.langCode === 'EN');
-            const districtsNames: string[] = districtsByLangCode.map(
-              (city: any) => city.districtName
-            );
-            setLocationRegisters({ ...locationRegisters, [title]: districtsNames });
-            break;
-          }
-
           default:
             break;
         }
@@ -119,14 +102,19 @@ export const ModalButton: React.FC<Props> = ({ title, onClick }) => {
     fetch();
   }, [locationRegisters]);
 
+  const locationRegister = locationRegisters[title];
+
   return (
     <div>
       {loading && <Spinner />}
       {locationRegister.length > 0 && (
         <ModalWrapper>
           {locationRegister.map(el => (
-            <Text key={el} onClick={() => onClick(el)}>
-              {el}
+            <Text
+              key={el.title}
+              onClick={() => onClick({ elTitle: el.title, elData: el.data, type: title })}
+            >
+              {el.title}
             </Text>
           ))}
         </ModalWrapper>
