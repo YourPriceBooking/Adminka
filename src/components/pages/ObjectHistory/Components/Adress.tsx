@@ -54,32 +54,32 @@ export const Address = () => {
         <ListBtn onClick={() => handleClickButton(2)} style={{ marginBottom: '25px' }}>
           <RegisterButton
             index={2}
-            key="Location Register 2"
-            title="Location Register 2"
+            key="Location Register 1"
+            title="Location Register 1"
             activeButtonIndex={activeButtonIndex}
             closeList={({ elData }) => {
               setData({
                 ...data,
-                'Location Register 3': elData?.map(el => ({
+                'Location Register 2': elData?.map(el => ({
                   title: el.stateName,
                   data: el.cities,
                 })),
               });
               handleClickButton(-1);
             }}
-            data={data['Location Register 2']}
+            data={data['Location Register 1']}
           />
         </ListBtn>
         <ListBtn onClick={() => handleClickButton(3)} style={{ marginBottom: '25px' }}>
           <RegisterButton
             index={3}
-            key="Location Register 3"
-            title="Location Register 3"
+            key="Location Register 1"
+            title="Location Register 1"
             activeButtonIndex={activeButtonIndex}
             closeList={() => {
               handleClickButton(-1);
             }}
-            data={data['Location Register 2']}
+            data={data['Location Register 1']}
           />
         </ListBtn>
       </div>

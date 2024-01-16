@@ -73,21 +73,39 @@ export const ModalButton: React.FC<Props> = ({ title, onClick, data }) => {
         setLoading(true);
         switch (title) {
           case 'Location Register 1': {
+            // const {
+            //   data: {
+            //     data: { states },
+            //   },
+            // } = await axios.get(`${baseUrl}${endpoints.locationState}`);
+
+            // const statesByLangCode = states.filter((state: any) => state.langCode === 'EN');
+            // const mappingStates: { title: string; type: string; data: any[] }[] =
+            //   statesByLangCode.map((state: any) => ({
+            //     title: state.stateName,
+            //     type: title,
+            //     data: state.cities,
+            //   }));
+
+            // setLocationRegisters({ ...locationRegisters, [title]: mappingStates });
+
             const {
               data: {
-                data: { states },
+                data: { cities },
               },
-            } = await axios.get(`${baseUrl}${endpoints.locationState}`);
+            } = await axios.get(`${baseUrl}${endpoints.locationCity}`);
 
-            const statesByLangCode = states.filter((state: any) => state.langCode === 'EN');
-            const mappingStates: { title: string; type: string; data: any[] }[] =
-              statesByLangCode.map((state: any) => ({
-                title: state.stateName,
+            const citiesByLangCode = cities.find(
+              (city: any) => city.langCode === 'EN' && city.cityInternational === 'Kyiv'
+            );
+
+            if (citiesByLangCode) {
+              const districts = citiesByLangCode.districts.map((district: any) => ({
+                title: district.districtName,
                 type: title,
-                data: state.cities,
               }));
-
-            setLocationRegisters({ ...locationRegisters, [title]: mappingStates });
+              setLocationRegisters({ ...locationRegisters, [title]: districts });
+            }
             break;
           }
           default:
