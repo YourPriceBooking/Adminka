@@ -17,6 +17,7 @@ const {
   mowgliBookingStatistics,
   post,
   mowgliBookingFinance,
+  mowgliBookingVerif,
 } = routes;
 
 export const AppRouter = () => (
@@ -48,6 +49,7 @@ export const AppRouter = () => (
         <Route path={mowgliBooking.path} element={<mowgliBooking.element />} />
         <Route path={mowgliBookingStatistics.path} element={<mowgliBookingStatistics.element />} />
         <Route path={mowgliBookingFinance.path} element={<mowgliBookingFinance.element />} />
+        <Route path={mowgliBookingVerif.path} element={<mowgliBookingVerif.element />} />
         {/* <Route path="/location" element={<Location />} /> */}
       </Route>
 
