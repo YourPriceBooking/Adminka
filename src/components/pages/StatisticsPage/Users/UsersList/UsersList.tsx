@@ -103,7 +103,6 @@ export const UsersList: React.FC<
             autoComplete="search"
             onKeyUp={e => {
               if (e.key === 'Enter') {
-                console.log('Cool');
                 handleSearchClick();
               }
             }}

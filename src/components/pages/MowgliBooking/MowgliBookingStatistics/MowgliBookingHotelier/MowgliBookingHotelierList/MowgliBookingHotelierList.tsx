@@ -66,22 +66,22 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
       },
       {
         owner: '4',
-        id: '1123467LON',
+        id: '44446666LON',
         email: 'henrinkwinta@gmail.com',
         hotel: ['Polo Tron Мотел на західній вулиці'],
         status: 'inactive',
       },
       {
         owner: '5',
-        id: '1123467LON',
-        email: 'henrinkwinta@gmail.com',
+        id: '165555557LON',
+        email: 'mashakwinta@gmail.com',
         hotel: ['Hilton Hotel Viktoria'],
         status: 'active',
       },
       {
         owner: '6',
-        id: '1123467LON',
-        email: 'henrinkwinta@gmail.com',
+        id: '16666678967LON',
+        email: 'davidkwinta@gmail.com',
         hotel: ['Hilton Hotel Viktoria'],
         status: 'inactive',
       },
@@ -107,16 +107,13 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
     //   [isClicked, setIsShowHotelier, setIsClicked]
     // );
 
-    const handleClear = () => {
-      setSearchQuery('');
-      setFilteredHoteliers(hardcodedHoteliers);
-      setIsSearching(false);
-    };
 
     const handleSearch = () => {
       const newFilteredHoteliers = searchQuery
         ? hardcodedHoteliers.filter(
             hotelier =>
+              hotelier.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              hotelier.id.toLowerCase().includes(searchQuery) ||
               hotelier.owner.toString().includes(searchQuery) ||
               hotelier.hotel?.some(hotel => hotel.toLowerCase().includes(searchQuery.toLowerCase()))
           )
@@ -138,6 +135,13 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
       setIsClicked(false);
     };
 
+        const handleClear = () => {
+          setSearchQuery('');
+          setFilteredHoteliers(hardcodedHoteliers);
+          setIsSearching(false);
+        };
+
+
     return (
       <Wrapper>
         {showAccount ? (
@@ -158,6 +162,11 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
                   placeholder="Search ID Hoteliers or/and Name object/E mail"
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
+                  onKeyUp={e => {
+                    if (e.key === 'Enter') {
+                      handleSearch();
+                    }
+                  }}
                 />
                 <img src="lupaIcon.png" alt="lupa" className="search-icon" />
                 <LabelForm className="label" htmlFor="input-id">
