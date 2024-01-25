@@ -135,7 +135,7 @@ export const HoteliersList: React.FC<Prop> = memo(
               <TextID tabIndex={index}>
                 <b>{email.toLowerCase()}</b>
               </TextID>
-              <TextID tabIndex={index}>ID {owner}</TextID>
+              <TextID tabIndex={index}>ID {owner.toUpperCase()}</TextID>
               <WrapperText tabIndex={index} typePage={type}>
                 <TextContent tabIndex={index}>
                   {isLoadingHotels && <Spinner />}

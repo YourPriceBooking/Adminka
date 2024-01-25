@@ -82,7 +82,8 @@ export const UsersList: React.FC<
         return (
           item._id.toLowerCase().includes(normalizedQuery) ||
           item.lastName.toLowerCase().includes(normalizedQuery) ||
-          item.firstName.toLowerCase().includes(normalizedQuery)
+          item.firstName.toLowerCase().includes(normalizedQuery) ||
+          item.email.toLowerCase().includes(normalizedQuery)
         );
       })
     : data;
@@ -100,6 +101,12 @@ export const UsersList: React.FC<
             value={searchQuery}
             onChange={e => onSearch(e.target.value)}
             autoComplete="search"
+            onKeyUp={e => {
+              if (e.key === 'Enter') {
+                console.log('Cool');
+                handleSearchClick();
+              }
+            }}
           />
           <LabelFormed className="label" htmlFor="input-id">
             Search ID Hoteliers or/and Name object
@@ -125,9 +132,9 @@ export const UsersList: React.FC<
             tabIndex={index}
           >
             <TextID tabIndex={index}>
-              <b>{user.email}</b>
+              <b>{user.email.toLowerCase()}</b>
             </TextID>
-            <TextID tabIndex={index}>ID {user._id}</TextID>
+            <TextID tabIndex={index}>ID {user._id.toUpperCase()}</TextID>
             <WrapperText tabIndex={index} typePage={type}>
               <TextContent tabIndex={index}>
                 {isLoading ? (
