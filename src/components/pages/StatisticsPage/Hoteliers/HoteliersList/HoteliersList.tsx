@@ -133,7 +133,7 @@ export const HoteliersList: React.FC<Prop> = memo(
               onClick={handleClick}
             >
               <TextID tabIndex={index}>
-                <b>{email}</b>
+                <b>{email.toLowerCase()}</b>
               </TextID>
               <TextID tabIndex={index}>ID {owner}</TextID>
               <WrapperText tabIndex={index} typePage={type}>

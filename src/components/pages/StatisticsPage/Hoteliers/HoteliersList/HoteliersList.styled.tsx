@@ -155,7 +155,7 @@ left:-6px;
 top:30%;
 transform: translateX(-50%);
 }
-  }
+  
 `;
 export const Inner = styled.li.attrs<Props>(({ tabIndex }) => ({
   'data-id': tabIndex,
@@ -185,7 +185,6 @@ export const TextID = styled.p.attrs<Props>(({ tabIndex }) => ({
   font-weight: 600;
   font-size: 12px;
   line-height: 16px/12px;
-  text-transform: uppercase;
   color: ${({ theme }) => theme.colors.textThird};
   margin-right: 0.5rem;
 `;
