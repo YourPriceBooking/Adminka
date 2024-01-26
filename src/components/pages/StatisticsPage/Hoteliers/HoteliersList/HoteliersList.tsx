@@ -38,6 +38,7 @@ export const HoteliersList: React.FC<Prop> = memo(
     const { hoteliers, isLoadingHotels } = useSelector(selectorHoteliers);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [filteredHoteliers, setFilteredHoteliers] = useState(hoteliers);
+     const [isSearching, setIsSearching] = useState(false);
 
     const [isClearClicked, setIsClearClicked] = useState(false);
 
@@ -60,8 +61,9 @@ export const HoteliersList: React.FC<Prop> = memo(
     //   [isClicked, setIsShowHotelier, setIsClicked]
     // );
 
-    const handleClick = (e: React.MouseEvent<HTMLLIElement>) => {
-      const index = e.currentTarget.tabIndex;
+    const handleClick = (owner: string) => {
+      // const index = e.currentTarget.tabIndex;
+      const index = filteredHoteliers.findIndex(hotelier => hotelier.owner === owner);
       setIsShowHotelier(index);
       setIsClicked(true);
     };
@@ -76,20 +78,41 @@ export const HoteliersList: React.FC<Prop> = memo(
       // eslint-disable-next-line
     }, [dispatch]);
 
-    const handleSearch = () => {
-      const newFilteredHoteliers = searchQuery
-        ? hoteliers.filter(
-            hotelier =>
-              hotelier.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              hotelier.owner.toString().includes(searchQuery) ||
+    // const handleSearch = () => {
+    //   const newFilteredHoteliers = searchQuery
+    //     ? hoteliers.filter(
+    //         hotelier =>
+    //           hotelier.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    //           hotelier.owner.toString().includes(searchQuery) ||
+    //           hotelier.hotels?.some(hotel =>
+    //             hotel.toLowerCase().includes(searchQuery.toLowerCase())
+    //           )
+    //       )
+    //     : hoteliers;
+    //   setIsClearClicked(true);
+    //   setFilteredHoteliers(newFilteredHoteliers);
+    // };
+
+     const handleSearchClick = () => {
+       setIsSearching(true);
+       setIsClearClicked(true);
+     };
+
+
+      const filteredData = searchQuery
+        ? hoteliers.filter(hotelier => {
+            const normalizedQuery = searchQuery.toLowerCase();
+            return (
+              hotelier.email.toLowerCase().includes(normalizedQuery.toLowerCase()) ||
+              hotelier.owner.toString().includes(normalizedQuery) ||
               hotelier.hotels?.some(hotel =>
-                hotel.toLowerCase().includes(searchQuery.toLowerCase())
+                hotel.toLowerCase().includes(normalizedQuery.toLowerCase())
               )
-          )
+            );
+          })
         : hoteliers;
-      setIsClearClicked(true);
-      setFilteredHoteliers(newFilteredHoteliers);
-    };
+
+      const displayData = isSearching ? filteredData : hoteliers;
 
     return (
       <Wrapper>
@@ -104,7 +127,7 @@ export const HoteliersList: React.FC<Prop> = memo(
               onChange={e => setSearchQuery(e.target.value)}
               onKeyUp={e => {
                 if (e.key === 'Enter') {
-                  handleSearch();
+                  handleSearchClick();
                 }
               }}
             />
@@ -119,18 +142,18 @@ export const HoteliersList: React.FC<Prop> = memo(
               Close
             </ClearButton>
           ) : (
-            <YellowButton onClick={handleSearch}>Search</YellowButton>
+            <YellowButton onClick={handleSearchClick}>Search</YellowButton>
           )}
         </FunProf>
-        {filteredHoteliers.length > 0 &&
-          filteredHoteliers.map(({ owner, hotels, status, email }, index) => (
+        {displayData.length > 0 &&
+          displayData.map(({ owner, hotels, status, email }, index) => (
             <Inner
               border={isShowHotelier === index}
               hidden={isShowHotelier !== index && isShowHotelier !== null}
               position={isShowHotelier !== null}
               key={owner}
               tabIndex={index}
-              onClick={handleClick}
+              onClick={() => handleClick(owner)}
             >
               <TextID tabIndex={index}>
                 <b>{email.toLowerCase()}</b>
