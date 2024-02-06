@@ -12,6 +12,8 @@ type Prop = {
 export const MowgliBookingUsers: React.FC<Prop> = ({ page }) => {
   const [isShowUsers, setIsShowUsers] = useState<number | null>(null);
   const [isClicked, setIsClicked] = useState<boolean>(false);
+ 
+
   const closeAccount = () => {
     setIsShowUsers(null);
     setIsClicked(false);
@@ -29,6 +31,7 @@ export const MowgliBookingUsers: React.FC<Prop> = ({ page }) => {
         setIsShowUsers={setIsShowUsers}
         isClicked={isClicked}
         setIsClicked={setIsClicked}
+       
       />
     </Wrapper>
   );

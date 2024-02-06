@@ -131,7 +131,7 @@ export const SearchIcon = styled.img`
 `;
 export const CloseIcon = styled.img``;
 
-export const ClearButton = styled.button<{ hasText: boolean }>`
+export const ClearButton = styled.button`
 width: 30px;
 height: 16px;
 background-color: transparent;
