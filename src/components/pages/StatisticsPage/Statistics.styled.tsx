@@ -14,4 +14,7 @@ export const Inner = styled.div`
 
 export const Wrapper = styled.div`
   width: 80.25%;
+  padding-left: 15%;
+  padding-bottom: 80px;
+  padding-top: 20px;
 `;

@@ -41,6 +41,7 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [isSearching, setIsSearching] = useState(false);
     const [showAccount, setShowAccount] = useState(false);
+    const [isClearClicked, setIsClearClicked] = useState(false);
 
     const hardcodedHoteliers: Hotelier[] = [
       {
@@ -66,22 +67,22 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
       },
       {
         owner: '4',
-        id: '1123467LON',
+        id: '44446666LON',
         email: 'henrinkwinta@gmail.com',
         hotel: ['Polo Tron Мотел на західній вулиці'],
         status: 'inactive',
       },
       {
         owner: '5',
-        id: '1123467LON',
-        email: 'henrinkwinta@gmail.com',
+        id: '165555557LON',
+        email: 'mashakwinta@gmail.com',
         hotel: ['Hilton Hotel Viktoria'],
         status: 'active',
       },
       {
         owner: '6',
-        id: '1123467LON',
-        email: 'henrinkwinta@gmail.com',
+        id: '16666678967LON',
+        email: 'davidkwinta@gmail.com',
         hotel: ['Hilton Hotel Viktoria'],
         status: 'inactive',
       },
@@ -107,23 +108,27 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
     //   [isClicked, setIsShowHotelier, setIsClicked]
     // );
 
-    const handleClear = () => {
-      setSearchQuery('');
-      setFilteredHoteliers(hardcodedHoteliers);
-      setIsSearching(false);
-    };
+      const handleSearchClick = () => {
+        setIsSearching(true);
+        setIsClearClicked(true);
+      };
+    
+    const filteredData = searchQuery
+      ? hardcodedHoteliers.filter(hotelier => {
+          const normalizedQuery = searchQuery.toLowerCase();
+          return (
+            hotelier.email.toLowerCase().includes(normalizedQuery.toLowerCase()) ||
+            hotelier.id.toLowerCase().includes(normalizedQuery) ||
+            hotelier.owner.toString().includes(normalizedQuery) ||
+            hotelier.hotel?.some(hotel =>
+              hotel.toLowerCase().includes(normalizedQuery.toLowerCase())
+            )
+          );
+        })
+      : hardcodedHoteliers;
 
-    const handleSearch = () => {
-      const newFilteredHoteliers = searchQuery
-        ? hardcodedHoteliers.filter(
-            hotelier =>
-              hotelier.owner.toString().includes(searchQuery) ||
-              hotelier.hotel?.some(hotel => hotel.toLowerCase().includes(searchQuery.toLowerCase()))
-          )
-        : hardcodedHoteliers;
-      setIsSearching(true);
-      setFilteredHoteliers(newFilteredHoteliers);
-    };
+
+      const displayData = isSearching ? filteredData : hardcodedHoteliers;
 
     const handleClickTextContent = (owner: string) => {
       const index = filteredHoteliers.findIndex(hotelier => hotelier.owner === owner);
@@ -137,6 +142,14 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
       setIsShowHotelier(null);
       setIsClicked(false);
     };
+
+        const handleClear = () => {
+          setSearchQuery('');
+          setFilteredHoteliers(hardcodedHoteliers);
+          setIsSearching(false);
+           setIsClearClicked(false);
+        };
+
 
     return (
       <Wrapper>
@@ -158,6 +171,11 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
                   placeholder="Search ID Hoteliers or/and Name object/E mail"
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
+                  onKeyUp={e => {
+                    if (e.key === 'Enter') {
+                      handleSearchClick();
+                    }
+                  }}
                 />
                 <img src="lupaIcon.png" alt="lupa" className="search-icon" />
                 <LabelForm className="label" htmlFor="input-id">
@@ -165,16 +183,16 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
                 </LabelForm>
               </SearchInputContainer>
 
-              {isSearching ? (
+              {isClearClicked ? (
                 <ClearButton onClick={handleClear} hasText={searchQuery.length > 0}>
                   Close
                 </ClearButton>
               ) : (
-                <YellowButton onClick={handleSearch}>Search</YellowButton>
+                <YellowButton onClick={handleSearchClick}>Search</YellowButton>
               )}
             </FunProf>
-            {filteredHoteliers.length > 0 &&
-              filteredHoteliers.map(({ owner, hotel, email, id, status }, index) => (
+            {displayData.length > 0 &&
+              displayData.map(({ owner, hotel, email, id, status }, index) => (
                 <Inner
                   border={isShowHotelier === index}
                   hidden={isShowHotelier !== index && isShowHotelier !== null}

@@ -179,7 +179,6 @@ export const TextID = styled.p.attrs<Props>(({ tabIndex }) => ({
   font-weight: 600;
   font-size: 12px;
   line-height: 16px/12px;
-  text-transform: uppercase;
   color: ${({ theme }) => theme.colors.textThird};
 
   & b {
