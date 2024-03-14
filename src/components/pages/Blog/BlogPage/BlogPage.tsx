@@ -1,7 +1,8 @@
-import React from 'react';
-import { useAppSelector } from 'App';
+import React, { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from 'App';
 import { getAllPosts } from 'features/blog/blogSelector';
 import { useNavigate } from 'react-router-dom';
+import { fetchBlogPosts } from 'features/blog/blogOperation';
 import { BlogContainer, Header, PostsList } from './Blog.styled';
 import { Button } from './components/Button/Button';
 import { ListItem } from './components/ListItem';
@@ -26,9 +27,14 @@ const mockLanguage = [
   },
 ];
 export const BlogPage = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const posts = useAppSelector(getAllPosts);
+
+  useEffect(() => {
+    dispatch(fetchBlogPosts());
+  });
 
   return (
     <BlogContainer>

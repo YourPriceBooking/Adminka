@@ -66,8 +66,14 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
     cityInternational,
     cityCode,
     cityPhotoURL,
-    pages,
+    page,
   } = city;
+
+  useEffect(() => {
+    if (page) {
+      setColorAddDirButton('white');
+    }
+  }, []);
 
   const addDir = async () => {
     try {
@@ -219,8 +225,11 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
     </CityInfo>
   );
 
-  const addDirHotelierDisabled = colorAddDirButton === 'white' || pages;
+  const addDirHotelierDisabled = colorAddDirButton === 'white';
   const addDirUsersDisabled = true;
+
+  // eslint-disable-next-line no-debugger
+  debugger;
 
   const showEditButtons = !isEditingCity && (
     <>

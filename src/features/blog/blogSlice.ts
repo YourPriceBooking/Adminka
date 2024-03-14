@@ -1,5 +1,7 @@
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import type { Post } from 'components/pages/Blog/BlogPage/types/Post';
+import { fetchBlogPosts } from './blogOperation';
 
 type BlogState = {
   posts: Post[];
@@ -29,9 +31,16 @@ const initialState: BlogState = {
 };
 
 const blogSlice = createSlice({
-  name: 'country',
+  name: 'blog',
   initialState,
   reducers: {},
+  extraReducers: builder => {
+    builder.addCase(fetchBlogPosts.fulfilled, (state, { payload }: PayloadAction<any>) => {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      state.posts = { ...payload };
+    });
+  },
 });
 
 // export const { } = blogSlice.actions;

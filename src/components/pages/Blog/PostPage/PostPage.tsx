@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 import backArrow from 'assets/icons/backarrow.svg';
 import { useAppSelector } from 'App';
@@ -63,11 +62,10 @@ const PostPage: React.FC = () => {
       text: '',
     },
     onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+      // http://ypbooking.chost.com.ua/blog/
+      console.log('Blog data: ', JSON.stringify(values, null, 2));
     },
   });
-
-  const [activeParam, setActiveParam] = useState('');
 
   if (!id) return <Navigate to="/blog" replace />;
 
@@ -96,9 +94,7 @@ const PostPage: React.FC = () => {
         </div>
         <div>
           {ButtonsHeader.map(({ title }) => (
-            <Button active={title === activeParam} onClick={() => setActiveParam(title)}>
-              {title}
-            </Button>
+            <Button onClick={() => {}}>{title}</Button>
           ))}
         </div>
       </Header>
