@@ -228,9 +228,6 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
   const addDirHotelierDisabled = colorAddDirButton === 'white';
   const addDirUsersDisabled = true;
 
-  // eslint-disable-next-line no-debugger
-  debugger;
-
   const showEditButtons = !isEditingCity && (
     <>
       <EditButton

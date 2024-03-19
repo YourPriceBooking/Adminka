@@ -3,7 +3,7 @@ import { blogBaseUrl } from 'features/api';
 import axios from 'axios';
 
 export const fetchBlogPosts = createAsyncThunk<any>(
-  'verification/fetchVerification',
+  'blog/fetchBlogPosts',
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(`${blogBaseUrl}/post/get-all?page=1&limit=3`, {
@@ -12,7 +12,7 @@ export const fetchBlogPosts = createAsyncThunk<any>(
 
       const { data } = response;
 
-      return data;
+      return data.results;
     } catch (error) {
       return rejectWithValue(error);
     }

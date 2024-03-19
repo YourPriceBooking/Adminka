@@ -36,8 +36,6 @@ const blogSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchBlogPosts.fulfilled, (state, { payload }: PayloadAction<any>) => {
-      // eslint-disable-next-line no-debugger
-      debugger;
       state.posts = { ...payload };
     });
   },

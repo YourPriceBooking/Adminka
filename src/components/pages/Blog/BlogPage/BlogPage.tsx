@@ -36,6 +36,7 @@ export const BlogPage = () => {
     dispatch(fetchBlogPosts());
   });
 
+  console.log('Post', posts);
   return (
     <BlogContainer>
       <Header>
