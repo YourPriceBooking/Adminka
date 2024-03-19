@@ -36,7 +36,7 @@ const blogSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchBlogPosts.fulfilled, (state, { payload }: PayloadAction<any>) => {
-      state.posts = { ...payload };
+      state.posts = [...payload];
     });
   },
 });
