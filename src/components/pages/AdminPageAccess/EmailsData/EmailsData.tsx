@@ -44,25 +44,22 @@ type ResponseData = {
   };
 };
 
-export const EmailsData = ({emails}: {emails: any}) => {
+export const EmailsData = ({ emails }: { emails: any }) => {
   const token = useAppSelector((state: RootState) => state.enterToken.token);
   const dispatch = useAppDispatch();
-  const [selectedItem, setSelectedItems] = useState<any>()
+  const [selectedItem, setSelectedItems] = useState<any>();
 
   const [banClicked, setBanClicked] = useState(false);
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const handleLogout = async () => {
     try {
-      await axios.get(
-        'https://server-your-price-booking.onrender.com/api/acsess-to-admin/log-out-admin',
-        {
-          headers: {
-            Authorization: `Bearer ${token ?? ''}`,
-          },
-        }
-      );
+      await axios.get('https://ypbooking.chost.com.ua/api/acsess-to-admin/log-out-admin', {
+        headers: {
+          Authorization: `Bearer ${token ?? ''}`,
+        },
+      });
       dispatch(setToken(null));
     } catch (error) {
       console.error('Помилка під час виходу з акаунта', error);
@@ -72,7 +69,7 @@ export const EmailsData = ({emails}: {emails: any}) => {
   const handleChangeBanStatus = async (email: any) => {
     try {
       const response: AxiosResponse<ResponseData> = await axios.patch(
-        'https://server-your-price-booking.onrender.com/api/acsess-to-admin/change-status',
+        'https://ypbooking.chost.com.ua/api/acsess-to-admin/change-status',
         {
           email,
           status: banClicked ? 'active' : 'not active',
@@ -92,7 +89,7 @@ export const EmailsData = ({emails}: {emails: any}) => {
       console.log(error);
       return false;
     }
-  }
+  };
 
   const mutation = useMutation({
     mutationFn: handleChangeBanStatus,
@@ -101,22 +98,21 @@ export const EmailsData = ({emails}: {emails: any}) => {
     },
   });
 
-  const handleBanClick = async (email: any ) => {
-    setBanClicked(!banClicked)
+  const handleBanClick = async (email: any) => {
+    setBanClicked(!banClicked);
     if (email.access.length === 0) {
       setSelectedItems(email.email);
     }
-    mutation.mutate(email.email)
+    mutation.mutate(email.email);
   };
 
   const handleOpen = (email: any) => {
-    setSelectedItems(email)
-  }
+    setSelectedItems(email);
+  };
 
   const closeChangeAccess = () => {
     setSelectedItems(null);
-
-  }
+  };
 
   return (
     <EmailsDataPageStyled>

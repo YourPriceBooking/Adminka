@@ -56,7 +56,7 @@ export const PasswordField: React.FC<{
   const validPassword = async (): Promise<boolean> => {
     try {
       const response = await axios.post<ResponseDataAdmin | ResponseDataSuperAdmin>(
-        'https://server-your-price-booking.onrender.com/api/acsess-to-admin/log-in-admin/',
+        'https://ypbooking.chost.com.ua/api/acsess-to-admin/log-in-admin/',
         {
           email: `${email}`,
           secretCode: passwordCode,

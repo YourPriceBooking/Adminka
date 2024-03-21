@@ -45,7 +45,7 @@ export const InputEmail: React.FC<{ component: React.FC }> = ({ component: Compo
     } else {
       try {
         const response: AxiosResponse<{ status: string; messageData: string }> = await axios.post(
-          'https://server-your-price-booking.onrender.com/api/acsess-to-admin/check-admin/',
+          'https://ypbooking.chost.com.ua/api/acsess-to-admin/check-admin/',
           {
             email: `${email}`,
           }

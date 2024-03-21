@@ -39,7 +39,7 @@ type ResponseData = {
       updatedAt: string;
     };
   };
-}
+};
 
 export const AddEmailAccess = ({ onClick }: Props) => {
   const [email, setEmail] = useState('');
@@ -57,7 +57,7 @@ export const AddEmailAccess = ({ onClick }: Props) => {
   const addNewEmailAccess = async () => {
     try {
       const response: AxiosResponse<ResponseData> = await axios.post(
-        'https://server-your-price-booking.onrender.com/api/acsess-to-admin/add-email',
+        'https://ypbooking.chost.com.ua/api/acsess-to-admin/add-email',
         {
           email,
           access: [
@@ -100,23 +100,22 @@ export const AddEmailAccess = ({ onClick }: Props) => {
         }
       );
       console.error('Помилка під час додавання емейла', error);
-      
+
       return false;
     }
-  }
+  };
 
   const mutation = useMutation({
     mutationFn: addNewEmailAccess,
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ['emailsData']})
-    }
-  })
+      queryClient.invalidateQueries({ queryKey: ['emailsData'] });
+    },
+  });
 
   const handleAddEmail = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    mutation.mutate()
-
+    mutation.mutate();
   };
 
   return (
@@ -124,7 +123,7 @@ export const AddEmailAccess = ({ onClick }: Props) => {
       <form onSubmit={handleAddEmail}>
         <AddEmailAccessMainDiv>
           <AddEmailAccessStyled>
-            <label htmlFor='email'>Enter Email</label>
+            <label htmlFor="email">Enter Email</label>
             <AddEmailAccessInput
               type="email"
               id="email"
@@ -132,7 +131,22 @@ export const AddEmailAccess = ({ onClick }: Props) => {
               required
               onChange={e => setEmail(e.target.value)}
             />
-            <AddEmailAccessButtonStyled type="submit" disabled={!((objectsChecked || languagesChecked || financeChecked || blogChecked || statisticsChecked || mowgliBookingChecked) && email)}>Add Access</AddEmailAccessButtonStyled>
+            <AddEmailAccessButtonStyled
+              type="submit"
+              disabled={
+                !(
+                  (objectsChecked ||
+                    languagesChecked ||
+                    financeChecked ||
+                    blogChecked ||
+                    statisticsChecked ||
+                    mowgliBookingChecked) &&
+                  email
+                )
+              }
+            >
+              Add Access
+            </AddEmailAccessButtonStyled>
           </AddEmailAccessStyled>
           <EmailCheckbox
             objectsChecked={objectsChecked}
@@ -150,11 +164,7 @@ export const AddEmailAccess = ({ onClick }: Props) => {
           />
         </AddEmailAccessMainDiv>
       </form>
-      <CloseButton
-        src="CloseButtonWhite.png"
-        onClick={onClick}
-        direction="/admin-page-access"
-      />
+      <CloseButton src="CloseButtonWhite.png" onClick={onClick} direction="/admin-page-access" />
     </MainDiv>
   );
 };

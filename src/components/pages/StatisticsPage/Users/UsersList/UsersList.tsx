@@ -39,10 +39,9 @@ export const UsersList: React.FC<
   const [isLoading, setIsLoading] = useState(true);
   const [isSearchClicked, setIsSearchClicked] = useState(false);
   const [isClearClicked, setIsClearClicked] = useState(false);
-  
 
   useEffect(() => {
-    fetch('https://server-your-price-booking.onrender.com/api/acsess-to-admin/get-all-users')
+    fetch('https://ypbooking.chost.com.ua/api/acsess-to-admin/get-all-users')
       .then(response => response.json())
       .then((date: { code: number; users: DataProp[] }) => {
         if (date.code === 200 && date.users && Array.isArray(date.users)) {

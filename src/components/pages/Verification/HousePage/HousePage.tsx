@@ -61,7 +61,7 @@ export const HousePage: React.FC = () => {
   const handleTranslate = async () => {
     try {
       const response = await axios.patch(
-        `https://server-your-price-booking.onrender.com/api/hotels-verification/add-a-translation`,
+        `https://ypbooking.chost.com.ua/api/hotels-verification/add-a-translation`,
         {
           id: '6521b17efa494fab9ac88707',
           description: Object.values(description),

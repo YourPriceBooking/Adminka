@@ -39,7 +39,7 @@ type ResponseData = {
       updatedAt: string;
     };
   };
-}
+};
 
 export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
   const [objectsChecked, setObjectsChecked] = useState(
@@ -51,9 +51,9 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
   const [statisticsChecked, setStatisticsChecked] = useState(
     !!selectedEmail?.access.includes('Statistics and access to cabinets')
   );
-   
+
   const [financeChecked, setFinanceChecked] = useState(!!selectedEmail?.access.includes('Finance'));
-   
+
   const [blogChecked, setBlogChecked] = useState(!!selectedEmail?.access.includes('Blog'));
 
   const [mowgliBookingChecked, setMowgliBookingChecked] = useState(
@@ -62,13 +62,22 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
 
   const token = useAppSelector((state: RootState) => state.enterToken.token);
 
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
 
   const handleChangeEmailAccess = async () => {
-    if (!(objectsChecked || languagesChecked || financeChecked || blogChecked || statisticsChecked || mowgliBookingChecked)) {
+    if (
+      !(
+        objectsChecked ||
+        languagesChecked ||
+        financeChecked ||
+        blogChecked ||
+        statisticsChecked ||
+        mowgliBookingChecked
+      )
+    ) {
       try {
         const response: AxiosResponse<ResponseData> = await axios.patch(
-          'https://server-your-price-booking.onrender.com/api/acsess-to-admin/change-status',
+          'https://ypbooking.chost.com.ua/api/acsess-to-admin/change-status',
           {
             email: selectedEmail.email,
             status: 'not active',
@@ -94,7 +103,7 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
     } else {
       try {
         const response: AxiosResponse<ResponseData> = await axios.patch(
-          'https://server-your-price-booking.onrender.com/api/acsess-to-admin/change-access',
+          'https://ypbooking.chost.com.ua/api/acsess-to-admin/change-access',
           {
             email: selectedEmail.email,
             access: [
@@ -116,7 +125,7 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
         );
 
         await axios.patch(
-          'https://server-your-price-booking.onrender.com/api/acsess-to-admin/change-status',
+          'https://ypbooking.chost.com.ua/api/acsess-to-admin/change-status',
           {
             email: selectedEmail.email,
             status: 'active',
@@ -140,7 +149,7 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
         return false;
       }
     }
-  }
+  };
 
   const mutation = useMutation({
     mutationFn: handleChangeEmailAccess,
@@ -149,13 +158,10 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
     },
   });
 
-
-
   const handleChangeEmail = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    mutation.mutate()
-
+    mutation.mutate();
   };
 
   return (

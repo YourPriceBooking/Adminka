@@ -10,7 +10,6 @@ import { Message, Input, Placeholder, Div } from '../Access/InputEmail/InputEmai
 import { PasswordField } from '../Access/PasswordField';
 
 export const LoginPage = () => {
-  
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const from = useFromLocation();
   const nav = useNavigate();
@@ -34,7 +33,6 @@ export const LoginPage = () => {
     return regEmail.test(email);
   };
 
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -43,7 +41,7 @@ export const LoginPage = () => {
     } else {
       try {
         const response: AxiosResponse<{ status: string; messageData: string }> = await axios.post(
-          'https://server-your-price-booking.onrender.com/api/acsess-to-admin/check-admin/',
+          'https://ypbooking.chost.com.ua/api/acsess-to-admin/check-admin/',
           {
             email: `${email}`,
           }

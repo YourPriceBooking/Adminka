@@ -1,10 +1,9 @@
- 
-import { useQuery } from "react-query";
-import type { AxiosResponse } from "axios";
-import axios from "axios"
-import { useState } from "react"
-import { useAppSelector } from "App";
-import type { RootState } from "App/store";
+import { useQuery } from 'react-query';
+import type { AxiosResponse } from 'axios';
+import axios from 'axios';
+import { useState } from 'react';
+import { useAppSelector } from 'App';
+import type { RootState } from 'App/store';
 
 type ResponseData = {
   status: string;
@@ -38,11 +37,12 @@ export const useEmailsData = () => {
   const fetchEmailsData = async () => {
     try {
       const response: AxiosResponse<ResponseData[]> = await axios.get(
-        'https://server-your-price-booking.onrender.com/api/acsess-to-admin/get-all-admin', {
+        'https://ypbooking.chost.com.ua/api/acsess-to-admin/get-all-admin',
+        {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token!}`
-          }
+            Authorization: `Bearer ${token!}`,
+          },
         }
       );
 
