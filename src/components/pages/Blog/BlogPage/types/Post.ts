@@ -3,7 +3,7 @@ export type Post = {
   title: string;
   description: string;
   author: string;
-  publicationDate: Date;
-  changeDate: Date;
+  publicationDate?: Date;
+  changeDate?: Date;
   imageUrl: string;
 };

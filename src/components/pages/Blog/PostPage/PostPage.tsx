@@ -1,8 +1,13 @@
-import { Navigate, useParams } from 'react-router-dom';
+/* eslint-disable react/button-has-type */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable jsx-a11y/control-has-associated-label */
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import backArrow from 'assets/icons/backarrow.svg';
 import { useAppSelector } from 'App';
 import { getPost } from 'features/blog/blogSelector';
 import { useFormik } from 'formik';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { BlogContainer, Header } from '../BlogPage/Blog.styled';
 import { Button } from '../BlogPage/components/Button/Button';
 import { PostContent } from './PostPage.styled';
@@ -20,6 +25,7 @@ import { PostContent } from './PostPage.styled';
 //   imageUrl: yup.string().required('Image URL is required'),
 //   description: yup.string().required('Description is required'),
 // });
+const CustomButton = () => <span className="octicon octicon-star" />;
 
 const ButtonsHeader = [
   {
@@ -51,8 +57,33 @@ const ButtonsHeader = [
   },
 ];
 
+const CustomToolbar = () => (
+  <div id="toolbar">
+    <select className="ql-header" defaultValue="" onChange={e => e.persist()}>
+      <option value="1" />
+      <option value="2" />
+      <option selected />
+    </select>
+    <button className="ql-bold" />
+    <button className="ql-italic" />
+    <select className="ql-color">
+      <option value="red" />
+      <option value="green" />
+      <option value="blue" />
+      <option value="orange" />
+      <option value="violet" />
+      <option value="#d0d1d2" />
+      <option selected />
+    </select>
+    <button className="ql-insertStar">
+      <CustomButton />
+    </button>
+  </div>
+);
+
 const PostPage: React.FC = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -73,29 +104,47 @@ const PostPage: React.FC = () => {
 
   if (!post) return <Navigate to="/blog" replace />;
 
-  // function makeTextBold() {
-  //   document.execCommand('bold');
-  // }
+  function makeTextBold() {
+    document.execCommand('bold');
+  }
 
   // function makeTextItalic() {
   //   document.execCommand('italic');
   // }
 
-  const handleContentEditableChange = (e: React.FormEvent<HTMLDivElement>) => {
-    const newValue = e.currentTarget.textContent;
-    formik.setFieldValue('text', newValue);
+  const handleClickToBackArrow = () => {
+    navigate('/blog');
   };
+
+  // Editor.modules = {
+  //   toolbar: {
+  //     container: '#toolbar',
+  //   },
+  // };
 
   return (
     <BlogContainer>
       <Header>
         <div>
-          <img src={backArrow} alt="arrow" />
+          <img src={backArrow} alt="arrow" onClick={handleClickToBackArrow} aria-hidden="true" />
         </div>
         <div>
-          {ButtonsHeader.map(({ title }) => (
-            <Button onClick={() => {}}>{title}</Button>
-          ))}
+          {/* {ButtonsHeader.map(({ title }) => (
+            <Button
+              onClick={() => {
+                switch (title) {
+                  case 'H1':
+                    makeTextBold();
+                    break;
+
+                  default:
+                    break;
+                }
+              }}
+            >
+              {title}
+            </Button>
+          ))} */}
         </div>
       </Header>
       <PostContent>
@@ -128,14 +177,23 @@ const PostPage: React.FC = () => {
 
           <div className="text">
             {/* <img src="https://content1.rozetka.com.ua/goods/images/big/364873994.jpg" alt="a" /> */}
-            <div
+            <ReactQuill
+              id="text"
+              className="textarea"
+              placeholder="Enter your text here..."
+              onChange={e => {
+                console.log(e);
+              }}
+              value={formik.values.text}
+            />
+            {/* <div
               id="text"
               className="textarea"
               contentEditable
               data-placeholder="Enter your text here..."
               onInput={handleContentEditableChange}
               onBlur={formik.handleBlur}
-            />
+            /> */}
           </div>
 
           <button type="submit">Submit</button>

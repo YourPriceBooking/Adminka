@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Post } from '../types/Post';
-import { PostTitle, PostWrapper } from '../Blog.styled';
+import { PostDescription, PostTitle, PostWrapper } from '../Blog.styled';
 
 type ListItemProps = {
   post: Post;
@@ -26,18 +26,26 @@ export const ListItem: React.FC<ListItemProps> = ({ post, onClick }) => (
   <PostWrapper onClick={onClick}>
     <div>
       <PostTitle>{post.title}</PostTitle>
-      <PostTitle>
-        <time>{formatDate(post.publicationDate)}</time>
-      </PostTitle>
-      <PostTitle>
-        <time>{formatDate(post.changeDate)}</time>
-      </PostTitle>
+      {post.publicationDate && (
+        <PostTitle>
+          <time>{formatDate(post.publicationDate)}</time>
+        </PostTitle>
+      )}
+      {post.changeDate && (
+        <PostTitle>
+          <time>{formatDate(post.changeDate)}</time>
+        </PostTitle>
+      )}
       <PostTitle>{post.author}</PostTitle>
-      <PostTitle>{post.imageUrl}</PostTitle>
+      <PostTitle>
+        <a href={post.imageUrl} target="_blank" rel="noreferrer">
+          {post.imageUrl}
+        </a>
+      </PostTitle>
     </div>
-    <div>
+    <PostDescription>
       <PostTitle>Description:</PostTitle>
       <p>{post.description}</p>
-    </div>
+    </PostDescription>
   </PostWrapper>
 );

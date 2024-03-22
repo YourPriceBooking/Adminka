@@ -16,7 +16,6 @@ export const HomeStyled = styled.section`
 export const BlogContainer = styled.div`
   padding-top: 1rem;
   background: #fff;
-  height: 100vh;
   margin: 1rem;
   margin-left: 2rem;
   margin-right: 2rem;
@@ -67,12 +66,27 @@ export const PopUp = styled.div`
 
 export const PostsList = styled.section`
   margin: 0 auto;
-  padding-top: 30px;
+  padding: 30px 0;
   display: flex;
   flex-wrap: no-wrap;
   flex-direction: column;
   align-items: center;
   gap: 30px;
+`;
+
+export const PostDescription = styled.div`
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 14.63px;
+  text-align: left;
+
+  & p {
+    width: inherit;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 `;
 
 export const PostWrapper = styled.article`
@@ -86,7 +100,9 @@ export const PostWrapper = styled.article`
   cursor: pointer;
 
   &:hover {
-    border: solid 1px #000;
+    box-shadow: 0px 0px 4.069767475128174px 0px #00000040;
+    // border: 0.5px solid #000000;
+    background: #d5efd8;
   }
 `;
 
@@ -98,4 +114,13 @@ export const PostTitle = styled.h2`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  width: inherit;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  & a {
+    color: #4c4c4c;
+  }
 `;

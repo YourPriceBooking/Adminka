@@ -15,7 +15,7 @@ export const PostContent = styled.div`
   & input,
   & .textarea {
     width: inherit;
-    height: inherit;
+    // height: inherit;
     padding: 1rem;
     font-size: 2rem;
     font-weight: 600;

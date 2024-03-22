@@ -12,7 +12,7 @@ export const fetchBlogPosts = createAsyncThunk<any>(
 
       const { data } = response;
 
-      return data.results;
+      return data.result;
     } catch (error) {
       return rejectWithValue(error);
     }

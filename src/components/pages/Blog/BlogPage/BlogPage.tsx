@@ -34,7 +34,7 @@ export const BlogPage = () => {
 
   useEffect(() => {
     dispatch(fetchBlogPosts());
-  });
+  }, []);
 
   return (
     <BlogContainer>
