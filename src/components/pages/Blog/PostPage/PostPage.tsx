@@ -2,14 +2,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import backArrow from 'assets/icons/backarrow.svg';
 import { useAppSelector } from 'App';
 import { getPost } from 'features/blog/blogSelector';
 import { useFormik } from 'formik';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useEffect, useState } from 'react';
+import axios, { AxiosError } from 'axios';
+import { blogBaseUrl } from 'features/api';
 import { BlogContainer, Header } from '../BlogPage/Blog.styled';
-import { Button } from '../BlogPage/components/Button/Button';
 import { PostContent } from './PostPage.styled';
 
 // type AddEditPostProps = {
@@ -92,11 +95,30 @@ const PostPage: React.FC = () => {
       description: '',
       text: '',
     },
-    onSubmit: values => {
-      // http://ypbooking.chost.com.ua/blog/
-      console.log('Blog data: ', JSON.stringify(values, null, 2));
+    onSubmit: async ({ title, author, description, text }) => {
+      try {
+        await axios.post(`${blogBaseUrl}/post/add-post`, {
+          title,
+          author,
+          imageUrl: [
+            'http://res.cloudinary.com/your-price-booking/image/upload/v1699187091/Blog-YPB/zifnqqnk6ci2fxvb6szh.png',
+          ],
+          description,
+          articleUrl: `https://www.thewandered.com/${title.toLowerCase().replace(' ', '-')}`,
+          markup: text,
+        });
+
+        toast.success('Post Created');
+      } catch (err: any) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        toast.error(err.response.data.message);
+      }
     },
   });
+
+  const { title, author, description, text } = formik.values;
+
+  const [disableSubmit, SetDisabledSubmit] = useState(true);
 
   if (!id) return <Navigate to="/blog" replace />;
 
@@ -104,23 +126,15 @@ const PostPage: React.FC = () => {
 
   if (!post) return <Navigate to="/blog" replace />;
 
-  function makeTextBold() {
-    document.execCommand('bold');
-  }
-
-  // function makeTextItalic() {
-  //   document.execCommand('italic');
-  // }
-
   const handleClickToBackArrow = () => {
     navigate('/blog');
   };
 
-  // Editor.modules = {
-  //   toolbar: {
-  //     container: '#toolbar',
-  //   },
-  // };
+  useEffect(() => {
+    if (author && description && text && title) {
+      SetDisabledSubmit(false);
+    }
+  }, [title, author, description, text]);
 
   return (
     <BlogContainer>
@@ -128,75 +142,56 @@ const PostPage: React.FC = () => {
         <div>
           <img src={backArrow} alt="arrow" onClick={handleClickToBackArrow} aria-hidden="true" />
         </div>
-        <div>
-          {/* {ButtonsHeader.map(({ title }) => (
-            <Button
-              onClick={() => {
-                switch (title) {
-                  case 'H1':
-                    makeTextBold();
-                    break;
-
-                  default:
-                    break;
-                }
-              }}
-            >
-              {title}
-            </Button>
-          ))} */}
-        </div>
       </Header>
       <PostContent>
         <form onSubmit={formik.handleSubmit}>
+          <button disabled={disableSubmit} type="submit" className="submit">
+            Submit
+          </button>
           <div className="title">
-            <input
-              id="title"
-              type="text"
-              placeholder="Title"
-              onChange={formik.handleChange}
-              value={formik.values.title}
-            />
-            <input
-              id="author"
-              className="smallInput"
-              type="text"
-              placeholder="Author"
-              onChange={formik.handleChange}
-              value={formik.values.author}
-            />
-            <input
-              id="description"
-              className="smallInput"
-              type="text"
-              placeholder="Description (description of the article, which is not displayed in the article, but is used as a meta tag)"
-              onChange={formik.handleChange}
-              value={formik.values.description}
-            />
+            <div className="input-group prefix">
+              <span className="input-group-addon">Title</span>
+              <input id="title" type="text" onChange={formik.handleChange} value={title} />
+            </div>
+            <div className="input-group prefix">
+              <span className="input-group-addon">Author</span>
+              <input
+                id="author"
+                className="smallInput"
+                type="text"
+                onChange={formik.handleChange}
+                value={author}
+              />
+            </div>
+
+            <div className="input-group prefix">
+              <span className="input-group-addon">Description</span>
+              <input
+                id="description"
+                className="smallInput"
+                type="text"
+                placeholder="Description of the article, which is not displayed in the article, but is used as a meta tag"
+                onChange={formik.handleChange}
+                value={description}
+              />
+            </div>
+          </div>
+
+          <div className="articleImage">
+            <input type="file" accept="image/png, image/jpeg" />
           </div>
 
           <div className="text">
-            {/* <img src="https://content1.rozetka.com.ua/goods/images/big/364873994.jpg" alt="a" /> */}
             <ReactQuill
               id="text"
               className="textarea"
               placeholder="Enter your text here..."
               onChange={e => {
-                console.log(e);
+                formik.setFieldValue('text', e);
               }}
-              value={formik.values.text}
+              value={text}
             />
-            {/* <div
-              id="text"
-              className="textarea"
-              contentEditable
-              data-placeholder="Enter your text here..."
-              onInput={handleContentEditableChange}
-              onBlur={formik.handleBlur}
-            /> */}
           </div>
-
-          <button type="submit">Submit</button>
         </form>
       </PostContent>
     </BlogContainer>

@@ -14,11 +14,9 @@ export const HomeStyled = styled.section`
 `;
 
 export const BlogContainer = styled.div`
-  padding-top: 1rem;
+  padding: 1rem 0;
   background: #fff;
-  margin: 1rem;
-  margin-left: 2rem;
-  margin-right: 2rem;
+  margin: 1rem 2rem;
   border-radius: 9px;
 `;
 
