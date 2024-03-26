@@ -1,6 +1,5 @@
-/* eslint-disable react/button-has-type */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable jsx-a11y/control-has-associated-label */
+
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import backArrow from 'assets/icons/backarrow.svg';
@@ -28,61 +27,6 @@ import { PostContent } from './PostPage.styled';
 //   imageUrl: yup.string().required('Image URL is required'),
 //   description: yup.string().required('Description is required'),
 // });
-const CustomButton = () => <span className="octicon octicon-star" />;
-
-const ButtonsHeader = [
-  {
-    title: 'H1',
-  },
-  {
-    title: 'H2',
-  },
-  {
-    title: 'H3',
-  },
-  {
-    title: 'H4',
-  },
-  {
-    title: 'Add video',
-  },
-  {
-    title: 'Add picture',
-  },
-  {
-    title: '"text text"',
-  },
-  {
-    title: 'paragraph',
-  },
-  {
-    title: 'Link',
-  },
-];
-
-const CustomToolbar = () => (
-  <div id="toolbar">
-    <select className="ql-header" defaultValue="" onChange={e => e.persist()}>
-      <option value="1" />
-      <option value="2" />
-      <option selected />
-    </select>
-    <button className="ql-bold" />
-    <button className="ql-italic" />
-    <select className="ql-color">
-      <option value="red" />
-      <option value="green" />
-      <option value="blue" />
-      <option value="orange" />
-      <option value="violet" />
-      <option value="#d0d1d2" />
-      <option selected />
-    </select>
-    <button className="ql-insertStar">
-      <CustomButton />
-    </button>
-  </div>
-);
 
 const PostPage: React.FC = () => {
   const { id } = useParams();
