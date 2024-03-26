@@ -47,7 +47,7 @@ export const BlogPage = () => {
         </div>
         <div>
           {mockLanguage.map(lang => (
-            <Button type="navigate" onClick={() => console.log(lang.code)}>
+            <Button key={lang.id} type="navigate" onClick={() => console.log(lang.code)}>
               {lang.code}
             </Button>
           ))}

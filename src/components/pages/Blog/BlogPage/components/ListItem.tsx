@@ -28,12 +28,12 @@ export const ListItem: React.FC<ListItemProps> = ({ post, onClick }) => (
       <PostTitle>{post.title}</PostTitle>
       {post.publicationDate && (
         <PostTitle>
-          <time>{formatDate(post.publicationDate)}</time>
+          <p>{formatDate(post.publicationDate)}</p>
         </PostTitle>
       )}
       {post.changeDate && (
         <PostTitle>
-          <time>{formatDate(post.changeDate)}</time>
+          <p>{formatDate(post.changeDate)}</p>
         </PostTitle>
       )}
       <PostTitle>{post.author}</PostTitle>

@@ -9,7 +9,13 @@ type ButtonProps = {
   value?: any;
 };
 
-export const Button = ({ children, onClick, type = 'navigate', active, value }: ButtonProps) => (
+export const Button: React.FC<ButtonProps> = ({
+  children,
+  onClick,
+  type = 'navigate',
+  active,
+  value,
+}) => (
   <ButtonContainer
     className={type}
     disabled={active}
