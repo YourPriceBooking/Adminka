@@ -93,6 +93,7 @@ const PostPage: React.FC = () => {
           text: data.result.markup,
           description: data.result.description,
         });
+        SetDisabledSubmit(true);
       } catch (error: any) {
         navigate('/blog');
         toast.error(String(error.response.data.message));
