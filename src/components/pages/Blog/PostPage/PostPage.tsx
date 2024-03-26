@@ -84,7 +84,7 @@ const PostPage: React.FC = () => {
     async function fetchBlog() {
       try {
         const { data } = await axios.get(
-          `${blogBaseUrl}/post/get-by-url/?articleUrl=${post?.articleUrl}`
+          `${blogBaseUrl}/post/get-by-url/?articleUrl=https://mongoosejs.com/docs/schematypes.html%23dates`
         );
 
         formik.setValues({
