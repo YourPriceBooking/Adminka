@@ -25,8 +25,8 @@ const config = {
 };
 
 export const baseUrl = config.backend.heroku; // config.backend.localhost;
-// export const blogBaseUrl = 'https://ypbooking.chost.com.ua/blog/api';
-export const blogBaseUrl = 'https://blog-yourpricebooking-backend.onrender.com/blog/api';
+export const blogBaseUrl = 'https://ypbooking.chost.com.ua/blog/api';
+// export const blogBaseUrl = 'https://blog-yourpricebooking-backend.onrender.com/blog/api';
 
 export const api = createApi({
   reducerPath: 'api',
