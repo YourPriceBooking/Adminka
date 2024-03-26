@@ -55,7 +55,7 @@ const PostPage: React.FC = () => {
         toast.success('Post Created');
       } catch (err: any) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        toast.error(err.response.data.message);
+        toast.error(err.data.message);
       }
     },
   });
@@ -79,6 +79,30 @@ const PostPage: React.FC = () => {
       SetDisabledSubmit(false);
     }
   }, [title, author, description, text]);
+
+  useEffect(() => {
+    async function fetchBlog() {
+      try {
+        const { data } = await axios.get(
+          `${blogBaseUrl}/post/get-by-url/?articleUrl=${post?.articleUrl}`
+        );
+
+        formik.setValues({
+          title: data.result.title,
+          author: data.result.author,
+          text: data.result.markup,
+          description: data.result.description,
+        });
+      } catch (error: any) {
+        navigate('/blog');
+        toast.error(String(error.response.data.message));
+      }
+    }
+
+    if (id !== 'new') {
+      fetchBlog();
+    }
+  }, [id]);
 
   return (
     <BlogContainer>

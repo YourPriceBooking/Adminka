@@ -56,18 +56,9 @@ export const BlogPage = () => {
 
       <PostsList>
         {posts.map(post => (
-          <ListItem key={post.id} post={post} onClick={() => navigate(`/blog/post/${post.id}`)} />
+          <ListItem key={post._id} post={post} onClick={() => navigate(`/blog/post/${post._id}`)} />
         ))}
       </PostsList>
-      {/* <AddEditPost
-        isOpen={isAddEditPopupOpen}
-        onClose={() => setAddEditPopupOpen(false)}
-        onSubmit={(updatedPost: Post) => {
-          console.log('Saving post:', updatedPost);
-          setAddEditPopupOpen(false);
-        }}
-        post={selectedPost}
-      /> */}
     </BlogContainer>
   );
 };
