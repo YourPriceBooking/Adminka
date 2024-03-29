@@ -60,7 +60,7 @@ const PostPage: React.FC = () => {
     },
   });
 
-  const { title, author, description, text } = formik.values;
+  const { title, author, description, text, image } = formik.values;
 
   const [disableSubmit, SetDisabledSubmit] = useState(true);
 
@@ -75,10 +75,10 @@ const PostPage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (author && description && text && title) {
+    if (author && description && text && title && image.length > 0) {
       SetDisabledSubmit(false);
     }
-  }, [title, author, description, text]);
+  }, [title, author, description, text, image]);
 
   useEffect(() => {
     async function fetchBlog() {
