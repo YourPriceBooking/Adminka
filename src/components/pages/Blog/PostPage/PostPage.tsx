@@ -14,43 +14,43 @@ import { blogBaseUrl } from 'features/api';
 import { BlogContainer, Header } from '../BlogPage/Blog.styled';
 import { PostContent } from './PostPage.styled';
 
-// type AddEditPostProps = {
-//   isOpen: boolean;
-//   onClose: () => void;
-//   onSubmit: (post: Post) => void;
-//   post?: Post;
-// };
-
-// const validationSchema = yup.object().shape({
-//   title: yup.string().required('Title is required'),
-//   author: yup.string().required('Author is required'),
-//   imageUrl: yup.string().required('Image URL is required'),
-//   description: yup.string().required('Description is required'),
-// });
-
+type FormikType = {
+  title: string;
+  author: string;
+  description: string;
+  text: string;
+  image: File[] | string[];
+};
 const PostPage: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const formik = useFormik({
+  const formik = useFormik<FormikType>({
     initialValues: {
       title: '',
       author: '',
       description: '',
       text: '',
+      image: [],
     },
-    onSubmit: async ({ title, author, description, text }) => {
+    onSubmit: async ({ title, author, description, text, image }) => {
       try {
-        await axios.post(`${blogBaseUrl}/post/add-post`, {
-          title,
-          author,
-          imageUrl: [
-            'http://res.cloudinary.com/your-price-booking/image/upload/v1699187091/Blog-YPB/zifnqqnk6ci2fxvb6szh.png',
-          ],
-          description,
-          articleUrl: `https://www.thewandered.com/${title.toLowerCase().replace(' ', '-')}`,
-          markup: text,
+        const formData = new FormData();
+
+        formData.append('title', title);
+        formData.append('author', author);
+        formData.append('description', description);
+        formData.append(
+          'articleUrl',
+          `https://www.thewandered.com/${title.toLowerCase().replace(' ', '-')}`
+        );
+        formData.append('markup', text);
+
+        image.forEach(file => {
+          formData.append('image', file);
         });
+
+        await axios.post(`${blogBaseUrl}/post/add-post`, formData);
 
         toast.success('Post Created');
       } catch (err: any) {
@@ -84,7 +84,7 @@ const PostPage: React.FC = () => {
     async function fetchBlog() {
       try {
         const { data } = await axios.get(
-          `${blogBaseUrl}/post/get-by-url/?articleUrl=https://mongoosejs.com/docs/schematypes.html%23dates`
+          `${blogBaseUrl}/post/get-by-url/?articleUrl=${post?.articleUrl}`
         );
 
         formik.setValues({
@@ -92,6 +92,7 @@ const PostPage: React.FC = () => {
           author: data.result.author,
           text: data.result.markup,
           description: data.result.description,
+          image: data.result.imageUrl,
         });
         SetDisabledSubmit(true);
       } catch (error: any) {
@@ -147,7 +148,38 @@ const PostPage: React.FC = () => {
           </div>
 
           <div className="articleImage">
-            <input type="file" accept="image/png, image/jpeg" />
+            {id !== 'new' ? (
+              <img src={String(formik.values.image[0])} alt="" />
+            ) : (
+              <div>
+                <input
+                  type="file"
+                  className="input-file"
+                  accept="image/png, image/jpeg"
+                  id="fileInput"
+                  onChange={e => {
+                    if (e.target.files) {
+                      formik.setFieldValue('image', [e.target.files[0]]);
+
+                      const fileNameDisplay = document.getElementById('fileNameDisplay');
+
+                      if (fileNameDisplay) {
+                        if (e.target.files.length > 0) {
+                          fileNameDisplay.textContent = e.target.files[0].name;
+                        } else {
+                          fileNameDisplay.textContent = '';
+                        }
+                      }
+                    }
+                  }}
+                />
+
+                <label htmlFor="fileInput" className="custom-file-upload">
+                  <span>Select Image for Article</span>
+                </label>
+                <div id="fileNameDisplay" className="file-name" />
+              </div>
+            )}
           </div>
 
           <div className="text">

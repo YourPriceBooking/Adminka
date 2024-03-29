@@ -6,7 +6,7 @@ export const fetchBlogPosts = createAsyncThunk<any>(
   'blog/fetchBlogPosts',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${blogBaseUrl}/post/get-all?page=1&limit=3`, {
+      const response = await axios.get(`${blogBaseUrl}/post/get-all?page=1&limit=50`, {
         withCredentials: true,
       });
 

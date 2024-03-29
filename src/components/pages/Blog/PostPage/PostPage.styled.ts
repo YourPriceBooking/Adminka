@@ -84,6 +84,46 @@ export const PostContent = styled.div`
     display: table;
     border-collapse: separate;
     margin-bottom: 0;
+
+    /* Приховати оригінальний input file */
+    .input-file {
+      display: none;
+    }
+
+    /* Стилізуємо кастомний кнопку для вибору файлу */
+    .custom-file-upload {
+      border: 1px solid #ccc;
+      display: inline-block;
+      padding: 6px 12px;
+      cursor: pointer;
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    /* Стилізуємо текст */
+    .custom-file-upload span {
+      font-size: 16px;
+    }
+
+    /* Приховати текст від оригінального input file */
+    .input-file + .custom-file-upload {
+      display: inline-block;
+    }
+
+    /* Стилізуємо підкреслення при наведенні на кнопку */
+    .custom-file-upload:hover {
+      text-decoration: underline;
+    }
+
+    .file-name {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    & img {
+      width: 45%;
+    }
   }
 
   & .input-group {
