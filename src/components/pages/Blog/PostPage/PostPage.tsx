@@ -38,19 +38,25 @@ const PostPage: React.FC = () => {
         const formData = new FormData();
 
         formData.append('title', title);
-        formData.append('author', author);
+
         formData.append('description', description);
-        formData.append(
-          'articleUrl',
-          `https://www.thewandered.com/${title.toLowerCase().replace(' ', '-')}`
-        );
+
         formData.append('markup', text);
 
-        image.forEach(file => {
-          formData.append('image', file);
-        });
+        if (id === 'new') {
+          formData.append('author', author);
+          formData.append(
+            'articleUrl',
+            `https://www.thewandered.com/${title.toLowerCase().replace(' ', '-')}`
+          );
+          image.forEach(file => {
+            formData.append('image', file);
+          });
 
-        await axios.post(`${blogBaseUrl}/post/add-post`, formData);
+          await axios.post(`${blogBaseUrl}/post/add-post`, formData);
+        } else {
+          await axios.post(`${blogBaseUrl}/post/update-post`, formData);
+        }
 
         toast.success('Post Created');
       } catch (err: any) {
@@ -63,6 +69,7 @@ const PostPage: React.FC = () => {
   const { title, author, description, text, image } = formik.values;
 
   const [disableSubmit, SetDisabledSubmit] = useState(true);
+  const [oldMarkup, SetOldMarkup] = useState('');
 
   if (!id) return <Navigate to="/blog" replace />;
 
@@ -75,8 +82,19 @@ const PostPage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (author && description && text && title && image.length > 0) {
-      SetDisabledSubmit(false);
+    if (id === 'new') {
+      if (author && description && text && title && image.length > 0) {
+        SetDisabledSubmit(false);
+      }
+    } else if (
+      id !== 'new' &&
+      (post.title !== title || post.description !== description || oldMarkup !== text)
+    ) {
+      if (description && text && title) {
+        SetDisabledSubmit(false);
+      }
+    } else {
+      SetDisabledSubmit(true);
     }
   }, [title, author, description, text, image]);
 
@@ -94,6 +112,7 @@ const PostPage: React.FC = () => {
           description: data.result.description,
           image: data.result.imageUrl,
         });
+        SetOldMarkup(String(data.result.markup));
         SetDisabledSubmit(true);
       } catch (error: any) {
         navigate('/blog');
@@ -116,7 +135,7 @@ const PostPage: React.FC = () => {
       <PostContent>
         <form onSubmit={formik.handleSubmit}>
           <button disabled={disableSubmit} type="submit" className="submit">
-            Submit
+            {id === 'new' ? 'Submit' : 'Update Post'}
           </button>
           <div className="title">
             <div className="input-group prefix">
@@ -129,6 +148,7 @@ const PostPage: React.FC = () => {
                 id="author"
                 className="smallInput"
                 type="text"
+                disabled={id !== 'new'}
                 onChange={formik.handleChange}
                 value={author}
               />
