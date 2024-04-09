@@ -55,7 +55,7 @@ export const BlogPage = () => {
       </Header>
 
       <PostsList>
-        {[...posts].reverse().map(post => (
+        {[...posts].map(post => (
           <ListItem key={post._id} post={post} onClick={() => navigate(`/blog/post/${post._id}`)} />
         ))}
       </PostsList>
