@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
+import { useRef, useEffect, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import backArrow from 'assets/icons/backarrow.svg';
@@ -7,9 +6,9 @@ import { useAppSelector } from 'App';
 import { getPost } from 'features/blog/blogSelector';
 import { useFormik } from 'formik';
 import ReactQuill from 'react-quill';
+import type QuillEditor from 'quill';
 import 'react-quill/dist/quill.snow.css';
-import { useEffect, useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { blogBaseUrl } from 'features/api';
 import { BlogContainer, Header } from '../BlogPage/Blog.styled';
 import { PostContent } from './PostPage.styled';
@@ -24,6 +23,8 @@ type FormikType = {
 const PostPage: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const ref = useRef<ReactQuill & { editor: QuillEditor }>(null);
 
   const formik = useFormik<FormikType>({
     initialValues: {
@@ -54,11 +55,11 @@ const PostPage: React.FC = () => {
           });
 
           await axios.post(`${blogBaseUrl}/post/add-post`, formData);
+          toast.success('Post Created');
         } else {
-          await axios.post(`${blogBaseUrl}/post/update-post/${id}`, formData);
+          await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, formData);
+          toast.success('Post Updated');
         }
-
-        toast.success('Post Created');
       } catch (err: any) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         toast.error(err.data.message);
@@ -82,6 +83,7 @@ const PostPage: React.FC = () => {
   };
 
   useEffect(() => {
+    const editor = ref.current?.editor;
     if (id === 'new') {
       if (author && description && text && title && image.length > 0) {
         SetDisabledSubmit(false);
@@ -90,13 +92,12 @@ const PostPage: React.FC = () => {
       id !== 'new' &&
       (post.title !== title || post.description !== description || oldMarkup !== text)
     ) {
-      if (description && text && title) {
-        SetDisabledSubmit(false);
-      }
-    } else {
-      SetDisabledSubmit(true);
+      console.log(editor);
+      // eslint-disable-next-line no-debugger
+      debugger;
+      SetDisabledSubmit(false);
     }
-  }, [title, author, description, text, image]);
+  }, [title, author, description, text, image, id]);
 
   useEffect(() => {
     async function fetchBlog() {
@@ -204,6 +205,7 @@ const PostPage: React.FC = () => {
 
           <div className="text">
             <ReactQuill
+              ref={ref}
               id="text"
               className="textarea"
               placeholder="Enter your text here..."
