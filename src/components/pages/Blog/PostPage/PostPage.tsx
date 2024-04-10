@@ -70,7 +70,6 @@ const PostPage: React.FC = () => {
   const { title, author, description, text, image } = formik.values;
 
   const [disableSubmit, SetDisabledSubmit] = useState(true);
-  const [oldMarkup, SetOldMarkup] = useState('');
 
   if (!id) return <Navigate to="/blog" replace />;
 
@@ -83,18 +82,11 @@ const PostPage: React.FC = () => {
   };
 
   useEffect(() => {
-    const editor = ref.current?.editor;
     if (id === 'new') {
       if (author && description && text && title && image.length > 0) {
         SetDisabledSubmit(false);
       }
-    } else if (
-      id !== 'new' &&
-      (post.title !== title || post.description !== description || oldMarkup !== text)
-    ) {
-      console.log(editor);
-      // eslint-disable-next-line no-debugger
-      debugger;
+    } else if (id !== 'new' && (post.title !== title || post.description !== description)) {
       SetDisabledSubmit(false);
     }
   }, [title, author, description, text, image, id]);
@@ -113,7 +105,7 @@ const PostPage: React.FC = () => {
           description: data.result.description,
           image: data.result.imageUrl,
         });
-        SetOldMarkup(String(data.result.markup));
+
         SetDisabledSubmit(true);
       } catch (error: any) {
         navigate('/blog');
@@ -209,8 +201,16 @@ const PostPage: React.FC = () => {
               id="text"
               className="textarea"
               placeholder="Enter your text here..."
-              onChange={e => {
-                formik.setFieldValue('text', e);
+              onChange={value => {
+                formik.setFieldValue('text', value);
+
+                if (id !== 'new') {
+                  if (value !== text) {
+                    SetDisabledSubmit(false);
+                  } else {
+                    SetDisabledSubmit(true);
+                  }
+                }
               }}
               value={text}
             />
