@@ -16,12 +16,14 @@ type Prop = {
   setIsShowHotelierPage: React.Dispatch<React.SetStateAction<boolean>>;
   isShowUsersPage: boolean;
   setIsShowUsersPage: React.Dispatch<React.SetStateAction<boolean>>;
+  isShowObjectsPage: boolean;
+  setIsShowObjectsPage: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const createStatistic = (statisticsObjects: any, hoteliers: any) => {
   const initialStatisticsData: Statistic[] = [
     { title: 'Hoteliers:', value: hoteliers.length, isClicked: false },
-    { title: 'Objects:', value: undefined, isClicked: false }, // Replace these values with actual data if available
+    { title: 'Objects:', value: 3, isClicked: false }, // Replace these values with actual data if available
     { title: 'Booking Options:', value: undefined, isClicked: false },
     { title: 'Users:', value: 103, isClicked: false },
     { title: 'Completed bookings:', value: undefined, isClicked: false },
@@ -43,6 +45,8 @@ export const StatisticsBody: React.FC<Prop> = ({
   setIsShowHotelierPage,
   isShowUsersPage,
   setIsShowUsersPage,
+  isShowObjectsPage,
+  setIsShowObjectsPage,
 }) => {
   const [statistics, setStatistics] = useState<Statistic[]>([]);
   const { hoteliers, isLoadingHoteliers } = useSelector(selectorHoteliers);
@@ -68,9 +72,16 @@ export const StatisticsBody: React.FC<Prop> = ({
       case 'Hoteliers:':
         setIsShowHotelierPage(!isShowHotelierPage);
         setIsShowUsersPage(false);
+        setIsShowObjectsPage(false);
         break;
       case 'Users:':
         setIsShowUsersPage(!isShowUsersPage);
+        setIsShowHotelierPage(false);
+        setIsShowObjectsPage(false);
+        break;
+      case 'Objects:':
+        setIsShowObjectsPage(!isShowObjectsPage);
+        setIsShowUsersPage(false);
         setIsShowHotelierPage(false);
         break;
 
