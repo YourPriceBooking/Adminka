@@ -8,6 +8,7 @@ import { tokenReducer } from 'features/access/tokenSlice';
 import { hoteliersReducer } from 'features/hoteliers/hoteliersSlice';
 import { financeReducer } from 'features/financeStatistic/financeSlice';
 import { statisticReducer } from 'features/statistic/statisticSlice';
+import { verifyObjectsReducer } from 'features/verifyObjects/verifyObjectsSlice';
 import { verificationReducer } from 'features/verification/verificationSlice';
 import { blogReducer } from 'features/blog/blogSlice';
 
@@ -26,6 +27,7 @@ export const rootReducer = combineReducers({
   hoteliers: hoteliersReducer,
   financeStatistic: financeReducer,
   statistic: statisticReducer,
+  verifyObjects: verifyObjectsReducer,
   verification: verificationReducer,
   blog: blogReducer,
 });

@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { selectorHoteliers } from 'features/hoteliers/hoteliersSelectors';
 import { ListLoader } from 'components/shared/Loader';
 import { getStatistic } from 'features/statistic/statisticSelectors';
+import { getVerifyObjects } from 'features/verifyObjects/verifyObjectsSelectors';
+import type { VerifyObjectsData } from 'types/apis/verifyObjects';
 import { ListItem, TextItem, TextSpan, WrapperBody } from './StatisticsBody.styled';
 
 type Statistic = {
@@ -20,17 +22,20 @@ type Prop = {
   setIsShowObjectsPage: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const createStatistic = (statisticsObjects: any, hoteliers: any) => {
+const createStatistic = (
+  statisticsObjects: any,
+  hoteliers: any,
+  verifyObjects: VerifyObjectsData
+) => {
   const initialStatisticsData: Statistic[] = [
     { title: 'Hoteliers:', value: hoteliers.length, isClicked: false },
-    { title: 'Objects:', value: 3, isClicked: false }, // Replace these values with actual data if available
+    { title: 'Objects:', value: verifyObjects.amountObject || 0, isClicked: false },
     { title: 'Booking Options:', value: undefined, isClicked: false },
     { title: 'Users:', value: 103, isClicked: false },
     { title: 'Completed bookings:', value: undefined, isClicked: false },
     { title: 'Agents:', value: 89, isClicked: false },
   ];
 
-  // Update the statistics with actual data from the store
   const updatedStatistics = initialStatisticsData.map(statistic => {
     const key = statistic.title.slice(0, -1).toLowerCase(); // removes colon and converts to lowercase
     const valueFromStore = statisticsObjects.result.amount[key] || statistic.value;
@@ -51,13 +56,14 @@ export const StatisticsBody: React.FC<Prop> = ({
   const [statistics, setStatistics] = useState<Statistic[]>([]);
   const { hoteliers, isLoadingHoteliers } = useSelector(selectorHoteliers);
   const statisticsObjects = useSelector(getStatistic);
+  const verifyObjects = useSelector(getVerifyObjects);
 
   useEffect(() => {
-    setStatistics(createStatistic(statisticsObjects, hoteliers));
-  }, [statisticsObjects]);
+    setStatistics(createStatistic(statisticsObjects, hoteliers, verifyObjects));
+  }, [statisticsObjects, verifyObjects]);
 
   const handleClick = (index: number) => {
-    const oldStatistic = createStatistic(statisticsObjects, hoteliers);
+    const oldStatistic = createStatistic(statisticsObjects, hoteliers, verifyObjects);
 
     const updatedStatistics = oldStatistic.map((stat, i) => ({
       ...stat,
