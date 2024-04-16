@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { memo, useState } from 'react';
 
 // import { AccountHotelier } from 'components/pages/StatisticsPage/Hoteliers/AccountHotelier/AccountHotelier';
@@ -15,8 +16,6 @@ import {
   LabelForm,
   TextEmail,
 } from './MowgliBookingHotelierList.styled';
-
-import { MowgliAccountHotelier } from '../MowgliBookingHotelierAccount/MowgliBookingHotelierAccount';
 
 type Prop = {
   type?: string;
@@ -108,11 +107,11 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
     //   [isClicked, setIsShowHotelier, setIsClicked]
     // );
 
-      const handleSearchClick = () => {
-        setIsSearching(true);
-        setIsClearClicked(true);
-      };
-    
+    const handleSearchClick = () => {
+      setIsSearching(true);
+      setIsClearClicked(true);
+    };
+
     const filteredData = searchQuery
       ? hardcodedHoteliers.filter(hotelier => {
           const normalizedQuery = searchQuery.toLowerCase();
@@ -127,14 +126,13 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
         })
       : hardcodedHoteliers;
 
-
-      const displayData = isSearching ? filteredData : hardcodedHoteliers;
+    const displayData = isSearching ? filteredData : hardcodedHoteliers;
 
     const handleClickTextContent = (owner: string) => {
       const index = filteredHoteliers.findIndex(hotelier => hotelier.owner === owner);
-      setIsShowHotelier(index);
+      // setIsShowHotelier(index);
       setIsClicked(true);
-      setShowAccount(true);
+      // setShowAccount(true); // Uncomment when "Some account info" will be created
     };
 
     const handleReturnToList = () => {
@@ -143,24 +141,17 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
       setIsClicked(false);
     };
 
-        const handleClear = () => {
-          setSearchQuery('');
-          setFilteredHoteliers(hardcodedHoteliers);
-          setIsSearching(false);
-           setIsClearClicked(false);
-        };
-
+    const handleClear = () => {
+      setSearchQuery('');
+      setFilteredHoteliers(hardcodedHoteliers);
+      setIsSearching(false);
+      setIsClearClicked(false);
+    };
 
     return (
       <Wrapper>
         {showAccount ? (
-          <MowgliAccountHotelier
-            id={filteredHoteliers[isShowHotelier!].owner}
-            hotel={filteredHoteliers[isShowHotelier!].hotel}
-            email={filteredHoteliers[isShowHotelier!].email}
-            status={filteredHoteliers[isShowHotelier!].status}
-            onReturnToList={handleReturnToList}
-          />
+          <p>Here must be some account info component</p>
         ) : (
           <>
             <FunProf>

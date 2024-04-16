@@ -4,7 +4,7 @@ import { ListItem, TextItem, TextSpan, WrapperBody } from './MowgliBookingStatis
 
 type Statistic = {
   title: string;
-  value: number;
+  value: number | null;
   isClicked: boolean;
 };
 
@@ -16,12 +16,12 @@ type Prop = {
 };
 
 const statisticsData: Statistic[] = [
-  { title: 'Hoteliers:', value: 75, isClicked: false },
-  { title: 'Objects:', value: 30, isClicked: false },
-  { title: 'Booking Options:', value: 1555, isClicked: false },
-  { title: 'Users:', value: 103, isClicked: false },
-  { title: 'Completed bookings:', value: 1555, isClicked: false },
-  { title: 'Agents:', value: 89, isClicked: false },
+  { title: 'Hoteliers:', value: null, isClicked: false },
+  { title: 'Objects:', value: null, isClicked: false },
+  { title: 'Booking Options:', value: null, isClicked: false },
+  { title: 'Users:', value: null, isClicked: false },
+  { title: 'Completed bookings:', value: null, isClicked: false },
+  { title: 'Agents:', value: null, isClicked: false },
 ];
 
 export const MowgliBookingStatisticsBody: React.FC<Prop> = ({
@@ -32,10 +32,6 @@ export const MowgliBookingStatisticsBody: React.FC<Prop> = ({
 }) => {
   const [statistics, setStatistics] = useState(statisticsData);
   const [activeIndex, setActiveIndex] = useState<number | null>(-1);
-  
-  
-
- 
 
   const handleClick = (index: number) => {
     setActiveIndex(index !== activeIndex ? index : null);
@@ -58,14 +54,12 @@ export const MowgliBookingStatisticsBody: React.FC<Prop> = ({
   return (
     <div>
       <WrapperBody>
-        {
-          statistics.map(({ title, value, isClicked }, index) => (
-            <ListItem key={title} onClick={() => handleClick(index)} isClicked={isClicked}>
-              <TextItem onClick={() => togglePage(title)}>{title} </TextItem>
-              <TextSpan>{value}</TextSpan>
-            </ListItem>
-          ))
-        }
+        {statistics.map(({ title, value, isClicked }, index) => (
+          <ListItem key={title} onClick={() => handleClick(index)} isClicked={isClicked}>
+            <TextItem onClick={() => togglePage(title)}>{title} </TextItem>
+            <TextSpan>{value || 'None'}</TextSpan>
+          </ListItem>
+        ))}
       </WrapperBody>
     </div>
   );

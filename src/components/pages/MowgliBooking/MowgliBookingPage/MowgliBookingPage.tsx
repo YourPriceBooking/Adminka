@@ -45,19 +45,19 @@ export const MowgliBookingPage = () => {
             <StaticBlock>
               <StaticLine>
                 <p>Users:</p>
-                <span>0</span>
+                <span>None</span>
               </StaticLine>
               <StaticLine>
                 <p>Hoteliers:</p>
-                <span>0</span>
+                <span>None</span>
               </StaticLine>
               <StaticLine>
                 <p>Objects:</p>
-                <span>0</span>
+                <span>None</span>
               </StaticLine>
               <StaticLine>
                 <p>Booking Options:</p>
-                <span>0</span>
+                <span>None</span>
               </StaticLine>
             </StaticBlock>
           </Link>
