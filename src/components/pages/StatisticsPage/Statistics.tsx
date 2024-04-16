@@ -7,11 +7,13 @@ import { StatisticsBody } from './StatisticsBody/StatisticsBody';
 import { StatisticsHeader } from './StatisticsHeader/StatisticsHeader';
 import { Hoteliers } from './Hoteliers/Hoteliers';
 import { Users } from './Users/Users';
+import Objects from './Objects/ObjectsData';
 
 export const StatisticsPage = () => {
   const [isShowHotelierPage, setIsShowHotelierPage] = useState<boolean>(false);
   const [isShowUsersPage, setIsShowUsersPage] = useState(false);
-  // eslint-disable-next-line
+  const [isShowObjectsPage, setIsShowObjectsPage] = useState(false);
+
   type DispatchAction = Dispatch<any>;
   const dispatch: DispatchAction = useDispatch();
 
@@ -28,10 +30,13 @@ export const StatisticsPage = () => {
           isShowHotelierPage={isShowHotelierPage}
           isShowUsersPage={isShowUsersPage}
           setIsShowUsersPage={setIsShowUsersPage}
+          isShowObjectsPage={isShowObjectsPage}
+          setIsShowObjectsPage={setIsShowObjectsPage}
         />
       </Inner>
       {isShowHotelierPage && <Hoteliers />}
       {isShowUsersPage && <Users />}
+      {isShowObjectsPage && <Objects />}
     </Wrapper>
   );
 };
