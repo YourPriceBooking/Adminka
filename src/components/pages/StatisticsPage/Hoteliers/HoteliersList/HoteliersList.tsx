@@ -78,8 +78,6 @@ export const HoteliersList: React.FC<Prop> = memo(
       // eslint-disable-next-line
     }, [dispatch]);
 
-    console.log(hoteliers);
-
     // const handleSearch = () => {
     //   const newFilteredHoteliers = searchQuery
     //     ? hoteliers.filter(

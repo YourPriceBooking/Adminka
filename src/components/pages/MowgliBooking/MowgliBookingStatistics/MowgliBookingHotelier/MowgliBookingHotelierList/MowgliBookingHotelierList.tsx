@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { memo, useState } from 'react';
 
+import { MowgliAccountHotelier } from '../MowgliBookingHotelierAccount/MowgliBookingHotelierAccount';
 // import { AccountHotelier } from 'components/pages/StatisticsPage/Hoteliers/AccountHotelier/AccountHotelier';
 import {
   Inner,
@@ -130,7 +130,7 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
 
     const handleClickTextContent = (owner: string) => {
       const index = filteredHoteliers.findIndex(hotelier => hotelier.owner === owner);
-      // setIsShowHotelier(index);
+      setIsShowHotelier(index);
       setIsClicked(true);
       // setShowAccount(true); // Uncomment when "Some account info" will be created
     };
@@ -154,34 +154,36 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
           <p>Here must be some account info component</p>
         ) : (
           <>
-            <FunProf>
-              <SearchInputContainer>
-                <SearchInput
-                  className="input"
-                  type="text"
-                  placeholder="Search ID Hoteliers or/and Name object/E mail"
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                  onKeyUp={e => {
-                    if (e.key === 'Enter') {
-                      handleSearchClick();
-                    }
-                  }}
-                />
-                <img src="lupaIcon.png" alt="lupa" className="search-icon" />
-                <LabelForm className="label" htmlFor="input-id">
-                  Search ID Hoteliers or/and Name object
-                </LabelForm>
-              </SearchInputContainer>
+            {isShowHotelier === null && (
+              <FunProf>
+                <SearchInputContainer>
+                  <SearchInput
+                    className="input"
+                    type="text"
+                    placeholder="Search ID Hoteliers or/and Name object/E mail"
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value)}
+                    onKeyUp={e => {
+                      if (e.key === 'Enter') {
+                        handleSearchClick();
+                      }
+                    }}
+                  />
+                  <img src="lupaIcon.png" alt="lupa" className="search-icon" />
+                  <LabelForm className="label" htmlFor="input-id">
+                    Search ID Hoteliers or/and Name object
+                  </LabelForm>
+                </SearchInputContainer>
 
-              {isClearClicked ? (
-                <ClearButton onClick={handleClear} hasText={searchQuery.length > 0}>
-                  Close
-                </ClearButton>
-              ) : (
-                <YellowButton onClick={handleSearchClick}>Search</YellowButton>
-              )}
-            </FunProf>
+                {isClearClicked ? (
+                  <ClearButton onClick={handleClear} hasText={searchQuery.length > 0}>
+                    Close
+                  </ClearButton>
+                ) : (
+                  <YellowButton onClick={handleSearchClick}>Search</YellowButton>
+                )}
+              </FunProf>
+            )}
             {displayData.length > 0 &&
               displayData.map(({ owner, hotel, email, id, status }, index) => (
                 <Inner
@@ -192,7 +194,7 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
                   tabIndex={index}
                   onClick={() => handleClickTextContent(owner)} // Updated this line
                 >
-                  <TextEmail tabIndex={index}>{email}</TextEmail>
+                  {isShowHotelier === null && <TextEmail tabIndex={index}>{email}</TextEmail>}
                   <TextID tabIndex={index}>ID {id}</TextID>
                   <WrapperText tabIndex={index} typePage={type}>
                     <TextContent tabIndex={index}>
@@ -203,6 +205,12 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
                             {hotel.length > 1 && '...'}
                           </>
                         ) : null)}
+                      {isShowHotelier === index && type && type === 'Finance' && (
+                        <>
+                          {hotel?.join(' ')}
+                          <MowgliAccountHotelier onReturnToList={handleReturnToList} />
+                        </>
+                      )}
                     </TextContent>
                   </WrapperText>
                   <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>
