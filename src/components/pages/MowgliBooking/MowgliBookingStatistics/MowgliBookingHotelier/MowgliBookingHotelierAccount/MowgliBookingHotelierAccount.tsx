@@ -10,17 +10,10 @@ import {
   Wrapper,
   Form,
   Error,
-  HotelierInfo,
-  TextInfoId,
-  TextOtherInfo,
   ReturnButton,
 } from './MowgliBookingHotelierAccount.styled';
 
 type AccountHotelierProps = {
-  id: string;
-  hotel?: string[];
-  email: string;
-  status: string;
   onReturnToList: () => void;
 };
 
@@ -29,13 +22,7 @@ type AccountHotelierProps = {
 //   amount: number;
 // };
 
-export const MowgliAccountHotelier: React.FC<AccountHotelierProps> = ({
-  id,
-  hotel,
-  email,
-  status,
-  onReturnToList,
-}) => {
+export const MowgliAccountHotelier: React.FC<AccountHotelierProps> = ({ onReturnToList }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [dummyData] = useState({
     total: 5000,
@@ -74,16 +61,6 @@ export const MowgliAccountHotelier: React.FC<AccountHotelierProps> = ({
         <img src="/return.png" alt="return" />
       </ReturnButton>
       <Wrapper>
-        <HotelierInfo>
-          <TextInfoId>ID {id}</TextInfoId>
-          <TextOtherInfo>{hotel}</TextOtherInfo>
-          <TextOtherInfo>{email}</TextOtherInfo>
-          <TextOtherInfo>
-            {status === 'deleted' ? <img src="/noactive.png" alt="deleted" /> : null}
-            {status === 'active' ? <img src="/activeGreen.png" alt="active" /> : null}
-            {status === 'inactive' ? <img src="/inactiveRed.png" alt="inactive" /> : null}
-          </TextOtherInfo>
-        </HotelierInfo>
         <Inner>
           <Title>Total in your account now:</Title>
           <Text>{dummyData.total}</Text>
