@@ -57,7 +57,7 @@ const PostPage: React.FC = () => {
           await axios.post(`${blogBaseUrl}/post/add-post`, formData);
           toast.success('Post Created');
         } else {
-          await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, {title, description, markup});
+          await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, {title, description, markup}); //fromData
           toast.success('Post Updated');
         }
       } catch (err: any) {
