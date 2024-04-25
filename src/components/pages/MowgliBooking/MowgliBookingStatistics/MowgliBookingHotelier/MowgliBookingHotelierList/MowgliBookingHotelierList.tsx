@@ -1,5 +1,6 @@
 import { memo, useState } from 'react';
 
+import { MowgliAccountHotelier } from '../MowgliBookingHotelierAccount/MowgliBookingHotelierAccount';
 // import { AccountHotelier } from 'components/pages/StatisticsPage/Hoteliers/AccountHotelier/AccountHotelier';
 import {
   Inner,
@@ -15,8 +16,6 @@ import {
   LabelForm,
   TextEmail,
 } from './MowgliBookingHotelierList.styled';
-
-import { MowgliAccountHotelier } from '../MowgliBookingHotelierAccount/MowgliBookingHotelierAccount';
 
 type Prop = {
   type?: string;
@@ -108,11 +107,11 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
     //   [isClicked, setIsShowHotelier, setIsClicked]
     // );
 
-      const handleSearchClick = () => {
-        setIsSearching(true);
-        setIsClearClicked(true);
-      };
-    
+    const handleSearchClick = () => {
+      setIsSearching(true);
+      setIsClearClicked(true);
+    };
+
     const filteredData = searchQuery
       ? hardcodedHoteliers.filter(hotelier => {
           const normalizedQuery = searchQuery.toLowerCase();
@@ -127,14 +126,13 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
         })
       : hardcodedHoteliers;
 
-
-      const displayData = isSearching ? filteredData : hardcodedHoteliers;
+    const displayData = isSearching ? filteredData : hardcodedHoteliers;
 
     const handleClickTextContent = (owner: string) => {
       const index = filteredHoteliers.findIndex(hotelier => hotelier.owner === owner);
       setIsShowHotelier(index);
       setIsClicked(true);
-      setShowAccount(true);
+      // setShowAccount(true); // Uncomment when "Some account info" will be created
     };
 
     const handleReturnToList = () => {
@@ -143,54 +141,49 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
       setIsClicked(false);
     };
 
-        const handleClear = () => {
-          setSearchQuery('');
-          setFilteredHoteliers(hardcodedHoteliers);
-          setIsSearching(false);
-           setIsClearClicked(false);
-        };
-
+    const handleClear = () => {
+      setSearchQuery('');
+      setFilteredHoteliers(hardcodedHoteliers);
+      setIsSearching(false);
+      setIsClearClicked(false);
+    };
 
     return (
       <Wrapper>
         {showAccount ? (
-          <MowgliAccountHotelier
-            id={filteredHoteliers[isShowHotelier!].owner}
-            hotel={filteredHoteliers[isShowHotelier!].hotel}
-            email={filteredHoteliers[isShowHotelier!].email}
-            status={filteredHoteliers[isShowHotelier!].status}
-            onReturnToList={handleReturnToList}
-          />
+          <p>Here must be some account info component</p>
         ) : (
           <>
-            <FunProf>
-              <SearchInputContainer>
-                <SearchInput
-                  className="input"
-                  type="text"
-                  placeholder="Search ID Hoteliers or/and Name object/E mail"
-                  value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                  onKeyUp={e => {
-                    if (e.key === 'Enter') {
-                      handleSearchClick();
-                    }
-                  }}
-                />
-                <img src="lupaIcon.png" alt="lupa" className="search-icon" />
-                <LabelForm className="label" htmlFor="input-id">
-                  Search ID Hoteliers or/and Name object
-                </LabelForm>
-              </SearchInputContainer>
+            {isShowHotelier === null && (
+              <FunProf>
+                <SearchInputContainer>
+                  <SearchInput
+                    className="input"
+                    type="text"
+                    placeholder="Search ID Hoteliers or/and Name object/E mail"
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value)}
+                    onKeyUp={e => {
+                      if (e.key === 'Enter') {
+                        handleSearchClick();
+                      }
+                    }}
+                  />
+                  <img src="lupaIcon.png" alt="lupa" className="search-icon" />
+                  <LabelForm className="label" htmlFor="input-id">
+                    Search ID Hoteliers or/and Name object
+                  </LabelForm>
+                </SearchInputContainer>
 
-              {isClearClicked ? (
-                <ClearButton onClick={handleClear} hasText={searchQuery.length > 0}>
-                  Close
-                </ClearButton>
-              ) : (
-                <YellowButton onClick={handleSearchClick}>Search</YellowButton>
-              )}
-            </FunProf>
+                {isClearClicked ? (
+                  <ClearButton onClick={handleClear} hasText={searchQuery.length > 0}>
+                    Close
+                  </ClearButton>
+                ) : (
+                  <YellowButton onClick={handleSearchClick}>Search</YellowButton>
+                )}
+              </FunProf>
+            )}
             {displayData.length > 0 &&
               displayData.map(({ owner, hotel, email, id, status }, index) => (
                 <Inner
@@ -201,7 +194,7 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
                   tabIndex={index}
                   onClick={() => handleClickTextContent(owner)} // Updated this line
                 >
-                  <TextEmail tabIndex={index}>{email}</TextEmail>
+                  {isShowHotelier === null && <TextEmail tabIndex={index}>{email}</TextEmail>}
                   <TextID tabIndex={index}>ID {id}</TextID>
                   <WrapperText tabIndex={index} typePage={type}>
                     <TextContent tabIndex={index}>
@@ -212,6 +205,12 @@ export const MowgliBookingHotelierList: React.FC<Prop> = memo(
                             {hotel.length > 1 && '...'}
                           </>
                         ) : null)}
+                      {isShowHotelier === index && type && type === 'Finance' && (
+                        <>
+                          {hotel?.join(' ')}
+                          <MowgliAccountHotelier onReturnToList={handleReturnToList} />
+                        </>
+                      )}
                     </TextContent>
                   </WrapperText>
                   <div style={{ marginLeft: 'auto', paddingLeft: '20px' }}>

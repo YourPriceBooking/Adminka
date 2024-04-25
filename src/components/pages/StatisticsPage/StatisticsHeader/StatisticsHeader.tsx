@@ -21,6 +21,8 @@ export const StatisticsHeader: React.FC<Prop> = ({ type, isShowHotelier, isShowU
     if (typeof isShowUsers !== 'number') {
       headerText = 'Users:';
     }
+  } else if (type === 'Objects') {
+    headerText = 'Objects:';
   }
 
   return <WrapperHeader type={type}>{headerText}</WrapperHeader>;

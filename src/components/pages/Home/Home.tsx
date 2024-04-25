@@ -11,6 +11,8 @@ import { haveAccess } from 'features/common';
 import { fetchObjectTypes, fetchVerification } from 'features/verification/verificationOperation';
 import { useAppSelector } from 'App';
 import { getCountVerification } from 'features/verification/verificationSelectors';
+import { getVerifyObjects } from 'features/verifyObjects/verifyObjectsSelectors';
+import { fetchVerifyObjects } from 'features/verifyObjects/verifyObjectsOperation';
 import {
   HomeStyled,
   HomeNavListStyled,
@@ -36,7 +38,7 @@ type StatItem = {
     ua: string;
     ru: string;
   };
-  data: string | number;
+  data: string | number | null;
 };
 
 type StatsListType = {
@@ -49,7 +51,7 @@ const StatsList = ({ items }: StatsListType) => (
       <StatsListItem key={text.en}>
         <TextMedium as="div">
           <p>{text.en}</p>
-          <TextMediumAccent as="span">{data}</TextMediumAccent>
+          <TextMediumAccent as="span">{data === null ? 'None' : data}</TextMediumAccent>
         </TextMedium>
       </StatsListItem>
     ))}
@@ -79,7 +81,7 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
       { text: { en: 'Objects: ', ua: "Об'єкти ", ru: 'Объекты: ' }, data: objects },
       {
         text: { en: 'Booking Options:', ua: 'Варіанти бронювання', ru: 'Варианты бронирования:' },
-        data: objects,
+        data: null,
       },
     ],
     [agents, hoteliers, objects, users]
@@ -147,11 +149,20 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
 
 export const Home: React.FC = () => {
   const statistic = useSelector(getStatistic);
+  const verifyObjects = useSelector(getVerifyObjects);
+  const verifyObjectsAmount = verifyObjects.amountObject || 0;
 
   const { result } = statistic;
 
-  const { amount, objectOnVerification } = result;
+  const { amount } = result;
   const { users, hoteliers, agents } = amount;
+
+  type DispatchAction = Dispatch<any>;
+  const dispatch: DispatchAction = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchVerifyObjects());
+  }, []);
 
   return (
     <HomeStyled>
@@ -160,7 +171,7 @@ export const Home: React.FC = () => {
           users={users}
           hoteliers={hoteliers}
           agents={agents}
-          objects={objectOnVerification}
+          objects={verifyObjectsAmount}
         />
       </Container>
     </HomeStyled>

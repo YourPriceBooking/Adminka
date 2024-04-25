@@ -38,7 +38,7 @@ export const HoteliersList: React.FC<Prop> = memo(
     const { hoteliers, isLoadingHotels } = useSelector(selectorHoteliers);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [filteredHoteliers, setFilteredHoteliers] = useState(hoteliers);
-     const [isSearching, setIsSearching] = useState(false);
+    const [isSearching, setIsSearching] = useState(false);
 
     const [isClearClicked, setIsClearClicked] = useState(false);
 
@@ -93,26 +93,25 @@ export const HoteliersList: React.FC<Prop> = memo(
     //   setFilteredHoteliers(newFilteredHoteliers);
     // };
 
-     const handleSearchClick = () => {
-       setIsSearching(true);
-       setIsClearClicked(true);
-     };
+    const handleSearchClick = () => {
+      setIsSearching(true);
+      setIsClearClicked(true);
+    };
 
+    const filteredData = searchQuery
+      ? hoteliers.filter(hotelier => {
+          const normalizedQuery = searchQuery.toLowerCase();
+          return (
+            hotelier.email.toLowerCase().includes(normalizedQuery.toLowerCase()) ||
+            hotelier.owner.toString().includes(normalizedQuery) ||
+            hotelier.hotels?.some(hotel =>
+              hotel.toLowerCase().includes(normalizedQuery.toLowerCase())
+            )
+          );
+        })
+      : hoteliers;
 
-      const filteredData = searchQuery
-        ? hoteliers.filter(hotelier => {
-            const normalizedQuery = searchQuery.toLowerCase();
-            return (
-              hotelier.email.toLowerCase().includes(normalizedQuery.toLowerCase()) ||
-              hotelier.owner.toString().includes(normalizedQuery) ||
-              hotelier.hotels?.some(hotel =>
-                hotel.toLowerCase().includes(normalizedQuery.toLowerCase())
-              )
-            );
-          })
-        : hoteliers;
-
-      const displayData = isSearching ? filteredData : hoteliers;
+    const displayData = isSearching ? filteredData : hoteliers;
 
     return (
       <Wrapper>

@@ -34,7 +34,7 @@ export const PostContent = styled.div`
   }
 
   & .text {
-    height: calc(-20rem + 85vh);
+    height: calc((-20rem + 85vh) * 2);
   }
 
   & input {
