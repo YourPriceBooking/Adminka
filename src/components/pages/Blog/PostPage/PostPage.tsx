@@ -36,28 +36,31 @@ const PostPage: React.FC = () => {
     },
     onSubmit: async ({ title, author, description, text, image }) => {
       try {
-        const formData = new FormData();
-
-        formData.append('title', title);
-
-        formData.append('description', description);
-
-        formData.append('markup', text);
+        let data: any = {};
 
         if (id === 'new') {
-          formData.append('author', author);
-          formData.append(
+          data = new FormData();
+          data.append('title', title);
+          data.append('description', description);
+          data.append('markup', text);
+          data.append('author', author);
+          data.append(
             'articleUrl',
             `https://www.thewandered.com/${title.toLowerCase().replace(' ', '-')}`
           );
           image.forEach(file => {
-            formData.append('image', file);
+            data.append('image', file);
           });
 
-          await axios.post(`${blogBaseUrl}/post/add-post`, formData);
+          await axios.post(`${blogBaseUrl}/post/add-post`, data);
           toast.success('Post Created');
         } else {
-          await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, formData);
+          data = {
+            title,
+            description,
+            markup: text,
+          };
+          await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, data);
           toast.success('Post Updated');
         }
       } catch (err: any) {
