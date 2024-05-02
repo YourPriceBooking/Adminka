@@ -11,6 +11,7 @@ export const getPost = (state: RootState, id: string): Post | undefined => {
       author: '',
       imageUrl: '',
       description: '',
+      heading: '',
       articleUrl: '',
     };
   }

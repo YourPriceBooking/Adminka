@@ -17,6 +17,7 @@ type FormikType = {
   title: string;
   author: string;
   description: string;
+  heading: string;
   text: string;
   image: File[] | string[];
 };
@@ -31,10 +32,11 @@ const PostPage: React.FC = () => {
       title: '',
       author: '',
       description: '',
+      heading: '',
       text: '',
       image: [],
     },
-    onSubmit: async ({ title, author, description, text, image }) => {
+    onSubmit: async ({ title, author, description, heading, text, image }) => {
       try {
         let data: any = {};
 
@@ -42,6 +44,7 @@ const PostPage: React.FC = () => {
           data = new FormData();
           data.append('title', title);
           data.append('description', description);
+          data.append('heading', heading);
           data.append('markup', text);
           data.append('author', author);
           data.append(
@@ -58,6 +61,7 @@ const PostPage: React.FC = () => {
           data = {
             title,
             description,
+            heading,
             markup: text,
           };
           await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, data);
@@ -70,7 +74,7 @@ const PostPage: React.FC = () => {
     },
   });
 
-  const { title, author, description, text, image } = formik.values;
+  const { title, author, description, heading, text, image } = formik.values;
 
   const [disableSubmit, SetDisabledSubmit] = useState(true);
 
@@ -86,13 +90,13 @@ const PostPage: React.FC = () => {
 
   useEffect(() => {
     if (id === 'new') {
-      if (author && description && text && title && image.length > 0) {
+      if (author && description && text && title && heading && image.length > 0) {
         SetDisabledSubmit(false);
       }
     } else if (id !== 'new' && (post.title !== title || post.description !== description)) {
       SetDisabledSubmit(false);
     }
-  }, [title, author, description, text, image, id]);
+  }, [title, author, description, heading, text, image, id]);
 
   useEffect(() => {
     async function fetchBlog() {
@@ -106,6 +110,7 @@ const PostPage: React.FC = () => {
           author: data.result.author,
           text: data.result.markup,
           description: data.result.description,
+          heading: data.result.heading,
           image: data.result.imageUrl,
         });
 
@@ -120,6 +125,16 @@ const PostPage: React.FC = () => {
       fetchBlog();
     }
   }, [id]);
+
+  const modules = {
+    toolbar: [
+      [{ header: [2, 3, false] }],
+      ['bold', 'italic', 'underline'],
+      ['link'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['clean'],
+    ],
+  };
 
   return (
     <BlogContainer>
@@ -161,6 +176,18 @@ const PostPage: React.FC = () => {
                 value={description}
               />
             </div>
+
+            <div className="input-group prefix">
+              <span className="input-group-addon">H1 heading</span>
+              <input
+                id="heading"
+                className="smallInput"
+                type="text"
+                disabled={id !== 'new'}
+                onChange={formik.handleChange}
+                value={heading}
+              />
+            </div>
           </div>
 
           <div className="articleImage">
@@ -200,6 +227,7 @@ const PostPage: React.FC = () => {
 
           <div className="text">
             <ReactQuill
+              modules={modules}
               ref={ref}
               id="text"
               className="textarea"
