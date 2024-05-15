@@ -4,6 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import { baseUrl, endpoints } from 'features/api';
 import { toast } from 'react-toastify';
+import { useAppSelector } from 'App';
+import type { RootState } from 'App/store';
 import {
   ButtonSubmit,
   DivAdressChat,
@@ -56,6 +58,7 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
     entryPhoneNumber,
   } = useObjectHistoryState();
   const navigate = useNavigate();
+  const token = useAppSelector((state: RootState) => state.enterToken.token);
 
   const handleCheckboxChange = (index: number) => {
     if (!isSubmitted) {
@@ -117,12 +120,18 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
     setIsButtonClicked(true);
 
     try {
-      await axios.patch(`${baseUrl}${endpoints.finishVerification}`, {
-        id: hotelId,
-        phone1: phoneNumbers[0],
-        phone2: phoneNumbers[1],
-        nextVerificationDate: hasDate,
-      });
+      await axios.patch(
+        `${baseUrl}${endpoints.finishVerification}`,
+        {
+          id: hotelId,
+          phone1: phoneNumbers[0],
+          phone2: phoneNumbers[1],
+          nextVerificationDate: hasDate,
+        },
+        {
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        }
+      );
       toast.success('SUCCESS');
       navigate('/verification/house-page', { replace: true });
     } catch (error) {
@@ -133,12 +142,24 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
   const handleNotVerif = async () => {
     try {
       const response = await axios.delete(
-        `${baseUrl}${endpoints.deleteVerification}?hotelsId=${hotelId}`
+        `${baseUrl}${endpoints.deleteVerification}?hotelsId=${hotelId}`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
       if (response.data.code !== 200) {
         const responseAdded = await axios.delete(
-          `${baseUrl}${endpoints.deleteAddedObject}?id=${hotelId}`
+          `${baseUrl}${endpoints.deleteAddedObject}?id=${hotelId}`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
 
         if (responseAdded.data.code === 200) {

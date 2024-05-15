@@ -4,6 +4,8 @@ import { toast } from 'react-toastify';
 import { baseUrl, endpoints } from 'features/api';
 import adress from 'assets/icons/adress.svg';
 import pen from 'assets/icons/pen.svg';
+import { useAppSelector } from 'App';
+import type { RootState } from 'App/store';
 import {
   ButAddAdrPen,
   ButtonCustom,
@@ -26,6 +28,8 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({
   const [savedText2, setSavedText2] = useState('');
 
   const [disableEditingPointLink, setDisableEditingPointLink] = useState(false);
+
+  const token = useAppSelector((state: RootState) => state.enterToken.token);
 
   const handleInputChange1 = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputText1(event.target.value);
@@ -55,10 +59,16 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({
           );
 
           if (data.result && data.result.length > 0) {
-            await axios.patch(`${baseUrl}${endpoints.addPointToMap}`, {
-              id: data.result[0]._id,
-              pointOnTheMap: savedText1,
-            });
+            await axios.patch(
+              `${baseUrl}${endpoints.addPointToMap}`,
+              {
+                id: data.result[0]._id,
+                pointOnTheMap: savedText1,
+              },
+              {
+                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+              }
+            );
             toast.success('SUCCESS');
           } else {
             toast.error(`Error: ${data.message}`);
@@ -74,7 +84,7 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({
     if (savedText1.length > 0) {
       sendPoint();
     }
-  }, [savedText1]);
+  }, [hotelId, savedText1, token]);
 
   useEffect(() => {
     async function sendYouTubeLink() {
@@ -85,10 +95,16 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({
           } = await axios.get(`${baseUrl}${endpoints.getIdVerificationObject}?hotelsId=${hotelId}`);
 
           if (result && result.length > 0) {
-            await axios.patch(`${baseUrl}${endpoints.addYouTubeLink}`, {
-              id: result[0]._id,
-              youTubeLink: savedText2,
-            });
+            await axios.patch(
+              `${baseUrl}${endpoints.addYouTubeLink}`,
+              {
+                id: result[0]._id,
+                youTubeLink: savedText2,
+              },
+              {
+                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+              }
+            );
             toast.success('SUCCESS');
           } else {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -105,7 +121,7 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({
     if (savedText2.length > 0) {
       sendYouTubeLink();
     }
-  }, [savedText2]);
+  }, [hotelId, savedText2, token]);
 
   return (
     <div style={{ marginBottom: '30px', position: 'relative' }}>
