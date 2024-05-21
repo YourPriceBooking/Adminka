@@ -128,7 +128,7 @@ const PostPage: React.FC = () => {
 
   const modules = {
     toolbar: [
-      [{ header: [2, 3, false] }],
+      [{ header: [2, 3, 4, 5, false] }],
       ['bold', 'italic', 'underline'],
       ['link'],
       [{ list: 'ordered' }, { list: 'bullet' }],
