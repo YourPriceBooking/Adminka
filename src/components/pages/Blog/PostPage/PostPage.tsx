@@ -130,7 +130,7 @@ const PostPage: React.FC = () => {
     toolbar: [
       [{ header: [2, 3, 4, 5, false] }],
       ['bold', 'italic', 'underline'],
-      ['link', 'video'],
+      ['link', 'video', 'image'],
       [{ list: 'ordered' }, { list: 'bullet' }],
       ['clean'],
     ],
@@ -192,7 +192,7 @@ const PostPage: React.FC = () => {
 
           <div className="articleImage">
             {id !== 'new' ? (
-              <img src={String(formik.values.image[0])} alt="" />
+              <img id="article-img" src={String(formik.values.image[0])} alt="" />
             ) : (
               <div>
                 <input
