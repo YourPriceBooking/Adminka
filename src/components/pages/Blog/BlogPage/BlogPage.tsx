@@ -7,25 +7,6 @@ import { BlogContainer, Header, PostsList } from './Blog.styled';
 import { Button } from './components/Button/Button';
 import { ListItem } from './components/ListItem';
 
-const mockLanguage = [
-  {
-    id: 0,
-    code: 'EN',
-    isActive: true,
-  },
-  {
-    id: 1,
-    code: 'PL',
-  },
-  {
-    id: 2,
-    code: 'UA',
-  },
-  {
-    id: 3,
-    code: 'RU',
-  },
-];
 export const BlogPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -46,11 +27,9 @@ export const BlogPage = () => {
           <p>PUBLICATIONS</p>
         </div>
         <div>
-          {mockLanguage.map(lang => (
-            <Button key={lang.id} type="navigate" onClick={() => console.log(lang.code)}>
-              {lang.code}
-            </Button>
-          ))}
+          <Button type="navigate" onClick={() => navigate(`/blog/post/authors`)}>
+            Authors
+          </Button>
         </div>
       </Header>
 

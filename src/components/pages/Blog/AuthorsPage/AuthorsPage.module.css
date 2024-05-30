@@ -1,0 +1,64 @@
+.headerAuthors {
+  width: 501px;
+  height: 51px;
+  border-radius: 9px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10%;
+}
+
+.headerTableOfContents {
+  margin-left: 25%;
+  font-size: 51px;
+  font-weight: 700;
+  line-height: 64.83px;
+  text-align: center;
+  color: #4c4c4c;
+  text-transform: capitalize;
+}
+
+.handleClickToBack {
+  width: 72px;
+  height: 51px;
+  border-radius: 9px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.contentAuthors {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+  padding: 42px 97px 10px 88px;
+}
+
+.authorsDescription {
+  max-width: 553px;
+  font-family: Segoe UI;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 23.94px;
+  text-align: left;
+  margin-top: 2px;
+}
+
+.imgAuthors {
+  max-width: 184px;
+  max-height: 212px;
+  border-radius: 9px;
+  border: 1px solid #4c4c4c;
+  margin-right: 42px;
+}
+
+.ulAuthors {
+  margin-left: 28px;
+  margin-top: 1px;
+  list-style: disc;
+}

@@ -2,7 +2,6 @@ import { Navigate, Routes, Route } from 'react-router-dom';
 import { routes } from './routesConfig';
 import { PrivateRoute } from './PrivateRoute';
 
-
 const {
   login,
   menu,
@@ -13,6 +12,7 @@ const {
   statistics,
   finance,
   blog,
+  authors,
   mowgliBooking,
   mowgliBookingStatistics,
   post,
@@ -45,6 +45,7 @@ export const AppRouter = () => (
         <Route path={registerModal.path} element={<registerModal.element />} />
         <Route path={finance.path} element={<finance.element />} />
         <Route path={blog.path} element={<blog.element />} />
+        <Route path={authors.path} element={<authors.element />} />
         <Route path={post.path} element={<post.element />} />
         <Route path={mowgliBooking.path} element={<mowgliBooking.element />} />
         <Route path={mowgliBookingStatistics.path} element={<mowgliBookingStatistics.element />} />
