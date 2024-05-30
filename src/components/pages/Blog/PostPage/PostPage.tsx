@@ -22,9 +22,9 @@ type FormikType = {
   image: File[] | string[];
 };
 const PostPage: React.FC = () => {
+  const [disableSubmit, SetDisabledSubmit] = useState(true);
   const { id } = useParams();
   const navigate = useNavigate();
-
   const ref = useRef<ReactQuill & { editor: QuillEditor }>(null);
 
   const formik = useFormik<FormikType>({
@@ -64,6 +64,7 @@ const PostPage: React.FC = () => {
             heading,
             markup: text,
           };
+
           await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, data);
           toast.success('Post Updated');
         }
@@ -76,17 +77,11 @@ const PostPage: React.FC = () => {
 
   const { title, author, description, heading, text, image } = formik.values;
 
-  const [disableSubmit, SetDisabledSubmit] = useState(true);
-
   if (!id) return <Navigate to="/blog" replace />;
-
   const post = useAppSelector(state => getPost(state, id));
-
   if (!post) return <Navigate to="/blog" replace />;
 
-  const handleClickToBackArrow = () => {
-    navigate('/blog');
-  };
+  const handleClickToBackArrow = () => navigate('/blog');
 
   useEffect(() => {
     if (id === 'new') {

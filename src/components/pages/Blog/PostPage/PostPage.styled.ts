@@ -146,4 +146,8 @@ export const PostContent = styled.div`
   & img {
     width: 45%;
   }
+  & iframe {
+    width: 45%;
+    height: 300px;
+  }
 `;
