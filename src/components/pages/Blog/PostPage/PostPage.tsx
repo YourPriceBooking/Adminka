@@ -69,8 +69,11 @@ const PostPage: React.FC = () => {
           toast.success('Post Updated');
         }
       } catch (err: any) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        toast.error(err.data.message);
+        if (axios.isAxiosError(err) && err.response?.status === 413) {
+          toast.error('Error: The size of the post is too large');
+        } else {
+          toast.error(`Error: ${err.response?.data.message}`);
+        }
       }
     },
   });
