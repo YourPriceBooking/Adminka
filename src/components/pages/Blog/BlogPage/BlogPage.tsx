@@ -6,6 +6,7 @@ import { fetchBlogPosts } from 'features/blog/blogOperation';
 import { BlogContainer, Header, PostsList } from './Blog.styled';
 import { Button } from './components/Button/Button';
 import { ListItem } from './components/ListItem';
+import classes from '../AuthorsPage/AuthorsPage.module.css';
 
 export const BlogPage = () => {
   const dispatch = useAppDispatch();
@@ -19,7 +20,7 @@ export const BlogPage = () => {
 
   return (
     <BlogContainer>
-      <Header>
+      <Header className={classes.headerBlog}>
         <div>
           <Button type="navigate" onClick={() => navigate(`/blog/post/new`)}>
             Add New

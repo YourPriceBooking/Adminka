@@ -14,5 +14,8 @@
       "source.formatDocument", // 1. Prettier -> 2. ESLint
       "source.fixAll.eslint"
     ]
+  },
+  "[css]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
   }
 }

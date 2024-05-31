@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import backArrow from 'assets/icons/ArrowBack.svg';
 import Rectangle from 'components/pages/Blog/AuthorsPage/Rectangle 5.png';
 import 'react-quill/dist/quill.snow.css';
-import { BlogContainer, Header } from '../BlogPage/Blog.styled';
 import classes from './AuthorsPage.module.css';
 import { Button } from './Button/Button';
 
@@ -14,8 +13,8 @@ const AuthorsPage: React.FC = () => {
   };
 
   return (
-    <BlogContainer>
-      <Header>
+    <div className={classes.authorsContainer}>
+      <div className={classes.authorsHeader}>
         <div className={classes.handleClickToBack}>
           <img src={backArrow} alt="arrow" onClick={handleClickToBackArrow} aria-hidden="true" />
         </div>
@@ -25,7 +24,7 @@ const AuthorsPage: React.FC = () => {
             ADD NEW author
           </Button>
         </div>
-      </Header>
+      </div>
       <div className={classes.contentAuthors}>
         <div>
           <img
@@ -122,7 +121,7 @@ const AuthorsPage: React.FC = () => {
           </div>
         </div>
       </div>
-    </BlogContainer>
+    </div>
   );
 };
 
