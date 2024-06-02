@@ -1,5 +1,7 @@
 {
-  "processors": ["stylelint-processor-styled-components"],
+  "processors": [
+    "stylelint-processor-styled-components"
+  ],
   "extends": [
     "stylelint-config-standard",
     "stylelint-a11y/recommended",
@@ -7,23 +9,38 @@
     "stylelint-config-styled-components",
     "stylelint-config-prettier"
   ],
-  "plugins": ["stylelint-order"],
+  "plugins": [
+    "stylelint-order"
+  ],
   "rules": {
     "color-function-notation": "legacy",
     "alpha-value-notation": "number",
     "value-keyword-case": [
       "lower",
-      { "camelCaseSvgKeywords": true, "ignoreKeywords": ["dummyValue"] }
+      {
+        "camelCaseSvgKeywords": true,
+        "ignoreKeywords": [
+          "dummyValue"
+        ]
+      }
     ],
     "declaration-empty-line-before": [
       "always",
       {
-        "except": ["first-nested"],
-        "ignore": ["after-comment", "after-declaration", "inside-single-line-block"]
+        "except": [
+          "first-nested"
+        ],
+        "ignore": [
+          "after-comment",
+          "after-declaration",
+          "inside-single-line-block"
+        ]
       }
     ],
-
-    "order/order": ["custom-properties", "declarations"],
+    "order/order": [
+      "custom-properties",
+      "declarations"
+    ],
     "order/properties-order": [
       "position",
       "inset",
@@ -35,7 +52,6 @@
       "box-sizing",
       "object-fit",
       "object-position",
-
       "display",
       "flex",
       "flex-align",
@@ -53,7 +69,6 @@
       "justify-content",
       "gap",
       "order",
-
       "float",
       "width",
       "min-width",
@@ -101,7 +116,6 @@
       "clip-path",
       "clip",
       "clear",
-
       "font",
       "font-style",
       "font-variant",
@@ -150,7 +164,6 @@
       "vertical-align",
       "direction",
       "unicode-bidi",
-
       "list-style",
       "list-style-position",
       "list-style-type",
@@ -177,7 +190,6 @@
       "nav-right",
       "nav-down",
       "nav-left",
-
       "background",
       "background-color",
       "background-image",
@@ -232,7 +244,6 @@
       "page-break-after",
       "page-break-before",
       "page-break-inside",
-
       "-webkit-transition",
       "-moz-transition",
       "-o-transition",
@@ -254,7 +265,6 @@
       "animation-iteration-count",
       "animation-direction",
       "animation-fill-mode",
-
       "fill",
       "stroke"
     ]

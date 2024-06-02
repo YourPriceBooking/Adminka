@@ -93,3 +93,57 @@
   justify-content: flex-start;
   gap: 18%;
 }
+
+.inputAuthors {
+  display: flex;
+  width: 321px;
+  height: 30px;
+  margin: 4.5px 0px 4.5px 23px;
+  border-radius: 12px;
+  border: solid 1px;
+}
+
+.inputAuthorsDiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.formAuthors {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.formContent {
+  margin-top: 48px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.photoAuthors {
+  margin-top: 3px;
+  margin-right: 25px;
+  background: #d9d9d9;
+  width: 171px;
+  height: 146px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.textareaAuthors {
+  display: flex;
+  width: 581px;
+  height: 88px;
+  margin: 6.5px 0px 8.5px 36px;
+  border-radius: 12px;
+  border: solid 1px;
+}
+
+.spanAuthors {
+  padding-left: 15px;
+}

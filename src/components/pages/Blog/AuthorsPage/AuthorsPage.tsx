@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import backArrow from 'assets/icons/ArrowBack.svg';
 import Rectangle from 'components/pages/Blog/AuthorsPage/Rectangle 5.png';
 import 'react-quill/dist/quill.snow.css';
@@ -20,11 +21,12 @@ const AuthorsPage: React.FC = () => {
         </div>
         <div className={classes.headerAuthors}>
           <div className={classes.headerTableOfContents}>Authors</div>
-          <Button type="navigate" onClick={() => navigate(`/#`)}>
+          <Button type="navigate" onClick={() => navigate(`/blog/author/add`)}>
             ADD NEW author
           </Button>
         </div>
       </div>
+
       <div className={classes.contentAuthors}>
         <div>
           <img

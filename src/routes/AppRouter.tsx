@@ -13,6 +13,7 @@ const {
   finance,
   blog,
   authors,
+  authorsadd,
   mowgliBooking,
   mowgliBookingStatistics,
   post,
@@ -46,6 +47,7 @@ export const AppRouter = () => (
         <Route path={finance.path} element={<finance.element />} />
         <Route path={blog.path} element={<blog.element />} />
         <Route path={authors.path} element={<authors.element />} />
+        <Route path={authorsadd.path} element={<authorsadd.element />} />
         <Route path={post.path} element={<post.element />} />
         <Route path={mowgliBooking.path} element={<mowgliBooking.element />} />
         <Route path={mowgliBookingStatistics.path} element={<mowgliBookingStatistics.element />} />
