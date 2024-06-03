@@ -13,6 +13,8 @@ import { useAppSelector } from 'App';
 import { getCountVerification } from 'features/verification/verificationSelectors';
 import { getVerifyObjects } from 'features/verifyObjects/verifyObjectsSelectors';
 import { fetchVerifyObjects } from 'features/verifyObjects/verifyObjectsOperation';
+import { getBookingOptions } from 'features/bookingOptions/bookingOptionsSelectors';
+import { fetchBookingOptions } from 'features/bookingOptions/bookingOptionsOperations';
 import {
   HomeStyled,
   HomeNavListStyled,
@@ -30,6 +32,7 @@ type HomeNavListInterface = {
   hoteliers: number;
   agents: number;
   objects: number;
+  bookingOptions: number;
 };
 
 type StatItem = {
@@ -60,7 +63,13 @@ const StatsList = ({ items }: StatsListType) => (
 
 const StatsListMemoized = memo(StatsList);
 
-const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface) => {
+const HomeNavList = ({
+  users,
+  hoteliers,
+  agents,
+  objects,
+  bookingOptions,
+}: HomeNavListInterface) => {
   type DispatchAction = Dispatch<any>;
   const dispatch: DispatchAction = useDispatch();
 
@@ -71,6 +80,7 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
     dispatch(fetchStatistic());
     dispatch(fetchVerification());
     dispatch(fetchObjectTypes());
+    dispatch(fetchBookingOptions());
   }, [dispatch]);
 
   const statItems = useMemo(
@@ -81,10 +91,10 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
       { text: { en: 'Objects: ', ua: "Об'єкти ", ru: 'Объекты: ' }, data: objects },
       {
         text: { en: 'Booking Options:', ua: 'Варіанти бронювання', ru: 'Варианты бронирования:' },
-        data: null,
+        data: bookingOptions,
       },
     ],
-    [agents, hoteliers, objects, users]
+    [agents, hoteliers, objects, users, bookingOptions]
   );
 
   return (
@@ -149,7 +159,9 @@ const HomeNavList = ({ users, hoteliers, agents, objects }: HomeNavListInterface
 
 export const Home: React.FC = () => {
   const statistic = useSelector(getStatistic);
+  const bookingOptions = useSelector(getBookingOptions);
   const verifyObjects = useSelector(getVerifyObjects);
+  const bookingOptionsAmount = bookingOptions.result || 0;
   const verifyObjectsAmount = verifyObjects.amountObject || 0;
 
   const { result } = statistic;
@@ -172,6 +184,7 @@ export const Home: React.FC = () => {
           hoteliers={hoteliers}
           agents={agents}
           objects={verifyObjectsAmount}
+          bookingOptions={bookingOptionsAmount}
         />
       </Container>
     </HomeStyled>

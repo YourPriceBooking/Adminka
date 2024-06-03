@@ -5,6 +5,8 @@ import { ListLoader } from 'components/shared/Loader';
 import { getStatistic } from 'features/statistic/statisticSelectors';
 import { getVerifyObjects } from 'features/verifyObjects/verifyObjectsSelectors';
 import type { VerifyObjectsData } from 'types/apis/verifyObjects';
+import type { BookingOptionsData } from 'types/apis/bookingOptions';
+import { getBookingOptions } from 'features/bookingOptions/bookingOptionsSelectors';
 import { ListItem, TextItem, TextSpan, WrapperBody } from './StatisticsBody.styled';
 
 type Statistic = {
@@ -25,12 +27,13 @@ type Prop = {
 const createStatistic = (
   statisticsObjects: any,
   hoteliers: any,
-  verifyObjects: VerifyObjectsData
+  verifyObjects: VerifyObjectsData,
+  bookingOptions: BookingOptionsData
 ) => {
   const initialStatisticsData: Statistic[] = [
     { title: 'Hoteliers:', value: hoteliers.length, isClicked: false },
     { title: 'Objects:', value: verifyObjects.amountObject || 0, isClicked: false },
-    { title: 'Booking Options:', value: undefined, isClicked: false },
+    { title: 'Booking Options:', value: bookingOptions.result, isClicked: false },
     { title: 'Users:', value: 103, isClicked: false },
     { title: 'Completed bookings:', value: undefined, isClicked: false },
     { title: 'Agents:', value: 89, isClicked: false },
@@ -57,13 +60,19 @@ export const StatisticsBody: React.FC<Prop> = ({
   const { hoteliers, isLoadingHoteliers } = useSelector(selectorHoteliers);
   const statisticsObjects = useSelector(getStatistic);
   const verifyObjects = useSelector(getVerifyObjects);
+  const bookingOptions = useSelector(getBookingOptions);
 
   useEffect(() => {
-    setStatistics(createStatistic(statisticsObjects, hoteliers, verifyObjects));
-  }, [statisticsObjects, verifyObjects]);
+    setStatistics(createStatistic(statisticsObjects, hoteliers, verifyObjects, bookingOptions));
+  }, [statisticsObjects, hoteliers, verifyObjects, bookingOptions]);
 
   const handleClick = (index: number) => {
-    const oldStatistic = createStatistic(statisticsObjects, hoteliers, verifyObjects);
+    const oldStatistic = createStatistic(
+      statisticsObjects,
+      hoteliers,
+      verifyObjects,
+      bookingOptions
+    );
 
     const updatedStatistics = oldStatistic.map((stat, i) => ({
       ...stat,

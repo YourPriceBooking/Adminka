@@ -21,7 +21,7 @@ export const WrapperBody = styled.ul`
 
   @media screen and (min-width: 1200px) {
     height: 139px;
-    column-gap: 81px;
+    column-gap: 70px;
 
     > li:nth-child(5) {
       margin-bottom: 45px;
@@ -62,7 +62,7 @@ export const ListItem = styled.li<Props>`
   }
 
   @media screen and (min-width: 1200px) {
-    width: 27%;
+    width: 28%;
   }
 `;
 
