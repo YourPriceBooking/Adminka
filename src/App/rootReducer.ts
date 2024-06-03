@@ -11,6 +11,7 @@ import { statisticReducer } from 'features/statistic/statisticSlice';
 import { verifyObjectsReducer } from 'features/verifyObjects/verifyObjectsSlice';
 import { verificationReducer } from 'features/verification/verificationSlice';
 import { blogReducer } from 'features/blog/blogSlice';
+import { bookingOptionsReducer } from 'features/bookingOptions/bookingOptionsSlice';
 
 export const rootReducer = combineReducers({
   // server state
@@ -27,6 +28,7 @@ export const rootReducer = combineReducers({
   hoteliers: hoteliersReducer,
   financeStatistic: financeReducer,
   statistic: statisticReducer,
+  bookingOptions: bookingOptionsReducer,
   verifyObjects: verifyObjectsReducer,
   verification: verificationReducer,
   blog: blogReducer,
