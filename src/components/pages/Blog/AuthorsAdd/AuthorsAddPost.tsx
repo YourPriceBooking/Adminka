@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import type { ChangeEvent } from 'react';
 import React, { useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
@@ -14,7 +15,6 @@ import classes from '../AuthorsPage/AuthorsPage.module.css';
 import { Button } from '../AuthorsPage/Button/Button';
 
 const AuthorsAddPost: React.FC = () => {
-  const navigate = useNavigate();
   type Data = {
     name: string;
     description: string;
@@ -25,8 +25,10 @@ const AuthorsAddPost: React.FC = () => {
     linkedin: string;
     pinterest: string;
     facebook: string;
-    image: string[];
-  }
+    file: File[] | string[];
+  };
+  const ref = React.useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   const [data, setData] = useState<Data>({
     name: '',
@@ -38,7 +40,7 @@ const AuthorsAddPost: React.FC = () => {
     linkedin: '',
     pinterest: '',
     facebook: '',
-    image: [],
+    file: [],
   });
 
   type Event1 = {
@@ -46,7 +48,7 @@ const AuthorsAddPost: React.FC = () => {
       id: string;
       value: string;
     };
-  }
+  };
 
   const handleChange = (event: Event1): void => {
     const a = event.target.value;
@@ -56,38 +58,46 @@ const AuthorsAddPost: React.FC = () => {
     });
   };
 
+  type FileState = Record<string, any>
+
+  const [selectFile, seterSelectFile] = useState<FileState>({});
+
+  const handleChange1 = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      seterSelectFile(event.target.files[0]);
+    }
+  };
+
   const handleClickToBackArrow = () => {
     navigate('/blog/post/authors');
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    type UserData = {
-      name: string;
-      description: string;
-      tiktok: string;
-      instagram: string;
-      youtube: string;
-      xsolid: string;
-      linkedin: string;
-      pinterest: string;
-      facebook: string;
-      image: File[] | string[];
+  const handleSubmit = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    let formData: any = {};
+    console.log(selectFile);
+    formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('description', data.description);
+    formData.append('tiktok', data.tiktok);
+    formData.append('instagram', data.instagram);
+    formData.append('youtube', data.youtube);
+    formData.append('xsolid', data.xsolid);
+    formData.append('linkedin', data.linkedin);
+    formData.append('pinterest', data.pinterest);
+    formData.append('facebook', data.facebook);
+    formData.append('file', selectFile);
+    await axios.post('http://localhost:8080/author/add', formData).then(response => {
+      if (response.status === 200) {
+        navigate('/blog/post/authors');
+      }
+      console.log(response.status, response.data);
+    });
+  };
+  const photoInput = () => {
+    if (ref.current) {
+      ref.current.click();
     }
-    const userData: UserData = {
-      name: data.name,
-      description: data.description,
-      tiktok: data.tiktok,
-      instagram: data.instagram,
-      youtube: data.youtube,
-      xsolid: data.xsolid,
-      linkedin: data.linkedin,
-      pinterest: data.pinterest,
-      facebook: data.facebook,
-      image: [],
-    };
-    axios.post('http://localhost:8080/author/add', userData).then(() => {});
-    navigate('/blog/post/authors');
   };
 
   return (
@@ -106,7 +116,18 @@ const AuthorsAddPost: React.FC = () => {
       <div>
         <form className={classes.formAuthors} onSubmit={handleSubmit}>
           <div className={classes.formContent}>
-            <div className={classes.photoAuthors}>ADD PHOTO</div>
+            <button type="button" className={classes.photoAuthors} onClick={photoInput}>
+              <input
+                className={classes.hidden}
+                id="image"
+                ref={ref}
+                type="file"
+                accept="image/png, image/jpeg"
+                onChange={handleChange1}
+              />
+              <span>ADD PHOTO</span>
+            </button>
+
             <div>
               <div className={classes.inputAuthorsDiv}>
                 <span className="input-group-addon">Name</span>
