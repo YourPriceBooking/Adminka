@@ -120,10 +120,6 @@ export const PostContent = styled.div`
       font-size: 14px;
       color: #666;
     }
-
-    & img {
-      width: 45%;
-    }
   }
 
   & .input-group {
@@ -146,5 +142,12 @@ export const PostContent = styled.div`
   & .smallInput {
     padding: 0.5rem;
     font-size: 1rem;
+  }
+  & img {
+    width: 45%;
+  }
+  & iframe {
+    width: 45%;
+    height: 300px;
   }
 `;

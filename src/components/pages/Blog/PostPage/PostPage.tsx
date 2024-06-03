@@ -22,9 +22,9 @@ type FormikType = {
   image: File[] | string[];
 };
 const PostPage: React.FC = () => {
+  const [disableSubmit, SetDisabledSubmit] = useState(true);
   const { id } = useParams();
   const navigate = useNavigate();
-
   const ref = useRef<ReactQuill & { editor: QuillEditor }>(null);
 
   const formik = useFormik<FormikType>({
@@ -64,29 +64,27 @@ const PostPage: React.FC = () => {
             heading,
             markup: text,
           };
+
           await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, data);
           toast.success('Post Updated');
         }
       } catch (err: any) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        toast.error(err.data.message);
+        if (axios.isAxiosError(err) && err.response?.status === 413) {
+          toast.error('Error: The size of the post is too large');
+        } else {
+          toast.error(`Error: ${err.response?.data.message}`);
+        }
       }
     },
   });
 
   const { title, author, description, heading, text, image } = formik.values;
 
-  const [disableSubmit, SetDisabledSubmit] = useState(true);
-
   if (!id) return <Navigate to="/blog" replace />;
-
   const post = useAppSelector(state => getPost(state, id));
-
   if (!post) return <Navigate to="/blog" replace />;
 
-  const handleClickToBackArrow = () => {
-    navigate('/blog');
-  };
+  const handleClickToBackArrow = () => navigate('/blog');
 
   useEffect(() => {
     if (id === 'new') {
@@ -130,7 +128,7 @@ const PostPage: React.FC = () => {
     toolbar: [
       [{ header: [2, 3, 4, 5, false] }],
       ['bold', 'italic', 'underline'],
-      ['link'],
+      ['link', 'video', 'image'],
       [{ list: 'ordered' }, { list: 'bullet' }],
       ['clean'],
     ],
@@ -192,7 +190,7 @@ const PostPage: React.FC = () => {
 
           <div className="articleImage">
             {id !== 'new' ? (
-              <img src={String(formik.values.image[0])} alt="" />
+              <img id="article-img" src={String(formik.values.image[0])} alt="" />
             ) : (
               <div>
                 <input
