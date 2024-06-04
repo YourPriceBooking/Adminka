@@ -69,8 +69,10 @@ const PostPage: React.FC = () => {
           toast.success('Post Updated');
         }
       } catch (err: any) {
-        if (axios.isAxiosError(err) && err.response?.status === 413) {
-          toast.error('Error: The size of the post is too large');
+        if (axios.isAxiosError(err)) {
+          toast.error(
+            `Error ${err.response?.status} (${err.response?.statusText}): ${err.response?.data.message} `
+          );
         } else {
           toast.error(`Error: ${err.response?.data.message}`);
         }
