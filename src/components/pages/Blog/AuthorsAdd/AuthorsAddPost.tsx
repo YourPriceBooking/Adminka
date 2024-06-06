@@ -16,7 +16,9 @@ import { Button } from '../AuthorsPage/Button/Button';
 
 const AuthorsAddPost: React.FC = () => {
   type Data = {
+    image: string;
     name: string;
+    skills: string;
     description: string;
     tiktok: string;
     instagram: string;
@@ -31,7 +33,9 @@ const AuthorsAddPost: React.FC = () => {
   const navigate = useNavigate();
 
   const [data, setData] = useState<Data>({
+    image: '',
     name: '',
+    skills: '',
     description: '',
     tiktok: '',
     instagram: '',
@@ -42,6 +46,8 @@ const AuthorsAddPost: React.FC = () => {
     facebook: '',
     file: [],
   });
+
+  const [photo, setPhoto] = useState('ADD PHOTO');
 
   type Event1 = {
     target: {
@@ -58,13 +64,14 @@ const AuthorsAddPost: React.FC = () => {
     });
   };
 
-  type FileState = Record<string, any>
+  type FileState = Record<string, any>;
 
   const [selectFile, seterSelectFile] = useState<FileState>({});
 
   const handleChange1 = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       seterSelectFile(event.target.files[0]);
+      setPhoto(event.target.files[0].name);
     }
   };
 
@@ -75,9 +82,10 @@ const AuthorsAddPost: React.FC = () => {
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
     let formData: any = {};
-    console.log(selectFile);
     formData = new FormData();
+    formData.append('image', selectFile.name);
     formData.append('name', data.name);
+    formData.append('skills', data.skills);
     formData.append('description', data.description);
     formData.append('tiktok', data.tiktok);
     formData.append('instagram', data.instagram);
@@ -87,12 +95,13 @@ const AuthorsAddPost: React.FC = () => {
     formData.append('pinterest', data.pinterest);
     formData.append('facebook', data.facebook);
     formData.append('file', selectFile);
-    await axios.post('http://localhost:8080/author/add', formData).then(response => {
-      if (response.status === 200) {
-        navigate('/blog/post/authors');
-      }
-      console.log(response.status, response.data);
-    });
+    await axios
+      .post('https://sleepy-plateau-27607-ec90ed518680.herokuapp.com/author/add', formData)
+      .then(response => {
+        if (response.status === 200) {
+          navigate('/blog/post/authors');
+        }
+      });
   };
   const photoInput = () => {
     if (ref.current) {
@@ -124,8 +133,9 @@ const AuthorsAddPost: React.FC = () => {
                 type="file"
                 accept="image/png, image/jpeg"
                 onChange={handleChange1}
+                value={data.image}
               />
-              <span>ADD PHOTO</span>
+              <span>{photo}</span>
             </button>
 
             <div>
@@ -136,6 +146,19 @@ const AuthorsAddPost: React.FC = () => {
                   className={classes.inputAuthors}
                   onChange={handleChange}
                   value={data.name}
+                  placeholder="First Name Last Name"
+                />
+              </div>
+              <div className={classes.inputAuthorsDiv}>
+                <span style={{ marginRight: '10px' }} className="input-group-addon">
+                  Title
+                </span>
+                <input
+                  id="skills"
+                  className={classes.inputAuthors}
+                  onChange={handleChange}
+                  value={data.skills}
+                  placeholder="Professional skills"
                 />
               </div>
               <div className={classes.inputAuthorsDiv}>
@@ -145,6 +168,7 @@ const AuthorsAddPost: React.FC = () => {
                   className={classes.textareaAuthors}
                   onChange={handleChange}
                   value={data.description}
+                  placeholder="Description"
                 />
               </div>
               <div className={classes.inputAuthorsDiv}>
@@ -156,6 +180,7 @@ const AuthorsAddPost: React.FC = () => {
                   className={classes.inputAuthors}
                   onChange={handleChange}
                   value={data.tiktok}
+                  placeholder="Add link"
                 />
               </div>
               <div className={classes.inputAuthorsDiv}>
@@ -167,6 +192,7 @@ const AuthorsAddPost: React.FC = () => {
                   className={classes.inputAuthors}
                   onChange={handleChange}
                   value={data.instagram}
+                  placeholder="Add link"
                 />
               </div>
               <div className={classes.inputAuthorsDiv}>
@@ -178,6 +204,7 @@ const AuthorsAddPost: React.FC = () => {
                   className={classes.inputAuthors}
                   onChange={handleChange}
                   value={data.youtube}
+                  placeholder="Add link"
                 />
               </div>
               <div className={classes.inputAuthorsDiv}>
@@ -189,6 +216,7 @@ const AuthorsAddPost: React.FC = () => {
                   className={classes.inputAuthors}
                   onChange={handleChange}
                   value={data.xsolid}
+                  placeholder="Add link"
                 />
               </div>
               <div className={classes.inputAuthorsDiv}>
@@ -200,6 +228,7 @@ const AuthorsAddPost: React.FC = () => {
                   className={classes.inputAuthors}
                   onChange={handleChange}
                   value={data.linkedin}
+                  placeholder="Add link"
                 />
               </div>
               <div className={classes.inputAuthorsDiv}>
@@ -211,6 +240,7 @@ const AuthorsAddPost: React.FC = () => {
                   className={classes.inputAuthors}
                   onChange={handleChange}
                   value={data.pinterest}
+                  placeholder="Add link"
                 />
               </div>
               <div className={classes.inputAuthorsDiv}>
@@ -222,6 +252,7 @@ const AuthorsAddPost: React.FC = () => {
                   className={classes.inputAuthors}
                   onChange={handleChange}
                   value={data.facebook}
+                  placeholder="Add link"
                 />
               </div>
             </div>
