@@ -65,6 +65,7 @@ export const endpoints = {
   verificationObjects: '/get-earlier-object',
   getObjectTypes: '/get-objects',
   amountVerifyObject: '/get-amount-verify-object',
+  bookingOptions: '/get-amount-booking-option',
   addPointToMap: '/hotels-verification/add-point-on-the-map',
   getIdVerificationObject: '/hotels-verification/get-document',
   deleteVerification: '/hotels-verification/delete-verification',
