@@ -8,7 +8,7 @@ const rootPersistConfig = {
   key: 'root',
   version: 1,
   storage: sessionStorage,
-  blacklist: [api.reducerPath, 'modal'],
+  blacklist: [api.reducerPath, 'modal', 'objectOnVerify'],
 };
 
 export const persistedReducer = persistReducer(rootPersistConfig, rootReducer);

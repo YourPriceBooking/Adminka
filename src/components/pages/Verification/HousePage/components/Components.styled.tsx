@@ -135,7 +135,7 @@ export const DivOptonDesc = styled.div<{ hasList: boolean }>`
   width: 50%;
   color: ${prop => (prop.hasList ? ' #0090FF' : '#FF6000')};
 
-  margin-top: ${props => (props.hasList ? '20px' : '-240px')};
+  /* margin-top: ${props => (props.hasList ? '20px' : '-240px')}; */
   margin-left: ${props => (props.hasList ? '30px' : '60px')};
   display: flex;
   flex-wrap: wrap;

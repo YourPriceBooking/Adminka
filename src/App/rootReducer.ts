@@ -12,6 +12,7 @@ import { verifyObjectsReducer } from 'features/verifyObjects/verifyObjectsSlice'
 import { verificationReducer } from 'features/verification/verificationSlice';
 import { blogReducer } from 'features/blog/blogSlice';
 import { bookingOptionsReducer } from 'features/bookingOptions/bookingOptionsSlice';
+import { objectOnVerifyReducer } from 'features/objectOnVerify/objectOnVerifySlice';
 
 export const rootReducer = combineReducers({
   // server state
@@ -32,4 +33,5 @@ export const rootReducer = combineReducers({
   verifyObjects: verifyObjectsReducer,
   verification: verificationReducer,
   blog: blogReducer,
+  objectOnVerify: objectOnVerifyReducer,
 });
