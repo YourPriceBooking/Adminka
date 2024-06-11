@@ -1,20 +1,21 @@
 import React, { useEffect } from 'react';
-
 import adress from 'assets/icons/adress.svg';
 import apartHotelIcon from 'assets/icons/apartHotelIcon.svg';
-import axios from 'axios';
+// import axios from 'axios';
 import { useAppDispatch, useAppSelector } from 'App';
-import type { RootState } from 'App/store';
+// import type { RootState } from 'App/store';
 import { useParams } from 'react-router-dom';
 import { getObjectOnVerify } from 'features/objectOnVerify/objectOnVerifySelector';
-import { fetchVerifierData } from 'features/objectOnVerify/objectOnVerifyOperation';
+import { addTranslation, fetchVerifierData } from 'features/objectOnVerify/objectOnVerifyOperation';
+import { clearObjectOnVerify } from 'features/objectOnVerify/objectOnVerifySlice';
+import { toast } from 'react-toastify';
 import { RatingComponent } from './components/Rating';
 import { PriceComponent } from './components/PriceComponent';
 import { ButtonClose } from './components/ButtonClose';
 import { ImgHotel, Name, ImgAsress, PAdress, DivPage, DivMain } from './HousePage.styled';
 import { Description } from './components/Description';
 import { GalleryComponent } from './components/GalleryComponent';
-// import { VideoComponent } from './components/VideoComponent';
+import { VideoComponent } from './components/VideoComponent';
 // import photo1 from './img/1.png';
 // import photo2 from './img/2.png';
 import OptionDescriptionComponent from './components/OptionDescriptionComponent';
@@ -63,41 +64,36 @@ export const HousePage: React.FC = () => {
   //     'Здесь мы пишем про объект - описание объекта. Commons-logo.svg Медиафайлы на Викискладе Па́бло Эми́лио Эскобар Гави́рия (исп. Pablo Emilio Escobar Gaviria; 1 декабря 1949 — 2 декабря 1993) — колумбийский наркобарон и террорист. Эскобара называют «Королем кокаина», поскольку он был лидером Медельинского картеля, контролировавшего к концу 1980 года 80 % от мирового рынка кокаина[4].',
   // });
 
-  const token = useAppSelector((state: RootState) => state.enterToken.token);
+  // const token = useAppSelector((state: RootState) => state.enterToken.token);
 
   useEffect(() => {
     dispatch(fetchVerifierData(hotelId));
+    return () => {
+      dispatch(clearObjectOnVerify());
+    };
   }, [dispatch, hotelId]);
 
   const photos = hotelData.hotels.photos.map(({ url }) => url);
   const desc = hotelData.hotels.services.map(({ type }) => type);
   const {
-    hotels: { address, time, description, payments },
+    hotels: { address, time, payments, objectName, translation },
   } = hotelData;
 
-  const handleTranslate = async () => {
-    try {
-      const response = await axios.patch(
-        `https://ypbooking.chost.com.ua/api/hotels-verification/add-a-translation`,
-        {
-          id: '6521b17efa494fab9ac88707',
-          // description: Object.values(description),
-          languages: ['en', 'uk', 'pl', 'ru'],
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+  const handleTranslate = (description: string) => {
+    toast.promise(
+      dispatch(
+        addTranslation({ id: hotelId, languages: ['en', 'uk', 'pl', 'ru'], description })
+      ).unwrap(),
+      {
+        pending: 'Please wait...',
+        success: 'Success 👌',
+        error: {
+          render({ data }) {
+            return `${data} 🤯`;
           },
-        }
-      );
-      const { data } = response;
-      console.log(data);
-
-      // setDescription({ ...description, ...data.translate }); Заменить на санк в редакс
-    } catch (err) {
-      console.log(err);
-    }
+        },
+      }
+    );
   };
 
   return (
@@ -107,22 +103,23 @@ export const HousePage: React.FC = () => {
           <ButtonClose />
 
           <ImgHotel src={apartHotelIcon} alt="hotel icon" />
-          <Name>{hotelData.hotels.objectName}</Name>
+          <Name>{objectName}</Name>
           <RatingComponent rating={4.4} />
           <ImgAsress src={adress} alt="" />
-          <PAdress>{`${address.street}, ${address.house}, ${address.city}, ${address.state}, ${hotelData.hotels.address.country}`}</PAdress>
+          <PAdress>{`${address.street}, ${address.house}, ${address.city}, ${address.state}, ${address.country}, ${address.zipCode}`}</PAdress>
           <PriceComponent
             minPrice={500}
             maxPrice={1000}
             checkIn={time.checkin}
             checkOut={time.checkout}
           />
-          <GalleryComponent photos={photos} hasCard={false} />
+          <GalleryComponent photos={photos} hasCard />
 
-          <Description hasCard={false} text={{ original: description }} />
+          {/* <Description hasCard={false} text={{ original: descript }} /> */}
+          <Description hasCard text={translation} />
 
-          {/* <VideoComponent videoId="eoGdSempEuQ" />  */}
-          <OptionDescriptionComponent styleCard={false} description={desc} />
+          <VideoComponent videoId="eoGdSempEuQ" />
+          <OptionDescriptionComponent styleCard description={desc} />
           <PaymentComponent payments={payments} />
           <Reviews />
 

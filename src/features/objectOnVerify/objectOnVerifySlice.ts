@@ -4,10 +4,11 @@ import type {
   ResponseVerificationDocument,
   VerificationDocumentState,
 } from 'types/apis/objectOnVerify';
-import { fetchVerifierData } from './objectOnVerifyOperation';
+import { addTranslation, fetchVerifierData } from './objectOnVerifyOperation';
 
 const initialState: VerificationDocumentState = {
   isLoading: false,
+  isPendingTranslate: false,
   error: null,
   data: {
     hotels: {
@@ -39,6 +40,7 @@ const initialState: VerificationDocumentState = {
       status: '',
       time: { checkin: '', checkout: '' },
       description: '',
+      translation: {},
     },
     video: [],
     documents: [],
@@ -62,7 +64,11 @@ const initialState: VerificationDocumentState = {
 const objectOnVerifySlice = createSlice({
   name: 'objectOnVerify',
   initialState,
-  reducers: {},
+  reducers: {
+    clearObjectOnVerify: state => {
+      state.data = initialState.data;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchVerifierData.pending, state => {
@@ -73,13 +79,32 @@ const objectOnVerifySlice = createSlice({
         (state, { payload }: PayloadAction<ResponseVerificationDocument>) => {
           state.isLoading = false;
           state.data = payload;
+          state.data.hotels.translation = {
+            original: payload.hotels.description,
+            ...state.data.hotels.translation,
+          };
         }
       )
       .addCase(fetchVerifierData.rejected, (state, { payload }) => {
         state.isLoading = false;
         state.error = payload;
+      })
+      .addCase(addTranslation.pending, state => {
+        state.isPendingTranslate = true;
+      })
+      .addCase(
+        addTranslation.fulfilled,
+        (state, { payload }: PayloadAction<Record<string, string>>) => {
+          state.isPendingTranslate = false;
+          state.data.hotels.translation = payload;
+        }
+      )
+      .addCase(addTranslation.rejected, (state, { payload }) => {
+        state.isPendingTranslate = false;
+        state.error = payload;
       });
   },
 });
 
+export const { clearObjectOnVerify } = objectOnVerifySlice.actions;
 export const objectOnVerifyReducer = objectOnVerifySlice.reducer;

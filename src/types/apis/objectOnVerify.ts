@@ -37,11 +37,13 @@ export type VerificationObjectFullInfo = {
   description: string;
   services: Service[];
   payments: PaymentType[];
+  translation: Record<string, string>;
 } & VerificationObject;
 
 export type VerificationDocumentState = {
   data: ResponseVerificationDocument;
   isLoading: boolean;
+  isPendingTranslate: boolean;
   error: string | unknown;
 };
 

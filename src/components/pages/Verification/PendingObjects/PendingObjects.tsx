@@ -69,49 +69,50 @@ export const PendingObjects = () => {
       </CardsWrapper>
 
       <Div>
-        {Object.keys(verificationObject).map(country => {
-          const list = verificationObject[country];
+        {verificationObject &&
+          Object.keys(verificationObject).map(country => {
+            const list = verificationObject[country];
 
-          return (
-            <CardsStyle>
-              <div className="cardBlockHeader">
-                <p className="left">
-                  {list.length === 0 && (
-                    <div onClick={() => dispatch(deleteVerificationCountry({ country }))}>X</div>
-                  )}
-                  <p>
-                    <b>{country}</b> <span className="text">pending verification</span>
+            return (
+              <CardsStyle>
+                <div className="cardBlockHeader">
+                  <p className="left">
+                    {list.length === 0 && (
+                      <div onClick={() => dispatch(deleteVerificationCountry({ country }))}>X</div>
+                    )}
+                    <p>
+                      <b>{country}</b> <span className="text">pending verification</span>
+                    </p>
                   </p>
-                </p>
-                <p>
-                  Objects on verif <span>{list.length}</span>
-                </p>
-              </div>
-              <div className="buttonBlock">
-                <Button disabled={list.length === 5} onClick={() => onClick(country)}>
-                  Take one object for verification
-                </Button>
-              </div>
-              <div className="list">
-                {list.map(item => (
-                  <Link
-                    key={Math.random()}
-                    to={`/verification/house-page/${item._id}`}
-                    state={{ hotelId: item._id }}
-                  >
-                    <HotelCards
-                      city={item.address.city}
-                      hotel={item.objectName}
-                      address={`${item.address.street}, ${item.address.house}, ${item.address.apartment}`}
-                      imgSrc={item.photos[0].url}
-                      type={item.type.type}
-                    />
-                  </Link>
-                ))}
-              </div>
-            </CardsStyle>
-          );
-        })}
+                  <p>
+                    Objects on verif <span>{list.length}</span>
+                  </p>
+                </div>
+                <div className="buttonBlock">
+                  <Button disabled={list.length === 5} onClick={() => onClick(country)}>
+                    Take one object for verification
+                  </Button>
+                </div>
+                <div className="list">
+                  {list.map(item => (
+                    <Link
+                      key={Math.random()}
+                      to={`/verification/house-page/${item._id}`}
+                      state={{ hotelId: item._id }}
+                    >
+                      <HotelCards
+                        city={item.address.city}
+                        hotel={item.objectName}
+                        address={`${item.address.street}, ${item.address.house}, ${item.address.apartment}`}
+                        imgSrc={item.photos[0].url}
+                        type={item.type.type}
+                      />
+                    </Link>
+                  ))}
+                </div>
+              </CardsStyle>
+            );
+          })}
       </Div>
     </>
   );

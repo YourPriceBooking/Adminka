@@ -3,6 +3,9 @@ import camera from 'assets/icons/camera.svg';
 import selfi from 'assets/icons/selfi.svg';
 import fold from 'assets/icons/folder.svg';
 import { useState } from 'react';
+import { useAppSelector } from 'App';
+import { getObjectOnVerify } from 'features/objectOnVerify/objectOnVerifySelector';
+import { baseUrl } from 'features/api';
 import {
   DivFoldCenter,
   DivFoldMaterial,
@@ -17,30 +20,60 @@ import {
 } from './Compinents.styled';
 
 export const Material = () => {
-  const sampleText = `Test document`;
-
-  const materialData = [
-    { imgUrl: fold, sizeText: '64 Kb', nameText: 'fjhnfd8hb.txt' },
-    { imgUrl: fold, sizeText: '64 Kb', nameText: 'fjhnfd8hb.txt' },
-    { imgUrl: fold, sizeText: '64 Kb', nameText: 'fjhnfd8hb.txt' },
-    { imgUrl: fold, sizeText: '64 Kb', nameText: 'fjhnfd8hb.txt' },
-  ];
-
-  const materialDataVideo = [
-    {
-      videoUrl: 'https://www.youtube.com/watch?v=efFmBpPp70k',
-      sizeText: '64 Kb',
-      nameText: 'video1.mp4',
+  // const sampleText = `Test document`;
+  const {
+    data: {
+      documents,
+      selfie,
+      video,
+      hotels: { _id: id },
     },
-    {
-      videoUrl: 'https://www.youtube.com/watch?v=efFmBpPp70k',
-      sizeText: '64 Kb',
-      nameText: 'video2.mp4',
-    },
-  ];
+  } = useAppSelector(getObjectOnVerify);
 
-  const dataUrl = URL.createObjectURL(new Blob([sampleText], { type: 'text/plain' }));
-  const imageUrl = URL.createObjectURL(new Blob(['imageData'], { type: 'image/jpeg' }));
+  const regex = new RegExp(`^${id}/\\d*-`, 'i');
+
+  const materialData = documents.map(elem => ({
+    imgUrl: fold,
+    sizeText: '??? Kb',
+    nameText: elem.replace(regex, ''),
+    dataUrl: `${baseUrl}/${elem}`,
+  }));
+
+  const materialDataVideo = video.map((elem: string) => ({
+    videoUrl: `${baseUrl}/${elem}`,
+    sizeText: '??? Kb',
+    nameText: elem.replace(regex, ''),
+  }));
+
+  const selfieData = selfie.map((elem: string) => ({
+    imgUrl: fold,
+    sizeText: '??? Kb',
+    nameText: elem.replace(regex, ''),
+    dataUrl: `${baseUrl}/${elem}`,
+  }));
+
+  // const materialData = [
+  //   { imgUrl: fold, sizeText: '64 Kb', nameText: 'fjhnfd8hb.txt' },
+  //   { imgUrl: fold, sizeText: '64 Kb', nameText: 'fjhnfd8hb.txt' },
+  //   { imgUrl: fold, sizeText: '64 Kb', nameText: 'fjhnfd8hb.txt' },
+  //   { imgUrl: fold, sizeText: '64 Kb', nameText: 'fjhnfd8hb.txt' },
+  // ];
+
+  // const materialDataVideo = [
+  //   {
+  //     videoUrl: 'https://www.youtube.com/watch?v=efFmBpPp70k',
+  //     sizeText: '64 Kb',
+  //     nameText: 'video1.mp4',
+  //   },
+  //   {
+  //     videoUrl: 'https://www.youtube.com/watch?v=efFmBpPp70k',
+  //     sizeText: '64 Kb',
+  //     nameText: 'video2.mp4',
+  //   },
+  // ];
+
+  // const dataUrl = URL.createObjectURL(new Blob([sampleText], { type: 'text/plain' }));
+  // const imageUrl = URL.createObjectURL(new Blob(['imageData'], { type: 'image/jpeg' }));
 
   const [showButtons, setShowButtons] = useState<Record<string, boolean>>(
     materialDataVideo.reduce((acc, _, index) => ({ ...acc, [`image_${index}`]: false }), {})
@@ -103,9 +136,9 @@ export const Material = () => {
         </div>
         <SpanMaterial>the documents</SpanMaterial>
         <DivFoldCenter>
-          {materialData.map((data, index) => (
+          {materialData.map(data => (
             <div>
-              <a href={dataUrl} download={`documents${index + 1}.txt`}>
+              <a href={data.dataUrl} download={data.nameText}>
                 <ImgFoldMaterial src={data.imgUrl} alt="fold" />
                 <PFoldText>
                   {data.sizeText}
@@ -127,20 +160,23 @@ export const Material = () => {
         </div>
         <SpanMaterial>selfie photo with document</SpanMaterial>
         <DivFoldMaterial>
-          <a href={imageUrl} download="image.jpeg">
+          {selfieData.map(elem => (
+            <a href={elem.dataUrl} download={`${elem.nameText}`}>
+              <ImgFoldMaterial src={fold} alt="fold" />
+              <PFoldText>
+                {elem.sizeText}
+                <br />
+                {elem.nameText}
+              </PFoldText>
+            </a>
+          ))}
+          {/* <a href={imageUrl} download="image.jpeg">
             <ImgFoldMaterial src={fold} alt="fold" />
             <PFoldText>
               64 Kb
               <br /> fjhnfd8hb.txt
             </PFoldText>
-          </a>
-          <a href={imageUrl} download="image.jpeg">
-            <ImgFoldMaterial src={fold} alt="fold" />
-            <PFoldText>
-              64 Kb
-              <br /> fjhnfd8hb.txt
-            </PFoldText>
-          </a>
+          </a> */}
         </DivFoldMaterial>
       </DivMaterial>
     </DivMaterialMain>

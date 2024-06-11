@@ -16,8 +16,6 @@ export const getCountVerification = (state: RootState) => {
 export const getVerificationObject = (state: RootState) => {
   const { objects } = state.verification;
 
-  if (!objects) return null;
-
   let newObjects = objects;
 
   Object.keys(objects).forEach(country => {

@@ -72,6 +72,7 @@ export const endpoints = {
   deleteAddedObject: '/hotels-verification/delete-object',
   addYouTubeLink: '/hotels-verification/add-you-tube-link',
   finishVerification: '/hotels-verification/finish-verification',
+  addATranslation: '/hotels-verification/add-a-translation',
 } as const;
 
 export const frozenArr = Object.freeze([]);
