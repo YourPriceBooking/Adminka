@@ -96,7 +96,7 @@ const objectOnVerifySlice = createSlice({
         addTranslation.fulfilled,
         (state, { payload }: PayloadAction<Record<string, string>>) => {
           state.isPendingTranslate = false;
-          state.data.hotels.translation = payload;
+          state.data.hotels.translation = { original: state.data.hotels.description, ...payload };
         }
       )
       .addCase(addTranslation.rejected, (state, { payload }) => {

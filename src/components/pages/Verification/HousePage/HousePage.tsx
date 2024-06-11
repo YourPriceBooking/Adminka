@@ -113,10 +113,9 @@ export const HousePage: React.FC = () => {
             checkIn={time.checkin}
             checkOut={time.checkout}
           />
-          <GalleryComponent photos={photos} hasCard />
+          {photos.length > 0 && <GalleryComponent photos={photos} hasCard={false} />}
 
-          {/* <Description hasCard={false} text={{ original: descript }} /> */}
-          <Description hasCard text={translation} />
+          <Description hasCard={false} text={translation} />
 
           <VideoComponent videoId="eoGdSempEuQ" />
           <OptionDescriptionComponent styleCard description={desc} />
