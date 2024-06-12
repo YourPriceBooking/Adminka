@@ -76,10 +76,10 @@ export const HousePage: React.FC = () => {
   const photos = hotelData.hotels.photos.map(({ url }) => url);
   const desc = hotelData.hotels.services.map(({ type }) => type);
   const {
-    hotels: { address, time, payments, objectName, translation },
+    hotels: { address, time, payments, objectName, translation, description },
   } = hotelData;
 
-  const handleTranslate = (description: string) => {
+  const handleTranslate = () => {
     toast.promise(
       dispatch(
         addTranslation({ id: hotelId, languages: ['en', 'uk', 'pl', 'ru'], description })

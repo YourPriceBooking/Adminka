@@ -160,11 +160,7 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({
         <div />
       </div>
       <ButtonTranslationAdr>
-        <AddTranslationButton
-          handleTranslate={() => {
-            handleTranslate(inputText2);
-          }}
-        />
+        <AddTranslationButton handleTranslate={handleTranslate} />
       </ButtonTranslationAdr>
     </div>
   );
