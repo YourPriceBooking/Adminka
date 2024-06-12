@@ -10,7 +10,7 @@ type PriceComponentProps = {
   maxPrice: number;
   checkIn: string;
   checkOut: string;
-}
+};
 
 export const PriceComponent: React.FC<PriceComponentProps> = ({
   minPrice,
@@ -45,7 +45,7 @@ export const PriceComponent: React.FC<PriceComponentProps> = ({
           </div>
         </div>
       ) : (
-        <div>wrong price</div>
+        <div>None UAH - None UAH</div> // <div>wrong price</div>
       )}
     </DivPrice>
   </DivPrices>

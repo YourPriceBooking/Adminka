@@ -81,7 +81,7 @@ const objectOnVerifySlice = createSlice({
           state.data = payload;
           state.data.hotels.translation = {
             original: payload.hotels.description,
-            ...state.data.hotels.translation,
+            ...payload.hotels.translation,
           };
         }
       )

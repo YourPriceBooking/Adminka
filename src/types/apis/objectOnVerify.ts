@@ -37,7 +37,7 @@ export type VerificationObjectFullInfo = {
   description: string;
   services: Service[];
   payments: PaymentType[];
-  translation: Record<string, string>;
+  translation?: Record<string, string>;
 } & VerificationObject;
 
 export type VerificationDocumentState = {

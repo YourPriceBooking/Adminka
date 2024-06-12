@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
+import { useAppSelector } from 'App';
+import { getObjectOnVerify } from 'features/objectOnVerify/objectOnVerifySelector';
 import { RegisterButton } from '../../ButtonRegisterModal/RegisterButton/RegisterButton';
 import { SpanAdress, DidAdress } from './Compinents.styled';
 import { ListBtn } from '../../ButtonRegisterModal/ListButton/ListButton.styled';
 
 export const Address = () => {
   const [activeButtonIndex, setActiveButtonIndex] = useState<number>(-1);
+  const { data: hotelData } = useAppSelector(getObjectOnVerify);
+
+  const {
+    hotels: {
+      address: { country, state, city },
+    },
+  } = hotelData;
 
   const [data, setData] = useState<any>({
     'Location Register 1': '',
@@ -24,11 +33,11 @@ export const Address = () => {
     <div style={{ paddingBottom: '25px' }}>
       <div>
         <SpanAdress>Country</SpanAdress>
-        <DidAdress>Ukraine</DidAdress>
+        <DidAdress>{country}</DidAdress>
         <SpanAdress>State</SpanAdress>
-        <DidAdress>Kyiv</DidAdress>
+        <DidAdress>{state}</DidAdress>
         <SpanAdress>City</SpanAdress>
-        <DidAdress>Kyiv</DidAdress>
+        <DidAdress>{city}</DidAdress>
       </div>
 
       <div>

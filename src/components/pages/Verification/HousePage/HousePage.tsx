@@ -104,12 +104,12 @@ export const HousePage: React.FC = () => {
 
           <ImgHotel src={apartHotelIcon} alt="hotel icon" />
           <Name>{objectName}</Name>
-          <RatingComponent rating={4.4} />
+          <RatingComponent rating="None" />
           <ImgAsress src={adress} alt="" />
           <PAdress>{`${address.street}, ${address.house}, ${address.city}, ${address.state}, ${address.country}, ${address.zipCode}`}</PAdress>
           <PriceComponent
-            minPrice={500}
-            maxPrice={1000}
+            minPrice={0}
+            maxPrice={0}
             checkIn={time.checkin}
             checkOut={time.checkout}
           />
@@ -117,7 +117,7 @@ export const HousePage: React.FC = () => {
 
           <Description hasCard={false} text={translation} />
 
-          <VideoComponent videoId="eoGdSempEuQ" />
+          <VideoComponent videoId="" />
           <OptionDescriptionComponent styleCard description={desc} />
           <PaymentComponent payments={payments} />
           <Reviews />
