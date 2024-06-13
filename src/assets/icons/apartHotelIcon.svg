@@ -1,7 +1,5 @@
-<svg width="58"   height="58"  class="hidden">
- <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 71 70" id="home">
+<svg width="58"   height="58"  class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 71 70" fill="blue">
     <path d="M7.1 70V35.3933H0L35.5 0L71 35.3933H63.9V70H7.1Z" ></path>
-  </symbol>
 </svg>
 <!-- 
 <svg width="58"   height="58" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">

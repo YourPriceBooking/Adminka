@@ -47,7 +47,6 @@ export const PendingObjects = () => {
       }
     };
   }, []);
-
   return (
     <>
       <CardsWrapper>
@@ -68,9 +67,10 @@ export const PendingObjects = () => {
             );
           })}
       </CardsWrapper>
-      {verificationObject && (
-        <Div>
-          {Object.keys(verificationObject).map(country => {
+
+      <Div>
+        {verificationObject &&
+          Object.keys(verificationObject).map(country => {
             const list = verificationObject[country];
 
             return (
@@ -113,8 +113,7 @@ export const PendingObjects = () => {
               </CardsStyle>
             );
           })}
-        </Div>
-      )}
+      </Div>
     </>
   );
 };

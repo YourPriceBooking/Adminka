@@ -91,12 +91,14 @@ export const PDescription = styled.p<{ hasStyle: boolean }>`
 
 export const DivGalleryMain = styled.div<{ hasCard: boolean }>`
   position: relative;
+
   top: ${props => (props.hasCard ? '-410px' : '-210px')};
   left: ${props => (props.hasCard ? '79%' : '71.5%')};
   height: ${props => (props.hasCard ? '0' : 'auto')};
 `;
 export const DivGallery = styled.div<{ hasCard: boolean }>`
   width: ${props => (props.hasCard ? '18%' : '22%')};
+  height: 210px;
   display: flex;
   flex-wrap: wrap;
   margin-bottom: ${props => (props.hasCard ? '20px' : '0')};
@@ -135,7 +137,7 @@ export const DivOptonDesc = styled.div<{ hasList: boolean }>`
   width: 50%;
   color: ${prop => (prop.hasList ? ' #0090FF' : '#FF6000')};
 
-  margin-top: ${props => (props.hasList ? '20px' : '-240px')};
+  /* margin-top: ${props => (props.hasList ? '20px' : '-240px')}; */
   margin-left: ${props => (props.hasList ? '30px' : '60px')};
   display: flex;
   flex-wrap: wrap;
