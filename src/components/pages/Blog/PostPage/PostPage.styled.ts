@@ -90,6 +90,11 @@ export const PostContent = styled.div`
       display: none;
     }
 
+    & .warning {
+      color: #333;
+      font-size: 12px;
+    }
+
     /* Стилізуємо кастомний кнопку для вибору файлу */
     .custom-file-upload {
       border: 1px solid #ccc;
