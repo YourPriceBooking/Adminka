@@ -11,7 +11,7 @@ export const Address = () => {
 
   const {
     hotels: {
-      address: { country, state, city },
+      location: { country, stateName: state, cityName: city },
     },
   } = hotelData;
 
