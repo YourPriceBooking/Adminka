@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { baseUrl, endpoints } from 'features/api';
 import { Spinner } from 'components/shared/Loader';
+import { useAppSelector } from 'App';
+import { getObjectOnVerify } from 'features/objectOnVerify/objectOnVerifySelector';
+import { toast } from 'react-toastify';
 import { ModalWrapper, Text } from './ModalButton.styled';
 
 type Props = {
@@ -60,6 +63,13 @@ export const ModalButton: React.FC<Props> = ({ title, onClick, data }) => {
 
   const [loading, setLoading] = useState(false);
 
+  const { data: hotelData } = useAppSelector(getObjectOnVerify);
+  const {
+    hotels: {
+      location: { _id: locationId },
+    },
+  } = hotelData;
+
   useEffect(() => {
     async function fetch() {
       try {
@@ -95,8 +105,11 @@ export const ModalButton: React.FC<Props> = ({ title, onClick, data }) => {
               },
             } = await axios.get(`${baseUrl}${endpoints.locationCity}`);
 
+            const citiesByLocationId = cities.find((city: any) => city._id === locationId);
+            const { cityInternational } = citiesByLocationId;
+
             const citiesByLangCode = cities.find(
-              (city: any) => city.langCode === 'EN' && city.cityInternational === 'Kyiv'
+              (city: any) => city.langCode === 'EN' && city.cityInternational === cityInternational
             );
 
             if (citiesByLangCode) {
@@ -113,12 +126,12 @@ export const ModalButton: React.FC<Props> = ({ title, onClick, data }) => {
         }
         setLoading(false);
       } catch (error) {
-        console.log(error);
+        toast.error(error as string);
       }
     }
 
     fetch();
-  }, [locationRegisters]);
+  }, [data, locationId, locationRegisters, title]);
 
   const locationRegister = locationRegisters[title];
 
