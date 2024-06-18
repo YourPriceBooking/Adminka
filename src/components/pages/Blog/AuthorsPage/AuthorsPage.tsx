@@ -61,6 +61,7 @@ const AuthorsPage: React.FC = () => {
                   alt={repo.id}
                   aria-hidden="true"
                 />
+
                 <div className={classes.linksWeb}>
                   {repo.linkc.map((links: object) => (
                     <div key={String(Object.keys(links))}>
@@ -77,6 +78,12 @@ const AuthorsPage: React.FC = () => {
                       </a>
                     </div>
                   ))}
+                </div>
+                <div className={classes.emailContainer}>
+                  <input type="text" placeholder="Email" className={classes.emailInput} />
+                  <button type="button" className={classes.emailBtn}>
+                    Add
+                  </button>
                 </div>
               </div>
               <div className={classes.authorsDescription}>

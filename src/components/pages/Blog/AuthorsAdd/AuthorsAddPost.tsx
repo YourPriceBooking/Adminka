@@ -140,6 +140,18 @@ const AuthorsAddPost: React.FC = () => {
 
             <div>
               <div className={classes.inputAuthorsDiv}>
+                <span style={{ marginRight: '5px' }} className="input-group-addon">
+                  Email
+                </span>
+                <input
+                  id="email"
+                  className={classes.inputAuthors}
+                  // onChange={handleChange}
+                  // value={data.email}
+                  placeholder="Email"
+                />
+              </div>
+              <div className={classes.inputAuthorsDiv}>
                 <span className="input-group-addon">Name</span>
                 <input
                   id="name"

@@ -168,8 +168,40 @@
 }
 
 .linksWeb {
+  margin-bottom: 10px;
   display: flex;
   flex-wrap: wrap;
   width: 100%;
   justify-content: center;
+}
+
+.emailContainer {
+  margin: 15px 0;
+  display: flex;
+}
+
+.emailInput {
+  width: 65%;
+  margin-right: 5px;
+  border-radius: 5px;
+  border: 1px solid #4c4c4c;
+}
+
+.emailBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 8px 10px;
+  color: #4c4c4c;
+  background: #6aff79;
+  border-radius: 5px;
+  border: 2px solid #4c4c4c;
+  text-transform: uppercase;
+  transition: background 0.3s ease;
+}
+
+.emailBtn:hover {
+  background: #ffff;
 }
