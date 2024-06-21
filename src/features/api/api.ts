@@ -73,6 +73,7 @@ export const endpoints = {
   addYouTubeLink: '/hotels-verification/add-you-tube-link',
   finishVerification: '/hotels-verification/finish-verification',
   addATranslation: '/hotels-verification/add-a-translation',
+  getDistrictByCity: '/hotels-verification/get-location',
 } as const;
 
 export const frozenArr = Object.freeze([]);

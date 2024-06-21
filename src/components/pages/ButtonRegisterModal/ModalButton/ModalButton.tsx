@@ -66,7 +66,7 @@ export const ModalButton: React.FC<Props> = ({ title, onClick, data }) => {
   const { data: hotelData } = useAppSelector(getObjectOnVerify);
   const {
     hotels: {
-      location: { _id: locationId },
+      location: { _id: locationId, cityName },
     },
   } = hotelData;
 
@@ -99,21 +99,29 @@ export const ModalButton: React.FC<Props> = ({ title, onClick, data }) => {
 
             // setLocationRegisters({ ...locationRegisters, [title]: mappingStates });
 
+            // const {
+            //   data: {
+            //     data: { cities },
+            //   },
+            // } = await axios.get(`${baseUrl}${endpoints.locationCity}`);
+
+            //    const citiesByLocationId = cities.find((city: any) => city._id === locationId);
+            // const { cityInternational } = citiesByLocationId;
+
+            // const citiesByLangCode = cities.find(
+            //   (city: any) => city.langCode === 'EN' && city.cityInternational === cityInternational
+            // );
+
+            // if (citiesByLangCode) {
+            //    const districts = citiesByLangCode.districts.map((district: any) => ({
+            //   title: district.districtName,
+            //   type: title,
+            // }));
             const {
-              data: {
-                data: { cities },
-              },
-            } = await axios.get(`${baseUrl}${endpoints.locationCity}`);
-
-            const citiesByLocationId = cities.find((city: any) => city._id === locationId);
-            const { cityInternational } = citiesByLocationId;
-
-            const citiesByLangCode = cities.find(
-              (city: any) => city.langCode === 'EN' && city.cityInternational === cityInternational
-            );
-
-            if (citiesByLangCode) {
-              const districts = citiesByLangCode.districts.map((district: any) => ({
+              data: { result: districtList },
+            } = await axios.get(`${baseUrl}${endpoints.getDistrictByCity}?cityName=${cityName}`);
+            if (districtList) {
+              const districts = districtList.map((district: any) => ({
                 title: district.districtName,
                 type: title,
               }));
@@ -131,7 +139,7 @@ export const ModalButton: React.FC<Props> = ({ title, onClick, data }) => {
     }
 
     fetch();
-  }, [data, locationId, locationRegisters, title]);
+  }, [cityName, data, locationId, locationRegisters, title]);
 
   const locationRegister = locationRegisters[title];
 
