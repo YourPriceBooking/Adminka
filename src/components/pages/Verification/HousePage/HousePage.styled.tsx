@@ -15,10 +15,27 @@ export const DivPage = styled.div`
   overflow: hidden;
 `;
 
-export const ImgHotel = styled.img`
-  width: 70px;
+export const ImgHotel = styled.div`
+  position: relative;
   margin-top: 31px;
   margin-left: 59px;
+  width: 80px;
+  img {
+    width: 80px;
+  }
+`;
+
+export const HotelTypeLabel = styled.span`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  width: 63px;
+  text-align: center;
+  font-size: 9.5px;
+  font-weight: 700;
+  font-stretch: 100%;
+  color: white;
 `;
 
 export const Name = styled.h1`

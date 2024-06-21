@@ -12,7 +12,15 @@ import { toast } from 'react-toastify';
 import { RatingComponent } from './components/Rating';
 import { PriceComponent } from './components/PriceComponent';
 import { ButtonClose } from './components/ButtonClose';
-import { ImgHotel, Name, ImgAsress, PAdress, DivPage, DivMain } from './HousePage.styled';
+import {
+  ImgHotel,
+  Name,
+  ImgAsress,
+  PAdress,
+  DivPage,
+  DivMain,
+  HotelTypeLabel,
+} from './HousePage.styled';
 import { Description } from './components/Description';
 import { GalleryComponent } from './components/GalleryComponent';
 import { VideoComponent } from './components/VideoComponent';
@@ -76,7 +84,15 @@ export const HousePage: React.FC = () => {
   const photos = hotelData.hotels.photos.map(({ url }) => url);
   const desc = hotelData.hotels.services.map(({ type }) => type);
   const {
-    hotels: { address, time, payments, objectName, translation, description },
+    hotels: {
+      address,
+      time,
+      payments,
+      objectName,
+      translation,
+      description,
+      type: { type },
+    },
   } = hotelData;
 
   const handleTranslate = () => {
@@ -102,7 +118,10 @@ export const HousePage: React.FC = () => {
         <DivPage>
           <ButtonClose />
 
-          <ImgHotel src={apartHotelIcon} alt="hotel icon" />
+          <ImgHotel>
+            <img src={apartHotelIcon} alt="hotel icon" />
+            <HotelTypeLabel>{type}</HotelTypeLabel>
+          </ImgHotel>
           <Name>{objectName}</Name>
           <RatingComponent rating="None" />
           <ImgAsress src={adress} alt="" />
