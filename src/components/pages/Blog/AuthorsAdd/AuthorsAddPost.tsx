@@ -99,7 +99,7 @@ const AuthorsAddPost: React.FC = () => {
     formData.append('facebook', data.facebook);
     formData.append('file', selectFile);
     await axios
-      .post('https://sleepy-plateau-27607-ec90ed518680.herokuapp.com/author/add', formData)
+      .post('https://ypbooking.chost.com.ua/blog/api/author/add-author', formData)
       .then(response => {
         if (response.status === 200) {
           navigate('/blog/post/authors');
