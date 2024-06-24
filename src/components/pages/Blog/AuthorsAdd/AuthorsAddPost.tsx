@@ -17,6 +17,7 @@ import { Button } from '../AuthorsPage/Button/Button';
 const AuthorsAddPost: React.FC = () => {
   type Data = {
     image: string;
+    email: string;
     name: string;
     skills: string;
     description: string;
@@ -34,6 +35,7 @@ const AuthorsAddPost: React.FC = () => {
 
   const [data, setData] = useState<Data>({
     image: '',
+    email: '',
     name: '',
     skills: '',
     description: '',
@@ -84,6 +86,7 @@ const AuthorsAddPost: React.FC = () => {
     let formData: any = {};
     formData = new FormData();
     formData.append('image', selectFile.name);
+    formData.append('email', data.email);
     formData.append('name', data.name);
     formData.append('skills', data.skills);
     formData.append('description', data.description);
@@ -96,7 +99,7 @@ const AuthorsAddPost: React.FC = () => {
     formData.append('facebook', data.facebook);
     formData.append('file', selectFile);
     await axios
-      .post('https://sleepy-plateau-27607-ec90ed518680.herokuapp.com/author/add', formData)
+      .post('https://ypbooking.chost.com.ua/blog/api/author/add-author', formData)
       .then(response => {
         if (response.status === 200) {
           navigate('/blog/post/authors');
@@ -146,8 +149,8 @@ const AuthorsAddPost: React.FC = () => {
                 <input
                   id="email"
                   className={classes.inputAuthors}
-                  // onChange={handleChange}
-                  // value={data.email}
+                  onChange={handleChange}
+                  value={data.email}
                   placeholder="Email"
                 />
               </div>
