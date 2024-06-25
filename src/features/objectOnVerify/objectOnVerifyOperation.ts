@@ -8,13 +8,13 @@ import type { ResponseVerificationDocument } from 'types/apis/objectOnVerify';
 export const fetchVerifierData = createAsyncThunk(
   'objectOnVerify/fetchVerifier',
   async (id: string, { getState, rejectWithValue }) => {
-    const authToken = getState() as RootState;
+    const rootState = getState() as RootState;
     try {
       const response = await axios.get(`${baseUrl}${endpoints.getIdVerificationObject}`, {
         params: { hotelsId: id },
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
-          Authorization: `Bearer ${authToken.enterToken.token}`,
+          Authorization: `Bearer ${rootState.enterToken.token}`,
         },
         withCredentials: true,
       });
@@ -32,7 +32,7 @@ export const addTranslation = createAsyncThunk(
     { id, description, languages }: { id: string; description: string; languages: string[] },
     { getState, rejectWithValue }
   ) => {
-    const authToken = getState() as RootState;
+    const rootState = getState() as RootState;
     try {
       const response = await axios.patch(
         `${baseUrl}${endpoints.addATranslation}`,
@@ -40,7 +40,7 @@ export const addTranslation = createAsyncThunk(
         {
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
-            Authorization: `Bearer ${authToken.enterToken.token}`,
+            Authorization: `Bearer ${rootState.enterToken.token}`,
           },
           withCredentials: true,
         }

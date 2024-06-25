@@ -9,6 +9,7 @@ import { getObjectOnVerify } from 'features/objectOnVerify/objectOnVerifySelecto
 import { addTranslation, fetchVerifierData } from 'features/objectOnVerify/objectOnVerifyOperation';
 import { clearObjectOnVerify } from 'features/objectOnVerify/objectOnVerifySlice';
 import { toast } from 'react-toastify';
+import { getVerificationTypeObjects } from 'features/verification/verificationSelectors';
 import { RatingComponent } from './components/Rating';
 import { PriceComponent } from './components/PriceComponent';
 import { ButtonClose } from './components/ButtonClose';
@@ -65,6 +66,7 @@ import ObjectHistory from '../../ObjectHistory/ObjectHistory';
 export const HousePage: React.FC = () => {
   const { hotelId = '' } = useParams();
   const { data: hotelData } = useAppSelector(getObjectOnVerify);
+  const objectTypes = useAppSelector(getVerificationTypeObjects);
 
   const dispatch = useAppDispatch();
   // const [description, setDescription] = useState<Record<string, string>>({
@@ -91,9 +93,11 @@ export const HousePage: React.FC = () => {
       objectName,
       translation,
       description,
-      type: { type },
+      type: { id: typeId },
     },
   } = hotelData;
+
+  const objectType = objectTypes?.find(elem => elem.id === typeId);
 
   const handleTranslate = () => {
     toast.promise(
@@ -120,7 +124,7 @@ export const HousePage: React.FC = () => {
 
           <ImgHotel>
             <img src={apartHotelIcon} alt="hotel icon" />
-            <HotelTypeLabel>{type}</HotelTypeLabel>
+            <HotelTypeLabel>{objectType?.type}</HotelTypeLabel>
           </ImgHotel>
           <Name>{objectName}</Name>
           <RatingComponent rating="None" />
