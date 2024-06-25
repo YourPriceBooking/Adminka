@@ -13,7 +13,7 @@ export const fetchStatistic = createAsyncThunk<ResponseStatisticData>(
       const response = await axios.get(`${baseUrl}/acsess-to-admin${endpoints.statistic}`, {
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
-          Authorization: `Bearer ${authToken.enterToken.token!}`,
+          Authorization: `Bearer ${authToken.enterToken.token}`,
         },
         withCredentials: true,
       });
