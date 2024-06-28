@@ -6,12 +6,10 @@ import order from '../../../../../assets/icons/order.svg';
 import { DivListTitle } from './Components.styled';
 
 const NoOptionsComponent: React.FC = () => (
-  <div>
-    <div>Варианты бронирования еще не добавлены отельером.</div>
-  </div>
+  <div>{/* <div>Варианты бронирования еще не добавлены отельером.</div> */}</div>
 );
 const ListOptionComponent: React.FC = () => {
-  const [optionsExist, setOptionsExist] = useState(true);
+  const [optionsExist, setOptionsExist] = useState(false);
 
   const cards = [
     {
@@ -41,13 +39,15 @@ const ListOptionComponent: React.FC = () => {
   };
   return (
     <div>
-      <DivListTitle>
-        <img style={{ position: 'relative', marginRight: '20px' }} src={order} alt="" />
-        Варианты бронирования:
-        <button type="button" onClick={changeOptionsExist}>
-          Временный переключатель: есть или нет вариантов бронирования
-        </button>
-      </DivListTitle>
+      {optionsExist && (
+        <DivListTitle>
+          <img style={{ position: 'relative', marginRight: '20px' }} src={order} alt="" />
+          Варианты бронирования:
+          <button type="button" onClick={changeOptionsExist}>
+            Временный переключатель: есть или нет вариантов бронирования
+          </button>
+        </DivListTitle>
+      )}
 
       {optionsExist ? (
         <div>
