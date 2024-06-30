@@ -118,7 +118,7 @@ const HomeNavList = ({
           </LoaderMiddleware>
         ) : null}
 
-        {!!isHaveAccess.includes('Access to the administrative directory') ||
+        {!!isHaveAccess.includes('Adding a languages Adding a country`s Location registers') ||
         !!isHaveAccess.includes('all') ? (
           <LoaderMiddleware path={country.path}>
             <p>Adding a languages</p>

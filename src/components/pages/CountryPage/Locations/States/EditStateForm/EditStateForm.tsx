@@ -42,6 +42,7 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
 
   if (!stateObj) return null;
 
+  console.log(stateObj);
   const {
     countryId,
     international,
