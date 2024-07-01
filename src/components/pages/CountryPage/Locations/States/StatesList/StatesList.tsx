@@ -9,12 +9,12 @@ export const StatesList = () => {
 
   return (
     <>
-      {statesIds && <LocationNavigationList ids={statesIds as string[]} />}
       <StatesListStyled>
         {statesIds?.map(stateId => (
           <StateItem key={stateId} stateId={stateId} />
         ))}
       </StatesListStyled>
+      {statesIds && <LocationNavigationList ids={statesIds as string[]} />}
     </>
   );
 };
