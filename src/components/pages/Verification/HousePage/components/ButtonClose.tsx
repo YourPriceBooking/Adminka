@@ -10,7 +10,7 @@ export const ButtonClose: React.FC = () => {
   return (
     <DivClose>
       <ButtonClos type="button" onClick={closePage}>
-        <Img src={close} alt="" />
+        <Img src={close} alt="close icon" />
         Close
       </ButtonClos>
     </DivClose>

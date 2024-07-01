@@ -8,7 +8,7 @@ type StateItemType = {
 };
 
 export const StateItem = ({ stateId }: StateItemType) => (
-  <StateItemStyled>
+  <StateItemStyled id={stateId.toString()}>
     <EditStateForm stateId={stateId} />
 
     <Cities stateId={stateId} />
