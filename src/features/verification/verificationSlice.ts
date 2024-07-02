@@ -4,12 +4,14 @@ import type {
   ResponseVerificationCountryList,
   ResponseVerificationObject,
   ResponseVerificationTypeObjects,
+  VerificationObject,
   VerificationState,
 } from 'types/apis/verification';
 import {
   fetchObjectTypes,
   fetchVerification,
   fetchVerificationObject,
+  fetchInWorkingVerifier,
 } from './verificationOperation';
 
 const verificationInitialState: VerificationState = {
@@ -45,6 +47,42 @@ const verificationSlice = createSlice({
     },
   },
   extraReducers: builder => {
+    // Обробники для fetchInWorkingVerifier
+    builder
+      .addCase(fetchInWorkingVerifier.pending, state => {
+        state.isLoadingVerification = true;
+      })
+      .addCase(fetchInWorkingVerifier.fulfilled, (state, { payload }) => {
+        state.isLoadingVerification = false;
+
+        payload.result.forEach((obj: any) => {
+          const newObject: VerificationObject = {
+            address: obj.hotels.address,
+            _id: obj._id,
+            type: obj.hotels.type,
+            objectName: obj.objectName,
+            photos: obj.hotels.photos,
+          };
+
+          if (obj.hotels.location.international === 'USA') {
+            if (!state.objects.USA.some(item => item._id === newObject._id)) {
+              state.objects.USA.push(newObject);
+            }
+          } else if (obj.hotels.location.international === 'Ukraine') {
+            if (!state.objects.Ukraine.some(item => item._id === newObject._id)) {
+              state.objects.Ukraine.push(newObject);
+            }
+          } else if (obj.hotels.location.international === 'Poland') {
+            if (!state.objects.Poland.some(item => item._id === newObject._id)) {
+              state.objects.Poland.push(newObject);
+            }
+          }
+        });
+      })
+      .addCase(fetchInWorkingVerifier.rejected, (state, { payload }) => {
+        state.isLoadingVerification = false;
+        state.error = payload;
+      });
     builder
       .addCase(fetchVerification.pending, state => {
         state.isLoadingVerification = true;
@@ -88,15 +126,6 @@ const verificationSlice = createSlice({
                   ],
                 };
               }
-            } else {
-              const newObject = {
-                [payload.country]: [
-                  {
-                    ...payload.result[payload.result.length - 1],
-                  },
-                ],
-              };
-              state.objects = newObject;
             }
 
             if (state.verification.onVerification) {
