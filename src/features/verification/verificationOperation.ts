@@ -5,6 +5,8 @@ import type {
   ResponseVerificationCountryList,
   ResponseVerificationObject,
   ResponseVerificationTypeObjects,
+  ResponseInWorkingCountryList,
+  RequestInWorkingCountry,
 } from 'types/apis/verification';
 
 export const fetchVerification = createAsyncThunk<ResponseVerificationCountryList>(
@@ -57,6 +59,47 @@ export const fetchObjectTypes = createAsyncThunk<ResponseVerificationTypeObjects
       const data = response.data as ResponseVerificationTypeObjects;
 
       return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const fetchInWorkingVerifier = createAsyncThunk<ResponseInWorkingCountryList>(
+  'verification/fetchInWorkingVerifier',
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const currentState: any = getState();
+      const { token } = currentState.enterToken;
+
+      const response = await axios.get(`${baseUrl}${endpoints.objectInWorkingByVerifier}`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = response.data as ResponseInWorkingCountryList;
+      return data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const fetchObjectInWorking = createAsyncThunk<RequestInWorkingCountry, object>(
+  'verification/fetchObjectInWorking',
+  async (takeObject: object, { getState, rejectWithValue }) => {
+    try {
+      const currentState: any = getState();
+      const { token } = currentState.enterToken;
+
+      const response = await axios.post(`${baseUrl}${endpoints.objectInWorking}`, takeObject, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
     } catch (error) {
       return rejectWithValue(error);
     }
