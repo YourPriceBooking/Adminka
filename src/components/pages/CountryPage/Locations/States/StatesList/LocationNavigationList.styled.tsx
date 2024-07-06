@@ -12,7 +12,9 @@ export const NavigationListStyled = styled.ul`
   border: 1px solid #787878;
   border-radius: 9px;
   box-shadow: #0000003f 0px 0px 9px 2px;
-
+  li {
+    width: fit-content;
+  }
   a,
   a:visited {
     color: inherit;
