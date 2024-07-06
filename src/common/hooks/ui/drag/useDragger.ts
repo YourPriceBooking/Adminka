@@ -23,6 +23,7 @@ export function useDragger(id: string, fixed = false): void {
     if (!container) throw new Error('target element must have a parent');
 
     const onMouseDown = (e: MouseEvent) => {
+      if (e.currentTarget !== e.target) return;
       isClicked.current = true;
       coords.current.startX = e.clientX;
       coords.current.startY = e.clientY;
