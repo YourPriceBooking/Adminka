@@ -69,6 +69,19 @@ export type ResponseVerificationTypeObjects = {
   data: VerificationObjectType;
 };
 
+export type VerificationCountryListInWorking = Record<any, any>;
+
+export type ResponseInWorkingCountryList = {
+  code: number;
+  status: string;
+  result: VerificationCountryListInWorking;
+};
+
+export type RequestInWorkingCountry = {
+  hotels: string;
+  objectName: string;
+};
+
 export type VerificationState = {
   verification: {
     onVerification: VerificationCountryList | null;

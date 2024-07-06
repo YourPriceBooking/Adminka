@@ -11,6 +11,8 @@ import {
 import {
   fetchVerification,
   fetchVerificationObject,
+  fetchObjectInWorking,
+  fetchInWorkingVerifier,
 } from 'features/verification/verificationOperation';
 import {
   clearVerificationObject,
@@ -33,8 +35,14 @@ export const PendingObjects = () => {
     dispatch(fetchVerificationObject(country));
   };
 
+  const onClickObjectInWorking = (item: any) => {
+    const takeObject = { hotels: item._id, objectName: item.objectName };
+    dispatch(fetchObjectInWorking(takeObject));
+  };
+
   useEffect(() => {
     dispatch(fetchVerification());
+    dispatch(fetchInWorkingVerifier());
     const body = document.getElementsByTagName('body');
 
     if (body[0]) {
@@ -99,6 +107,7 @@ export const PendingObjects = () => {
                       key={Math.random()}
                       to={`/verification/house-page/${item._id}`}
                       state={{ hotelId: item._id }}
+                      onClick={() => onClickObjectInWorking(item)}
                     >
                       <HotelCards
                         city={item.address.city}
