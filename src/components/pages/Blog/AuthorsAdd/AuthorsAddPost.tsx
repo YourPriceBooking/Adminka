@@ -105,6 +105,7 @@ const AuthorsAddPost: React.FC = () => {
           navigate('/blog/post/authors');
         }
       });
+    handleClickToBackArrow();
   };
   const photoInput = () => {
     if (ref.current) {
