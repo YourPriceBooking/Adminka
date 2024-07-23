@@ -86,18 +86,29 @@ const AuthorsAddPost: React.FC = () => {
 
     const formData: any = new FormData();
 
+    const linksArray = [
+      { tiktok: data.tiktok },
+      { instagram: data.instagram },
+      { youtube: data.youtube },
+      { xsolid: data.xsolid },
+      { linkedin: data.linkedin },
+      { pinterest: data.pinterest },
+      { facebook: data.facebook },
+    ];
+
     // formData.append('image', selectFile.name);
     formData.append('email', data.email);
     formData.append('name', data.name);
     formData.append('skills', data.skills);
     formData.append('description', data.description);
-    formData.append('tiktok', data.tiktok);
-    formData.append('instagram', data.instagram);
-    formData.append('youtube', data.youtube);
-    formData.append('xsolid', data.xsolid);
-    formData.append('linkedin', data.linkedin);
-    formData.append('pinterest', data.pinterest);
-    formData.append('facebook', data.facebook);
+    formData.append('links', JSON.stringify(linksArray));
+    // formData.append('tiktok', data.tiktok);
+    // formData.append('instagram', data.instagram);
+    // formData.append('youtube', data.youtube);
+    // formData.append('xsolid', data.xsolid);
+    // formData.append('linkedin', data.linkedin);
+    // formData.append('pinterest', data.pinterest);
+    // formData.append('facebook', data.facebook);
     formData.append('image', selectFile);
 
     await axios

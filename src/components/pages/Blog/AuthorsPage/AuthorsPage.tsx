@@ -81,6 +81,9 @@ const AuthorsPage: React.FC = () => {
       } else {
         setShou(true);
         setAppState({ loading: false, repos: allRepos });
+
+        console.log(allRepos);
+
         // await fetchImages(allRepos);
       }
     };
@@ -108,12 +111,17 @@ const AuthorsPage: React.FC = () => {
       {shou ? (
         <div className={classes.contentAuthors}>
           {appState.repos.map(repo => {
-            const parsedLinks = repo.links.map((link: string) => JSON.parse(link));
-            // const authorImage = imageMap[repo._id]
+            let parsedLinks = [];
+
+            if (repo.links[0]) {
+              if (repo.links.length === 1) {
+                parsedLinks = JSON.parse(repo.links[0]);
+              }
+            }
 
             return (
               <div className={classes.postAuthor} key={repo._id}>
-                <div>
+                <div className={classes.sideInfo}>
                   <img
                     className={classes.imgAuthors}
                     src={repo.image}
