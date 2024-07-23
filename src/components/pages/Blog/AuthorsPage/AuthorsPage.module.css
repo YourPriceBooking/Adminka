@@ -63,7 +63,6 @@
   max-height: 212px;
   border-radius: 9px;
   border: 1px solid #4c4c4c;
-  margin-right: 42px;
 }
 
 .ulAuthors {
@@ -167,17 +166,26 @@
   margin: 0;
 }
 
-.linksWeb {
-  margin-bottom: 10px;
+.sideInfo {
+  width: 250px;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.linksWeb {
+  width: 160px;
+  margin: 10px 0;
+  display: flex;
+  gap: 10px;
   flex-wrap: wrap;
-  width: 100%;
   justify-content: center;
 }
 
 .emailContainer {
   margin: 15px 0;
   display: flex;
+  justify-content: center;
 }
 
 .emailInput {

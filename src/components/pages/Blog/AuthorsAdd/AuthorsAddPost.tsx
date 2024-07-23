@@ -83,30 +83,46 @@ const AuthorsAddPost: React.FC = () => {
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    let formData: any = {};
-    formData = new FormData();
-    formData.append('image', selectFile.name);
+
+    const formData: any = new FormData();
+
+    const linksArray = [
+      { tiktok: data.tiktok },
+      { instagram: data.instagram },
+      { youtube: data.youtube },
+      { xsolid: data.xsolid },
+      { linkedin: data.linkedin },
+      { pinterest: data.pinterest },
+      { facebook: data.facebook },
+    ];
+
+    // formData.append('image', selectFile.name);
     formData.append('email', data.email);
     formData.append('name', data.name);
     formData.append('skills', data.skills);
     formData.append('description', data.description);
-    formData.append('tiktok', data.tiktok);
-    formData.append('instagram', data.instagram);
-    formData.append('youtube', data.youtube);
-    formData.append('xsolid', data.xsolid);
-    formData.append('linkedin', data.linkedin);
-    formData.append('pinterest', data.pinterest);
-    formData.append('facebook', data.facebook);
-    formData.append('file', selectFile);
+    formData.append('links', JSON.stringify(linksArray));
+    // formData.append('tiktok', data.tiktok);
+    // formData.append('instagram', data.instagram);
+    // formData.append('youtube', data.youtube);
+    // formData.append('xsolid', data.xsolid);
+    // formData.append('linkedin', data.linkedin);
+    // formData.append('pinterest', data.pinterest);
+    // formData.append('facebook', data.facebook);
+    formData.append('image', selectFile);
+
     await axios
       .post('https://ypbooking.chost.com.ua/blog/api/author/add-author', formData)
       .then(response => {
         if (response.status === 200) {
+          console.log('added new author');
           navigate('/blog/post/authors');
         }
       });
+
     handleClickToBackArrow();
   };
+
   const photoInput = () => {
     if (ref.current) {
       ref.current.click();
