@@ -17,6 +17,7 @@ type Link = Record<string, string>;
 
 type Repo = {
   _id: number;
+  email: string;
   name: string;
   image: string;
   description: string;
@@ -76,7 +77,9 @@ const AuthorsPage: React.FC = () => {
         setShou(false);
         setAppState({
           loading: false,
-          repos: [{ _id: 0, name: '', image: '', description: '', skills: '', links: [] }],
+          repos: [
+            { _id: 0, name: '', email: '', image: '', description: '', skills: '', links: [] },
+          ],
         });
       } else {
         setShou(true);
@@ -94,6 +97,8 @@ const AuthorsPage: React.FC = () => {
   const handleClickToBackArrow = () => {
     navigate('/blog');
   };
+
+  console.log(appState.repos[4]);
 
   return (
     <div className={classes.authorsContainer}>
@@ -128,7 +133,9 @@ const AuthorsPage: React.FC = () => {
                     alt={String(repo._id)}
                     aria-hidden="true"
                   />
-
+                  <a className={classes.email} href={repo.email}>
+                    {repo.email}
+                  </a>
                   <div className={classes.linksWeb}>
                     {parsedLinks.map((link: Link) => {
                       const platform = Object.keys(link)[0];
@@ -136,25 +143,21 @@ const AuthorsPage: React.FC = () => {
                       const logo = logoMap[platform];
 
                       return (
-                        <div key={platform}>
-                          <a href={url} target="blank" rel="noopener noreferrer">
-                            <img
-                              className={classes.imgAuthors}
-                              src={logo}
-                              alt={platform}
-                              title={platform}
-                              aria-hidden="true"
-                            />
-                          </a>
-                        </div>
+                        url && (
+                          <div key={platform}>
+                            <a href={url} target="blank" rel="noopener noreferrer">
+                              <img
+                                className={classes.imgAuthors}
+                                src={logo}
+                                alt={platform}
+                                title={platform}
+                                aria-hidden="true"
+                              />
+                            </a>
+                          </div>
+                        )
                       );
                     })}
-                  </div>
-                  <div className={classes.emailContainer}>
-                    <input type="text" placeholder="Email" className={classes.emailInput} />
-                    <button type="button" className={classes.emailBtn}>
-                      Add
-                    </button>
                   </div>
                 </div>
                 <div className={classes.authorsDescription}>
