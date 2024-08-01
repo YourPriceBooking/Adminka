@@ -13,6 +13,20 @@ import { blogBaseUrl } from 'features/api';
 import { BlogContainer, Header } from '../BlogPage/Blog.styled';
 import { PostContent } from './PostPage.styled';
 
+type Author = {
+  _id: number;
+  email: string;
+  name: string;
+  image: string;
+  description: string;
+  skills: string;
+  links: string[];
+};
+
+type AuthorResponse = {
+  result: Author[];
+};
+
 type FormikType = {
   title: string;
   author: string;
@@ -23,6 +37,7 @@ type FormikType = {
 };
 const PostPage: React.FC = () => {
   const [disableSubmit, SetDisabledSubmit] = useState(true);
+  const [authors, setAuthors] = useState<Author[]>([]);
   const { id } = useParams();
   const navigate = useNavigate();
   const ref = useRef<ReactQuill & { editor: QuillEditor }>(null);
@@ -123,6 +138,15 @@ const PostPage: React.FC = () => {
 
     if (id !== 'new') {
       fetchBlog();
+    } else {
+      const fetchAuthors = async () => {
+        const response = await axios.get<AuthorResponse>(
+          'https://ypbooking.chost.com.ua/blog/api/author/get-all-authors'
+        );
+
+        setAuthors(response.data.result);
+      };
+      fetchAuthors();
     }
   }, [id]);
 
@@ -197,14 +221,28 @@ const PostPage: React.FC = () => {
             </div>
             <div className="input-group prefix">
               <span className="input-group-addon">Author</span>
-              <input
+
+              <select
                 id="author"
-                className="smallInput"
-                type="text"
-                disabled={id !== 'new'}
+                defaultValue={id === 'new' ? '' : author}
                 onChange={formik.handleChange}
-                value={author}
-              />
+              >
+                {id === 'new' ? (
+                  authors.map((item: Author) => (
+                    <option
+                      value={id === 'new' ? item.name : author}
+                      key={item._id}
+                      className="optionInput"
+                    >
+                      {item.name}
+                    </option>
+                  ))
+                ) : (
+                  <option value={author} className="optionInput">
+                    {author}
+                  </option>
+                )}
+              </select>
             </div>
 
             <div className="input-group prefix">
