@@ -37,7 +37,8 @@ export const PostContent = styled.div`
     height: calc((-20rem + 85vh) * 2);
   }
 
-  & input {
+  & input,
+  select {
     position: relative;
     z-index: 2;
     float: left;
@@ -148,6 +149,13 @@ export const PostContent = styled.div`
     padding: 0.5rem;
     font-size: 1rem;
   }
+
+  & .optionInput {
+    adding: 0.5rem;
+    font-size: 1rem;
+    color: red;
+  }
+
   & img {
     width: 45%;
   }
