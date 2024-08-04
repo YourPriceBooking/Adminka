@@ -153,7 +153,6 @@ export const PostContent = styled.div`
   & .optionInput {
     adding: 0.5rem;
     font-size: 1rem;
-    color: red;
   }
 
   & img {

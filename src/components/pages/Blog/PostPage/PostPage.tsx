@@ -81,6 +81,8 @@ const PostPage: React.FC = () => {
             markup: text,
           };
 
+          console.log('AUTHOR: ', data);
+
           await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, data);
           toast.success('Post Updated');
         }
@@ -203,6 +205,15 @@ const PostPage: React.FC = () => {
     ],
   };
 
+  useEffect(() => {
+    if (id !== 'new' && authors.length > 0) {
+      const defaultAuthor = authors.find(a => a.name === formik.values.author);
+      if (defaultAuthor) {
+        formik.setFieldValue('author', defaultAuthor.name);
+      }
+    }
+  }, [id, authors]);
+
   return (
     <BlogContainer>
       <Header>
@@ -223,17 +234,10 @@ const PostPage: React.FC = () => {
             <div className="input-group prefix">
               <span className="input-group-addon">Author</span>
 
-              <select
-                id="author"
-                defaultValue={id === 'new' ? '' : author}
-                onChange={formik.handleChange}
-              >
+              <select id="author" onChange={formik.handleChange}>
+                {id === 'new' && <option value="">Select an author</option>}
                 {authors.map((item: Author) => (
-                  <option
-                    value={id === 'new' ? item.name : author}
-                    key={item._id}
-                    className="optionInput"
-                  >
+                  <option value={item.name} key={item._id} className="optionInput">
                     {item.name}
                   </option>
                 ))}
