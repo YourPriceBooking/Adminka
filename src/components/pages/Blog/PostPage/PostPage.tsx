@@ -36,7 +36,7 @@ type FormikType = {
   image: File[] | string[];
 };
 const PostPage: React.FC = () => {
-  const [disableSubmit, SetDisabledSubmit] = useState(true);
+  // const [disableSubmit, SetDisabledSubmit] = useState(true);
   const [authors, setAuthors] = useState<Author[]>([]);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -75,6 +75,7 @@ const PostPage: React.FC = () => {
         } else {
           data = {
             title,
+            author,
             description,
             heading,
             markup: text,
@@ -106,10 +107,10 @@ const PostPage: React.FC = () => {
   useEffect(() => {
     if (id === 'new') {
       if (author && description && text && title && heading && image.length > 0) {
-        SetDisabledSubmit(false);
+        // SetDisabledSubmit(false);
       }
     } else if (id !== 'new' && (post.title !== title || post.description !== description)) {
-      SetDisabledSubmit(false);
+      // SetDisabledSubmit(false);
     }
   }, [title, author, description, heading, text, image, id]);
 
@@ -129,7 +130,7 @@ const PostPage: React.FC = () => {
           image: data.result.imageUrl,
         });
 
-        SetDisabledSubmit(true);
+        // SetDisabledSubmit(true);
       } catch (error: any) {
         navigate('/blog');
         toast.error(String(error.response.data.message));
@@ -138,16 +139,16 @@ const PostPage: React.FC = () => {
 
     if (id !== 'new') {
       fetchBlog();
-    } else {
-      const fetchAuthors = async () => {
-        const response = await axios.get<AuthorResponse>(
-          'https://ypbooking.chost.com.ua/blog/api/author/get-all-authors'
-        );
-
-        setAuthors(response.data.result);
-      };
-      fetchAuthors();
     }
+
+    const fetchAuthors = async () => {
+      const response = await axios.get<AuthorResponse>(
+        'https://ypbooking.chost.com.ua/blog/api/author/get-all-authors'
+      );
+
+      setAuthors(response.data.result);
+    };
+    fetchAuthors();
   }, [id]);
 
   const checkImageType = (imgType: any) => {
@@ -211,7 +212,7 @@ const PostPage: React.FC = () => {
       </Header>
       <PostContent>
         <form onSubmit={formik.handleSubmit}>
-          <button disabled={disableSubmit} type="submit" className="submit">
+          <button type="submit" className="submit">
             {id === 'new' ? 'Submit' : 'Update Post'}
           </button>
           <div className="title">
@@ -227,21 +228,15 @@ const PostPage: React.FC = () => {
                 defaultValue={id === 'new' ? '' : author}
                 onChange={formik.handleChange}
               >
-                {id === 'new' ? (
-                  authors.map((item: Author) => (
-                    <option
-                      value={id === 'new' ? item.name : author}
-                      key={item._id}
-                      className="optionInput"
-                    >
-                      {item.name}
-                    </option>
-                  ))
-                ) : (
-                  <option value={author} className="optionInput">
-                    {author}
+                {authors.map((item: Author) => (
+                  <option
+                    value={id === 'new' ? item.name : author}
+                    key={item._id}
+                    className="optionInput"
+                  >
+                    {item.name}
                   </option>
-                )}
+                ))}
               </select>
             </div>
 
@@ -304,13 +299,13 @@ const PostPage: React.FC = () => {
               onChange={value => {
                 formik.setFieldValue('text', value);
 
-                if (id !== 'new') {
-                  if (value !== text) {
-                    SetDisabledSubmit(false);
-                  } else {
-                    SetDisabledSubmit(true);
-                  }
-                }
+                // if (id !== 'new') {
+                //   if (value !== text) {
+                //     SetDisabledSubmit(false);
+                //   } else {
+                //     SetDisabledSubmit(true);
+                //   }
+                // }
               }}
               value={text}
             />
