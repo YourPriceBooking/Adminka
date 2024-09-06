@@ -199,6 +199,7 @@ const PostPage: React.FC = () => {
     toolbar: [
       [{ header: [2, 3, 4, 5, false] }],
       ['bold', 'italic', 'underline'],
+      ['blockquote'],
       ['link', 'video', 'image'],
       [{ list: 'ordered' }, { list: 'bullet' }],
       ['clean'],
