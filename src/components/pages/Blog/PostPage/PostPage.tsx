@@ -227,6 +227,7 @@ const PostPage: React.FC = () => {
           <button type="submit" className="submit">
             {id === 'new' ? 'Submit' : 'Update Post'}
           </button>
+
           <div className="title">
             <div className="input-group prefix">
               <span className="input-group-addon">Title</span>
@@ -267,6 +268,19 @@ const PostPage: React.FC = () => {
                 onChange={formik.handleChange}
                 value={heading}
               />
+            </div>
+
+            <div className="input-group prefix">
+              <span className="input-group-addon">Category</span>
+
+              <select id="author" onChange={formik.handleChange}>
+                <option value="">Select a post category</option>
+                <option value="home">Home</option>
+                <option value="ukraine">Ukraine</option>
+                <option value="poland">Poland</option>
+                <option value="usa">USA</option>
+                <option value="canada">Canada</option>
+              </select>
             </div>
           </div>
 
