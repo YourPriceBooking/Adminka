@@ -32,6 +32,7 @@ type FormikType = {
   author: string;
   description: string;
   heading: string;
+  country: string;
   text: string;
   image: File[] | string[];
 };
@@ -48,10 +49,11 @@ const PostPage: React.FC = () => {
       author: '',
       description: '',
       heading: '',
+      country: '',
       text: '',
       image: [],
     },
-    onSubmit: async ({ title, author, description, heading, text, image }) => {
+    onSubmit: async ({ title, author, description, heading, country, text, image }) => {
       try {
         let data: any = {};
 
@@ -60,6 +62,7 @@ const PostPage: React.FC = () => {
           data.append('title', title);
           data.append('description', description);
           data.append('heading', heading);
+          data.append('country', country);
           data.append('markup', text);
           data.append('author', author);
           data.append(
@@ -81,8 +84,6 @@ const PostPage: React.FC = () => {
             markup: text,
           };
 
-          console.log('AUTHOR: ', data);
-
           await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, data);
           toast.success('Post Updated');
         }
@@ -98,7 +99,7 @@ const PostPage: React.FC = () => {
     },
   });
 
-  const { title, author, description, heading, text, image } = formik.values;
+  const { title, author, description, heading, country, text, image } = formik.values;
 
   if (!id) return <Navigate to="/blog" replace />;
   const post = useAppSelector(state => getPost(state, id));
@@ -114,7 +115,7 @@ const PostPage: React.FC = () => {
     } else if (id !== 'new' && (post.title !== title || post.description !== description)) {
       // SetDisabledSubmit(false);
     }
-  }, [title, author, description, heading, text, image, id]);
+  }, [title, author, description, heading, country, text, image, id]);
 
   useEffect(() => {
     async function fetchBlog() {
@@ -129,6 +130,7 @@ const PostPage: React.FC = () => {
           text: data.result.markup,
           description: data.result.description,
           heading: data.result.heading,
+          country: data.result.country,
           image: data.result.imageUrl,
         });
 
@@ -273,7 +275,7 @@ const PostPage: React.FC = () => {
             <div className="input-group prefix">
               <span className="input-group-addon">Category</span>
 
-              <select id="author" onChange={formik.handleChange}>
+              <select disabled={id !== 'new'} id="country" onChange={formik.handleChange}>
                 <option value="">Select a post category</option>
                 <option value="home">Home</option>
                 <option value="ukraine">Ukraine</option>
