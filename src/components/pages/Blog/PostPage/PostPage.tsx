@@ -65,7 +65,6 @@ const PostPage: React.FC = () => {
           data.append('title', title);
           data.append('description', description);
           data.append('heading', heading);
-          data.append('country', country);
           data.append('markup', text);
           data.append('author', author);
           data.append(
@@ -75,6 +74,10 @@ const PostPage: React.FC = () => {
           image.forEach(file => {
             data.append('image', file);
           });
+
+          if (country !== 'home') {
+            data.append('country', country);
+          }
 
           await axios.post(`${blogBaseUrl}/post/add-post`, data);
           toast.success('Post Created');
@@ -87,7 +90,7 @@ const PostPage: React.FC = () => {
             markup: text,
           };
 
-          await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, data);
+          // await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, data);
           toast.success('Post Updated');
         }
       } catch (err: any) {
@@ -279,25 +282,12 @@ const PostPage: React.FC = () => {
               />
             </div>
 
-            {/* <div className="input-group prefix">
-              <span className="input-group-addon">Category</span>
-
-              <select disabled={id !== 'new'} id="country" onChange={formik.handleChange}>
-                <option value="">Select a post category</option>
-                <option value="home">Home</option>
-                <option value="ukraine">Ukraine</option>
-                <option value="poland">Poland</option>
-                <option value="usa">USA</option>
-                <option value="canada">Canada</option>
-              </select>
-            </div> */}
-
             <div className="input-group prefix">
               <span className="input-group-addon">Category</span>
 
               <select disabled={id !== 'new'} id="country" onChange={formik.handleChange}>
                 {id === 'new' ? (
-                  <option>Select a post category</option>
+                  <option value="not selected">Select a post category</option>
                 ) : (
                   <option>{country}</option>
                 )}
