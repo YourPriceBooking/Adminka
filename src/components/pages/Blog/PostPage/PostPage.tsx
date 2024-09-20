@@ -77,6 +77,8 @@ const PostPage: React.FC = () => {
 
           if (country !== 'home') {
             data.append('country', country);
+          } else {
+            data.append('country', '');
           }
 
           await axios.post(`${blogBaseUrl}/post/add-post`, data);
@@ -90,7 +92,7 @@ const PostPage: React.FC = () => {
             markup: text,
           };
 
-          // await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, data);
+          await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, data);
           toast.success('Post Updated');
         }
       } catch (err: any) {
