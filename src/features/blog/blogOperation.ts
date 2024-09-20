@@ -2,17 +2,23 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { blogBaseUrl } from 'features/api';
 import axios from 'axios';
 
+const pageTypes = ['home', 'ukraine', 'poland', 'usa', 'canada'];
+
 export const fetchBlogPosts = createAsyncThunk<any>(
   'blog/fetchBlogPosts',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${blogBaseUrl}/post/get-all?page=1&limit=50`, {
-        withCredentials: true,
-      });
+      const requests = pageTypes.map(page =>
+        axios.get(`${blogBaseUrl}/post/get-all?typeOfPage=${page}`, {
+          withCredentials: true,
+        })
+      );
 
-      const { data } = response;
+      const responses = await Promise.all(requests);
 
-      return data.result;
+      const allPosts = responses.flatMap(response => response.data.result).reverse();
+
+      return allPosts;
     } catch (error) {
       return rejectWithValue(error);
     }

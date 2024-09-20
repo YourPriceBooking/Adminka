@@ -36,6 +36,9 @@ type FormikType = {
   text: string;
   image: File[] | string[];
 };
+
+const allCategories = ['home', 'ukraine', 'poland', 'usa', 'canada'];
+
 const PostPage: React.FC = () => {
   // const [disableSubmit, SetDisabledSubmit] = useState(true);
   const [authors, setAuthors] = useState<Author[]>([]);
@@ -215,6 +218,10 @@ const PostPage: React.FC = () => {
         formik.setFieldValue('author', defaultAuthor.name);
       }
     }
+
+    // if (id !== 'new') {
+    //   formik.setFieldValue('country', defaultAuthor.name);
+    // }
   }, [id, authors]);
 
   return (
@@ -272,7 +279,7 @@ const PostPage: React.FC = () => {
               />
             </div>
 
-            <div className="input-group prefix">
+            {/* <div className="input-group prefix">
               <span className="input-group-addon">Category</span>
 
               <select disabled={id !== 'new'} id="country" onChange={formik.handleChange}>
@@ -282,6 +289,23 @@ const PostPage: React.FC = () => {
                 <option value="poland">Poland</option>
                 <option value="usa">USA</option>
                 <option value="canada">Canada</option>
+              </select>
+            </div> */}
+
+            <div className="input-group prefix">
+              <span className="input-group-addon">Category</span>
+
+              <select disabled={id !== 'new'} id="country" onChange={formik.handleChange}>
+                {id === 'new' ? (
+                  <option>Select a post category</option>
+                ) : (
+                  <option>{country}</option>
+                )}
+                {allCategories.map((item: string) => (
+                  <option value={item} key={item} className="optionInput">
+                    {item}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
