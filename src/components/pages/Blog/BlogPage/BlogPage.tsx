@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'App';
 import { getAllPosts } from 'features/blog/blogSelector';
 import { useNavigate } from 'react-router-dom';
 import { fetchBlogPosts } from 'features/blog/blogOperation';
-import { BlogContainer, Header, PostsList } from './Blog.styled';
+import { BlogContainer, Buttons, Header, PostsList } from './Blog.styled';
 import { Button } from './components/Button/Button';
 import { ListItem } from './components/ListItem';
 import classes from '../AuthorsPage/AuthorsPage.module.css';
 
 export const BlogPage = () => {
+  const [selectedCountry, setSelectedCountry] = useState<string>('home');
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -17,6 +19,12 @@ export const BlogPage = () => {
   useEffect(() => {
     dispatch(fetchBlogPosts());
   }, []);
+
+  const filteredPosts = selectedCountry
+    ? posts.filter(post => post.country === selectedCountry)
+    : posts;
+
+  const countries = ['home', 'ukraine', 'poland', 'usa', 'canada'];
 
   return (
     <BlogContainer>
@@ -34,9 +42,27 @@ export const BlogPage = () => {
         </div>
       </Header>
 
+      <Buttons>
+        {countries.map(item => (
+          <button
+            key={item}
+            onClick={() => setSelectedCountry(item)}
+            type="button"
+            className={selectedCountry === item ? 'active' : ''}
+          >
+            {item}
+          </button>
+        ))}
+      </Buttons>
+
       <PostsList>
-        {[...posts].map(post => (
-          <ListItem key={post._id} post={post} onClick={() => navigate(`/blog/post/${post._id}`)} />
+        {filteredPosts.map(post => (
+          <ListItem
+            key={post._id}
+            country={post.country}
+            post={post}
+            onClick={() => navigate(`/blog/post/${post._id}`)}
+          />
         ))}
       </PostsList>
     </BlogContainer>

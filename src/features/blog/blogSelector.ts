@@ -13,6 +13,7 @@ export const getPost = (state: RootState, id: string): Post | undefined => {
       description: '',
       heading: '',
       articleUrl: '',
+      country: '',
     };
   }
 

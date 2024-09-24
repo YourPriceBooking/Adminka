@@ -38,6 +38,33 @@ export const Header = styled.header`
   }
 `;
 
+export const Buttons = styled.div`
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 15px;
+
+  & button {
+    border: 1px solid #4c4c4c;
+    color: #4c4c4c;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 7px 30px;
+    background: white;
+    text-transform: capitalize;
+    transition: all 0.3s ease-in-out;
+
+    &:hover,
+    &.active {
+      background: #6aff79;
+      border-color: #6aff79;
+    }
+  }
+`;
+
 export const BlogWrapper = styled.div`
   position: relative;
 `;
@@ -88,6 +115,7 @@ export const PostDescription = styled.div`
 `;
 
 export const PostWrapper = styled.article`
+  position: relative;
   width: 600px;
   padding: 28px 22px;
   border-radius: 4px;
@@ -102,6 +130,20 @@ export const PostWrapper = styled.article`
     // border: 0.5px solid #000000;
     background: #d5efd8;
   }
+`;
+
+export const PostCategory = styled.article`
+  position: absolute;
+  border: 1px solid #6aff79;
+  color: #4c4c4c;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 5px 20px;
+  text-transform: capitalize;
+  background: #6aff79;
+  top: 10px;
+  right: 32px;
 `;
 
 export const PostTitle = styled.h2`

@@ -8,4 +8,5 @@ export type Post = {
   changeDate?: Date;
   imageUrl: string;
   articleUrl: string;
+  country: string;
 };
