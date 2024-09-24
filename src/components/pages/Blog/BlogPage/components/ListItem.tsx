@@ -1,9 +1,10 @@
 import React from 'react';
 import type { Post } from '../types/Post';
-import { PostDescription, PostTitle, PostWrapper } from '../Blog.styled';
+import { PostDescription, PostTitle, PostWrapper, PostCategory } from '../Blog.styled';
 
 type ListItemProps = {
   post: Post;
+  country: string;
   onClick: () => void;
 };
 
@@ -22,8 +23,12 @@ const formatDate = (dateString: Date) => {
   return new Date(dateString).toLocaleDateString('en-US', options);
 };
 
-export const ListItem: React.FC<ListItemProps> = ({ post, onClick }) => (
+export const ListItem: React.FC<ListItemProps> = ({ post, onClick, country }) => (
   <PostWrapper onClick={onClick}>
+    <PostCategory>
+      <p>{country}</p>
+    </PostCategory>
+
     <div>
       <PostTitle>{post.title}</PostTitle>
       {post.publicationDate && (
