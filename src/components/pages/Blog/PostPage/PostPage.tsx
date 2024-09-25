@@ -1,4 +1,5 @@
-import { useRef, useEffect, useState } from 'react';
+/* eslint-disable no-plusplus */
+import { useRef, useEffect, useState, useMemo, ChangeEvent, RefObject } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import backArrow from 'assets/icons/backarrow.svg';
@@ -34,7 +35,7 @@ type FormikType = {
   heading: string;
   country: string;
   text: string;
-  image: File[] | string[];
+  image: File[];
 };
 
 const allCategories = ['home', 'ukraine', 'poland', 'usa', 'canada'];
@@ -45,6 +46,7 @@ const PostPage: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const ref = useRef<ReactQuill & { editor: QuillEditor }>(null);
+  const inputImgRef = useRef() as RefObject<HTMLInputElement>;
 
   const formik = useFormik<FormikType>({
     initialValues: {
@@ -192,7 +194,7 @@ const PostPage: React.FC = () => {
       return;
     }
 
-    formik.setFieldValue('image', [e.target.files[0]]);
+    formik.setFieldValue('image', [e.target.files[0], ...image]);
 
     const fileNameDisplay = document.getElementById('fileNameDisplay');
 
@@ -205,7 +207,7 @@ const PostPage: React.FC = () => {
     }
   };
 
-  const modules = {
+  /* const modules = {
     toolbar: [
       [{ header: [2, 3, 4, 5, false] }],
       ['bold', 'italic', 'underline'],
@@ -214,7 +216,53 @@ const PostPage: React.FC = () => {
       [{ list: 'ordered' }, { list: 'bullet' }],
       ['clean'],
     ],
-  };
+  }; */
+
+  const imageHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+
+    if (image.length === 0) {
+      toast.error(
+        'Error: Select Image for Article, please'
+      );
+      return;
+    }
+
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    if (file.size > 512000) {
+      toast.error(
+        'Error: You have uploaded a photo larger than 500KB. We cannot accept photos of this size. Please resize it and upload it again.'
+      );
+      return;
+    }
+    if (!checkImageType(file.type)) {
+      toast.error('Error: Photo must be PNG, WEBP or JPEG format.');
+      return;
+    }
+
+    formik.setFieldValue('image', [...image, file]);
+    formik.setFieldValue('text', `${text}<img src="imgUrlByIdx" alt=${file.name} />`);
+  }
+
+  const modules = useMemo(() => ({
+    toolbar: {
+      container: [
+        [{ header: [2, 3, 4, 5, false] }],
+        ['bold', 'italic', 'underline'],
+        ['blockquote'],
+        ['link', 'video', 'image'],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        ['clean'],
+      ],
+
+      handlers: {
+        image: () => inputImgRef.current?.click(),
+      },
+    },
+  }), []);
 
   useEffect(() => {
     if (id !== 'new' && authors.length > 0) {
@@ -228,6 +276,20 @@ const PostPage: React.FC = () => {
     //   formik.setFieldValue('country', defaultAuthor.name);
     // }
   }, [id, authors]);
+
+  const keyDownHandler = (e: any) => {
+    if (e.code === "Backspace" && image.length > 1) {  
+      for (let i = 1; i < image.length; i++) {
+        if (!text.includes(`alt="${image[i].name}"`)) {
+          const updatedImage = image.slice(1).filter(picture => image[i].name !== picture.name);
+
+          formik.setFieldValue('image', [image[0], ...updatedImage]);
+
+          break;
+        }
+      }
+    }
+  }
 
   return (
     <BlogContainer>
@@ -321,12 +383,18 @@ const PostPage: React.FC = () => {
                 <div id="fileNameDisplay" className="file-name" />
                 {String(formik.values.image[0]) === 'undefined' && (
                   <p className="warning">The photo size must be up to 500 KB</p>
-                )}
+                  )}
               </div>
             )}
           </div>
 
           <div className="text">
+            <input
+              ref={inputImgRef}
+              style={{ display: 'none' }}
+              type="file"
+              onChange={imageHandler}
+            />
             <ReactQuill
               modules={modules}
               ref={ref}
@@ -335,16 +403,9 @@ const PostPage: React.FC = () => {
               placeholder="Enter your text here..."
               onChange={value => {
                 formik.setFieldValue('text', value);
-
-                // if (id !== 'new') {
-                //   if (value !== text) {
-                //     SetDisabledSubmit(false);
-                //   } else {
-                //     SetDisabledSubmit(true);
-                //   }
-                // }
               }}
               value={text}
+              onKeyDown={keyDownHandler}
             />
           </div>
         </form>
