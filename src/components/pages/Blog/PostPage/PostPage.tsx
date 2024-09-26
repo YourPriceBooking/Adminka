@@ -83,7 +83,7 @@ const PostPage: React.FC = () => {
             data.append('country', '');
           }
 
-          // await axios.post(`${blogBaseUrl}/post/add-post`, data);
+          await axios.post(`${blogBaseUrl}/post/add-post`, data);
           toast.success('Post Created');
         } else {
           data = {
