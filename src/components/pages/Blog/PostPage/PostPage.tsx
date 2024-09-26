@@ -83,7 +83,7 @@ const PostPage: React.FC = () => {
             data.append('country', '');
           }
 
-          await axios.post(`${blogBaseUrl}/post/add-post`, data);
+          // await axios.post(`${blogBaseUrl}/post/add-post`, data);
           toast.success('Post Created');
         } else {
           data = {
@@ -244,7 +244,7 @@ const PostPage: React.FC = () => {
     }
 
     formik.setFieldValue('image', [...image, file]);
-    formik.setFieldValue('text', `${text}<img src="imgUrlByIdx" alt=${file.name} />`);
+    formik.setFieldValue('text', `${text}<img src="imgUrlByIdx" alt="${file.name}" />`);
   }
 
   const modules = useMemo(() => ({
@@ -281,6 +281,7 @@ const PostPage: React.FC = () => {
     if (e.code === "Backspace" && image.length > 1) {  
       for (let i = 1; i < image.length; i++) {
         if (!text.includes(`alt="${image[i].name}"`)) {
+          
           const updatedImage = image.slice(1).filter(picture => image[i].name !== picture.name);
 
           formik.setFieldValue('image', [image[0], ...updatedImage]);
