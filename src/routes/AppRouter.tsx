@@ -14,6 +14,8 @@ const {
   blog,
   authors,
   authorsadd,
+  videoblog,
+  videopostadd,
   mowgliBooking,
   mowgliBookingStatistics,
   post,
@@ -48,6 +50,8 @@ export const AppRouter = () => (
         <Route path={blog.path} element={<blog.element />} />
         <Route path={authors.path} element={<authors.element />} />
         <Route path={authorsadd.path} element={<authorsadd.element />} />
+        <Route path={videoblog.path} element={<videoblog.element />} />
+        <Route path={videopostadd.path} element={<videopostadd.element />} />
         <Route path={post.path} element={<post.element />} />
         <Route path={mowgliBooking.path} element={<mowgliBooking.element />} />
         <Route path={mowgliBookingStatistics.path} element={<mowgliBookingStatistics.element />} />

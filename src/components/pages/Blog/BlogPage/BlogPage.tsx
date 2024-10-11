@@ -40,6 +40,11 @@ export const BlogPage = () => {
             Authors
           </Button>
         </div>
+        <div>
+          <Button type="navigate" onClick={() => navigate(`/blog/video-blog`)}>
+            Video blogers
+          </Button>
+        </div>
       </Header>
 
       <Buttons>

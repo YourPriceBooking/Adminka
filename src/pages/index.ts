@@ -12,6 +12,8 @@ export const AdminPageAccess = lazy(() => import('./AdminPageAccess'));
 export const FinancePage = lazy(() => import('./FinancePage'));
 export const Blog = lazy(() => import('./Blog'));
 export const Authors = lazy(() => import('./Authors'));
+export const VideoBlog = lazy(() => import('./VideoBlog'));
+export const VideoPostAdd = lazy(() => import('./VideoPostAdd'));
 export const AuthorsAdd = lazy(() => import('./AuthorsAdd'));
 export const HousePageVerif = lazy(() => import('./HousePage'));
 export const MowgliBookingStatisticPage = lazy(() => import('./MowgliBookingStatisticPage'));

@@ -1,5 +1,6 @@
 import { App } from 'App';
 import PostPage from 'components/pages/Blog/PostPage/PostPage';
+
 import {
   CountryPage,
   LoginPage,
@@ -12,6 +13,8 @@ import {
   Blog,
   Authors,
   AuthorsAdd,
+  VideoBlog,
+  VideoPostAdd,
   HousePageVerif,
   MowgliBookingStatisticPage,
   MowgliBookingFinancePage,
@@ -47,6 +50,12 @@ export const routes = {
   },
   blog: { path: '/blog', name: 'Blog', element: Blog },
   authors: { path: '/blog/post/authors', name: 'Authors', element: Authors },
+  videoblog: { path: '/blog/video-blog', name: 'VideoBlog', element: VideoBlog },
+  videopostadd: {
+    path: '/blog/video-blog/add-video-post',
+    name: 'VideoPostAdd',
+    element: VideoPostAdd,
+  },
   authorsadd: { path: '/blog/author/add', name: 'AuthorsAdd', element: AuthorsAdd },
   post: { path: '/blog/post/:id', name: 'Post', element: PostPage },
   mowgliBooking: { path: '/mowgli-booking', name: 'Mowgli booking', element: mowgliBookingPage },
