@@ -11,7 +11,7 @@
 }
 
 .formWrapper {
-  padding: 20px 250px;
+  padding: 20px 250px 200px 250px;
 }
 
 .submitButtonsWrapper {
@@ -89,22 +89,29 @@ select {
   column-gap: 80px;
 }
 
-.filtersWrapper p {
+.filtersWrapper button {
   min-width: 222px;
   min-height: 30px;
   border-radius: 17px;
-  background-color: #5ca064;
-  border: 1px solid #5ca064;
-  color: white;
-  font-weight: 500;
+  background-color: #ffffff;
+  border: 1px solid #4cb859;
+  color: #4cb859;
+  font-weight: 600;
   line-height: 27px;
   text-align: center;
+  font-size: 14px;
   cursor: pointer;
-  transition: all 0.15s ease-in;
+  transition: all 0.1s ease-in;
 }
 
-.filtersWrapper p:hover {
+.filtersWrapper button:hover {
   background-color: #e6ede7;
   color: #4cb859;
   border: 1px solid #4cb859;
+}
+
+.filtersWrapper button.active {
+  background-color: #5ca064;
+  color: white;
+  border: 1px solid #5ca064;
 }
