@@ -1,5 +1,6 @@
 /* eslint-disable no-plusplus */
-import { useRef, useEffect, useState, useMemo, ChangeEvent, RefObject } from 'react';
+import type { ChangeEvent, RefObject } from 'react';
+import { useRef, useEffect, useState, useMemo } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import backArrow from 'assets/icons/backarrow.svg';
@@ -13,6 +14,7 @@ import axios from 'axios';
 import { blogBaseUrl } from 'features/api';
 import { BlogContainer, Header } from '../BlogPage/Blog.styled';
 import { PostContent } from './PostPage.styled';
+import ModalAddLater from './ModalAddLater/ModalAddLater';
 
 type Author = {
   _id: number;
@@ -43,6 +45,7 @@ const allCategories = ['home', 'ukraine', 'poland', 'usa', 'canada'];
 const PostPage: React.FC = () => {
   // const [disableSubmit, SetDisabledSubmit] = useState(true);
   const [authors, setAuthors] = useState<Author[]>([]);
+  const [isOpenModel, setIsOpenModal] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
   const ref = useRef<ReactQuill & { editor: QuillEditor }>(null);
@@ -222,9 +225,7 @@ const PostPage: React.FC = () => {
     if (!e.target.files) return;
 
     if (image.length === 0) {
-      toast.error(
-        'Error: Select Image for Article, please'
-      );
+      toast.error('Error: Select Image for Article, please');
       return;
     }
 
@@ -245,24 +246,27 @@ const PostPage: React.FC = () => {
 
     formik.setFieldValue('image', [...image, file]);
     formik.setFieldValue('text', `${text}<img src="imgUrlByIdx" alt="${file.name}" />`);
-  }
+  };
 
-  const modules = useMemo(() => ({
-    toolbar: {
-      container: [
-        [{ header: [2, 3, 4, 5, false] }],
-        ['bold', 'italic', 'underline'],
-        ['blockquote'],
-        ['link', 'video', 'image'],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        ['clean'],
-      ],
+  const modules = useMemo(
+    () => ({
+      toolbar: {
+        container: [
+          [{ header: [2, 3, 4, 5, false] }],
+          ['bold', 'italic', 'underline'],
+          ['blockquote'],
+          ['link', 'video', 'image'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          ['clean'],
+        ],
 
-      handlers: {
-        image: () => inputImgRef.current?.click(),
+        handlers: {
+          image: () => inputImgRef.current?.click(),
+        },
       },
-    },
-  }), []);
+    }),
+    []
+  );
 
   useEffect(() => {
     if (id !== 'new' && authors.length > 0) {
@@ -278,10 +282,9 @@ const PostPage: React.FC = () => {
   }, [id, authors]);
 
   const keyDownHandler = (e: any) => {
-    if (e.code === "Backspace" && image.length > 1) {  
+    if (e.code === 'Backspace' && image.length > 1) {
       for (let i = 1; i < image.length; i++) {
         if (!text.includes(`alt="${image[i].name}"`)) {
-          
           const updatedImage = image.slice(1).filter(picture => image[i].name !== picture.name);
 
           formik.setFieldValue('image', [image[0], ...updatedImage]);
@@ -290,7 +293,7 @@ const PostPage: React.FC = () => {
         }
       }
     }
-  }
+  };
 
   return (
     <BlogContainer>
@@ -304,6 +307,19 @@ const PostPage: React.FC = () => {
           <button type="submit" className="submit">
             {id === 'new' ? 'Submit' : 'Update Post'}
           </button>
+          {id === 'new' && (
+            <div className="add-later-wrapper">
+              <button
+                onClick={() => setIsOpenModal(prev => !prev)}
+                type="button"
+                className="submit"
+              >
+                Add later
+              </button>
+
+              {isOpenModel && <ModalAddLater />}
+            </div>
+          )}
 
           <div className="title">
             <div className="input-group prefix">
@@ -384,7 +400,7 @@ const PostPage: React.FC = () => {
                 <div id="fileNameDisplay" className="file-name" />
                 {String(formik.values.image[0]) === 'undefined' && (
                   <p className="warning">The photo size must be up to 500 KB</p>
-                  )}
+                )}
               </div>
             )}
           </div>

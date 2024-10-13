@@ -6,7 +6,8 @@ export const PostContent = styled.div`
   & form {
     padding: 0.5rem;
 
-    & button.submit {
+    & button.submit,
+    button.add-later {
       margin: 1rem 0;
       background: rgb(77, 185, 88);
       border: none;
@@ -21,11 +22,17 @@ export const PostContent = styled.div`
       font-size: 13px;
       height: 42px;
       width: 30%;
+      margin-right: 20px;
 
       &:disabled {
         background: rgb(154, 215, 160);
       }
     }
+  }
+
+  & .add-later-wrapper {
+    display: inline;
+    position: relative;
   }
 
   & .title,

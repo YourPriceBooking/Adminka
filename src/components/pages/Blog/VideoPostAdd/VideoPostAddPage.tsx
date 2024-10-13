@@ -4,6 +4,7 @@ import backArrow from 'assets/icons/ArrowBack.svg';
 import classes from './VideoPostAddPage.module.css';
 import { BlogContainer, Header } from '../BlogPage/Blog.styled';
 import { countries } from '../VideoBlogPage/VideoBlogPage';
+import ModalAddLater from '../PostPage/ModalAddLater/ModalAddLater';
 
 const filters: string[] = [
   'City Travel',
@@ -36,11 +37,12 @@ const filters: string[] = [
 const VideoPostAddPage: React.FC = () => {
   const navigate = useNavigate();
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  const [isOpenModel, setIsOpenModal] = useState(false);
 
   const handleSelectFilter = (newFilter: string) => {
     if (selectedFilters.includes(newFilter)) {
       setSelectedFilters(prev => prev.filter(item => item !== newFilter));
-    } else {
+    } else if (selectedFilters.length < 10) {
       setSelectedFilters(prev => [...prev, newFilter]);
     }
   };
@@ -59,7 +61,14 @@ const VideoPostAddPage: React.FC = () => {
       <div className={classes.formWrapper}>
         <div className={classes.submitButtonsWrapper}>
           <button type="submit">Submit</button>
-          <button type="submit">Add later</button>
+
+          <div className={classes.addLaterWrapper}>
+            <button onClick={() => setIsOpenModal(prev => !prev)} type="button" className="submit">
+              Add later
+            </button>
+
+            {isOpenModel && <ModalAddLater />}
+          </div>
         </div>
 
         <div className={classes.inputsWrapper}>
