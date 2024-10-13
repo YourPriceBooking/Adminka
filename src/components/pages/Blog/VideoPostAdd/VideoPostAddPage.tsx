@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import backArrow from 'assets/icons/ArrowBack.svg';
 import classes from './VideoPostAddPage.module.css';
@@ -35,6 +35,15 @@ const filters: string[] = [
 
 const VideoPostAddPage: React.FC = () => {
   const navigate = useNavigate();
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+
+  const handleSelectFilter = (newFilter: string) => {
+    if (selectedFilters.includes(newFilter)) {
+      setSelectedFilters(prev => prev.filter(item => item !== newFilter));
+    } else {
+      setSelectedFilters(prev => [...prev, newFilter]);
+    }
+  };
   return (
     <BlogContainer>
       <Header>
@@ -86,7 +95,14 @@ const VideoPostAddPage: React.FC = () => {
 
         <div className={classes.filtersWrapper}>
           {filters.map((item: string) => (
-            <p key={item}>{item}</p>
+            <button
+              type="submit"
+              onClick={() => handleSelectFilter(item)}
+              className={selectedFilters.includes(item) ? classes.active : ''}
+              key={item}
+            >
+              {item}
+            </button>
           ))}
         </div>
       </div>
