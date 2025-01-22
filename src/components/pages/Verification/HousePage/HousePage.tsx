@@ -10,6 +10,7 @@ import { addTranslation, fetchVerifierData } from 'features/objectOnVerify/objec
 import { clearObjectOnVerify } from 'features/objectOnVerify/objectOnVerifySlice';
 import { toast } from 'react-toastify';
 import { getVerificationTypeObjects } from 'features/verification/verificationSelectors';
+import { AxiosError } from 'axios';
 import { RatingComponent } from './components/Rating';
 import { PriceComponent } from './components/PriceComponent';
 import { ButtonClose } from './components/ButtonClose';
@@ -109,7 +110,7 @@ export const HousePage: React.FC = () => {
         success: 'Success 👌',
         error: {
           render({ data }) {
-            return `${data} 🤯`;
+            return `${data instanceof AxiosError ? data.response?.data.message : data} 🤯`;
           },
         },
       }
