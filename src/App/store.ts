@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { api } from 'features/api/api';
 import persistStore from 'redux-persist/es/persistStore';
+import { tokenExpiredMiddleware } from 'features/common/auth/tokenExpiredMiddleware';
 import { ignoredActions, persistedReducer } from './persist';
 
 export const store = configureStore({
@@ -11,7 +12,9 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions,
       },
-    }).concat(api.middleware),
+    })
+      .concat(api.middleware)
+      .concat(tokenExpiredMiddleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 

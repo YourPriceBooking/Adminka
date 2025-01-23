@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { RootState } from 'App/store';
-import type { AxiosError } from 'axios';
 import axios from 'axios';
 import { baseUrl, endpoints } from 'features/api';
 import type { ResponseVerificationDocument } from 'types/apis/objectOnVerify';
@@ -49,7 +48,7 @@ export const addTranslation = createAsyncThunk(
       const data = response.data.translate as Record<string, string>;
       return data;
     } catch (error) {
-      return rejectWithValue((error as AxiosError).message);
+      return rejectWithValue(error);
     }
   }
 );
