@@ -4,7 +4,7 @@ import type { Country, ManyCountries, OneCountry } from 'types/apis';
 
 export const countriesAdapter = createEntityAdapter<Country>({
   selectId: country => country._id,
-  sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt),
+  // sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt),
 });
 
 export const countriesInitialState = countriesAdapter.getInitialState();
