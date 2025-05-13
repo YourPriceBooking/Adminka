@@ -20,7 +20,7 @@ import {
 type AccountHotelierProps = {
   id: string;
 };
-
+// change id =>_id
 type DataBonus = {
   _id: string;
   amount: number;
@@ -43,7 +43,7 @@ export const AccountHotelier: React.FC<AccountHotelierProps> = ({ id }) => {
     }
     if (inputElement && inputElement.value !== '') {
       const dataToPatch: DataBonus = {
-        _id: id,
+        _id: id, // change id =>_id
         amount: Number(inputElement.value),
       };
       dispatch(fetchBonus(dataToPatch));
