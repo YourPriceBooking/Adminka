@@ -83,6 +83,6 @@ export type ResponseData = {
 };
 
 export type DataBonus = {
-  id: string;
+  _id: string;
   amount: number;
 };

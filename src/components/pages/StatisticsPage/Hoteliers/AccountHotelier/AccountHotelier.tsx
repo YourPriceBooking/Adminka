@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBonus } from 'features/hoteliers/hoteliersOperation';
-import type { Dispatch} from 'react';
-import { useState} from 'react';
+import type { Dispatch } from 'react';
+import { useState } from 'react';
 // import { useEffect} from 'react';
 import { selectorBonusHoteliers } from 'features/hoteliers/hoteliersSelectors';
 import {
@@ -18,42 +18,41 @@ import {
 } from './AccountHotelier.styled';
 
 type AccountHotelierProps = {
-  id: string,
-}
+  id: string;
+};
 
 type DataBonus = {
-  id: string;
+  _id: string;
   amount: number;
 };
 
 export const AccountHotelier: React.FC<AccountHotelierProps> = ({ id }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    type DispatchAction = Dispatch<any>;
+  type DispatchAction = Dispatch<any>;
   const dispatch: DispatchAction = useDispatch();
   const data = useSelector(selectorBonusHoteliers);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
-   event.preventDefault()
-   const form = event.currentTarget;
+    event.preventDefault();
+    const form = event.currentTarget;
     const inputElement = form.elements.namedItem('input') as HTMLInputElement | null;
-    const value = Number(inputElement?.value) 
-     if (value <= 0) {
-       setErrorMessage('You cannot enter a negative value.');
-       return;
-     }
+    const value = Number(inputElement?.value);
+    if (value <= 0) {
+      setErrorMessage('You cannot enter a negative value.');
+      return;
+    }
     if (inputElement && inputElement.value !== '') {
       const dataToPatch: DataBonus = {
-        id,
+        _id: id,
         amount: Number(inputElement.value),
       };
       dispatch(fetchBonus(dataToPatch));
     }
-    form.reset()
+    form.reset();
     setErrorMessage(null);
   };
 
   const hotelierData = data.find(hotelier => hotelier.owner === id)?.finances;
-  
 
   return (
     <Wrapper>
