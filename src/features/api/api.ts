@@ -52,7 +52,7 @@ export const endpoints = {
   locationDistrict: '/location-district',
   locationCity: '/location-city',
   locationState: '/location-state',
-  countries: '/countries',
+  countries: '/countries?langCode=EN',
   languages: '/languages',
   catalogForHotelier: '/catalogForHotelier',
   hotels: '/hotels',
