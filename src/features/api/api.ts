@@ -76,6 +76,7 @@ export const endpoints = {
   finishVerification: '/hotels-verification/finish-verification',
   addATranslation: '/hotels-verification/add-a-translation',
   getDistrictByCity: '/hotels-verification/get-location',
+  getTotalBonus: '/get-total-bonus',
 } as const;
 
 export const frozenArr = Object.freeze([]);

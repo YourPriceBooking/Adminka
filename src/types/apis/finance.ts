@@ -18,3 +18,14 @@ export type FinanceState = {
   isLoadingFinance: boolean;
   error: null | unknown;
 };
+
+export type AmountOfBonus = {
+  _id: string;
+  allBonus: number;
+};
+
+export type ResponseFinanceAmountOfBonus = {
+  code: number;
+  amountOfBonus: AmountOfBonus[];
+  status: string;
+};

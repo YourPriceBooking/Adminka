@@ -1,7 +1,8 @@
-import type { FinanceState, FinancialData } from 'types/apis/finance';
+import type { FinanceState, FinancialData, AmountOfBonus } from 'types/apis/finance';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchFinanceStatistic } from './financeOperation';
+import { fetchTotalBonus } from './financeOperationBonus';
 
 const financeInitialState: FinanceState = {
   finances: {
@@ -29,10 +30,21 @@ const financeSlice = createSlice({
         fetchFinanceStatistic.fulfilled,
         (state, { payload }: PayloadAction<FinancialData>) => {
           state.isLoadingFinance = false;
-            state.finances = { ...payload};
+          state.finances = { ...payload };
         }
       )
       .addCase(fetchFinanceStatistic.rejected, (state, { payload }) => {
+        state.isLoadingFinance = false;
+        state.error = payload;
+      })
+      .addCase(fetchTotalBonus.pending, state => {
+        state.isLoadingFinance = true;
+      })
+      .addCase(fetchTotalBonus.fulfilled, (state, { payload }: PayloadAction<AmountOfBonus>) => {
+        state.isLoadingFinance = false;
+        state.finances.bonusFundsOnHoteliersAccounts = payload.allBonus;
+      })
+      .addCase(fetchTotalBonus.rejected, (state, { payload }) => {
         state.isLoadingFinance = false;
         state.error = payload;
       });
