@@ -5,7 +5,11 @@ import type { LanguageWithCountriesIds, ManyLanguages } from 'types/apis';
 
 export const languagesAdapter = createEntityAdapter<LanguageWithCountriesIds>({
   selectId: language => language._id,
-  sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt),
+  sortComparer: (a, b) => {
+    const dateA = a.createdAt || '';
+    const dateB = b.createdAt || '';
+    return dateB.localeCompare(dateA);
+  },
 });
 
 export const languagesInitState = languagesAdapter.getInitialState();
@@ -14,7 +18,7 @@ export const languagesInitState = languagesAdapter.getInitialState();
 export const saveManyLanguages = (result?: ManyLanguages) => {
   const languages = getManyLanguages(result);
 
-  const languagesWithoutNestedCountries = languages.map(({ countries, ...language }) => ({
+  const languagesWithoutNestedCountries = languages.map(({ countries = [], ...language }) => ({
     ...language,
     countries: countries.map(({ _id }) => _id),
   }));
