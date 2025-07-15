@@ -18,11 +18,13 @@ export const languagesInitState = languagesAdapter.getInitialState();
 export const saveManyLanguages = (result?: ManyLanguages) => {
   const languages = getManyLanguages(result);
 
-  const languagesWithoutNestedCountries = languages.map(({ countries = [], ...language }) => ({
-    ...language,
-    countries: countries.map(({ _id }) => _id),
+  const languagesWithoutNestedCountries: LanguageWithCountriesIds[] = languages.map(lang => ({
+    ...lang,
+    dbLangCode: 'EN',
+    createdAt: '2022-08-27T19:58:09.289Z',
+    updatedAt: new Date().toISOString(),
+    countries: lang.countries,
   }));
-
   return languagesAdapter.setAll(languagesInitState, languagesWithoutNestedCountries);
 };
 
