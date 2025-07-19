@@ -25,6 +25,7 @@ export type CountriesResponse = Country[] | [];
 
 export type CountriesEntity = EntityState<Country>;
 export type MaybeCountriesEntity = CountriesEntity | undefined;
+export type GetCountriesQuery = string | void;
 
 export type GetCountry = EntityId;
 export type DeleteCountry = EntityId;

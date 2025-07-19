@@ -10,6 +10,7 @@ import {
   selectLanguageById,
   useEditLanguageMutation,
 } from 'features/languages';
+import { useLazyGetCountriesQuery } from 'features/countries';
 import { EditButton, SubmitAddLocationButton } from 'components/shared/Buttons';
 import { Spinner } from 'components/shared/Loader';
 import { isEdited } from 'common/utils';
@@ -68,6 +69,7 @@ export const EditLanguageForm = ({
   languageItem: { languageId, setActiveLanguage },
 }: EditLanguageFormType) => {
   const [editLanguage, { isLoading: isLoadingEditedLanguage }] = useEditLanguageMutation();
+  const [getCountries] = useLazyGetCountriesQuery();
 
   const languageObj = useAppSelector(state => selectLanguageById(state, languageId));
   const activeLangId = useAppSelector(selectActiveLanguageId);
@@ -79,10 +81,10 @@ export const EditLanguageForm = ({
   const stopEditing = useCallback(() => setIsEditingLanguage(false), []);
 
   const onClickChooseActiveLanguageId = useCallback(async () => {
-    if (isEditingLanguage) return;
-
-    setActiveLanguage(languageObj?._id);
-  }, [isEditingLanguage, languageObj?._id, setActiveLanguage]);
+    if (isEditingLanguage || !languageObj || !languageObj.code) return;
+    await getCountries(languageObj.code);
+    setActiveLanguage(languageObj._id);
+  }, [isEditingLanguage, languageObj, setActiveLanguage, getCountries]);
 
   useOnOutsideClickClose({ formRef, isEditingLanguage, stopEditing });
 

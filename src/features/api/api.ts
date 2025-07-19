@@ -52,7 +52,7 @@ export const endpoints = {
   locationDistrict: '/location-district',
   locationCity: '/location-city',
   locationState: '/location-state/get-all-register?international=Ukraine&dbLangCode=uk',
-  countries: '/countries?langCode=EN',
+  countries: '/countries',
   languages: '/languages',
   catalogForHotelier: '/catalogForHotelier',
   hotels: '/hotels',

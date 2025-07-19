@@ -4,15 +4,16 @@ import type {
   MaybeCountriesEntity,
   ManyCountries,
   OneCountry,
+  GetCountriesQuery,
 } from 'types/apis';
 import { api, endpoints, tagList } from 'features/api';
 import { saveManyCountries, saveOneCountry } from './countriesAdapter';
 
 export const countriesApi = api.injectEndpoints({
   endpoints: build => ({
-    getCountries: build.query<MaybeCountriesEntity, void>({
-      query: () => endpoints.countries,
-      transformResponse: (result?: ManyCountries) => saveManyCountries(result),
+    getCountries: build.query<MaybeCountriesEntity, GetCountriesQuery>({
+      query: langCode => `${endpoints.countries}?langCode=${langCode || 'EN'}`,
+      transformResponse: (result: ManyCountries) => saveManyCountries(result),
       providesTags: result => tagList(result, 'Country'),
     }),
 
