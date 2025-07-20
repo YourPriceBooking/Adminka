@@ -51,6 +51,7 @@ export const LanguageItemContent = styled.div`
 
 export const LangCodeStyled = styled.span`
   text-transform: uppercase;
+  cursor: pointer;
 `;
 
 export const LanguageInputLabel = styled.label`
