@@ -10,6 +10,7 @@ export const store = configureStore({
   middleware: getDefaultMiddlewares =>
     getDefaultMiddlewares({
       serializableCheck: {
+        warnAfter: 700,
         ignoredActions,
       },
     })
