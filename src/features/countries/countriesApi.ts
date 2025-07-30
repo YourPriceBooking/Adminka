@@ -15,6 +15,21 @@ export const countriesApi = api.injectEndpoints({
       query: langCode => `${endpoints.countries}?langCode=${langCode || 'EN'}`,
       transformResponse: (result: ManyCountries) => saveManyCountries(result),
       providesTags: result => tagList(result, 'Country'),
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        try {
+          const result = await queryFulfilled;
+          dispatch(
+            countriesApi.util.updateQueryData('getCountries', undefined, draft => {
+              if (draft) {
+                Object.assign(draft, result.data);
+              }
+            })
+          );
+        } catch (error) {
+          // console.warn(error, arg);
+          // result.undo();
+        }
+      },
     }),
 
     addCountryEng: build.mutation<MaybeCountriesEntity, AddCountry>({
