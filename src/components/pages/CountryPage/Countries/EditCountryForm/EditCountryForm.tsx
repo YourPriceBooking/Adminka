@@ -119,7 +119,7 @@ export const EditCountryForm = ({
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => setLocalCountryName(e.currentTarget.value);
 
-  const isFirstEdit = langCode === 'EN' && !isEng;
+  const isFirstEdit = countryObj.status === 'new' || (langCode === 'EN' && !isEng);
 
   const editCountryFormInterface = (
     <CountryInputLabel onClick={onClickSetActiveCountryId}>

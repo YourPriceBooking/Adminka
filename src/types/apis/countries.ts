@@ -16,6 +16,7 @@ export type Country = {
   states: EntityId[];
   createdAt: string;
   updatedAt: string;
+  status?: 'new' | 'exists';
 };
 
 export type AddCountry = Pick<Country, 'country' | 'international' | 'langCode'>;
