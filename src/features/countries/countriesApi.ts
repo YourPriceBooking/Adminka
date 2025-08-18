@@ -57,6 +57,7 @@ export const countriesApi = api.injectEndpoints({
 
             if (editedCountry) {
               Object.assign(editedCountry, patch);
+              editedCountry.status = 'exists';
             }
           })
         );
