@@ -51,7 +51,8 @@ export const api = createApi({
 export const endpoints = {
   locationDistrict: '/location-district',
   locationCity: '/location-city',
-  locationState: '/location-state/get-all-register?international=Ukraine&dbLangCode=uk',
+  locationState: '/location-state',
+  locationStateRegister: '/location-state/get-all-register',
   countries: '/countries',
   languages: '/languages',
   catalogForHotelier: '/catalogForHotelier',

@@ -9,7 +9,7 @@ import { SubmitAddLocationButton } from 'components/shared/Buttons';
 import { Spinner } from 'components/shared/Loader';
 import { selectCityById, useLazyGetCitiesQuery } from 'features/cities';
 import { useAddDistrictMutation, useLazyGetDistrictsQuery } from 'features/districts';
-import { selectIsEnglishActiveLang } from 'features/languages';
+import { selectIsEnglishActiveLang, selectActiveDbLangCode } from 'features/languages';
 import { useCloseOnOutsideClick } from 'common/hooks';
 import { selectStateById } from 'features/states';
 import { selectActiveCountryInternational } from 'features/countries';
@@ -34,6 +34,7 @@ export const AddDistrictForm = ({ cityId, stateId }: AddDistrictFormProps) => {
   const [getDistricts, { isLoading: isRefetchingDistricts }] = useLazyGetDistrictsQuery();
 
   const activeCountryInternational = useAppSelector(selectActiveCountryInternational);
+  const dbLangCode = useAppSelector(selectActiveDbLangCode)?.toLowerCase();
   const city = useAppSelector(state => selectCityById(state, cityId));
 
   const isEng = useAppSelector(selectIsEnglishActiveLang);
@@ -98,8 +99,13 @@ export const AddDistrictForm = ({ cityId, stateId }: AddDistrictFormProps) => {
       toast.success(`District ${districtName} added`);
 
       await wait(1500);
-      await getCities();
-      await getDistricts();
+      if (activeCountryInternational && dbLangCode) {
+        await getCities({ international: activeCountryInternational, dbLangCode });
+        await getDistricts({ international: activeCountryInternational, dbLangCode });
+      } else {
+        await getCities();
+        await getDistricts();
+      }
     } catch (error) {
       toast.error('District not added');
     } finally {

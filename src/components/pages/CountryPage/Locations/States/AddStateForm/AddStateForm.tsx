@@ -8,7 +8,7 @@ import {
   selectActiveCountryId,
   selectActiveCountryInternational,
 } from 'features/countries';
-import { selectIsEnglishActiveLang } from 'features/languages';
+import { selectActiveDbLangCode, selectIsEnglishActiveLang } from 'features/languages';
 import { useAddStateMutation, useLazyGetStatesQuery } from 'features/states';
 import type { FormEvent } from 'react';
 import { useState, useRef, useCallback } from 'react';
@@ -35,6 +35,7 @@ export const AddStateForm = () => {
 
   const activeCountryId = useAppSelector(selectActiveCountryId);
   const activeCountryInternational = useAppSelector(selectActiveCountryInternational);
+  const activeLanguageDbLangCode = useAppSelector(selectActiveDbLangCode)?.toLowerCase();
   const isEng = useAppSelector(selectIsEnglishActiveLang);
 
   const [isRefetchingCountries, setIsRefetchingCountries] = useState(false);
@@ -93,7 +94,14 @@ export const AddStateForm = () => {
 
       setIsRefetchingCountries(true);
       await wait(1500);
-      await getCountries();
+      if (activeCountryInternational && activeLanguageDbLangCode) {
+        await getCountries({
+          international: activeCountryInternational,
+          dbLangCode: activeLanguageDbLangCode,
+        });
+      } else {
+        await getCountries();
+      }
       await getStates();
       setIsRefetchingCountries(false);
     } catch (error) {

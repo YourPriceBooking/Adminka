@@ -40,6 +40,11 @@ export const selectActiveLangLang = createSelector(
   activeLanguage => activeLanguage?.lang
 );
 
+export const selectActiveDbLangCode = createSelector(
+  selectActiveLanguage,
+  activeLanguage => activeLanguage?.dbLangCode
+);
+
 export const selectIsEnglishActiveLang = createSelector(
   selectActiveLangCode,
   code => code === 'EN'

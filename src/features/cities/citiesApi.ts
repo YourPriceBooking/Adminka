@@ -5,11 +5,24 @@ import { saveManyCities, saveOneCity } from './citiesAdapter';
 
 export const citiesApi = api.injectEndpoints({
   endpoints: build => ({
-    getCities: build.query<MaybeCitiesEntity, void>({
-      query: () => endpoints.locationCity,
-      transformResponse: (result: ManyCities) => saveManyCities(result),
-      providesTags: result => tagList(result, 'City'),
-    }),
+    getCities: build.query<MaybeCitiesEntity, { international: string; dbLangCode: string } | void>(
+      {
+        query: args => {
+          if (!args) return endpoints.locationCity;
+          const params = new URLSearchParams(args);
+          return `${endpoints.locationStateRegister}?${params.toString()}`;
+        },
+        transformResponse: (result: any) => {
+          const register = result?.data?.register;
+          if (Array.isArray(register)) {
+            const cities = register.flatMap((state: any) => state?.cities ?? []);
+            return saveManyCities({ data: { cities } } as ManyCities);
+          }
+          return saveManyCities(result as ManyCities);
+        },
+        providesTags: result => tagList(result, 'City'),
+      }
+    ),
 
     getCity: build.query<MaybeCitiesEntity, EntityId>({
       query: id => `${endpoints.locationCity}/${id}`,

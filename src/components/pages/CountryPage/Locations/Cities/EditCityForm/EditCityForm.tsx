@@ -13,7 +13,11 @@ import {
   selectActiveCountryName,
   setAddDirHotelier,
 } from 'features/countries';
-import { selectActiveLangCode, selectIsEnglishActiveLang } from 'features/languages';
+import {
+  selectActiveLangCode,
+  selectIsEnglishActiveLang,
+  selectActiveDbLangCode,
+} from 'features/languages';
 import { selectStateById, useAddDirHotelierMutation } from 'features/states';
 import { useState, useRef, useEffect } from 'react';
 import { toast } from 'react-toastify';
@@ -46,6 +50,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
   const countryInternational = useAppSelector(selectActiveCountryInternational);
 
   const activeLanguageCode = useAppSelector(selectActiveLangCode);
+  const activeDbLangCode = useAppSelector(selectActiveDbLangCode);
   const activeCountryName = useAppSelector(selectActiveCountryName);
   const isEng = useAppSelector(selectIsEnglishActiveLang);
 
@@ -57,28 +62,25 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
 
   const formRef = useRef<HTMLFormElement>(null);
 
-  if (!city || !stateName) return null;
-
-  const {
-    stateInternational,
-    langCode,
-    cityName,
-    cityInternational,
-    cityCode,
-    cityPhotoURL,
-    page,
-  } = city;
+  const page = city?.page;
+  const stateInternational = city?.stateInternational ?? '';
+  const langCode = city?.langCode ?? '';
+  const cityName = city?.cityName ?? '';
+  const cityInternational = city?.cityInternational ?? '';
+  const cityCode = city?.cityCode ?? '';
+  const cityPhotoURL = city?.cityPhotoURL ?? '';
 
   useEffect(() => {
     if (page) {
       setColorAddDirButton('white');
     }
-  }, []);
+  }, [page]);
 
   const addDir = async () => {
+    if (!city || !stateName) return;
     try {
       await addDirHotelier({
-        language: changeUKToUA(city.langCode.toLowerCase()),
+        language: changeUKToUA((city.langCode ?? 'EN').toLowerCase()),
         idLocation: city._id,
         city: city.cityName,
         state: stateName,
@@ -109,7 +111,11 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
         );
       }
       setColorAddDirButton('white');
-      getCities();
+      if (countryInternational && activeDbLangCode) {
+        await getCities({ international: countryInternational, dbLangCode: activeDbLangCode });
+      } else {
+        await getCities();
+      }
       toast.success('Successfully Adding a Directory');
     } catch (err: any) {
       toast.error(`${err.data.message}`);
@@ -154,7 +160,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
       return;
     }
 
-    if (!activeLanguageCode || !activeCountryName) {
+    if (!activeLanguageCode || !activeCountryName || !stateName) {
       toast.info('Please select language and country');
       return;
     }
@@ -195,6 +201,8 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
     }
   };
 
+  const isReady = Boolean(city && stateName);
+
   const showEditCityFormInterface = (
     <CityInfo>
       <CityNameLabel>
@@ -203,7 +211,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
           type="text"
           name="cityName"
           defaultValue={cityName}
-          disabled={isInputDisabled}
+          disabled={isInputDisabled || !isReady}
           maxLength={30}
           minLength={2}
           required
@@ -215,7 +223,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
           type="url"
           name="cityPhotoURL"
           defaultValue={cityPhotoURL}
-          disabled={isInputDisabled}
+          disabled={isInputDisabled || !isReady}
           maxLength={300}
           minLength={8}
           required
@@ -225,7 +233,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
     </CityInfo>
   );
 
-  const addDirHotelierDisabled = colorAddDirButton === 'white';
+  const addDirHotelierDisabled = colorAddDirButton === 'white' || !isReady;
   const addDirUsersDisabled = true;
 
   const showEditButtons = !isEditingCity && (
@@ -233,7 +241,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
       <EditButton
         $isFirstEdit={$isFirstEdit}
         onClick={startEditing}
-        disabled={isEditButtonDisabled}
+        disabled={isEditButtonDisabled || !isReady}
       />
       <UrlDirButton
         onClick={addDir}
@@ -253,7 +261,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
   );
 
   const showSubmitButton = isEditingCity && (
-    <SubmitAddLocationButton type="submit" disabled={isSubmitDisabled}>
+    <SubmitAddLocationButton type="submit" disabled={isSubmitDisabled || !isReady}>
       Done
     </SubmitAddLocationButton>
   );
