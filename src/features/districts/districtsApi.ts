@@ -9,11 +9,27 @@ import type {
 } from 'types/apis';
 import { saveManyDistricts, saveOneDistrict } from './districtsAdapter';
 
-const districtsApi = api.injectEndpoints({
+export const districtsApi = api.injectEndpoints({
   endpoints: build => ({
-    getDistricts: build.query<MaybeDistrictsEntity, void>({
-      query: () => endpoints.locationDistrict,
-      transformResponse: (result: ManyDistricts) => saveManyDistricts(result),
+    getDistricts: build.query<
+      MaybeDistrictsEntity,
+      { international: string; dbLangCode: string } | void
+    >({
+      query: args => {
+        if (!args) return endpoints.locationDistrict;
+        const params = new URLSearchParams(args);
+        return `${endpoints.locationStateRegister}?${params.toString()}`;
+      },
+      transformResponse: (result: any) => {
+        const register = result?.data?.register;
+        if (Array.isArray(register)) {
+          const districts = register.flatMap((state: any) =>
+            (state?.cities ?? []).flatMap((city: any) => city?.districts ?? [])
+          );
+          return saveManyDistricts({ data: { districts } } as ManyDistricts);
+        }
+        return saveManyDistricts(result as ManyDistricts);
+      },
       providesTags: result => tagList(result, 'District'),
     }),
     getDistrict: build.query<MaybeDistrictsEntity, GetDistrict>({

@@ -6,7 +6,11 @@ import { SubmitAddLocationButton } from 'components/shared/Buttons';
 import { Spinner } from 'components/shared/Loader';
 import { useAddCityMutation, useLazyGetCitiesQuery } from 'features/cities';
 import { selectActiveCountryInternational } from 'features/countries';
-import { selectActiveLanguageId, selectIsEnglishActiveLang } from 'features/languages';
+import {
+  selectActiveLanguageId,
+  selectIsEnglishActiveLang,
+  selectActiveDbLangCode,
+} from 'features/languages';
 import { makeSelectStateInternational, useLazyGetStatesQuery } from 'features/states';
 import type { FormEvent } from 'react';
 import { useState, useRef, useCallback, useMemo } from 'react';
@@ -34,6 +38,7 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
   const stopAdding = useCallback(() => setIsAddingCity(false), []);
 
   const activeCountryInternational = useAppSelector(selectActiveCountryInternational);
+  const dbLangCode = useAppSelector(selectActiveDbLangCode)?.toLowerCase();
   const selectStateInternational = useMemo(() => makeSelectStateInternational(stateId), [stateId]);
   const stateInternational = useAppSelector(selectStateInternational);
   const activeLangId = useAppSelector(selectActiveLanguageId);
@@ -90,7 +95,11 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
 
       await wait(1500);
       await getStates();
-      await getCities();
+      if (activeCountryInternational && dbLangCode) {
+        await getCities({ international: activeCountryInternational, dbLangCode });
+      } else {
+        await getCities();
+      }
     } catch (error) {
       toast.error('City not added');
     } finally {

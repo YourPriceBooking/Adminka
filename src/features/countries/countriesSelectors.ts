@@ -32,4 +32,9 @@ export const selectActiveCountryInternational = createSelector(
   activeCountry => activeCountry?.international
 );
 
+export const selectActiveCountryDbLangCode = createSelector(
+  selectActiveCountry,
+  activeCountry => activeCountry?.dbLangCode
+);
+
 export const getAddDirHotelier = (state: RootState) => state.country.addDirHotelier;

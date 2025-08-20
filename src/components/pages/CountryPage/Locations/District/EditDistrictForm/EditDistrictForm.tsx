@@ -155,7 +155,14 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
       }
 
       await wait(1500);
-      await getDistricts();
+      if (countryInternational && activeLangCode) {
+        await getDistricts({
+          international: countryInternational,
+          dbLangCode: activeLangCode.toLowerCase(),
+        });
+      } else {
+        await getDistricts();
+      }
     } catch (error) {
       toast.error('District not updated');
     } finally {
@@ -180,7 +187,14 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
       };
       await addCityToHoteiler(body);
       setColorAddDirButton('white');
-      await getDistricts();
+      if (countryInternational && activeLangCode) {
+        await getDistricts({
+          international: countryInternational,
+          dbLangCode: activeLangCode.toLowerCase(),
+        });
+      } else {
+        await getDistricts();
+      }
       toast.success(`District added`);
     } catch (err) {
       console.log(err);

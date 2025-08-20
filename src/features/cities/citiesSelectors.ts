@@ -1,9 +1,18 @@
 import type { RootState } from 'App/store';
-import { createSelector } from '@reduxjs/toolkit';
+import {
+  selectActiveCountryDbLangCode,
+  selectActiveCountryInternational,
+} from 'features/countries';
+import { citiesApi } from './citiesApi';
 import { citiesAdapter, citiesInitState } from './citiesAdapter';
-import { selectCitiesResult } from './citiesApi';
 
-const selectCitiesData = createSelector(selectCitiesResult, result => result.data);
+const selectCitiesData = (state: RootState) => {
+  const international = selectActiveCountryInternational(state);
+  const dbLangCode = selectActiveCountryDbLangCode(state);
+  const args = international && dbLangCode ? { international, dbLangCode } : undefined;
+  const result = citiesApi.endpoints.getCities.select(args)(state);
+  return result.data;
+};
 
 export const {
   selectEntities: selectCitiesEntities,

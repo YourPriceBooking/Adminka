@@ -1,7 +1,6 @@
 import type {
   ManyDistricts,
   ManyCities,
-  ManyStates,
   ManyCountries,
   ManyLanguages,
   OneDistrict,
@@ -9,6 +8,7 @@ import type {
   OneState,
   OneCountry,
   LanguageWithCountriesIds,
+  State,
 } from 'types/apis';
 import { frozenArr } from './api';
 
@@ -16,7 +16,9 @@ export const getManyLanguages = ({ data: { languages } = {} }: ManyLanguages = {
   languages ?? frozenArr;
 export const getManyCountries = ({ data: { countries } = {} }: ManyCountries = {}) =>
   countries ?? frozenArr;
-export const getManyStates = ({ data: { states } = {} }: ManyStates = {}) => states ?? frozenArr;
+export const getManyStates = ({
+  data: { states, register } = {},
+}: { data?: { states?: State[]; register?: State[] } } = {}) => states ?? register ?? frozenArr;
 export const getManyCities = ({ data: { cities } = {} }: ManyCities = {}) => cities ?? frozenArr;
 export const getManyDistricts = ({ data: { districts } = {} }: ManyDistricts = {}) =>
   districts ?? frozenArr;

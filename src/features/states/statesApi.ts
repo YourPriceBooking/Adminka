@@ -5,8 +5,16 @@ import { saveOneState, saveManyStates } from './statesAdapter';
 
 export const statesApi = api.injectEndpoints({
   endpoints: builder => ({
-    getStates: builder.query<MaybeStatesEntity, void>({
-      query: () => endpoints.locationState,
+    getStates: builder.query<
+      MaybeStatesEntity,
+      { international: string; dbLangCode: string } | void
+    >({
+      query: args => {
+        if (!args) return endpoints.locationState;
+        const { international, dbLangCode } = args;
+        const params = new URLSearchParams({ international, dbLangCode });
+        return `${endpoints.locationStateRegister}?${params.toString()}`;
+      },
       transformResponse: (result?: ManyStates) => saveManyStates(result),
       providesTags: result => tagList(result, 'State'),
     }),

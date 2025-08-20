@@ -1,9 +1,18 @@
-import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from 'App/store';
+import {
+  selectActiveCountryDbLangCode,
+  selectActiveCountryInternational,
+} from 'features/countries';
 import { districtsAdapter, districtsInitState } from './districtsAdapter';
-import { selectDistrictsResult } from './districtsApi';
+import { districtsApi } from './districtsApi';
 
-const selectDistrictsData = createSelector(selectDistrictsResult, result => result.data);
+const selectDistrictsData = (state: RootState) => {
+  const international = selectActiveCountryInternational(state);
+  const dbLangCode = selectActiveCountryDbLangCode(state);
+  const args = international && dbLangCode ? { international, dbLangCode } : undefined;
+  const result = districtsApi.endpoints.getDistricts.select(args)(state);
+  return result.data;
+};
 
 export const {
   selectEntities: selectDistrictsEntities,
