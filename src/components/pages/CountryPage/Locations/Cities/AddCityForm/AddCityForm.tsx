@@ -81,7 +81,7 @@ export const AddCityForm = ({ stateId }: AddCityFormProps) => {
       cityPhotoURL,
       cityPhotoAlt: `${cityName}, ${stateInternational}, ${activeCountryInternational}`,
 
-      langCode: 'EN',
+      langCode: (dbLangCode ?? 'EN').toUpperCase(),
     };
 
     try {

@@ -3,14 +3,16 @@ import { useGetCitiesQuery } from 'features/cities';
 import { useGetDistrictsQuery } from 'features/districts';
 import { useGetStatesQuery } from 'features/states';
 import { useAppSelector } from 'App';
-import { selectActiveCountryInternational } from 'features/countries';
-import { selectActiveDbLangCode } from 'features/languages';
+import {
+  selectActiveCountryInternational,
+  selectActiveCountryDbLangCode,
+} from 'features/countries';
 import { skipToken } from '@reduxjs/toolkit/query';
 import { StatesStyled } from './States.styled';
 
 export const getStates = () => {
   const international = useAppSelector(selectActiveCountryInternational);
-  const dbLangCodeRaw = useAppSelector(selectActiveDbLangCode);
+  const dbLangCodeRaw = useAppSelector(selectActiveCountryDbLangCode);
   const dbLangCode = dbLangCodeRaw?.toLowerCase();
 
   const args = international && dbLangCode ? { international, dbLangCode } : undefined;

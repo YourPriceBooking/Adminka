@@ -84,8 +84,8 @@ export const AddDistrictForm = ({ cityId, stateId }: AddDistrictFormProps) => {
       districtPhotoURL,
       districtPhotoAlt: `${districtName}, ${cityInternational}, ${stateName}, ${activeCountryInternational}`,
 
-      langCode: 'EN',
-      dbLangCode: 'EN',
+      langCode: (dbLangCode ?? 'EN').toUpperCase(),
+      dbLangCode: dbLangCode ?? 'EN',
     };
 
     try {

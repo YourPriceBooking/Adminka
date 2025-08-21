@@ -20,7 +20,7 @@ export const saveManyLanguages = (result?: ManyLanguages) => {
 
   const languagesWithoutNestedCountries: LanguageWithCountriesIds[] = languages.map(lang => ({
     ...lang,
-    dbLangCode: 'EN',
+    dbLangCode: lang.dbLangCode ?? 'EN',
     createdAt: '2022-08-27T19:58:09.289Z',
     updatedAt: new Date().toISOString(),
     countries: lang.countries,
