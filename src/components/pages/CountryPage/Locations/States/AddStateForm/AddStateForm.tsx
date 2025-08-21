@@ -78,7 +78,7 @@ export const AddStateForm = () => {
       stateCode: generateStateCode(formData.stateName),
       statePhotoURL: formData.statePhotoURL,
       statePhotoAlt: `${formData.stateName}, ${activeCountryInternational}`,
-      langCode: 'EN',
+      langCode: (activeLanguageDbLangCode ?? 'EN').toUpperCase(),
     };
 
     try {

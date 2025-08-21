@@ -1,14 +1,16 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'App/store';
 import { createSelector } from '@reduxjs/toolkit';
-import { selectActiveCountryInternational } from 'features/countries';
-import { selectActiveDbLangCode } from 'features/languages';
+import {
+  selectActiveCountryInternational,
+  selectActiveCountryDbLangCode,
+} from 'features/countries';
 import { statesAdapter, statesInitialState } from './statesAdapter';
 import { statesApi } from './statesApi';
 
 const selectStatesData = (state: RootState) => {
   const international = selectActiveCountryInternational(state);
-  const dbLangCode = selectActiveDbLangCode(state)?.toLowerCase();
+  const dbLangCode = selectActiveCountryDbLangCode(state)?.toLowerCase();
   const args = international && dbLangCode ? { international, dbLangCode } : undefined;
   const result = statesApi.endpoints.getStates.select(args)(state);
   return result.data;
