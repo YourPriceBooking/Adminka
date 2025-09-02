@@ -35,6 +35,7 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
   verifInfoFinish,
   isFirst = false,
   handleTranslate,
+  verifierId,
 }) => {
   const { hotelId } = useParams();
 
@@ -127,6 +128,7 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
           phone1: phoneNumbers[0],
           phone2: phoneNumbers[1],
           nextVerificationDate: hasDate,
+          verifierId,
         },
         {
           headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
@@ -137,6 +139,13 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
     } catch (error) {
       toast.error(`Error: OBJECT DON'T VERIFY`);
     }
+    console.log('Sending data to backend:', {
+      hotelId,
+      phone1: phoneNumbers[0],
+      phone2: phoneNumbers[1],
+      nextVerificationDate: hasDate,
+      verifierId,
+    });
   };
 
   const handleNotVerif = async () => {

@@ -3,6 +3,7 @@ export type ObjectInfoInfo = {
   verifInfoFinish: string[];
   isFirst?: boolean;
   handleTranslate?: any;
+  verifierId?: string;
 };
 
 export type ObjectInfoOption = {
