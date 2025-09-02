@@ -25,11 +25,16 @@ const verificationInitialState: VerificationState = {
     USA: [],
     Ukraine: [],
     Poland: [],
+    Singapore: [],
+    Australia: [],
+    Canada: [],
   },
   types: null,
   isLoadingVerification: false,
   error: null,
 };
+
+const forcedCountries = ['Australia', 'Singapore', 'Canada'];
 
 const verificationSlice = createSlice({
   name: 'verification',
@@ -40,6 +45,9 @@ const verificationSlice = createSlice({
         USA: [],
         Ukraine: [],
         Poland: [],
+        Singapore: [],
+        Australia: [],
+        Canada: [],
       };
     },
     deleteVerificationCountry: (state, { payload }: PayloadAction<{ country: string }>) => {
@@ -47,7 +55,6 @@ const verificationSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    // Обробники для fetchInWorkingVerifier
     builder
       .addCase(fetchInWorkingVerifier.pending, state => {
         state.isLoadingVerification = true;
@@ -76,6 +83,18 @@ const verificationSlice = createSlice({
             if (!state.objects.Poland.some(item => item._id === newObject._id)) {
               state.objects.Poland.push(newObject);
             }
+          } else if (obj.hotels.location.international === 'Singapore') {
+            if (!state.objects.Singapore.some(item => item._id === newObject._id)) {
+              state.objects.Singapore.push(newObject);
+            }
+          } else if (obj.hotels.location.international === 'Australia') {
+            if (!state.objects.Australia.some(item => item._id === newObject._id)) {
+              state.objects.Australia.push(newObject);
+            }
+          } else if (obj.hotels.location.international === 'Canada') {
+            if (!state.objects.Canada.some(item => item._id === newObject._id)) {
+              state.objects.Canada.push(newObject);
+            }
           }
         });
       })
@@ -91,7 +110,24 @@ const verificationSlice = createSlice({
         fetchVerification.fulfilled,
         (state, { payload }: PayloadAction<ResponseVerificationCountryList>) => {
           state.isLoadingVerification = false;
-          state.verification = { ...payload };
+          const verification = { ...payload };
+
+          forcedCountries.forEach(country => {
+            if (!verification.onVerification[country]) {
+              verification.onVerification = {
+                ...verification.onVerification,
+                [country]: 0,
+              };
+            }
+            if (!verification.added[country]) {
+              verification.added = {
+                ...verification.added,
+                [country]: 0,
+              };
+            }
+          });
+
+          state.verification = verification;
         }
       )
       .addCase(fetchVerification.rejected, (state, { payload }) => {

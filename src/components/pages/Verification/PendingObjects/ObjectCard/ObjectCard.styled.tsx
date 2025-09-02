@@ -84,7 +84,52 @@ export const Div = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
-  // background-color: #ebedfe;
+  overflow: hidden;
+  max-width: 1300px;
+  margin: 0 auto;
+`;
+
+export const ScrollWrapper = styled.div`
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+
+  & > div {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+  }
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+export const Arrow = styled.button`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  color: #333;
+  cursor: pointer;
+  z-index: 10;
+
+  &:hover {
+    color: #000;
+  }
+`;
+
+export const ArrowLeft = styled(Arrow)`
+  left: 2px;
+`;
+
+export const ArrowRight = styled(Arrow)`
+  right: 2px;
 `;
 
 export const CardsStyle = styled.div`
@@ -92,7 +137,6 @@ export const CardsStyle = styled.div`
   flex-direction: column;
   justify-content: space-between;
   min-width: 300px;
-  height: max-content;
   width: max-content;
   background: #fff;
   border-radius: 10px;

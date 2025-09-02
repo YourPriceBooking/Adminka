@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { ObjectHistoryInfo } from './ObjectHistoryInfo';
 import { DivObjectHistoryMain, HObject } from './ObjectHistory.styled';
 import { VerifInfo } from './Components/VerifInfo';
