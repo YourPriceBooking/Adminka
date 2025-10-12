@@ -38,6 +38,7 @@ type FormikType = {
   country: string;
   text: string;
   image: File[];
+  imageName?: string;
 };
 
 const allCategories = ['home', 'ukraine', 'poland', 'usa', 'canada'];
@@ -60,6 +61,7 @@ const PostPage: React.FC = () => {
       country: '',
       text: '',
       image: [],
+      imageName: '',
     },
     onSubmit: async ({ title, author, description, heading, country, text, image }) => {
       try {
@@ -113,6 +115,19 @@ const PostPage: React.FC = () => {
   });
 
   const { title, author, description, heading, country, text, image } = formik.values;
+
+  useEffect(() => {
+    const savedImage = localStorage.getItem('pendingImageData');
+    if (savedImage) {
+      const { fileName } = JSON.parse(savedImage);
+
+      formik.setFieldValue('image', [fileName]);
+      formik.setFieldValue('imageName', fileName);
+
+      toast.success('🖼️ Image data loaded from upload page!');
+      localStorage.removeItem('pendingImageData');
+    }
+  }, []);
 
   if (!id) return <Navigate to="/blog" replace />;
   const post = useAppSelector(state => getPost(state, id));
@@ -182,33 +197,33 @@ const PostPage: React.FC = () => {
     return false;
   };
 
-  const addMainPhoto = (e: any) => {
-    const mainImage = e.target.files[0];
+  // const addMainPhoto = (e: any) => {
+  //   const mainImage = e.target.files[0];
 
-    if (!mainImage) return;
-    if (mainImage.size > 512000) {
-      toast.error(
-        'Error: You have uploaded a photo larger than 500KB. We cannot accept photos of this size. Please resize it and upload it again.'
-      );
-      return;
-    }
-    if (!checkImageType(mainImage.type)) {
-      toast.error('Error: Photo must be PNG, WEBP or JPEG format.');
-      return;
-    }
+  //   if (!mainImage) return;
+  //   if (mainImage.size > 512000) {
+  //     toast.error(
+  //       'Error: You have uploaded a photo larger than 500KB. We cannot accept photos of this size. Please resize it and upload it again.'
+  //     );
+  //     return;
+  //   }
+  //   if (!checkImageType(mainImage.type)) {
+  //     toast.error('Error: Photo must be PNG, WEBP or JPEG format.');
+  //     return;
+  //   }
 
-    formik.setFieldValue('image', [e.target.files[0], ...image]);
+  //   formik.setFieldValue('image', [e.target.files[0], ...image]);
 
-    const fileNameDisplay = document.getElementById('fileNameDisplay');
+  //   const fileNameDisplay = document.getElementById('fileNameDisplay');
 
-    if (fileNameDisplay) {
-      if (e.target.files.length > 0) {
-        fileNameDisplay.textContent = e.target.files[0].name;
-      } else {
-        fileNameDisplay.textContent = '';
-      }
-    }
-  };
+  //   if (fileNameDisplay) {
+  //     if (e.target.files.length > 0) {
+  //       fileNameDisplay.textContent = e.target.files[0].name;
+  //     } else {
+  //       fileNameDisplay.textContent = '';
+  //     }
+  //   }
+  // };
 
   /* const modules = {
     toolbar: [
@@ -261,7 +276,9 @@ const PostPage: React.FC = () => {
         ],
 
         handlers: {
-          image: () => inputImgRef.current?.click(),
+          image: () => {
+            navigate(`/blog/post/upload-image`);
+          },
         },
       },
     }),
@@ -383,22 +400,21 @@ const PostPage: React.FC = () => {
 
           <div className="articleImage">
             {id !== 'new' ? (
-              <img id="article-img" src={String(formik.values.image[0])} alt="" />
+              <img id="article-img" src={String(formik.values.image[0])} alt="article" />
             ) : (
               <div>
-                <input
-                  type="file"
-                  className="input-file"
-                  accept="image/png, image/jpeg"
-                  id="fileInput"
-                  onChange={addMainPhoto}
-                />
+                <button
+                  type="button"
+                  onClick={() => navigate(`/blog/post/upload-image`)}
+                  className="custom-file-upload"
+                  style={{ cursor: 'pointer' }}
+                >
+                  Select Image for Article
+                </button>
 
-                <label htmlFor="fileInput" className="custom-file-upload">
-                  <span>Select Image for Article</span>
-                </label>
-                <div id="fileNameDisplay" className="file-name" />
-                {String(formik.values.image[0]) === 'undefined' && (
+                {formik.values.imageName ? (
+                  <p className="file-name">📸 {formik.values.imageName}</p>
+                ) : (
                   <p className="warning">The photo size must be up to 500 KB</p>
                 )}
               </div>

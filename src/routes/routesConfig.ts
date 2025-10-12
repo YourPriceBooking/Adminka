@@ -1,4 +1,5 @@
 import { App } from 'App';
+import UploadImagePage from 'components/pages/Blog/ImageUploadPage/ImageUploadPage';
 import PostPage from 'components/pages/Blog/PostPage/PostPage';
 
 import {
@@ -58,6 +59,7 @@ export const routes = {
   },
   authorsadd: { path: '/blog/author/add', name: 'AuthorsAdd', element: AuthorsAdd },
   post: { path: '/blog/post/:id', name: 'Post', element: PostPage },
+  uploadImage: { path: '/blog/post/upload-image', name: 'UploadImage', element: UploadImagePage },
   mowgliBooking: { path: '/mowgli-booking', name: 'Mowgli booking', element: mowgliBookingPage },
   registerModal: { path: '/registerModal', name: 'registerModal', element: RegisterModalPage },
   mowgliBookingStatistics: {

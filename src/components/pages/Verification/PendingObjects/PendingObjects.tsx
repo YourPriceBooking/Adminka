@@ -132,27 +132,31 @@ export const PendingObjects = () => {
                     </p>
                   </div>
                   <div className="buttonBlock">
-                    <Button disabled={list.length === 5} onClick={() => onClick(country)}>
+                    <Button disabled={list.length === 10} onClick={() => onClick(country)}>
                       Take one object for verification
                     </Button>
                   </div>
                   <div className="list">
-                    {list.map(item => (
-                      <Link
-                        key={item._id}
-                        to={`/verification/house-page/${item._id}`}
-                        state={{ hotelId: item._id }}
-                        onClick={() => onClickObjectInWorking(item)}
-                      >
-                        <HotelCards
-                          city={item.address.city}
-                          hotel={item.objectName}
-                          address={`${item.address.street}, ${item.address.house}, ${item.address.apartment}`}
-                          imgSrc={item.photos[0].url}
-                          type={item.type.type}
-                        />
-                      </Link>
-                    ))}
+                    {list
+                      .filter(item => item && item._id)
+                      .map(item => (
+                        <Link
+                          key={item._id}
+                          to={`/verification/house-page/${item._id}`}
+                          state={{ hotelId: item._id }}
+                          onClick={() => onClickObjectInWorking(item)}
+                        >
+                          <HotelCards
+                            city={item.address.city ?? ''}
+                            hotel={item.objectName ?? ''}
+                            address={`${item.address.street ?? ''}, ${item.address.house ?? ''}, ${
+                              item.address.apartment ?? ''
+                            }`}
+                            imgSrc={item.photos[0]?.url ?? '/placeholder.png'}
+                            type={item.type.type ?? ''}
+                          />
+                        </Link>
+                      ))}
                   </div>
                 </CardsStyle>
               );
