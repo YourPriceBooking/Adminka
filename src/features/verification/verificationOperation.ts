@@ -9,22 +9,32 @@ import type {
   RequestInWorkingCountry,
 } from 'types/apis/verification';
 
+const getErrorMessage = (error: any): string => {
+  if (error?.response?.data?.message) {
+    return error.response.data.message;
+  }
+
+  if (error?.message) {
+    return error.message;
+  }
+
+  return 'Unexpected error occurred';
+};
+
 export const fetchVerification = createAsyncThunk<ResponseVerificationCountryList>(
   'verification/fetchVerification',
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
         `${baseUrl}/acsess-to-admin${endpoints.amountObjectInCountry}`,
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
 
-      const data = response.data as ResponseVerificationCountryList;
+      if (!response.data) throw new Error('No data in response');
 
-      return data;
-    } catch (error) {
-      return rejectWithValue(error);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMessage(error));
     }
   }
 );
@@ -35,15 +45,14 @@ export const fetchVerificationObject = createAsyncThunk<ResponseVerificationObje
     try {
       const response = await axios.get(
         `${baseUrl}/acsess-to-admin${endpoints.verificationObjects}?country=${country}`,
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
-      const data = response.data as ResponseVerificationObject;
 
-      return { ...data, country };
-    } catch (error) {
-      return rejectWithValue(error);
+      if (!response.data) throw new Error('No data in response');
+
+      return { ...response.data, country };
+    } catch (error: any) {
+      return rejectWithValue(getErrorMessage(error));
     }
   }
 );
@@ -56,11 +65,11 @@ export const fetchObjectTypes = createAsyncThunk<ResponseVerificationTypeObjects
         withCredentials: true,
       });
 
-      const data = response.data as ResponseVerificationTypeObjects;
+      if (!response.data) throw new Error('No data in response');
 
-      return data;
-    } catch (error) {
-      return rejectWithValue(error);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMessage(error));
     }
   }
 );
@@ -78,10 +87,12 @@ export const fetchInWorkingVerifier = createAsyncThunk<ResponseInWorkingCountryL
           Authorization: `Bearer ${token}`,
         },
       });
-      const data = response.data as ResponseInWorkingCountryList;
-      return data;
-    } catch (error) {
-      return rejectWithValue(error);
+
+      if (!response.data) throw new Error('No data in response');
+
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(getErrorMessage(error));
     }
   }
 );
@@ -99,9 +110,12 @@ export const fetchObjectInWorking = createAsyncThunk<RequestInWorkingCountry, ob
           Authorization: `Bearer ${token}`,
         },
       });
+
+      if (!response.data) throw new Error('No data in response');
+
       return response.data;
-    } catch (error) {
-      return rejectWithValue(error);
+    } catch (error: any) {
+      return rejectWithValue(getErrorMessage(error));
     }
   }
 );

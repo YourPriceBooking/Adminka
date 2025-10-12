@@ -138,43 +138,23 @@ const verificationSlice = createSlice({
       .addCase(
         fetchVerificationObject.fulfilled,
         (state, { payload }: PayloadAction<ResponseVerificationObject>) => {
-          let countryObjectsCount = -1;
-
-          if (state.verification.onVerification) {
-            countryObjectsCount = state.verification.onVerification[payload.country];
+          if (!state.objects[payload.country]) {
+            state.objects[payload.country] = [];
           }
 
-          if (countryObjectsCount !== 0) {
-            if (state.objects) {
-              if (state.objects[payload.country]) {
-                state.objects[payload.country].push(
-                  payload.result[
-                    payload.result.length - (state.objects[payload.country].length + 1)
-                  ]
-                );
-              } else {
-                state.objects = {
-                  ...state.objects,
-                  [payload.country]: [
-                    {
-                      ...payload.result[payload.result.length - 1],
-                    },
-                  ],
-                };
-              }
-            }
+          const takenCount = state.objects[payload.country].length;
+          const nextObject = payload.result[takenCount];
 
-            if (state.verification.onVerification) {
-              const countryList = state.objects[payload.country];
+          if (nextObject) {
+            state.objects[payload.country].push(nextObject);
+          }
 
-              const newCout = payload.result.length - countryList.length;
-
-              state.verification.onVerification[payload.country] = newCout;
-            }
+          if (state.verification.onVerification) {
+            state.verification.onVerification[payload.country] =
+              state.objects[payload.country].length;
           }
         }
       )
-
       // GET TYPES OBJECT
       .addCase(
         fetchObjectTypes.fulfilled,

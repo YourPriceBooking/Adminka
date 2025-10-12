@@ -21,6 +21,7 @@ const {
   post,
   mowgliBookingFinance,
   mowgliBookingVerif,
+  uploadImage,
 } = routes;
 
 export const AppRouter = () => (
@@ -53,6 +54,7 @@ export const AppRouter = () => (
         <Route path={videoblog.path} element={<videoblog.element />} />
         <Route path={videopostadd.path} element={<videopostadd.element />} />
         <Route path={post.path} element={<post.element />} />
+        <Route path={uploadImage.path} element={<uploadImage.element />} />
         <Route path={mowgliBooking.path} element={<mowgliBooking.element />} />
         <Route path={mowgliBookingStatistics.path} element={<mowgliBookingStatistics.element />} />
         <Route path={mowgliBookingFinance.path} element={<mowgliBookingFinance.element />} />
