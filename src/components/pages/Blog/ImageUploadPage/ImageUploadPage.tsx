@@ -32,17 +32,37 @@ const UploadImagePage: React.FC = () => {
       toast.error('Image size must be under 500KB');
       return;
     }
+    const existingData = JSON.parse(localStorage.getItem('pendingImageData') || '{}');
 
+    const updatedFiles = Array.isArray(existingData.files) ? [...existingData.files] : [];
+    const updatedAlts = Array.isArray(existingData.alts) ? [...existingData.alts] : [];
+    const updatedCaptions = Array.isArray(existingData.captions) ? [...existingData.captions] : [];
+
+    updatedFiles.push(file.name);
+    updatedAlts.push(alt.trim() || ' ');
+    updatedCaptions.push(descriptionImage.trim() || ' ');
     const imageData = {
-      fileName: file.name,
-      descriptionImage,
-      alt,
+      ...existingData,
+      fileName: updatedFiles,
+      files: updatedFiles,
+      alts: updatedAlts,
+      captions: updatedCaptions,
     };
 
     localStorage.setItem('pendingImageData', JSON.stringify(imageData));
 
-    toast.success('✅ Image saved! Returning to post editor...');
+    toast.success('✅ Image added!');
+    setAlt('');
+    setDescription('');
+
+    if (fileInputRef.current) fileInputRef.current.value = '';
+
+    console.log(imageData);
+  };
+
+  const handleSaveAndExit = () => {
     setLoading(true);
+    toast.success('✅ Image saved! Returning to post editor...');
     setTimeout(() => {
       navigate(-1);
     }, 1200);
@@ -104,6 +124,9 @@ const UploadImagePage: React.FC = () => {
 
           <button type="button" className="submit" onClick={handleUploadClick} disabled={loading}>
             {loading ? 'Saving...' : 'Select Image for Article'}
+          </button>
+          <button type="button" className="close" onClick={handleSaveAndExit} disabled={loading}>
+            X
           </button>
         </form>
       </UploadContainer>

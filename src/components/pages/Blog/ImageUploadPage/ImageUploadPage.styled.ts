@@ -8,6 +8,7 @@ export const UploadContainer = styled.div`
   height: 100vh;
 
   & .formUpload {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -40,7 +41,7 @@ export const UploadContainer = styled.div`
   & button.submit {
     background: rgba(217, 217, 217, 1);
     border: none;
-    color: #fff;
+    color: #000;
     cursor: pointer;
     font-family: inherit;
     font-weight: 600;
@@ -50,16 +51,41 @@ export const UploadContainer = styled.div`
     transition: background 0.12s ease-out;
 
     &:hover {
-      color: rgba(76, 76, 76, 1);
+      color: #4c4c4cb0;
     }
 
     &:disabled {
-      color: rgba(76, 76, 76, 1);
+      color: #4c4c4cb0;
       cursor: not-allowed;
       background: rgba(217, 217, 217, 1);
     }
   }
 
+  & button.close {
+    background: none;
+    right: 0;
+    top: 0;
+    position: absolute;
+    border: none;
+    color: #000;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    padding: 0.8rem 1.4rem;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: background 0.12s ease-out;
+
+    &:hover {
+      color: #4c4c4cb0;
+    }
+
+    &:disabled {
+      color: #4c4c4cb0;
+      cursor: not-allowed;
+      background: rgba(217, 217, 217, 1);
+    }
+  }
   & .fileName {
     font-size: 0.9rem;
     color: #666;
