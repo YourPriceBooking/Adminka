@@ -12,9 +12,11 @@ import type QuillEditor from 'quill';
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import { blogBaseUrl } from 'features/api';
+
 import { BlogContainer, Header } from '../BlogPage/Blog.styled';
 import { PostContent } from './PostPage.styled';
 import ModalAddLater from './ModalAddLater/ModalAddLater';
+
 
 type Author = {
   _id: number;
@@ -41,12 +43,27 @@ type FormikType = {
   imageName?: string;
 };
 
-const allCategories = ['home', 'ukraine', 'poland', 'usa', 'canada'];
+type Country = {
+  international: string;
+  country: string;
+  langCode: string;
+};
+
+type CountryResponse = {
+  code: number;
+  status: string;
+  country: Country[];
+};
+
+
 
 const PostPage: React.FC = () => {
   // const [disableSubmit, SetDisabledSubmit] = useState(true);
   const [authors, setAuthors] = useState<Author[]>([]);
   const [isOpenModel, setIsOpenModal] = useState(false);
+  const [langCode] = useState<string>("EN")
+  const [allCategories, setAllCategories] = useState<string[]>([])
+
   const { id } = useParams();
   const navigate = useNavigate();
   const ref = useRef<ReactQuill & { editor: QuillEditor }>(null);
@@ -127,7 +144,33 @@ const PostPage: React.FC = () => {
       toast.success('🖼️ Image data loaded from upload page!');
       localStorage.removeItem('pendingImageData');
     }
+
+    
   }, []);
+
+  useEffect(() => {
+    const getCountries = async () => {
+      try {
+        const { data: { country: countryData } } = await axios.get<CountryResponse>('https://ypbooking.chost.com.ua/blog/api/country/get-country', {
+          params: {
+            langCode
+          }
+        })
+        
+
+        const counties = countryData.map(currentCountry => currentCountry.country)
+        setAllCategories(counties)
+
+        
+      } catch (error) {
+        console.error('Failed to fetch countries:', error)
+        setAllCategories([])
+      }
+    }
+    getCountries()
+  }, [langCode])
+
+
 
   if (!id) return <Navigate to="/blog" replace />;
   const post = useAppSelector(state => getPost(state, id));

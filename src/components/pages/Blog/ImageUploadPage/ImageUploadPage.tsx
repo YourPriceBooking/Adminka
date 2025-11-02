@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useState, useRef } from 'react';
-import { BlogContainer, Buttons, Header } from '../BlogPage/Blog.styled';
+import { Buttons, Header } from '../BlogPage/Blog.styled';
+// import { BlogContainer, Buttons, Header } from '../BlogPage/Blog.styled';
 import { Button } from '../BlogPage/components/Button/Button';
 import classes from '../AuthorsPage/AuthorsPage.module.css';
 import { UploadContainer } from './ImageUploadPage.styled';
@@ -69,7 +70,8 @@ const UploadImagePage: React.FC = () => {
   };
 
   return (
-    <BlogContainer>
+    // <BlogContainer>
+    <>
       <Header className={classes.headerBlog}>
         <div>
           <Button type="navigate" onClick={() => navigate(`/blog/post/new`)}>
@@ -130,7 +132,9 @@ const UploadImagePage: React.FC = () => {
           </button>
         </form>
       </UploadContainer>
-    </BlogContainer>
+    </>
+
+    // </BlogContainer>
   );
 };
 
