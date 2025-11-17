@@ -44,7 +44,6 @@ export const ExitVerifierButton = () => {
 
     const handleLogout = async () => {
         try {
-            // console.log(token);
             const response = await axios.get(
                 'https://ypbooking.chost.com.ua/api/acsess-to-admin/log-out-admin',
                 {
