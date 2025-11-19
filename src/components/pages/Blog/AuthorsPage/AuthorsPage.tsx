@@ -84,7 +84,7 @@ const AuthorsPage: React.FC = () => {
       } else {
         setShou(true);
         setAppState({ loading: false, repos: allRepos });
-
+        // eslint-disable-next-line no-console
         console.log(allRepos);
 
         // await fetchImages(allRepos);
@@ -97,7 +97,7 @@ const AuthorsPage: React.FC = () => {
   const handleClickToBackArrow = () => {
     navigate('/blog');
   };
-
+  // eslint-disable-next-line no-console
   console.log(appState.repos[4]);
 
   return (

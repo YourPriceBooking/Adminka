@@ -28,6 +28,7 @@ type DataBonus = {
 
 export const AccountHotelier: React.FC<AccountHotelierProps> = ({ id }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   type DispatchAction = Dispatch<any>;
   const dispatch: DispatchAction = useDispatch();
   const data = useSelector(selectorBonusHoteliers);

@@ -64,6 +64,7 @@ export const ExitVerifierButton = () => {
                 nav('/');
                 return;
             }
+            // eslint-disable-next-line no-console
             console.error(error);
             }
         };

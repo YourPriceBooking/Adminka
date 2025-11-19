@@ -57,6 +57,7 @@ export const LoginPage = () => {
         }
       } catch (error) {
         setMessage('You entered the wrong door. You do not have access to this section.');
+        // eslint-disable-next-line no-console
         console.error(error);
       }
     }

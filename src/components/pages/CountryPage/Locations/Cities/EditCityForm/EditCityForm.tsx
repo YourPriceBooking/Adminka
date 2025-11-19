@@ -80,6 +80,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
     if (!city || !stateName) return;
     try {
       await addDirHotelier({
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         language: changeUKToUA((city.langCode ?? 'EN').toLowerCase()),
         idLocation: city._id,
         city: city.cityName,
@@ -117,6 +118,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
         await getCities();
       }
       toast.success('Successfully Adding a Directory');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       toast.error(`${err.data.message}`);
       setColorAddDirButton('green');
@@ -137,6 +139,7 @@ export const EditCityForm = ({ cityId, stateId }: EditCityFormProps) => {
     const addDirHotelierList = localStorage.getItem('addDirHotelier');
 
     if (addDirHotelierList) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const parseAddDir: any[] = JSON.parse(addDirHotelierList);
 
       parseAddDir.forEach(({ lang, country }) => {

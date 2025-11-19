@@ -13,7 +13,7 @@ export const StatisticsPage = () => {
   const [isShowHotelierPage, setIsShowHotelierPage] = useState<boolean>(false);
   const [isShowUsersPage, setIsShowUsersPage] = useState(false);
   const [isShowObjectsPage, setIsShowObjectsPage] = useState(false);
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   type DispatchAction = Dispatch<any>;
   const dispatch: DispatchAction = useDispatch();
 

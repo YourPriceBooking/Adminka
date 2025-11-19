@@ -6,7 +6,9 @@ type Props = {
   title: string;
   index: number;
   activeButtonIndex: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   closeList?: (data: { elData?: any[]; type: string }) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data?: string | any[] | null;
 };
 
@@ -25,6 +27,7 @@ export const RegisterButton: React.FC<Props> = ({
     type,
   }: {
     elTitle: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     elData?: any[];
     type: string;
   }) => {
@@ -40,6 +43,7 @@ export const RegisterButton: React.FC<Props> = ({
     if (!isArray) {
       setNameCountry(data);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

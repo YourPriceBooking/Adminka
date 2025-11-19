@@ -9,7 +9,9 @@ import { ModalWrapper, Text } from './ModalButton.styled';
 
 type Props = {
   title: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onClick: (data: { elTitle: string; elData?: any[]; type: string }) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data?: any[];
 };
 
@@ -51,7 +53,7 @@ type Props = {
 //   'Рівне',
 //   'Львів',
 // ];
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type LocationRegisters = Record<string, { title: string; type: string; data?: any[] }[]>;
 
 export const ModalButton: React.FC<Props> = ({ title, onClick, data }) => {
@@ -121,6 +123,7 @@ export const ModalButton: React.FC<Props> = ({ title, onClick, data }) => {
               data: { result: districtList },
             } = await axios.get(`${baseUrl}${endpoints.getDistrictByCity}?cityName=${cityName}`);
             if (districtList) {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               const districts = districtList.map((district: any) => ({
                 title: district.districtName,
                 type: title,

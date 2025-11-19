@@ -21,6 +21,7 @@ const Modal: FC<TModalProps> = (props: TModalProps): JSX.Element => {
 
   if (!AllUrlsCopied) {
     AllUrlsClassName = `${s.copy__all_btn}`;
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   } else if (AllUrlsCopied) {
     AllUrlsClassName = `${s.copy__all_btn_true} ${s.copy__all_btn}`;
     AllUrlsButtonText = value.isCopied ? 'True' : 'False';
@@ -59,6 +60,7 @@ const Modal: FC<TModalProps> = (props: TModalProps): JSX.Element => {
 
           if (!isCopied) {
             className = `${s.copy__btn}`;
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
           } else if (isCopied) {
             className = `${s.copy__btn_true} ${s.copy__btn}`;
             buttonText = value.isCopied ? 'True' : 'False';

@@ -8,6 +8,7 @@ type RouteType = {
 
 export const PrivateRoute = ({ navigateTo = '/' }: RouteType) => {
   const auth = useAppSelector(selectIsLoggedIn);
+  // eslint-disable-next-line no-console
   console.log(auth)
   const { pathname } = useLocation();
   return !auth ? <Navigate to={navigateTo} replace state={{ from: pathname }} /> : <Outlet />;

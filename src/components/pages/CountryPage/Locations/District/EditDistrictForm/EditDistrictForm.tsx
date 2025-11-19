@@ -197,13 +197,14 @@ export const EditDistrictForm = ({ districtId, cityId, stateId, data }: EditDist
       }
       toast.success(`District added`);
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.log(err);
       setColorAddDirButton('green');
 
       toast.error(`Error: adding a distinct`);
     }
   };
-
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   const saveLocation = Object.values<Location>(data || {}).filter(
     location => location.district === districtName
   );

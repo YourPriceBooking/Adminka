@@ -82,6 +82,7 @@ export const PasswordField: React.FC<{
 
       return false;
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Помилка під час перевірки секретного коду', error);
       return false;
     }

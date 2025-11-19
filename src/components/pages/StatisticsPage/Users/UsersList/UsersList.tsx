@@ -44,6 +44,7 @@ export const UsersList: React.FC<
     fetch('https://ypbooking.chost.com.ua/api/acsess-to-admin/get-all-users')
       .then(response => response.json())
       .then((date: { code: number; users: DataProp[] }) => {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         if (date.code === 200 && date.users && Array.isArray(date.users)) {
           const users = date.users.map(user => ({
             _id: user._id,
@@ -55,11 +56,13 @@ export const UsersList: React.FC<
           setData(users);
           setIsLoading(false);
         } else {
+          // eslint-disable-next-line no-console
           console.error('Users data is not in the expected format');
           setIsLoading(false);
         }
       })
       .catch(error => {
+        // eslint-disable-next-line no-console
         console.error('Error data:', error);
         setIsLoading(false);
       });

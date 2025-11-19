@@ -16,6 +16,7 @@ const blogSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: builder => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     builder.addCase(fetchBlogPosts.fulfilled, (state, { payload }: PayloadAction<any>) => {
       state.posts = [...payload];
     });

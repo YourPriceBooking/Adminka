@@ -36,7 +36,7 @@ export const statesApi = api.injectEndpoints({
       }),
       transformResponse: (result?: OneState) => saveOneState(result),
     }),
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     addDirHotelier: builder.mutation<MaybeStatesEntity, any>({
       query: body => ({
         url: `${endpoints.addDirHotelier}`,

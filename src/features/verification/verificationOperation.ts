@@ -11,7 +11,7 @@ import type {
 import { setToken } from 'features/access/tokenSlice';
 import { logout } from 'features/common';
 import type { AppDispatch, RootState } from 'App/store';
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getErrorMessage = (error: any): string => {
   if (error?.response?.data?.message) {
     return error.response.data.message;
@@ -36,6 +36,7 @@ export const fetchVerification = createAsyncThunk<ResponseVerificationCountryLis
       if (!response.data) throw new Error('No data in response');
 
       return response.data;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       return rejectWithValue(getErrorMessage(error));
     }
@@ -54,6 +55,7 @@ export const fetchVerificationObject = createAsyncThunk<ResponseVerificationObje
       if (!response.data) throw new Error('No data in response');
 
       return { ...response.data, country };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       return rejectWithValue(getErrorMessage(error));
     }
@@ -71,6 +73,7 @@ export const fetchObjectTypes = createAsyncThunk<ResponseVerificationTypeObjects
       if (!response.data) throw new Error('No data in response');
 
       return response.data;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       return rejectWithValue(getErrorMessage(error));
     }
@@ -83,6 +86,7 @@ export const fetchInWorkingVerifier = createAsyncThunk<
   { state: RootState; dispatch: AppDispatch }
 >('verification/fetchInWorkingVerifier', async (_, { getState, dispatch, rejectWithValue }) => {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const currentState: any = getState();
     const { token } = currentState.enterToken;
 
@@ -96,6 +100,7 @@ export const fetchInWorkingVerifier = createAsyncThunk<
     if (!response.data) throw new Error('No data in response');
 
     return response.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     const message = getErrorMessage(error);
     if (message === 'jwt expired') {
@@ -112,6 +117,7 @@ export const fetchObjectInWorking = createAsyncThunk<RequestInWorkingCountry, ob
   'verification/fetchObjectInWorking',
   async (takeObject: object, { getState, rejectWithValue }) => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const currentState: any = getState();
       const { token } = currentState.enterToken;
 
@@ -125,6 +131,7 @@ export const fetchObjectInWorking = createAsyncThunk<RequestInWorkingCountry, ob
       if (!response.data) throw new Error('No data in response');
 
       return response.data;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       return rejectWithValue(getErrorMessage(error));
     }
