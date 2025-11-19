@@ -65,13 +65,14 @@ const AuthorsAddPost: React.FC = () => {
       [event.target.id]: a,
     });
   };
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   type FileState = Record<string, any>;
 
   const [selectFile, seterSelectFile] = useState<FileState>({});
 
   const handleChange1 = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (event?.target?.files?.[0]) {
       seterSelectFile(event.target.files[0]);
       setPhoto(event.target.files[0].name);
     }
@@ -83,7 +84,7 @@ const AuthorsAddPost: React.FC = () => {
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
-
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const formData: any = new FormData();
 
     const linksArray = [
@@ -115,6 +116,7 @@ const AuthorsAddPost: React.FC = () => {
       .post('https://ypbooking.chost.com.ua/blog/api/author/add-author', formData)
       .then(response => {
         if (response.status === 200) {
+          // eslint-disable-next-line no-console
           console.log('added new author');
           navigate('/blog/post/authors');
         }

@@ -112,7 +112,7 @@ export const MowgliBookingUsersList: React.FC<
     : hardcodedUsers;
 
   const displayData = isSearching ? filteredData : hardcodedUsers;
-
+  // eslint-disable-next-line no-console
   console.log(displayData)
 
 

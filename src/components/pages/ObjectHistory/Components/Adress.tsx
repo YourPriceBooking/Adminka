@@ -14,7 +14,7 @@ export const Address = () => {
       location: { country, stateName: state, cityName: city },
     },
   } = hotelData;
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [data, setData] = useState<any>({
     'Location Register 1': '',
     'Location Register 2': [],

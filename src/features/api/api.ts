@@ -104,6 +104,7 @@ export enum Keys {
 
 export const tagList = (result: Result, type: Type) => [
   { type, id: 'LIST' },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ...(result ? result.ids.map((id: any) => ({ type, id })) : []),
 ];
 

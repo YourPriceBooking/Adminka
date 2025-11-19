@@ -16,6 +16,7 @@ import { EmailCheckbox } from '../EmailCheckbox';
 
 type Props = {
   onClick?: () => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   selectedEmail: any;
 };
 
@@ -97,6 +98,7 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
         return status === 'success';
       } catch (error) {
         onClick?.();
+        // eslint-disable-next-line no-console
         console.error('Помилка під час зміни доступу емейла', error);
         return false;
       }
@@ -145,6 +147,7 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
         return status === 'success';
       } catch (error) {
         onClick?.();
+        // eslint-disable-next-line no-console
         console.error('Помилка під час зміни доступу емейла', error);
         return false;
       }

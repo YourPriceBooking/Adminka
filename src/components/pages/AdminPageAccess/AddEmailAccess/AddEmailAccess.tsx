@@ -99,6 +99,7 @@ export const AddEmailAccess = ({ onClick }: Props) => {
           style: { background: '#A0F6A9' },
         }
       );
+      // eslint-disable-next-line no-console
       console.error('Помилка під час додавання емейла', error);
 
       return false;

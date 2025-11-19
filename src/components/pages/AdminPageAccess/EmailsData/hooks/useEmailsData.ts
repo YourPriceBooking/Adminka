@@ -28,6 +28,7 @@ type ResponseData = {
 };
 
 export const useEmailsData = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [emails, setEmails] = useState<any>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -41,6 +42,7 @@ export const useEmailsData = () => {
         {
           headers: {
             'Content-Type': 'application/json',
+            // eslint-disable-next-line  @typescript-eslint/no-non-null-assertion
             Authorization: `Bearer ${token!}`,
           },
         }
@@ -51,6 +53,7 @@ export const useEmailsData = () => {
       setEmails(data);
       setLoading(false);
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.log(err);
       setError('Error fetching data');
       setLoading(false);

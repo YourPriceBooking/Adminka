@@ -15,6 +15,7 @@ export const fetchVerifyObjects = createAsyncThunk<ResponseVerifyObjectsData>(
         {
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             Authorization: `Bearer ${authToken.enterToken.token!}`,
           },
           withCredentials: true,

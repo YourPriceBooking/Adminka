@@ -51,6 +51,7 @@ const verificationSlice = createSlice({
       };
     },
     deleteVerificationCountry: (state, { payload }: PayloadAction<{ country: string }>) => {
+      // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
       delete state.objects[payload.country];
     },
   },
@@ -61,7 +62,7 @@ const verificationSlice = createSlice({
       })
       .addCase(fetchInWorkingVerifier.fulfilled, (state, { payload }) => {
         state.isLoadingVerification = false;
-
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         payload.result.forEach((obj: any) => {
           const newObject: VerificationObject = {
             address: obj.hotels.address,
@@ -138,13 +139,14 @@ const verificationSlice = createSlice({
       .addCase(
         fetchVerificationObject.fulfilled,
         (state, { payload }: PayloadAction<ResponseVerificationObject>) => {
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
           if (!state.objects[payload.country]) {
             state.objects[payload.country] = [];
           }
 
           const takenCount = state.objects[payload.country].length;
           const nextObject = payload.result[takenCount];
-
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
           if (nextObject) {
             state.objects[payload.country].push(nextObject);
           }

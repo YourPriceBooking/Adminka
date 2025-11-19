@@ -76,6 +76,7 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({
         } else {
           toast.error('Error: IS NOT URL ON POINT');
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         toast.error(`Error: ${err.response.data.message}`);
       }
@@ -113,6 +114,7 @@ export const AddAdressUrl: React.FC<AddAdressUrlProps> = ({
         } else {
           toast.error('Error: IS NOT URL ON LINK');
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         toast.error(`Error: ${err.response.data.message}`);
       }

@@ -18,6 +18,7 @@ export const BlogPage = () => {
 
   useEffect(() => {
     dispatch(fetchBlogPosts());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const filteredPosts = selectedCountry

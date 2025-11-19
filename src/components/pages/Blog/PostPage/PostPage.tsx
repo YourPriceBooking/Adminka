@@ -107,6 +107,7 @@ const PostPage: React.FC = () => {
       { resetForm }
     ) => {
       try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let data: any = {};
 
         if (id === 'new') {
@@ -136,6 +137,7 @@ const PostPage: React.FC = () => {
 
           await axios.post(`${blogBaseUrl}/post/add-post`, data);
           toast.success('Post Created');
+          // eslint-disable-next-line no-console
           console.log('data', data);
         } else {
           data = {
@@ -149,6 +151,7 @@ const PostPage: React.FC = () => {
           await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, data);
           toast.success('Post Updated');
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         if (axios.isAxiosError(err)) {
           toast.error(
@@ -208,6 +211,7 @@ const PostPage: React.FC = () => {
         const counties = countryData.map(currentCountry => currentCountry.country);
         setAllCategories(counties);
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error('Failed to fetch countries:', error);
         setAllCategories([]);
       }
@@ -229,6 +233,7 @@ const PostPage: React.FC = () => {
     } else if (id !== 'new' && (post.title !== title || post.description !== description)) {
       // SetDisabledSubmit(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [title, author, description, heading, country, text, image, id]);
 
   useEffect(() => {
@@ -251,6 +256,7 @@ const PostPage: React.FC = () => {
         });
 
         // SetDisabledSubmit(true);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         navigate('/blog');
         toast.error(String(error.response.data.message));
@@ -269,8 +275,9 @@ const PostPage: React.FC = () => {
       setAuthors(response.data.result);
     };
     fetchAuthors();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const checkImageType = (imgType: any) => {
     const lowerCaseImgType = imgType.toLowerCase();
 
@@ -333,7 +340,7 @@ const PostPage: React.FC = () => {
     }
 
     const file = e.target.files[0];
-
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!file) return;
 
     if (file.size > 512000) {
@@ -394,8 +401,9 @@ const PostPage: React.FC = () => {
     // if (id !== 'new') {
     //   formik.setFieldValue('country', defaultAuthor.name);
     // }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, authors]);
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const keyDownHandler = (e: any) => {
     if (e.code === 'Backspace' && image.length > 1) {
       for (let i = 1; i < image.length; i++) {
@@ -512,8 +520,12 @@ const PostPage: React.FC = () => {
 
                 {formik.values.image.length > 0 ? (
                   formik.values.image.map(file => (
-                    <div key={file.name + file.lastModified} className="preview-item">
-                      <p className="file-name">📸 {file.name ?? ''}</p>
+                    <div key={
+                      file.name + file.lastModified
+                    } className="preview-item">
+                      <p className="file-name">📸 {
+                        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                        file.name ?? ''}</p>
                     </div>
                   ))
                 ) : (

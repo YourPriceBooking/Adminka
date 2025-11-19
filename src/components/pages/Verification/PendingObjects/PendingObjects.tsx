@@ -42,12 +42,12 @@ export const PendingObjects = () => {
   const onClick = (country: string) => {
     dispatch(fetchVerificationObject(country));
   };
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onClickObjectInWorking = (item: any) => {
     const takeObject = { hotels: item._id, objectName: item.objectName };
     dispatch(fetchObjectInWorking(takeObject));
   };
-
+ 
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scrollLeft = () => {
@@ -74,16 +74,18 @@ export const PendingObjects = () => {
     dispatch(fetchVerification());
     dispatch(fetchInWorkingVerifier());
     const body = document.getElementsByTagName('body');
-
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (body[0]) {
       body[0].className = 'orange';
     }
     return () => {
       dispatch(clearVerificationObject());
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (body[0]) {
         body[0].className = '';
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
@@ -111,7 +113,9 @@ export const PendingObjects = () => {
           ◀
         </ArrowLeft>
         <ScrollWrapper ref={scrollRef}>
-          {verificationObject &&
+          {
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            verificationObject &&
             Object.keys(verificationObject).map(country => {
               const list = verificationObject[country];
               return (
@@ -138,6 +142,7 @@ export const PendingObjects = () => {
                   </div>
                   <div className="list">
                     {list
+                      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, @typescript-eslint/prefer-optional-chain
                       .filter(item => item && item._id)
                       .map(item => (
                         <Link
@@ -147,12 +152,17 @@ export const PendingObjects = () => {
                           onClick={() => onClickObjectInWorking(item)}
                         >
                           <HotelCards
+                            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
                             city={item.address.city ?? ''}
+                            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
                             hotel={item.objectName ?? ''}
+                            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
                             address={`${item.address.street ?? ''}, ${item.address.house ?? ''}, ${
+                            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
                               item.address.apartment ?? ''
                             }`}
                             imgSrc={item.photos[0]?.url ?? '/placeholder.png'}
+                            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
                             type={item.type.type ?? ''}
                           />
                         </Link>

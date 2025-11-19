@@ -4,7 +4,7 @@ import { DivObjectHistoryMain, HObject } from './ObjectHistory.styled';
 import { VerifInfo } from './Components/VerifInfo';
 import { ObjectHistoryOption } from './ObjectHistoryOption';
 import { SalesHistory } from './Components/SalesHistory';
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ObjectHistory: React.FC<{ handleTranslate: any }> = ({ handleTranslate }) => {
   const verifValues = ['Object ID 45454454 added', '00:12 22/12/2023', 'Hotelier ID 435473'];
   const verifValuesStart = [

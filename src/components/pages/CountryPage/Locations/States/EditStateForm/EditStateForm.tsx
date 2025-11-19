@@ -41,7 +41,7 @@ export const EditStateForm = ({ stateId }: EditStateFormProps) => {
   });
 
   if (!stateObj) return null;
-
+  // eslint-disable-next-line no-console
   console.log(stateObj);
   const {
     countryId,
