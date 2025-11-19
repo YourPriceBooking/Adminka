@@ -1,8 +1,8 @@
 import { useCustomTheme } from 'common/hooks';
-import { ThemeProvider } from 'styled-components/macro';
+// import { ThemeProvider } from 'styled-components/macro';
 import { ScrollContainer } from 'components/shared/Container';
 import { Layout } from 'components/Layout';
-import { GlobalStyle } from 'styles/GlobalStyle';
+// import { GlobalStyle } from 'styles/GlobalStyle';
 import { AppStyled } from 'App/App.styled';
 
 import { Flip, ToastContainer } from 'react-toastify';
@@ -11,13 +11,15 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export const App = () => {
   const theme = useCustomTheme();
+  // eslint-disable-next-line no-console
+  console.log(theme)
 
   
 
   return (
-    <ThemeProvider theme={theme}>
+    // <ThemeProvider theme={theme}>
       <ScrollContainer>
-        <GlobalStyle />
+        {/* <GlobalStyle /> */}
 
         <AppStyled className="App">
             <Layout />
@@ -25,6 +27,6 @@ export const App = () => {
 
         <ToastContainer position="top-center" autoClose={2800} transition={Flip} />
       </ScrollContainer>
-    </ThemeProvider>
+    // </ThemeProvider>
   );
 };
