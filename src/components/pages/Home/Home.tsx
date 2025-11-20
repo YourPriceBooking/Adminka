@@ -70,6 +70,7 @@ const HomeNavList = ({
   objects,
   bookingOptions,
 }: HomeNavListInterface) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   type DispatchAction = Dispatch<any>;
   const dispatch: DispatchAction = useDispatch();
 
@@ -168,12 +169,13 @@ export const Home: React.FC = () => {
 
   const { amount } = result;
   const { users, hoteliers, agents } = amount;
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   type DispatchAction = Dispatch<any>;
   const dispatch: DispatchAction = useDispatch();
-
+  
   useEffect(() => {
     dispatch(fetchVerifyObjects());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

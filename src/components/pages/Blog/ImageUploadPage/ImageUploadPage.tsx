@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useState, useRef } from 'react';
 import { Buttons, Header } from '../BlogPage/Blog.styled';
@@ -11,11 +11,14 @@ const allCategories = ['Home', 'Canada', 'Ukraine', 'USA', 'Poland'];
 
 const UploadImagePage: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [descriptionImage, setDescription] = useState('');
   const [alt, setAlt] = useState('');
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const returnTo: string =
+    typeof location.state?.returnTo === 'string' ? location.state.returnTo : '/blog/post/new';
 
   const handleUploadClick = () => {
     if (!descriptionImage.trim() || !alt.trim()) {
@@ -25,6 +28,13 @@ const UploadImagePage: React.FC = () => {
     fileInputRef.current?.click();
   };
 
+  const getPersistedState = () => ({
+    formValues: location.state?.formValues,
+    newImages: location.state?.newImages || [],
+    newAlts: location.state?.newAlts || [],
+    newCaptions: location.state?.newCaptions || [],
+  });
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -33,24 +43,14 @@ const UploadImagePage: React.FC = () => {
       toast.error('Image size must be under 500KB');
       return;
     }
-    const existingData = JSON.parse(localStorage.getItem('pendingImageData') || '{}');
+    const prevState = getPersistedState();
+    const prevImages: File[] = prevState.newImages;
+    const prevAlts: string[] = prevState.newAlts;
+    const prevCaptions: string[] = prevState.newCaptions;
 
-    const updatedFiles = Array.isArray(existingData.files) ? [...existingData.files] : [];
-    const updatedAlts = Array.isArray(existingData.alts) ? [...existingData.alts] : [];
-    const updatedCaptions = Array.isArray(existingData.captions) ? [...existingData.captions] : [];
-
-    updatedFiles.push(file.name);
-    updatedAlts.push(alt.trim() || ' ');
-    updatedCaptions.push(descriptionImage.trim() || ' ');
-    const imageData = {
-      ...existingData,
-      fileName: updatedFiles,
-      files: updatedFiles,
-      alts: updatedAlts,
-      captions: updatedCaptions,
-    };
-
-    localStorage.setItem('pendingImageData', JSON.stringify(imageData));
+    const newImages = [...prevImages, file];
+    const newAlts = [...prevAlts, alt.trim()];
+    const newCaptions = [...prevCaptions, descriptionImage.trim()];
 
     toast.success('✅ Image added!');
     setAlt('');
@@ -58,14 +58,31 @@ const UploadImagePage: React.FC = () => {
 
     if (fileInputRef.current) fileInputRef.current.value = '';
 
-    console.log(imageData);
+    setTimeout(() => {
+      navigate(returnTo, {
+        state: {
+          formValues: prevState.formValues,
+          newImages,
+          newAlts,
+          newCaptions,
+        },
+      });
+    }, 1200);
   };
 
   const handleSaveAndExit = () => {
     setLoading(true);
     toast.success('✅ Image saved! Returning to post editor...');
     setTimeout(() => {
-      navigate(-1);
+      const prevState = getPersistedState();
+      navigate(returnTo, {
+        state: {
+          formValues: prevState.formValues,
+          newImages: prevState.newImages,
+          newAlts: prevState.newAlts,
+          newCaptions: prevState.newCaptions,
+        },
+      });
     }, 1200);
   };
 

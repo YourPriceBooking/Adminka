@@ -20,10 +20,13 @@ export const districtsApi = api.injectEndpoints({
         const params = new URLSearchParams(args);
         return `${endpoints.locationStateRegister}?${params.toString()}`;
       },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       transformResponse: (result: any) => {
         const register = result?.data?.register;
         if (Array.isArray(register)) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const districts = register.flatMap((state: any) =>
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (state?.cities ?? []).flatMap((city: any) => city?.districts ?? [])
           );
           return saveManyDistricts({ data: { districts } } as ManyDistricts);

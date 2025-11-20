@@ -17,7 +17,7 @@ export const fetchVerifierData = createAsyncThunk(
         },
         withCredentials: true,
       });
-      const data = response.data.result as ResponseVerificationDocument;
+      const data = response.data.result[0] as ResponseVerificationDocument;
       return data;
     } catch (error) {
       return rejectWithValue(error);

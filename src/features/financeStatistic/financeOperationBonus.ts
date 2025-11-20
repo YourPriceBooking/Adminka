@@ -13,6 +13,7 @@ export const fetchTotalBonus = createAsyncThunk<AmountOfBonus>(
       const response = await axios.get(`${baseUrl}/acsess-to-admin${endpoints.getTotalBonus}`, {
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
+          // eslint-disable-next-line  @typescript-eslint/no-non-null-assertion
           Authorization: `Bearer ${authToken.enterToken.token!}`,
         },
         withCredentials: true,

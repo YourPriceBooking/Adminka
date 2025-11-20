@@ -25,7 +25,9 @@ type Prop = {
 };
 
 const createStatistic = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   statisticsObjects: any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   hoteliers: any,
   verifyObjects: VerifyObjectsData,
   bookingOptions: BookingOptionsData

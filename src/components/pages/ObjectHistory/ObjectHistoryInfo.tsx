@@ -139,6 +139,7 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
     } catch (error) {
       toast.error(`Error: OBJECT DON'T VERIFY`);
     }
+    // eslint-disable-next-line no-console
     console.log('Sending data to backend:', {
       hotelId,
       phone1: phoneNumbers[0],
@@ -182,8 +183,11 @@ export const ObjectHistoryInfo: React.FC<ObjectInfoInfo> = ({
         setIsSubmitted(true);
         toast.success('OK');
       }
+      // eslint-disable-next-line no-console
       console.log(response);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
+      // eslint-disable-next-line no-console
       console.log(err);
     }
   };

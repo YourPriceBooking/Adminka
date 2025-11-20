@@ -43,10 +43,11 @@ type ResponseData = {
     };
   };
 };
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const EmailsData = ({ emails }: { emails: any }) => {
   const token = useAppSelector((state: RootState) => state.enterToken.token);
   const dispatch = useAppDispatch();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [selectedItem, setSelectedItems] = useState<any>();
 
   const [banClicked, setBanClicked] = useState(false);
@@ -62,10 +63,11 @@ export const EmailsData = ({ emails }: { emails: any }) => {
       });
       dispatch(setToken(null));
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Помилка під час виходу з акаунта', error);
     }
   };
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChangeBanStatus = async (email: any) => {
     try {
       const response: AxiosResponse<ResponseData> = await axios.patch(
@@ -86,6 +88,7 @@ export const EmailsData = ({ emails }: { emails: any }) => {
 
       return status === 'success';
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
       return false;
     }
@@ -97,7 +100,7 @@ export const EmailsData = ({ emails }: { emails: any }) => {
       queryClient.invalidateQueries({ queryKey: ['emailsData'] });
     },
   });
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleBanClick = async (email: any) => {
     setBanClicked(!banClicked);
     if (email.access.length === 0) {
@@ -105,7 +108,7 @@ export const EmailsData = ({ emails }: { emails: any }) => {
     }
     mutation.mutate(email.email);
   };
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleOpen = (email: any) => {
     setSelectedItems(email);
   };
@@ -134,8 +137,9 @@ export const EmailsData = ({ emails }: { emails: any }) => {
             <p>Mowgli Booking</p>
           </div>
         </EmailMainHeaderStyled>
-
-        {emails.map((email: any) => (
+        {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          emails.map((email: any) => (
           <>
             <EmailMainBodyStyled key={email.id}>
               <p className="email">{email.email}</p>

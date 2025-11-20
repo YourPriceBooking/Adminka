@@ -3,7 +3,7 @@ import { blogBaseUrl } from 'features/api';
 import axios from 'axios';
 
 const pageTypes = ['home', 'ukraine', 'poland', 'usa', 'canada'];
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const fetchBlogPosts = createAsyncThunk<any>(
   'blog/fetchBlogPosts',
   async (_, { rejectWithValue }) => {

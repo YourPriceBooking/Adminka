@@ -1,6 +1,7 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { RootState } from 'App/store';
+// import { setToken, logout } from 'features/access/tokenSlice';
 import type {
   MaybeCitiesEntity,
   MaybeCountriesEntity,
@@ -103,6 +104,7 @@ export enum Keys {
 
 export const tagList = (result: Result, type: Type) => [
   { type, id: 'LIST' },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ...(result ? result.ids.map((id: any) => ({ type, id })) : []),
 ];
 

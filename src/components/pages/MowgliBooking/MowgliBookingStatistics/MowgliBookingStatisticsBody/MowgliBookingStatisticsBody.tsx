@@ -57,7 +57,10 @@ export const MowgliBookingStatisticsBody: React.FC<Prop> = ({
         {statistics.map(({ title, value, isClicked }, index) => (
           <ListItem key={title} onClick={() => handleClick(index)} isClicked={isClicked}>
             <TextItem onClick={() => togglePage(title)}>{title} </TextItem>
-            <TextSpan>{value || 'None'}</TextSpan>
+            <TextSpan>{
+              // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+              value || 'None'
+            }</TextSpan>
           </ListItem>
         ))}
       </WrapperBody>

@@ -20,6 +20,7 @@ export const saveManyLanguages = (result?: ManyLanguages) => {
 
   const languagesWithoutNestedCountries: LanguageWithCountriesIds[] = languages.map(lang => ({
     ...lang,
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     dbLangCode: lang.dbLangCode ?? 'EN',
     createdAt: '2022-08-27T19:58:09.289Z',
     updatedAt: new Date().toISOString(),

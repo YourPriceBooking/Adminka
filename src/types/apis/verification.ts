@@ -69,6 +69,7 @@ export type ResponseVerificationTypeObjects = {
   data: VerificationObjectType;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type VerificationCountryListInWorking = Record<any, any>;
 
 export type ResponseInWorkingCountryList = {

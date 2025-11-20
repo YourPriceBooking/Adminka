@@ -1,7 +1,7 @@
 /* eslint-disable no-plusplus */
 import type { ChangeEvent, RefObject } from 'react';
-import { useRef, useEffect, useState, useMemo } from 'react';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useRef, useEffect, useState, useMemo, useCallback } from 'react';
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import backArrow from 'assets/icons/backarrow.svg';
 import { useAppSelector } from 'App';
@@ -16,7 +16,6 @@ import { blogBaseUrl } from 'features/api';
 import { BlogContainer, Header } from '../BlogPage/Blog.styled';
 import { PostContent } from './PostPage.styled';
 import ModalAddLater from './ModalAddLater/ModalAddLater';
-
 
 type Author = {
   _id: number;
@@ -40,7 +39,8 @@ type FormikType = {
   country: string;
   text: string;
   image: File[];
-  imageName?: string;
+  alts: string[];
+  captions: string[];
 };
 
 type Country = {
@@ -55,19 +55,40 @@ type CountryResponse = {
   country: Country[];
 };
 
-
-
 const PostPage: React.FC = () => {
   // const [disableSubmit, SetDisabledSubmit] = useState(true);
   const [authors, setAuthors] = useState<Author[]>([]);
   const [isOpenModel, setIsOpenModal] = useState(false);
-  const [langCode] = useState<string>("EN")
-  const [allCategories, setAllCategories] = useState<string[]>([])
+  const [langCode] = useState<string>('EN');
+  const [allCategories, setAllCategories] = useState<string[]>([]);
 
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const uploadState = location.state as
+    | {
+        newImages?: File[];
+        newAlts?: string[];
+        newCaptions?: string[];
+        formValues?: FormikType;
+      }
+    | undefined;
+
   const ref = useRef<ReactQuill & { editor: QuillEditor }>(null);
   const inputImgRef = useRef() as RefObject<HTMLInputElement>;
+  const imagesRef = useRef<File[]>([]);
+  const formikValuesRef = useRef<FormikType>({
+    title: '',
+    author: '',
+    description: '',
+    heading: '',
+    country: '',
+    text: '',
+    image: [],
+    alts: [],
+    captions: [],
+  });
 
   const formik = useFormik<FormikType>({
     initialValues: {
@@ -78,10 +99,15 @@ const PostPage: React.FC = () => {
       country: '',
       text: '',
       image: [],
-      imageName: '',
+      alts: [],
+      captions: [],
     },
-    onSubmit: async ({ title, author, description, heading, country, text, image }) => {
+    onSubmit: async (
+      { title, author, description, heading, country, text, image, alts, captions },
+      { resetForm }
+    ) => {
       try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let data: any = {};
 
         if (id === 'new') {
@@ -95,9 +121,13 @@ const PostPage: React.FC = () => {
             'articleUrl',
             `https://www.thewandered.com/${title.toLowerCase().replace(' ', '-')}`
           );
+
           image.forEach(file => {
             data.append('image', file);
           });
+
+          alts.forEach(a => data.append('alts', a));
+          captions.forEach(c => data.append('captions', c));
 
           if (country !== 'home') {
             data.append('country', country);
@@ -107,6 +137,8 @@ const PostPage: React.FC = () => {
 
           await axios.post(`${blogBaseUrl}/post/add-post`, data);
           toast.success('Post Created');
+          // eslint-disable-next-line no-console
+          console.log('data', data);
         } else {
           data = {
             title,
@@ -119,6 +151,7 @@ const PostPage: React.FC = () => {
           await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, data);
           toast.success('Post Updated');
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         if (axios.isAxiosError(err)) {
           toast.error(
@@ -127,50 +160,64 @@ const PostPage: React.FC = () => {
         } else {
           toast.error(`Error: ${err.response?.data.message}`);
         }
+        return;
       }
+
+      resetForm();
     },
   });
 
   const { title, author, description, heading, country, text, image } = formik.values;
 
   useEffect(() => {
-    const savedImage = localStorage.getItem('pendingImageData');
-    if (savedImage) {
-      const { fileName } = JSON.parse(savedImage);
+    imagesRef.current = formik.values.image;
+    formikValuesRef.current = formik.values;
+  }, [formik.values]);
 
-      formik.setFieldValue('image', [fileName]);
-      formik.setFieldValue('imageName', fileName);
+  useEffect(() => {
+    if (!uploadState) return;
 
-      toast.success('🖼️ Image data loaded from upload page!');
-      localStorage.removeItem('pendingImageData');
+    if (uploadState.formValues) {
+      formik.setValues(uploadState.formValues);
     }
 
-    
-  }, []);
+    if (uploadState.newImages) {
+      formik.setFieldValue('image', uploadState.newImages);
+    }
+    if (uploadState.newAlts) {
+      formik.setFieldValue('alts', uploadState.newAlts);
+    }
+    if (uploadState.newCaptions) {
+      formik.setFieldValue('captions', uploadState.newCaptions);
+    }
+
+    navigate(location.pathname, { replace: true });
+  }, [uploadState, formik, navigate, location.pathname]);
 
   useEffect(() => {
     const getCountries = async () => {
       try {
-        const { data: { country: countryData } } = await axios.get<CountryResponse>('https://ypbooking.chost.com.ua/blog/api/country/get-country', {
-          params: {
-            langCode
+        const {
+          data: { country: countryData },
+        } = await axios.get<CountryResponse>(
+          'https://ypbooking.chost.com.ua/blog/api/country/get-country',
+          {
+            params: {
+              langCode,
+            },
           }
-        })
-        
+        );
 
-        const counties = countryData.map(currentCountry => currentCountry.country)
-        setAllCategories(counties)
-
-        
+        const counties = countryData.map(currentCountry => currentCountry.country);
+        setAllCategories(counties);
       } catch (error) {
-        console.error('Failed to fetch countries:', error)
-        setAllCategories([])
+        // eslint-disable-next-line no-console
+        console.error('Failed to fetch countries:', error);
+        setAllCategories([]);
       }
-    }
-    getCountries()
-  }, [langCode])
-
-
+    };
+    getCountries();
+  }, [langCode]);
 
   if (!id) return <Navigate to="/blog" replace />;
   const post = useAppSelector(state => getPost(state, id));
@@ -186,6 +233,7 @@ const PostPage: React.FC = () => {
     } else if (id !== 'new' && (post.title !== title || post.description !== description)) {
       // SetDisabledSubmit(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [title, author, description, heading, country, text, image, id]);
 
   useEffect(() => {
@@ -202,10 +250,13 @@ const PostPage: React.FC = () => {
           description: data.result.description,
           heading: data.result.heading,
           country: data.result.country,
-          image: data.result.imageUrl,
+          image: [],
+          alts: [],
+          captions: [],
         });
 
         // SetDisabledSubmit(true);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         navigate('/blog');
         toast.error(String(error.response.data.message));
@@ -224,8 +275,9 @@ const PostPage: React.FC = () => {
       setAuthors(response.data.result);
     };
     fetchAuthors();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const checkImageType = (imgType: any) => {
     const lowerCaseImgType = imgType.toLowerCase();
 
@@ -288,7 +340,7 @@ const PostPage: React.FC = () => {
     }
 
     const file = e.target.files[0];
-
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     if (!file) return;
 
     if (file.size > 512000) {
@@ -306,6 +358,18 @@ const PostPage: React.FC = () => {
     formik.setFieldValue('text', `${text}<img src="imgUrlByIdx" alt="${file.name}" />`);
   };
 
+  const handleOpenImageUpload = useCallback(() => {
+    navigate(`/blog/post/upload-image`, {
+      state: {
+        returnTo: location.pathname,
+        formValues: formikValuesRef.current,
+        newImages: imagesRef.current,
+        newAlts: formikValuesRef.current.alts,
+        newCaptions: formikValuesRef.current.captions,
+      },
+    });
+  }, [navigate, location.pathname]);
+
   const modules = useMemo(
     () => ({
       toolbar: {
@@ -319,13 +383,11 @@ const PostPage: React.FC = () => {
         ],
 
         handlers: {
-          image: () => {
-            navigate(`/blog/post/upload-image`);
-          },
+          image: handleOpenImageUpload,
         },
       },
     }),
-    []
+    [handleOpenImageUpload]
   );
 
   useEffect(() => {
@@ -339,8 +401,9 @@ const PostPage: React.FC = () => {
     // if (id !== 'new') {
     //   formik.setFieldValue('country', defaultAuthor.name);
     // }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, authors]);
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const keyDownHandler = (e: any) => {
     if (e.code === 'Backspace' && image.length > 1) {
       for (let i = 1; i < image.length; i++) {
@@ -448,15 +511,23 @@ const PostPage: React.FC = () => {
               <div>
                 <button
                   type="button"
-                  onClick={() => navigate(`/blog/post/upload-image`)}
+                  onClick={handleOpenImageUpload}
                   className="custom-file-upload"
                   style={{ cursor: 'pointer' }}
                 >
                   Select Image for Article
                 </button>
 
-                {formik.values.imageName ? (
-                  <p className="file-name">📸 {formik.values.imageName}</p>
+                {formik.values.image.length > 0 ? (
+                  formik.values.image.map(file => (
+                    <div key={
+                      file.name + file.lastModified
+                    } className="preview-item">
+                      <p className="file-name">📸 {
+                        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+                        file.name ?? ''}</p>
+                    </div>
+                  ))
                 ) : (
                   <p className="warning">The photo size must be up to 500 KB</p>
                 )}

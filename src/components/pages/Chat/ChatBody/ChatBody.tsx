@@ -23,7 +23,7 @@ export const ChatBody = () => {
   const fullDay = date.toUTCString().split(' ').slice(1, 4).join(' ');
 
   const formattedDate = `${hour}:${minute} ${fullDay}`;
-
+  // eslint-disable-next-line no-console
   console.log(formattedDate);
 
   const first = () => {

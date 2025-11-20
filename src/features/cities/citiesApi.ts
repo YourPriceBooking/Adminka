@@ -12,9 +12,11 @@ export const citiesApi = api.injectEndpoints({
           const params = new URLSearchParams(args);
           return `${endpoints.locationStateRegister}?${params.toString()}`;
         },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         transformResponse: (result: any) => {
           const register = result?.data?.register;
           if (Array.isArray(register)) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const cities = register.flatMap((state: any) => state?.cities ?? []);
             return saveManyCities({ data: { cities } } as ManyCities);
           }
