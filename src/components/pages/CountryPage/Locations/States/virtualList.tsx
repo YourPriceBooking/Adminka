@@ -18,16 +18,15 @@ const Cell = ({ columnIndex, rowIndex, style }: CellProps) => (
 );
 
 export const Grid = () => (
-  // <VariableSizeGrid
-  //   className="grid"
-  //   columnCount={3}
-  //   columnWidth={index => columnWidths[index]}
-  //   height={300}
-  //   rowCount={100}
-  //   rowHeight={index => rowHeights[index]}
-  //   width={500}
-  // >
-  //  </VariableSizeGrid >
-  <>{Cell}</>
- 
+  <VariableSizeGrid
+    className="grid"
+    columnCount={3}
+    columnWidth={index => columnWidths[index]}
+    height={300}
+    rowCount={100}
+    rowHeight={index => rowHeights[index]}
+    width={500}
+  >
+    {Cell}
+  </VariableSizeGrid>
 );
