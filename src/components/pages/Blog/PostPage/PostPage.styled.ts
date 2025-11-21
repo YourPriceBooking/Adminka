@@ -163,7 +163,9 @@ export const PostContent = styled.div`
   }
 
   & img {
-    width: 45%;
+    width: 100px;
+    height: 100px;
+    display: block;
   }
   & iframe {
     width: 45%;
