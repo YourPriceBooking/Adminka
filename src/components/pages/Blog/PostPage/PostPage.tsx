@@ -9,6 +9,8 @@ import { getPost } from 'features/blog/blogSelector';
 import { useFormik } from 'formik';
 import ReactQuill from 'react-quill';
 import type QuillEditor from 'quill';
+import type { RangeStatic } from 'quill';
+import Quill from "quill";
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import { blogBaseUrl } from 'features/api';
@@ -16,6 +18,10 @@ import { blogBaseUrl } from 'features/api';
 import { BlogContainer, Header } from '../BlogPage/Blog.styled';
 import { PostContent } from './PostPage.styled';
 import ModalAddLater from './ModalAddLater/ModalAddLater';
+
+
+const Image = Quill.import("formats/image");
+Image.sanitize = (url: string) => url;
 
 type Author = {
   _id: number;
@@ -68,10 +74,12 @@ const PostPage: React.FC = () => {
 
   const uploadState = location.state as
     | {
-        newImages?: File[];
-        newAlts?: string[];
-        newCaptions?: string[];
-        formValues?: FormikType;
+      mode:string,
+     newImages?: File[];
+     newAlts?: string[];
+     newCaptions?: string[];
+    formValues?: FormikType;
+    cursorRange?: RangeStatic | null;
       }
     | undefined;
 
@@ -89,6 +97,8 @@ const PostPage: React.FC = () => {
     alts: [],
     captions: [],
   });
+  const editorRangeRef = useRef<any>(null);
+  const insertedRef = useRef<boolean>(false);
 
   const formik = useFormik<FormikType>({
     initialValues: {
@@ -176,6 +186,7 @@ const PostPage: React.FC = () => {
 
   useEffect(() => {
     if (!uploadState) return;
+    if (insertedRef.current) return;
 
     if (uploadState.formValues) {
       formik.setValues(uploadState.formValues);
@@ -189,6 +200,27 @@ const PostPage: React.FC = () => {
     }
     if (uploadState.newCaptions) {
       formik.setFieldValue('captions', uploadState.newCaptions);
+    }
+
+    if (uploadState.mode === "editor") {
+      insertedRef.current = true;
+
+      const files = uploadState.newImages ?? [];
+      const lastFile = files[files.length - 1];
+      const imgUrl = URL.createObjectURL(lastFile);
+
+      setTimeout(() => {
+        const quill = ref.current?.editor;
+        const cursor = uploadState.cursorRange;
+
+        if (quill) {
+          if (cursor && typeof cursor.index === "number") {
+            quill.insertEmbed(cursor.index, "image", imgUrl, "user");
+          } else {
+            quill.insertEmbed(quill.getLength(), "image", imgUrl, "user");
+          }
+        }
+      }, 50);
     }
 
     navigate(location.pathname, { replace: true });
@@ -358,14 +390,20 @@ const PostPage: React.FC = () => {
     formik.setFieldValue('text', `${text}<img src="imgUrlByIdx" alt="${file.name}" />`);
   };
 
-  const handleOpenImageUpload = useCallback(() => {
+  const openEditorImageUpload = useCallback(() => {
+    // save cursor position
+    const range = ref.current?.editor.getSelection();
+    editorRangeRef.current = range;
+
     navigate(`/blog/post/upload-image`, {
       state: {
+        mode: "editor",
         returnTo: location.pathname,
         formValues: formikValuesRef.current,
         newImages: imagesRef.current,
         newAlts: formikValuesRef.current.alts,
         newCaptions: formikValuesRef.current.captions,
+        cursorRange: editorRangeRef.current,
       },
     });
   }, [navigate, location.pathname]);
@@ -383,11 +421,11 @@ const PostPage: React.FC = () => {
         ],
 
         handlers: {
-          image: handleOpenImageUpload,
+          image: openEditorImageUpload,
         },
       },
     }),
-    [handleOpenImageUpload]
+    [openEditorImageUpload]
   );
 
   useEffect(() => {
@@ -416,6 +454,18 @@ const PostPage: React.FC = () => {
         }
       }
     }
+  };
+  const openMainImageUpload = () => {
+    navigate(`/blog/post/upload-image`, {
+      state: {
+        mode: "main",
+        returnTo: location.pathname,
+        formValues: formikValuesRef.current,
+        newImages: imagesRef.current,
+        newAlts: formikValuesRef.current.alts,
+        newCaptions: formikValuesRef.current.captions,
+      },
+    });
   };
 
   return (
@@ -511,7 +561,7 @@ const PostPage: React.FC = () => {
               <div>
                 <button
                   type="button"
-                  onClick={handleOpenImageUpload}
+                    onClick={openMainImageUpload}
                   className="custom-file-upload"
                   style={{ cursor: 'pointer' }}
                 >
@@ -519,16 +569,14 @@ const PostPage: React.FC = () => {
                 </button>
 
                 {formik.values.image.length > 0 ? (
-                  formik.values.image.map(file => (
-                    <div key={
-                      file.name + file.lastModified
-                    } className="preview-item">
+
+                    <div className="preview-item">
                       <p className="file-name">📸 {
                         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                        file.name ?? ''}</p>
+                        formik.values.image[0].name ?? ''}</p>
                     </div>
-                  ))
-                ) : (
+                  )
+                 : (
                   <p className="warning">The photo size must be up to 500 KB</p>
                 )}
               </div>

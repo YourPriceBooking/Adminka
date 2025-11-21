@@ -19,6 +19,7 @@ const UploadImagePage: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const returnTo: string =
     typeof location.state?.returnTo === 'string' ? location.state.returnTo : '/blog/post/new';
+  const mode = location.state?.mode ?? "editor";
 
   const handleUploadClick = () => {
     if (!descriptionImage.trim() || !alt.trim()) {
@@ -43,14 +44,22 @@ const UploadImagePage: React.FC = () => {
       toast.error('Image size must be under 500KB');
       return;
     }
-    const prevState = getPersistedState();
-    const prevImages: File[] = prevState.newImages;
-    const prevAlts: string[] = prevState.newAlts;
-    const prevCaptions: string[] = prevState.newCaptions;
 
-    const newImages = [...prevImages, file];
-    const newAlts = [...prevAlts, alt.trim()];
-    const newCaptions = [...prevCaptions, descriptionImage.trim()];
+    const prevState = getPersistedState();
+    const newImages = [...prevState.newImages];
+   const newAlts = [...prevState.newAlts];
+    const newCaptions = [...prevState.newCaptions];
+
+    if (mode === "main") {
+      newImages[0] = file;
+      newAlts[0] = alt.trim();
+      newCaptions[0] = descriptionImage.trim();
+
+    } else {
+      newImages.push(file);
+      newAlts.push(alt.trim());
+      newCaptions.push(descriptionImage.trim());
+    }
 
     toast.success('✅ Image added!');
     setAlt('');
@@ -65,10 +74,13 @@ const UploadImagePage: React.FC = () => {
           newImages,
           newAlts,
           newCaptions,
+          cursorRange: location.state?.cursorRange,
+          mode,
         },
       });
-    }, 1200);
+    }, 1000);
   };
+
 
   const handleSaveAndExit = () => {
     setLoading(true);
@@ -81,6 +93,8 @@ const UploadImagePage: React.FC = () => {
           newImages: prevState.newImages,
           newAlts: prevState.newAlts,
           newCaptions: prevState.newCaptions,
+          cursorRange: location.state?.cursorRange,
+          mode,
         },
       });
     }, 1200);
