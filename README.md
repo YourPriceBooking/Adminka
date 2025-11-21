@@ -15,3 +15,5 @@
 [deployment](https://facebook.github.io/create-react-app/docs/deployment)
 [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 [React documentation](https://reactjs.org/).
+
+version 0.1.1
