@@ -23,34 +23,61 @@ const formatDate = (dateString: Date) => {
   return new Date(dateString).toLocaleDateString('en-US', options);
 };
 
-export const ListItem: React.FC<ListItemProps> = ({ post, onClick, country }) => (
-  <PostWrapper onClick={onClick}>
-    <PostCategory>
-      <p>{country}</p>
-    </PostCategory>
+const getAuthorString = (author: any): string => {
+  if (typeof author === 'string') {
+    return author;
+  }
+  if (typeof author === 'object' && author !== null) {
+    return author.name || author._id || author.id || String(author);
+  }
+  return String(author || '');
+};
 
-    <div>
-      <PostTitle>{post.title}</PostTitle>
-      {post.publicationDate && (
-        <PostTitle>
-          <p>{formatDate(post.publicationDate)}</p>
-        </PostTitle>
-      )}
-      {post.changeDate && (
-        <PostTitle>
-          <p>{formatDate(post.changeDate)}</p>
-        </PostTitle>
-      )}
-      <PostTitle>{post.author}</PostTitle>
-      <PostTitle>
-        <a href={post.imageUrl} target="_blank" rel="noreferrer">
-          {post.imageUrl}
-        </a>
-      </PostTitle>
-    </div>
-    <PostDescription>
-      <PostTitle>Description:</PostTitle>
-      <p>{post.description}</p>
-    </PostDescription>
-  </PostWrapper>
-);
+const getImageUrl = (imageUrl: any): string => {
+  if (typeof imageUrl === 'string') {
+    return imageUrl;
+  }
+  if (typeof imageUrl === 'object' && imageUrl !== null) {
+    return imageUrl.url || imageUrl.id || String(imageUrl);
+  }
+  return String(imageUrl || '');
+};
+
+export const ListItem: React.FC<ListItemProps> = ({ post, onClick, country }) => {
+  const authorString = getAuthorString(post.author);
+  const imageUrlString = getImageUrl(post.imageUrl);
+
+  return (
+    <PostWrapper onClick={onClick}>
+      <PostCategory>
+        <p>{country}</p>
+      </PostCategory>
+
+      <div>
+        <PostTitle>{post.title}</PostTitle>
+        {post.publicationDate && (
+          <PostTitle>
+            <p>{formatDate(post.publicationDate)}</p>
+          </PostTitle>
+        )}
+        {post.changeDate && (
+          <PostTitle>
+            <p>{formatDate(post.changeDate)}</p>
+          </PostTitle>
+        )}
+        <PostTitle>{authorString}</PostTitle>
+        {imageUrlString && (
+          <PostTitle>
+            <a href={imageUrlString} target="_blank" rel="noreferrer">
+              {imageUrlString}
+            </a>
+          </PostTitle>
+        )}
+      </div>
+      <PostDescription>
+        <PostTitle>Description:</PostTitle>
+        <p>{post.description}</p>
+      </PostDescription>
+    </PostWrapper>
+  );
+};
