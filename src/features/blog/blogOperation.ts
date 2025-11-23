@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { blogBaseUrl } from 'features/api';
 import axios from 'axios';
 
-const pageTypes = ['home', 'ukraine', 'poland', 'usa', 'canada'];
+const pageTypes = ['home', 'ukraine', 'poland', 'usa', 'canada', 'singapore', 'australia'];
 
 export const fetchBlogPosts = createAsyncThunk<any>(
   'blog/fetchBlogPosts',
