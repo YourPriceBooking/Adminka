@@ -113,5 +113,6 @@
   "lint-staged": {
     "src/**/*.{ts,tsx,js,jsx}": "eslint --cache --fix",
     "src/**/*.{ts,tsx,js,jsx,json,css,scss,md}": "prettier --check --write --cache"
-  }
+  },
+  "packageManager": "yarn@4.11.0"
 }
