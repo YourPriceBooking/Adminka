@@ -2,8 +2,7 @@
 
 # dependencies
 /node_modules
-# .yarn
-!.yarn/releases
+.yarn
 /.pnp
 .pnp.js
 
