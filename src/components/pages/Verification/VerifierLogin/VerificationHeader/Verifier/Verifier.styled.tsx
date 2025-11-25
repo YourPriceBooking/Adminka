@@ -13,7 +13,7 @@ export const Wrapper = styled.div`
   justify-content: space-between;
 `;
 
-export const Text = styled.p`
+export const Text = styled.div`
   /* margin-bottom: 46px; */
   padding-top: 18px;
   padding-left: 29px;
