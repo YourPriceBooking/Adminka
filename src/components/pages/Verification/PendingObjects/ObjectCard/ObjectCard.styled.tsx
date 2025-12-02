@@ -68,15 +68,25 @@ export const Button = styled.button`
   border: none;
   padding: 0.7rem;
   max-width: 150px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: rgba(168, 213, 255, 1);
     box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
   }
 
-  &:active {
+  &:active:not(:disabled) {
     background-color: #d0d0d0;
     box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
+  }
+
+  &:disabled {
+    background-color: #d0d0d0;
+    color: #999999;
+    cursor: not-allowed;
+    opacity: 0.6;
+    box-shadow: none;
   }
 `;
 
@@ -91,6 +101,7 @@ export const Div = styled.div`
 
 export const ScrollWrapper = styled.div`
   display: flex;
+  align-items: flex-start;
   gap: 20px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -135,9 +146,10 @@ export const ArrowRight = styled(Arrow)`
 export const CardsStyle = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   min-width: 300px;
   width: max-content;
+  height: fit-content;
   background: #fff;
   border-radius: 10px;
   padding: 1rem;

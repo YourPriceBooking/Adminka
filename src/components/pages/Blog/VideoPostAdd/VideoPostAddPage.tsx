@@ -91,7 +91,7 @@ const VideoPostAddPage: React.FC = () => {
           <div className={classes.inputWrapper}>
             <label htmlFor="category">Category</label>
             <select name="category" id="category">
-              <option value=""> </option>
+              <option value="">Select category</option>
 
               {countries.map((item: string) => (
                 <option key={item} value={item}>

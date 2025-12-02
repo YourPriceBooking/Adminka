@@ -21,7 +21,15 @@ export const getVerificationObject = (state: RootState) => {
   Object.keys(objects).forEach(country => {
     const object = objects[country];
 
+    if (!Array.isArray(object)) {
+      return;
+    }
+
     const results = object.map(obj => {
+      if (!obj || !obj.type || !obj.type.id) {
+        return obj;
+      }
+
       const typeId = obj.type.id;
 
       const verificationType = state.verification.types?.object[0]?.objects.find(

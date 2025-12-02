@@ -132,7 +132,7 @@ export const PendingObjects = () => {
                     </p>
                   </div>
                   <div className="buttonBlock">
-                    <Button disabled={list.length === 10} onClick={() => onClick(country)}>
+                    <Button disabled={list.length >= 5} onClick={() => onClick(country)}>
                       Take one object for verification
                     </Button>
                   </div>
