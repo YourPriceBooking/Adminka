@@ -62,7 +62,21 @@ const verificationSlice = createSlice({
       .addCase(fetchInWorkingVerifier.fulfilled, (state, { payload }) => {
         state.isLoadingVerification = false;
 
-        payload.result.forEach((obj: any) => {
+        const resultArray = Array.isArray(payload.result)
+          ? payload.result
+          : payload.result?.result || [];
+
+        resultArray.forEach((obj: any) => {
+          if (!obj || !obj.hotels || !obj.hotels.location || !obj._id) {
+            return;
+          }
+
+          const country = obj.hotels.location.international;
+
+          if (!country || typeof country !== 'string') {
+            return;
+          }
+
           const newObject: VerificationObject = {
             address: obj.hotels.address,
             _id: obj._id,
@@ -71,30 +85,12 @@ const verificationSlice = createSlice({
             photos: obj.hotels.photos,
           };
 
-          if (obj.hotels.location.international === 'USA') {
-            if (!state.objects.USA.some(item => item._id === newObject._id)) {
-              state.objects.USA.push(newObject);
-            }
-          } else if (obj.hotels.location.international === 'Ukraine') {
-            if (!state.objects.Ukraine.some(item => item._id === newObject._id)) {
-              state.objects.Ukraine.push(newObject);
-            }
-          } else if (obj.hotels.location.international === 'Poland') {
-            if (!state.objects.Poland.some(item => item._id === newObject._id)) {
-              state.objects.Poland.push(newObject);
-            }
-          } else if (obj.hotels.location.international === 'Singapore') {
-            if (!state.objects.Singapore.some(item => item._id === newObject._id)) {
-              state.objects.Singapore.push(newObject);
-            }
-          } else if (obj.hotels.location.international === 'Australia') {
-            if (!state.objects.Australia.some(item => item._id === newObject._id)) {
-              state.objects.Australia.push(newObject);
-            }
-          } else if (obj.hotels.location.international === 'Canada') {
-            if (!state.objects.Canada.some(item => item._id === newObject._id)) {
-              state.objects.Canada.push(newObject);
-            }
+          if (!state.objects[country]) {
+            state.objects[country] = [];
+          }
+
+          if (!state.objects[country].some(item => item._id === newObject._id)) {
+            state.objects[country].push(newObject);
           }
         });
       })
@@ -140,6 +136,10 @@ const verificationSlice = createSlice({
         (state, { payload }: PayloadAction<ResponseVerificationObject>) => {
           if (!state.objects[payload.country]) {
             state.objects[payload.country] = [];
+          }
+
+          if (state.objects[payload.country].length >= 5) {
+            return;
           }
 
           const takenCount = state.objects[payload.country].length;
