@@ -1,6 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { baseUrl, endpoints } from 'features/api';
+import { logout } from 'features/common/auth/authSlice';
+import { setToken } from 'features/access/tokenSlice';
 import type {
   ResponseVerificationCountryList,
   ResponseVerificationObject,
@@ -76,7 +78,7 @@ export const fetchObjectTypes = createAsyncThunk<ResponseVerificationTypeObjects
 
 export const fetchInWorkingVerifier = createAsyncThunk<ResponseInWorkingCountryList>(
   'verification/fetchInWorkingVerifier',
-  async (_, { getState, rejectWithValue }) => {
+  async (_, { getState, dispatch, rejectWithValue }) => {
     try {
       const currentState: any = getState();
       const { token } = currentState.enterToken;
@@ -92,7 +94,20 @@ export const fetchInWorkingVerifier = createAsyncThunk<ResponseInWorkingCountryL
 
       return response.data;
     } catch (error: any) {
-      return rejectWithValue(getErrorMessage(error));
+      const errorMessage = getErrorMessage(error);
+      const serverMessage = error?.response?.data?.message;
+
+      if (
+        errorMessage === 'jwt expired' ||
+        errorMessage === 'jwt malformed' ||
+        serverMessage === 'jwt expired' ||
+        serverMessage === 'jwt malformed'
+      ) {
+        dispatch(setToken(null));
+        dispatch(logout());
+      }
+
+      return rejectWithValue(errorMessage);
     }
   }
 );
