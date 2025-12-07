@@ -67,7 +67,7 @@ const verificationSlice = createSlice({
           : payload.result?.result || [];
 
         resultArray.forEach((obj: any) => {
-          if (!obj || !obj.hotels || !obj.hotels.location || !obj._id) {
+          if (!obj || !obj.hotels || !obj.hotels.location || !obj.hotels._id) {
             return;
           }
 
@@ -79,7 +79,7 @@ const verificationSlice = createSlice({
 
           const newObject: VerificationObject = {
             address: obj.hotels.address,
-            _id: obj._id,
+            _id: obj.hotels._id,
             type: obj.hotels.type,
             objectName: obj.objectName,
             photos: obj.hotels.photos,

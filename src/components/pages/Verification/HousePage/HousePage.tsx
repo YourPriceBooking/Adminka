@@ -84,8 +84,8 @@ export const HousePage: React.FC = () => {
     };
   }, [dispatch, hotelId]);
 
-  const photos = hotelData.hotels.photos.map(({ url }) => url);
-  const desc = hotelData.hotels.services.map(({ type }) => type);
+  const photos = hotelData.hotels?.photos.map(({ url }) => url);
+  const desc = hotelData.hotels?.services.map(({ type }) => type);
   const {
     hotels: {
       address,
