@@ -78,11 +78,13 @@ const objectOnVerifySlice = createSlice({
         fetchVerifierData.fulfilled,
         (state, { payload }: PayloadAction<ResponseVerificationDocument>) => {
           state.isLoading = false;
-          state.data = payload;
-          state.data.hotels.translation = {
-            original: payload.hotels.description,
-            ...payload.hotels.translation,
-          };
+          if (payload && payload.hotels) {
+            state.data = payload;
+            state.data.hotels.translation = {
+              original: payload.hotels.description || '',
+              ...(payload.hotels.translation || {}),
+            };
+          }
         }
       )
       .addCase(fetchVerifierData.rejected, (state, { payload }) => {
