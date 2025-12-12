@@ -5,7 +5,7 @@ import fold from 'assets/icons/folder.svg';
 import { useState } from 'react';
 import { useAppSelector } from 'App';
 import { getObjectOnVerify } from 'features/objectOnVerify/objectOnVerifySelector';
-import { baseUrl } from 'features/api';
+
 import {
   DivFoldCenter,
   DivFoldMaterial,
@@ -18,6 +18,8 @@ import {
   SpanMaterial,
   StyledButton,
 } from './Compinents.styled';
+
+
 
 export const Material = () => {
   // const sampleText = `Test document`;
@@ -36,11 +38,11 @@ export const Material = () => {
     imgUrl: fold,
     sizeText: '??? Kb',
     nameText: elem.replace(regex, ''),
-    dataUrl: `${baseUrl}/${elem}`,
+    dataUrl: `https://ypbooking.chost.com.ua/verification/${elem}`,
   }));
 
   const materialDataVideo = video.map((elem: string) => ({
-    videoUrl: `${baseUrl}/${elem}`,
+    videoUrl: `https://ypbooking.chost.com.ua/verification/${elem}`,
     sizeText: '??? Kb',
     nameText: elem.replace(regex, ''),
   }));
@@ -49,8 +51,9 @@ export const Material = () => {
     imgUrl: fold,
     sizeText: '??? Kb',
     nameText: elem.replace(regex, ''),
-    dataUrl: `${baseUrl}/${elem}`,
+    dataUrl: `https://ypbooking.chost.com.ua/verification/${elem}`,
   }));
+
 
   // const materialData = [
   //   { imgUrl: fold, sizeText: '64 Kb', nameText: 'fjhnfd8hb.txt' },
