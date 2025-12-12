@@ -164,7 +164,7 @@ export const PFoldText = styled.p`
 
 export const DivFoldCenter = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2);
   margin-top: 30px;
 `;
 
