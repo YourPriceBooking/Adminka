@@ -12,6 +12,7 @@ import {
   fetchVerification,
   fetchVerificationObject,
   fetchInWorkingVerifier,
+  fetchHistoryVerifierId,
 } from './verificationOperation';
 
 const verificationInitialState: VerificationState = {
@@ -30,8 +31,11 @@ const verificationInitialState: VerificationState = {
     Canada: [],
   },
   types: null,
+  historyByVerifierId: null,
+  isLoadingHistoryByVerifierId: false,
   isLoadingVerification: false,
   error: null,
+  historyError: null,
 };
 
 const forcedCountries = ['Australia', 'Singapore', 'Canada'];
@@ -97,6 +101,19 @@ const verificationSlice = createSlice({
       .addCase(fetchInWorkingVerifier.rejected, (state, { payload }) => {
         state.isLoadingVerification = false;
         state.error = payload;
+      });
+    builder
+      .addCase(fetchHistoryVerifierId.pending, state => {
+        state.isLoadingHistoryByVerifierId = true;
+        state.historyError = null;
+      })
+      .addCase(fetchHistoryVerifierId.fulfilled, (state, { payload }) => {
+        state.isLoadingHistoryByVerifierId = false;
+        state.historyByVerifierId = Array.isArray(payload.result) ? payload.result : [];
+      })
+      .addCase(fetchHistoryVerifierId.rejected, (state, { payload }) => {
+        state.isLoadingHistoryByVerifierId = false;
+        state.historyError = payload;
       });
     builder
       .addCase(fetchVerification.pending, state => {

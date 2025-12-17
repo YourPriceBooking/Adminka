@@ -64,6 +64,7 @@ export const endpoints = {
   addDirHotelier: '/catalogForHotelier',
   amountObjectInCountry: '/get-amount-object-in-country',
   objectInWorkingByVerifier: '/verifier/get-objects-for-verify',
+  historyVerifierId: '/verifier/get-history-by-verifier-id',
   objectInWorking: '/verifier/get-to-verify',
   verificationObjects: '/get-earlier-object',
   getObjectTypes: '/get-objects',

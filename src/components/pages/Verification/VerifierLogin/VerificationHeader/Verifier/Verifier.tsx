@@ -1,7 +1,25 @@
-import { useAppSelector } from 'App';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from 'App';
 import { Modal } from 'components/shared/Modal';
 import { useModal } from 'common/hooks';
-import { Wrapper, Btn, Text, BtnWrapper, ModalContainer, ModalContent } from './Verifier.styled';
+import {
+  Wrapper,
+  Btn,
+  Text,
+  BtnWrapper,
+  ModalContainer,
+  ModalContent,
+  VerifierInfoContainer,
+  TexInfo,
+  IconWrapper,
+} from './Verifier.styled';
+import { fetchHistoryVerifierId } from 'features/verification/verificationOperation';
+import {
+  getHistoryByVerifierId,
+  getHistoryByVerifierIdError,
+  getHistoryByVerifierIdLoading,
+} from 'features/verification/verificationSelectors';
+import verifierHistoryModalIcon from '../../../../../../assets/icons/verifierHistoryModalIcon.svg';
 
 // const VerifierModalContent = () => (
 
@@ -9,38 +27,61 @@ import { Wrapper, Btn, Text, BtnWrapper, ModalContainer, ModalContent } from './
 
 export const Verifier = () => {
   const { showModal, openModal, closeModal } = useModal();
+  const dispatch = useAppDispatch();
+
+  const history = useAppSelector(getHistoryByVerifierId);
+  const isHistoryLoading = useAppSelector(getHistoryByVerifierIdLoading);
+  const historyError = useAppSelector(getHistoryByVerifierIdError);
+  const email = useAppSelector(state => state.auth.email);
+
+  useEffect(() => {
+    if (!showModal) return;
+    dispatch(fetchHistoryVerifierId());
+  }, [dispatch, showModal]);
 
   const isModalOpen = showModal && (
     <Modal closeModal={closeModal}>
       <ModalContainer>
+        <VerifierInfoContainer>
+          <TexInfo>
+            <p>Verifier ID {history?.[0]?.verifierId}</p>
+            <p>{email}</p>
+          </TexInfo>
+          <IconWrapper>
+            <img src={verifierHistoryModalIcon} alt="Verifier avatar" />
+          </IconWrapper>
+        </VerifierInfoContainer>
         <h1>Verified / Not Verified objects</h1>
         <ModalContent>
+          {isHistoryLoading && <p>Loading...</p>}
+          {!isHistoryLoading && !!historyError && <p>Failed to load history</p>}
           <table>
-            <tr>
-              <td>ID 1123467LON</td>
-              <td>Hilton</td>
-              <td className="date">11/01/2024</td>
-              <td className="active">Verified</td>
-            </tr>
-            <tr>
-              <td>ID 7874567GHV</td>
-              <td>Hilton</td>
-              <td className="date">12/01/2024</td>
-              <td>Not Verified</td>
-            </tr>
+            {!isHistoryLoading &&
+              Array.isArray(history) &&
+              history.map(item => (
+                <tr key={item._id}>
+                  <td>ID {item.hotels}</td>
+                  <td>{item.objectName}</td>
+                  <td className="date">{new Date(item.getToVerify).toLocaleDateString()}</td>
+                  <td className={item.decision === 'verified' ? 'active' : undefined}>
+                    {item.decision}
+                  </td>
+                </tr>
+              ))}
           </table>
+          {!isHistoryLoading && Array.isArray(history) && history.length === 0 && <p>No history</p>}
         </ModalContent>
       </ModalContainer>
     </Modal>
   );
 
-  const email = useAppSelector(state => state.auth.email);
+
 
   return (
     <>
       <Wrapper>
         <Text>
-          <p>Verifier ID 00001</p>
+          <p>Verifier ID {history?.[0]?.verifierId}</p>
           <p>{email}</p>
         </Text>
         <BtnWrapper>
