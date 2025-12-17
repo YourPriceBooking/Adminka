@@ -57,3 +57,11 @@ export const getVerificationObject = (state: RootState) => {
 
 export const getVerificationTypeObjects = (state: RootState) =>
   state.verification.types?.object[0].objects;
+
+export const getHistoryByVerifierId = (state: RootState) =>
+  state.verification.historyByVerifierId;
+
+export const getHistoryByVerifierIdLoading = (state: RootState) =>
+  state.verification.isLoadingHistoryByVerifierId;
+
+export const getHistoryByVerifierIdError = (state: RootState) => state.verification.historyError;

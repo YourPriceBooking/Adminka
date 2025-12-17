@@ -16,6 +16,7 @@ import {
   InputMaterial,
   PFoldText,
   SpanMaterial,
+  ButtonRow,
   StyledButton,
 } from './Compinents.styled';
 
@@ -78,17 +79,6 @@ export const Material = () => {
   // const dataUrl = URL.createObjectURL(new Blob([sampleText], { type: 'text/plain' }));
   // const imageUrl = URL.createObjectURL(new Blob(['imageData'], { type: 'image/jpeg' }));
 
-  const [showButtons, setShowButtons] = useState<Record<string, boolean>>(
-    materialDataVideo.reduce((acc, _, index) => ({ ...acc, [`image_${index}`]: false }), {})
-  );
-
-  const handleImageClick = (key: string) => {
-    setShowButtons(prevShowButtons => ({
-      ...prevShowButtons,
-      [key]: !prevShowButtons[key],
-    }));
-  };
-
   return (
     <DivMaterialMain>
       <DivMaterial>
@@ -102,14 +92,12 @@ export const Material = () => {
               <ImgFoldMaterial
                 src={fold}
                 alt="fold"
-                onClick={() => handleImageClick(`image_${index}`)}
               />
               <PFoldText>
                 {data.sizeText}
                 <br /> {data.nameText}
               </PFoldText>
-              {showButtons[`image_${index}`] && (
-                <div>
+                <ButtonRow>
                   <StyledButton
                     type="button"
                     onClick={() => window.open(materialDataVideo[index].videoUrl, '_blank')}
@@ -127,8 +115,7 @@ export const Material = () => {
                   >
                     Download
                   </StyledButton>
-                </div>
-              )}
+                </ButtonRow>
             </div>
           ))}
         </DivFoldMaterial>
@@ -149,13 +136,12 @@ export const Material = () => {
                   {data.nameText}
                 </PFoldText>
               </a>
+            <div>
+                <InputMaterial type="text" value={data.dataUrl} />
+            </div>
             </div>
           ))}
         </DivFoldCenter>
-        <div>
-          <InputMaterial type="text" value="https://www.figma.com/file/v" />
-          <InputMaterial type="text" value="https://www.figma.com/file/v" />
-        </div>
       </DivMaterial>
       <DivMaterial>
         <div>
