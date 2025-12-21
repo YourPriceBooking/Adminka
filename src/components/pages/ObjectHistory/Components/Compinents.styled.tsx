@@ -171,6 +171,7 @@ export const DivFoldCenter = styled.div`
 export const ImgFoldMaterial = styled.img`
   width: 70.841px;
   height: 75.51px;
+  cursor: pointer;
 `;
 
 export const DivFrameCamera = styled.div`
@@ -227,6 +228,14 @@ export const StyledButton = styled.button`
   :hover {
     border: 1px solid #434348;
   }
+`;
+
+export const ButtonRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 `;
 
 export const DivVerifInfo = styled.div`

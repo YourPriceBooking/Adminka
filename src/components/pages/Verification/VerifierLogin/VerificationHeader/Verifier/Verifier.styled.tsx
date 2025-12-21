@@ -102,6 +102,52 @@ export const ModalContainer = styled.div`
   }
 `;
 
+export const VerifierInfoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-right: 20px;
+`;
+
+export const TexInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+
+  & p {
+    margin: 0;
+    font-family: 'Segoe UI';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
+    color: #4c4c4c;
+
+    &:first-child {
+      margin-bottom: 4px;
+    }
+  }
+`;
+
+export const IconWrapper = styled.div`
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & img {
+    width: 50px;
+    height: 50px;
+    display: block;
+    object-fit: contain;
+  }
+`;
+
 export const ModalContent = styled.div`
   margin-top: 1rem;
   display: flex;

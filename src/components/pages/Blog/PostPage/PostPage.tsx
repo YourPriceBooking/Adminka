@@ -160,6 +160,7 @@ const PostPage: React.FC = () => {
         }
       } catch (err: unknown) {
         if (axios.isAxiosError(err)) {
+          console.error('Response:', err.response?.data);
           toast.error(
             `Error ${err.response?.status} (${err.response?.statusText}): ${err.response?.data.message} `
           );

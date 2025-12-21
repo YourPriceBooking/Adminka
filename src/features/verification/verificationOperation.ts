@@ -9,6 +9,7 @@ import type {
   ResponseVerificationTypeObjects,
   ResponseInWorkingCountryList,
   RequestInWorkingCountry,
+  ResponseHistoryVerifierId,
 } from 'types/apis/verification';
 
 const getErrorMessage = (error: any): string => {
@@ -131,6 +132,42 @@ export const fetchObjectInWorking = createAsyncThunk<RequestInWorkingCountry, ob
       return response.data;
     } catch (error: any) {
       return rejectWithValue(getErrorMessage(error));
+    }
+  }
+);
+
+export const fetchHistoryVerifierId = createAsyncThunk<ResponseHistoryVerifierId>(
+  'verification/fetchHistoryVerifierId',
+  async (_, { getState, dispatch, rejectWithValue }) => {
+    try {
+      const currentState: any = getState();
+      const { token } = currentState.enterToken;
+
+      const response = await axios.get(`${baseUrl}${endpoints.historyVerifierId}`, {
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.data) throw new Error('No data in response');
+
+      return response.data;
+    } catch (error: any) {
+      const errorMessage = getErrorMessage(error);
+      const serverMessage = error?.response?.data?.message;
+
+      if (
+        errorMessage === 'jwt expired' ||
+        errorMessage === 'jwt malformed' ||
+        serverMessage === 'jwt expired' ||
+        serverMessage === 'jwt malformed'
+      ) {
+        dispatch(setToken(null));
+        dispatch(logout());
+      }
+
+      return rejectWithValue(errorMessage);
     }
   }
 );

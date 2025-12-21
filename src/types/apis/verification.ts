@@ -77,6 +77,23 @@ export type ResponseInWorkingCountryList = {
   result: VerificationCountryListInWorking;
 };
 
+export type HistoryVerifierItem = {
+  _id: string;
+  hotels: string;
+  objectName: string;
+  getToVerify: string;
+  decision: string;
+  verifierId: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type ResponseHistoryVerifierId = {
+  code: number;
+  status: string;
+  result: HistoryVerifierItem[];
+};
+
 export type RequestInWorkingCountry = {
   hotels: string;
   objectName: string;
@@ -91,6 +108,9 @@ export type VerificationState = {
   };
   objects: Record<string, VerificationObject[]>;
   types: VerificationObjectType | null;
+  historyByVerifierId: HistoryVerifierItem[] | null;
+  isLoadingHistoryByVerifierId: boolean;
   isLoadingVerification: boolean;
   error: null | unknown;
+  historyError: null | unknown;
 };
