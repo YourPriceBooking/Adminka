@@ -1,7 +1,5 @@
-/* eslint-disable no-plusplus */
-import type { ChangeEvent, RefObject } from 'react';
 import { useRef, useEffect, useState, useMemo, useCallback } from 'react';
-import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import backArrow from 'assets/icons/backarrow.svg';
 import { useAppSelector } from 'App';
@@ -17,7 +15,7 @@ import { blogBaseUrl } from 'features/api';
 import { BlogContainer, Header } from '../BlogPage/Blog.styled';
 import { PostContent } from './PostPage.styled';
 import ModalAddLater from './ModalAddLater/ModalAddLater';
-
+import ImageUploadModal from './ImageUploadModal/ImageUploadModal';
 
 const Image = Quill.import("formats/image");
 Image.sanitize = (url: string) => url;
@@ -43,9 +41,14 @@ type FormikType = {
   heading: string;
   country: string;
   text: string;
-  image: File[];
-  alts: string[];
-  captions: string[];
+  // Main article image (separate from editor images)
+  mainImage: File | null;
+  mainImageAlt: string;
+  mainImageCaption: string;
+  // Editor images only
+  editorImages: File[];
+  editorAlts: string[];
+  editorCaptions: string[];
 };
 
 type Country = {
@@ -61,43 +64,26 @@ type CountryResponse = {
 };
 
 const PostPage: React.FC = () => {
-  // const [disableSubmit, SetDisabledSubmit] = useState(true);
   const [authors, setAuthors] = useState<Author[]>([]);
-  const [isOpenModel, setIsOpenModal] = useState(false);
+  const [isOpenAddLaterModal, setIsOpenAddLaterModal] = useState(false);
+  const [isOpenImageModal, setIsOpenImageModal] = useState(false);
+  const [imageModalMode, setImageModalMode] = useState<'main' | 'editor'>('main');
   const [langCode] = useState<string>('EN');
   const [allCategories, setAllCategories] = useState<string[]>([]);
 
   const { id } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const uploadState = location.state as
-    | {
-      mode: string,
-      newImages?: File[];
-      newAlts?: string[];
-      newCaptions?: string[];
-      formValues?: FormikType;
-      cursorRange?: RangeStatic | null;
-    }
-    | undefined;
 
   const ref = useRef<ReactQuill & { editor: QuillEditor }>(null);
-  const inputImgRef = useRef() as RefObject<HTMLInputElement>;
-  const imagesRef = useRef<File[]>([]);
-  const formikValuesRef = useRef<FormikType>({
-    title: '',
-    author: '',
-    description: '',
-    heading: '',
-    country: '',
-    text: '',
-    image: [],
-    alts: [],
-    captions: [],
-  });
-  const editorRangeRef = useRef<any>(null);
-  const insertedRef = useRef<boolean>(false);
+  const editorCursorRef = useRef<RangeStatic | null>(null);
+
+  // **
+  // Blob URL tracking maps for editor image synchronization
+  // WeakMap: File → blob URL (automatically garbage collected when File is removed)
+  // Map: blob URL → File (manual cleanup required)
+  // **
+  const fileToBlobUrlMap = useRef<WeakMap<File, string>>(new WeakMap());
+  const blobUrlToFileMap = useRef<Map<string, File>>(new Map());
 
   const formik = useFormik<FormikType>({
     initialValues: {
@@ -107,123 +93,90 @@ const PostPage: React.FC = () => {
       heading: '',
       country: '',
       text: '',
-      image: [],
-      alts: [],
-      captions: [],
+      mainImage: null,
+      mainImageAlt: '',
+      mainImageCaption: '',
+      editorImages: [],
+      editorAlts: [],
+      editorCaptions: [],
     },
-    onSubmit: async (
-      { title, author, description, heading, country, text, image, alts, captions },
-      { resetForm }
-    ) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let data: any = {};
+        let data: any;
 
         if (id === 'new') {
           data = new FormData();
-          data.append('title', title);
-          data.append('description', description);
-          data.append('heading', heading);
-          data.append('markup', text);
-          data.append('author', author);
+          data.append('title', values.title);
+          data.append('description', values.description);
+          data.append('heading', values.heading);
+          data.append('markup', values.text);
+          data.append('author', values.author);
           data.append(
             'articleUrl',
-            `https://www.thewandered.com/${title.toLowerCase().replace(' ', '-')}`
+            `https://www.thewandered.com/${values.title.toLowerCase().replace(/ /g, '-')}`
           );
 
-          image.forEach(file => {
+          // **
+          // Merge main image with editor images for submission
+          // Main image goes first, followed by editor images
+          // **
+          const allImages = values.mainImage
+            ? [values.mainImage, ...values.editorImages]
+            : values.editorImages;
+
+          const allAlts = values.mainImage
+            ? [values.mainImageAlt, ...values.editorAlts]
+            : values.editorAlts;
+
+          const allCaptions = values.mainImage
+            ? [values.mainImageCaption, ...values.editorCaptions]
+            : values.editorCaptions;
+
+          allImages.forEach((file) => {
             data.append('image', file);
           });
 
-          alts.forEach(a => data.append('alts', a));
-          captions.forEach(c => data.append('captions', c));
+          allAlts.forEach(a => data.append('alts', a));
+          allCaptions.forEach(c => data.append('captions', c));
 
-          if (country !== 'home') {
-            data.append('country', country);
+          if (values.country !== 'home') {
+            data.append('country', values.country);
           } else {
             data.append('country', '');
           }
 
           await axios.post(`${blogBaseUrl}/post/add-post`, data);
           toast.success('Post Created');
-          // eslint-disable-next-line no-console
-          console.log('data', data);
         } else {
           data = {
-            title,
-            author,
-            description,
-            heading,
-            markup: text,
+            title: values.title,
+            author: values.author,
+            description: values.description,
+            heading: values.heading,
+            markup: values.text,
           };
-
           await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, data);
           toast.success('Post Updated');
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (err: any) {
+      } catch (err: unknown) {
         if (axios.isAxiosError(err)) {
           toast.error(
             `Error ${err.response?.status} (${err.response?.statusText}): ${err.response?.data.message} `
           );
+        } else if (err instanceof Error) {
+          toast.error(`Error: ${err.message}`);
         } else {
-          toast.error(`Error: ${err.response?.data.message}`);
+          toast.error('An unknown error occurred');
         }
         return;
       }
 
       resetForm();
+      navigate('/blog');
     },
   });
 
-  const { title, author, description, heading, country, text, image } = formik.values;
-
-  useEffect(() => {
-    imagesRef.current = formik.values.image;
-    formikValuesRef.current = formik.values;
-  }, [formik.values]);
-
-  useEffect(() => {
-    if (!uploadState) return;
-    if (insertedRef.current) return;
-
-    if (uploadState.formValues) {
-      formik.setValues(uploadState.formValues);
-    }
-
-    if (uploadState.newImages) {
-      formik.setFieldValue('image', uploadState.newImages);
-    }
-    if (uploadState.newAlts) {
-      formik.setFieldValue('alts', uploadState.newAlts);
-    }
-    if (uploadState.newCaptions) {
-      formik.setFieldValue('captions', uploadState.newCaptions);
-    }
-
-    if (uploadState.mode === "editor") {
-      insertedRef.current = true;
-
-      const files = uploadState.newImages ?? [];
-      const lastFile = files[files.length - 1];
-      const imgUrl = URL.createObjectURL(lastFile);
-
-      setTimeout(() => {
-        const quill = ref.current?.editor;
-        const cursor = uploadState.cursorRange;
-
-        if (quill) {
-          if (cursor && typeof cursor.index === "number") {
-            quill.insertEmbed(cursor.index, "image", imgUrl, "user");
-          } else {
-            quill.insertEmbed(quill.getLength(), "image", imgUrl, "user");
-          }
-        }
-      }, 50);
-    }
-
-    navigate(location.pathname, { replace: true });
-  }, [uploadState, formik, navigate, location.pathname]);
+  const { title, author, description, heading, country, text, mainImage, editorImages } = formik.values;
 
   useEffect(() => {
     const getCountries = async () => {
@@ -242,7 +195,6 @@ const PostPage: React.FC = () => {
         const counties = countryData.map(currentCountry => currentCountry.country);
         setAllCategories(counties);
       } catch (error) {
-        // eslint-disable-next-line no-console
         console.error('Failed to fetch countries:', error);
         setAllCategories([]);
       }
@@ -254,21 +206,8 @@ const PostPage: React.FC = () => {
   const post = useAppSelector(state => getPost(state, id));
   if (!post) return <Navigate to="/blog" replace />;
 
-  const handleClickToBackArrow = () => navigate('/blog');
-
   useEffect(() => {
-    if (id === 'new') {
-      if (author && description && text && title && heading && image.length > 0) {
-        // SetDisabledSubmit(false);
-      }
-    } else if (id !== 'new' && (post.title !== title || post.description !== description)) {
-      // SetDisabledSubmit(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [title, author, description, heading, country, text, image, id]);
-
-  useEffect(() => {
-    async function fetchBlog() {
+    const fetchBlog = async () => {
       try {
         const { data } = await axios.get(
           `${blogBaseUrl}/post/get-by-url/?articleUrl=${post?.articleUrl}`
@@ -280,95 +219,215 @@ const PostPage: React.FC = () => {
           text: data.result.markup,
           description: data.result.description,
           heading: data.result.heading,
-          country: data.result.country,
-          image: [],
-          alts: [],
-          captions: [],
+          country: data.result.country || '',
+          mainImage: null,
+          mainImageAlt: '',
+          mainImageCaption: '',
+          editorImages: [],
+          editorAlts: [],
+          editorCaptions: [],
         });
-
-        // SetDisabledSubmit(true);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
+      } catch (error: unknown) {
         navigate('/blog');
-        toast.error(String(error.response.data.message));
+        if (axios.isAxiosError(error)) {
+          toast.error(String(error.response?.data?.message || 'Failed to fetch blog'));
+        } else {
+          toast.error('Failed to fetch blog');
+        }
       }
-    }
+    };
+
+    const fetchAuthors = async () => {
+      try {
+        const response = await axios.get<AuthorResponse>(
+          'https://ypbooking.chost.com.ua/blog/api/author/get-all-authors'
+        );
+
+        setAuthors(response.data.result);
+      } catch (error) {
+        console.error('Failed to fetch authors:', error);
+        toast.error('Failed to fetch authors');
+      }
+    };
 
     if (id !== 'new') {
       fetchBlog();
     }
-
-    const fetchAuthors = async () => {
-      const response = await axios.get<AuthorResponse>(
-        'https://ypbooking.chost.com.ua/blog/api/author/get-all-authors'
-      );
-
-      setAuthors(response.data.result);
-    };
     fetchAuthors();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const checkImageType = (imgType: any) => {
-    const lowerCaseImgType = imgType.toLowerCase();
 
-    if (
-      lowerCaseImgType === 'image/jpeg' ||
-      lowerCaseImgType === 'image/png' ||
-      lowerCaseImgType === 'image/webp'
-    ) {
-      return true;
+  useEffect(() => {
+    if (id !== 'new' && authors.length > 0 && formik.values.author) {
+      const defaultAuthor = authors.find(a => a.name === formik.values.author);
+      if (defaultAuthor) {
+        formik.setFieldValue('author', defaultAuthor.name);
+      }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, authors]);
 
-    return false;
+  // **
+  // Cleanup blob URLs on component unmount to prevent memory leaks
+  // **
+  useEffect(
+    () => () => {
+      blobUrlToFileMap.current.forEach((_, blobUrl) => {
+        URL.revokeObjectURL(blobUrl);
+      });
+      blobUrlToFileMap.current.clear();
+    },
+    []
+  );
+
+  const handleClickToBackArrow = () => navigate('/blog');
+
+  const openMainImageModal = () => {
+    setImageModalMode('main');
+    setIsOpenImageModal(true);
   };
 
-  const imageHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-
-    if (image.length === 0) {
-      toast.error('Error: Select Image for Article, please');
-      return;
-    }
-
-    const file = e.target.files[0];
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (!file) return;
-
-    if (file.size > 512000) {
-      toast.error(
-        'Error: You have uploaded a photo larger than 500KB. We cannot accept photos of this size. Please resize it and upload it again.'
-      );
-      return;
-    }
-    if (!checkImageType(file.type)) {
-      toast.error('Error: Photo must be PNG, WEBP or JPEG format.');
-      return;
-    }
-
-    formik.setFieldValue('image', (prev: File[]) => [...prev, file]);
-    formik.setFieldValue('text', (prev: string) =>
-      `${prev}<img src="imgUrlByIdx" alt="${file.name}" />`
-    );
-  };
-
-  const openEditorImageUpload = useCallback(() => {
-    // save cursor position
+  // **
+  // Opens image modal for editor insertion and saves current cursor position
+  // Cursor position is needed to insert image at the correct location
+  // **
+  const openEditorImageModal = useCallback(() => {
     const range = ref.current?.editor.getSelection();
-    editorRangeRef.current = range;
+    editorCursorRef.current = range ?? null;
 
-    navigate(`/blog/post/upload-image`, {
-      state: {
-        mode: "editor",
-        returnTo: location.pathname,
-        formValues: formikValuesRef.current,
-        newImages: imagesRef.current,
-        newAlts: formikValuesRef.current.alts,
-        newCaptions: formikValuesRef.current.captions,
-        cursorRange: editorRangeRef.current,
-      },
-    });
-  }, [navigate, location.pathname]);
+    setImageModalMode('editor');
+    setIsOpenImageModal(true);
+  }, []);
+
+  // **
+  // Handles image addition for both main article image and editor images
+  // Main mode: Sets/replaces the single main article image
+  // Editor mode: Appends to editor images, creates blob URL, stores mapping, and inserts into Quill
+  // **
+  const handleImageAdd = (file: File, alt: string, caption: string) => {
+    if (imageModalMode === 'main') {
+      // Clean up old main image blob URL if exists
+      const oldMainImage = formik.values.mainImage;
+      if (oldMainImage) {
+        const oldBlobUrl = fileToBlobUrlMap.current.get(oldMainImage);
+        if (oldBlobUrl) {
+          URL.revokeObjectURL(oldBlobUrl);
+          blobUrlToFileMap.current.delete(oldBlobUrl);
+        }
+      }
+
+      formik.setFieldValue('mainImage', file);
+      formik.setFieldValue('mainImageAlt', alt);
+      formik.setFieldValue('mainImageCaption', caption);
+
+      toast.success(oldMainImage ? 'Article image replaced' : 'Article image added');
+    } else {
+      // Editor mode: append to editor images
+      const newImages = [...formik.values.editorImages, file];
+      const newAlts = [...formik.values.editorAlts, alt];
+      const newCaptions = [...formik.values.editorCaptions, caption];
+
+      formik.setFieldValue('editorImages', newImages);
+      formik.setFieldValue('editorAlts', newAlts);
+      formik.setFieldValue('editorCaptions', newCaptions);
+
+      const imgUrl = URL.createObjectURL(file);
+
+      // Store bidirectional mapping between File and blob URL
+      fileToBlobUrlMap.current.set(file, imgUrl);
+      blobUrlToFileMap.current.set(imgUrl, file);
+
+      setTimeout(() => {
+        const quill = ref.current?.editor;
+        const cursor = editorCursorRef.current;
+
+        if (quill) {
+          if (cursor && typeof cursor.index === "number") {
+            quill.insertEmbed(cursor.index, "image", imgUrl, "user");
+            quill.setSelection(cursor.index + 1, 0);
+          } else {
+            const length = quill.getLength();
+            quill.insertEmbed(length, "image", imgUrl, "user");
+          }
+        }
+      }, 100);
+
+      toast.success('Image inserted into editor');
+    }
+  };
+
+  // **
+  // Extracts all image blob URLs from Quill editor in document order
+  // Returns array of blob URL strings
+  // **
+  const getImagesFromEditor = (editor: any): string[] => {
+    const delta = editor.getContents();
+    return delta.ops
+      .filter((op: any) => op.insert?.image)
+      .map((op: any) => op.insert.image);
+  };
+
+  // **
+  // Handles Quill editor content changes and synchronizes editor image state
+  // When images are deleted from editor:
+  // 1. Detects deletion by comparing image counts
+  // 2. Maps remaining blob URLs back to File objects
+  // 3. Syncs editorImages, editorAlts, and editorCaptions arrays
+  // 4. Cleans up revoked blob URLs
+  // Note: Main article image is separate and not affected by editor changes
+  // **
+  const handleEditorChange = (value: string, delta: any, source: any, editor: any) => {
+    if (source !== 'user') {
+      formik.setFieldValue('text', value);
+      return;
+    }
+
+    const currentEditorBlobUrls = getImagesFromEditor(editor);
+
+    // Only process if editor images were removed
+    if (currentEditorBlobUrls.length < editorImages.length) {
+      // Map blob URLs back to File objects in editor order
+      const remainingImages = currentEditorBlobUrls
+        .map(blobUrl => blobUrlToFileMap.current.get(blobUrl))
+        .filter((file): file is File => file !== undefined);
+
+      // Find which files were removed
+      const removedIndices: number[] = [];
+      editorImages.forEach((file, index) => {
+        const fileBlobUrl = fileToBlobUrlMap.current.get(file);
+        if (!currentEditorBlobUrls.includes(fileBlobUrl || '')) {
+          removedIndices.push(index);
+        }
+      });
+
+      // Clean up blob URLs for removed files
+      removedIndices.forEach(index => {
+        const file = editorImages[index];
+        const blobUrl = fileToBlobUrlMap.current.get(file);
+        if (blobUrl) {
+          URL.revokeObjectURL(blobUrl);
+          blobUrlToFileMap.current.delete(blobUrl);
+        }
+      });
+
+      // Sync all three editor arrays (images, alts, captions) to maintain consistency
+      const remainingAlts = remainingImages.map(file => {
+        const originalIndex = editorImages.indexOf(file);
+        return formik.values.editorAlts[originalIndex];
+      });
+
+      const remainingCaptions = remainingImages.map(file => {
+        const originalIndex = editorImages.indexOf(file);
+        return formik.values.editorCaptions[originalIndex];
+      });
+
+      formik.setFieldValue('editorImages', remainingImages);
+      formik.setFieldValue('editorAlts', remainingAlts);
+      formik.setFieldValue('editorCaptions', remainingCaptions);
+    }
+
+    formik.setFieldValue('text', value);
+  };
 
   const modules = useMemo(
     () => ({
@@ -381,54 +440,13 @@ const PostPage: React.FC = () => {
           [{ list: 'ordered' }, { list: 'bullet' }],
           ['clean'],
         ],
-
         handlers: {
-          image: openEditorImageUpload,
+          image: openEditorImageModal,
         },
       },
     }),
-    [openEditorImageUpload]
+    [openEditorImageModal]
   );
-
-  useEffect(() => {
-    if (id !== 'new' && authors.length > 0) {
-      const defaultAuthor = authors.find(a => a.name === formik.values.author);
-      if (defaultAuthor) {
-        formik.setFieldValue('author', defaultAuthor.name);
-      }
-    }
-
-    // if (id !== 'new') {
-    //   formik.setFieldValue('country', defaultAuthor.name);
-    // }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, authors]);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const keyDownHandler = (e: any) => {
-    if (e.code === 'Backspace' && image.length > 1) {
-      for (let i = 1; i < image.length; i++) {
-        if (!text.includes(`alt="${image[i].name}"`)) {
-          const updatedImage = image.slice(1).filter(picture => image[i].name !== picture.name);
-
-          formik.setFieldValue('image', [image[0], ...updatedImage]);
-
-          break;
-        }
-      }
-    }
-  };
-  const openMainImageUpload = () => {
-    navigate(`/blog/post/upload-image`, {
-      state: {
-        mode: "main",
-        returnTo: location.pathname,
-        formValues: formikValuesRef.current,
-        newImages: imagesRef.current,
-        newAlts: formikValuesRef.current.alts,
-        newCaptions: formikValuesRef.current.captions,
-      },
-    });
-  };
 
   return (
     <BlogContainer>
@@ -445,14 +463,14 @@ const PostPage: React.FC = () => {
           {id === 'new' && (
             <div className="add-later-wrapper">
               <button
-                onClick={() => setIsOpenModal(prev => !prev)}
+                onClick={() => setIsOpenAddLaterModal(prev => !prev)}
                 type="button"
                 className="submit"
               >
                 Add later
               </button>
 
-              {isOpenModel && <ModalAddLater />}
+              {isOpenAddLaterModal && <ModalAddLater />}
             </div>
           )}
 
@@ -464,7 +482,7 @@ const PostPage: React.FC = () => {
             <div className="input-group prefix">
               <span className="input-group-addon">Author</span>
 
-              <select id="author" onChange={formik.handleChange}>
+              <select id="author" onChange={formik.handleChange} value={author}>
                 {id === 'new' && <option value="">Select an author</option>}
                 {authors.map((item: Author) => (
                   <option value={item.name} key={item._id} className="optionInput">
@@ -501,7 +519,7 @@ const PostPage: React.FC = () => {
             <div className="input-group prefix">
               <span className="input-group-addon">Category</span>
 
-              <select disabled={id !== 'new'} id="country" onChange={formik.handleChange}>
+              <select disabled={id !== 'new'} id="country" onChange={formik.handleChange} value={country}>
                 {id === 'new' ? (
                   <option value="not selected">Select a post category</option>
                 ) : (
@@ -518,58 +536,51 @@ const PostPage: React.FC = () => {
 
           <div className="articleImage">
             {id !== 'new' ? (
-              <img id="article-img" src={String(formik.values.image[0])} alt="article" />
+              <img id="article-img" src={String(formik.values.mainImage)} alt="article" />
             ) : (
               <div>
                 <button
                   type="button"
-                  onClick={openMainImageUpload}
+                  onClick={openMainImageModal}
                   className="custom-file-upload"
                   style={{ cursor: 'pointer' }}
                 >
-                  Select Image for Article
+                  {mainImage ? 'Change Article Image' : 'Select Image for Article'}
                 </button>
 
-                {formik.values.image.length > 0 ? (
-
+                {mainImage ? (
                   <div className="preview-item">
-                    <p className="file-name">📸 {
-                      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-                      formik.values.image[0].name ?? ''}</p>
+                    <p className="file-name">📸 {mainImage.name}</p>
                   </div>
-                )
-                  : (
-                    <p className="warning">The photo size must be up to 500 KB</p>
-                  )}
+                ) : (
+                  <p className="warning">The photo size must be up to 500 KB</p>
+                )}
               </div>
             )}
           </div>
 
           <div className="text">
-            <input
-              ref={inputImgRef}
-              style={{ display: 'none' }}
-              type="file"
-              onChange={imageHandler}
-            />
             <ReactQuill
               modules={modules}
               ref={ref}
               id="text"
               className="textarea"
               placeholder="Enter your text here..."
-              onChange={value => {
-                formik.setFieldValue('text', value);
-              }}
+              onChange={handleEditorChange}
               value={text}
-              onKeyDown={keyDownHandler}
             />
           </div>
         </form>
       </PostContent>
+
+      <ImageUploadModal
+        isOpen={isOpenImageModal}
+        onClose={() => setIsOpenImageModal(false)}
+        onImageAdd={handleImageAdd}
+        mode={imageModalMode}
+      />
     </BlogContainer>
   );
 };
 
 export default PostPage;
-
