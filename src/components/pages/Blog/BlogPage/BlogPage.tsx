@@ -24,7 +24,7 @@ export const BlogPage = () => {
     ? posts.filter(post => post.country === selectedCountry)
     : posts;
 
-  const countries = ['home', 'ukraine', 'poland', 'usa', 'canada', 'singapore', 'australia'];
+  const countries = ['home', 'ukraine', 'poland', 'usa', 'canada', 'singapore', 'australia','uncharted-planet'];
 
   return (
     <BlogContainer>
