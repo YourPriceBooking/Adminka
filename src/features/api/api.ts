@@ -8,6 +8,7 @@ import type {
   MaybeLanguagesEntity,
   MaybeStatesEntity,
 } from 'types/apis';
+import { HEROKU_BACKEND_URL } from './contants';
 
 /**
  * 11. GET  `/api/language/${_id}`
@@ -18,7 +19,7 @@ import type {
  */
 const config = {
   backend: {
-    heroku: 'https://ypbooking.chost.com.ua/api' as const,
+    heroku: `${HEROKU_BACKEND_URL}` as const,
     localhost: 'http://localhost:3500' as const,
   },
   qty: { one: 'one' as const, many: 'many' as const },

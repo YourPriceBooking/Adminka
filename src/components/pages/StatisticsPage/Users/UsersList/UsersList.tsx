@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Spinner } from 'components/shared/Loader';
+import { HEROKU_BACKEND_URL } from 'features/api/contants';
 import {
   Inner,
   TextContent,
@@ -41,7 +42,7 @@ export const UsersList: React.FC<
   const [isClearClicked, setIsClearClicked] = useState(false);
 
   useEffect(() => {
-    fetch('https://ypbooking.chost.com.ua/api/acsess-to-admin/get-all-users')
+    fetch(`${HEROKU_BACKEND_URL}/acsess-to-admin/get-all-users`)
       .then(response => response.json())
       .then((date: { code: number; users: DataProp[] }) => {
         if (date.code === 200 && date.users && Array.isArray(date.users)) {

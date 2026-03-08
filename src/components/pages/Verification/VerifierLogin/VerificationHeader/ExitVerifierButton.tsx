@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { HEROKU_BACKEND_URL } from 'features/api/contants';
 // import type { Dispatch } from 'react';
 import styled from 'styled-components/macro';
 import axios from 'axios';
@@ -45,7 +46,7 @@ export const ExitVerifierButton = () => {
     const handleLogout = async () => {
         try {
             const response = await axios.get(
-                'https://ypbooking.chost.com.ua/api/acsess-to-admin/log-out-admin',
+                `${HEROKU_BACKEND_URL}/acsess-to-admin/log-out-admin`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

@@ -2,7 +2,6 @@ import doc from 'assets/icons/doc.svg';
 import camera from 'assets/icons/camera.svg';
 import selfi from 'assets/icons/selfi.svg';
 import fold from 'assets/icons/folder.svg';
-import { useState } from 'react';
 import { useAppSelector } from 'App';
 import { getObjectOnVerify } from 'features/objectOnVerify/objectOnVerifySelector';
 

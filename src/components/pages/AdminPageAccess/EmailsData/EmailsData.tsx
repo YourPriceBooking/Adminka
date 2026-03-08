@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { HEROKU_BACKEND_URL } from 'features/api/contants';
 import { useAppDispatch, useAppSelector } from 'App';
 import type { RootState } from 'App/store';
 import type { AxiosResponse } from 'axios';
@@ -55,7 +56,7 @@ export const EmailsData = ({ emails }: { emails: any }) => {
 
   const handleLogout = async () => {
     try {
-      await axios.get('https://ypbooking.chost.com.ua/api/acsess-to-admin/log-out-admin', {
+      await axios.get(`${HEROKU_BACKEND_URL}/acsess-to-admin/log-out-admin`, {
         headers: {
           Authorization: `Bearer ${token ?? ''}`,
         },
@@ -69,7 +70,7 @@ export const EmailsData = ({ emails }: { emails: any }) => {
   const handleChangeBanStatus = async (email: any) => {
     try {
       const response: AxiosResponse<ResponseData> = await axios.patch(
-        'https://ypbooking.chost.com.ua/api/acsess-to-admin/change-status',
+        `${HEROKU_BACKEND_URL}/acsess-to-admin/change-status`,
         {
           email,
           status: banClicked ? 'active' : 'not active',

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { HEROKU_BACKEND_URL } from 'features/api/contants';
 import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { useAppSelector } from 'App';
@@ -13,6 +14,7 @@ import {
 } from './ChangeEmailAccess.styled';
 import { CloseButton } from '../CloseButton';
 import { EmailCheckbox } from '../EmailCheckbox';
+
 
 type Props = {
   onClick?: () => void;
@@ -77,7 +79,7 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
     ) {
       try {
         const response: AxiosResponse<ResponseData> = await axios.patch(
-          'https://ypbooking.chost.com.ua/api/acsess-to-admin/change-status',
+          `${HEROKU_BACKEND_URL}/acsess-to-admin/change-status`,
           {
             email: selectedEmail.email,
             status: 'not active',
@@ -103,7 +105,7 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
     } else {
       try {
         const response: AxiosResponse<ResponseData> = await axios.patch(
-          'https://ypbooking.chost.com.ua/api/acsess-to-admin/change-access',
+          `${HEROKU_BACKEND_URL}/acsess-to-admin/change-access`,
           {
             email: selectedEmail.email,
             access: [
@@ -125,7 +127,7 @@ export const ChangeEmailAccess = ({ onClick, selectedEmail }: Props) => {
         );
 
         await axios.patch(
-          'https://ypbooking.chost.com.ua/api/acsess-to-admin/change-status',
+          `${HEROKU_BACKEND_URL}/acsess-to-admin/change-status`,
           {
             email: selectedEmail.email,
             status: 'active',
