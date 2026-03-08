@@ -1,4 +1,5 @@
 import { useFromLocation } from 'common/hooks';
+import { HEROKU_BACKEND_URL } from 'features/api/contants';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -41,7 +42,7 @@ export const LoginPage = () => {
     } else {
       try {
         const response: AxiosResponse<{ status: string; messageData: string }> = await axios.post(
-          'https://ypbooking.chost.com.ua/api/acsess-to-admin/check-admin/',
+          `${HEROKU_BACKEND_URL}/acsess-to-admin/check-admin/`,
           {
             email: `${email}`,
           }

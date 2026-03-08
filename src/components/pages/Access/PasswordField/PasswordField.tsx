@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useRef } from 'react';
+import { HEROKU_BACKEND_URL } from 'features/api/contants';
 // import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { setToken } from 'features/access/tokenSlice';
@@ -13,6 +14,7 @@ import {
   NotVerifPass,
 } from './PasswordField.styled';
 import { Button } from '../Button';
+
 
 type ResponseDataAdmin = {
   status: string;
@@ -56,7 +58,7 @@ export const PasswordField: React.FC<{
   const validPassword = async (): Promise<boolean> => {
     try {
       const response = await axios.post<ResponseDataAdmin | ResponseDataSuperAdmin>(
-        'https://ypbooking.chost.com.ua/api/acsess-to-admin/log-in-admin/',
+        `${HEROKU_BACKEND_URL}/acsess-to-admin/log-in-admin/`,
         {
           email: `${email}`,
           secretCode: passwordCode,

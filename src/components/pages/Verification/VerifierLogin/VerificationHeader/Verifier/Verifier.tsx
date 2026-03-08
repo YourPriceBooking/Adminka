@@ -1,7 +1,14 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from 'App';
 import { Modal } from 'components/shared/Modal';
+import {
+  getHistoryByVerifierId,
+  getHistoryByVerifierIdError,
+  getHistoryByVerifierIdLoading,
+} from 'features/verification/verificationSelectors';
 import { useModal } from 'common/hooks';
+import { fetchHistoryVerifierId } from 'features/verification/verificationOperation';
+import verifierHistoryModalIcon from '../../../../../../assets/icons/verifierHistoryModalIcon.svg';
 import {
   Wrapper,
   Btn,
@@ -13,13 +20,6 @@ import {
   TexInfo,
   IconWrapper,
 } from './Verifier.styled';
-import { fetchHistoryVerifierId } from 'features/verification/verificationOperation';
-import {
-  getHistoryByVerifierId,
-  getHistoryByVerifierIdError,
-  getHistoryByVerifierIdLoading,
-} from 'features/verification/verificationSelectors';
-import verifierHistoryModalIcon from '../../../../../../assets/icons/verifierHistoryModalIcon.svg';
 
 // const VerifierModalContent = () => (
 

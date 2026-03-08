@@ -80,7 +80,7 @@ export const ObjectsList: React.FC<
   const displayData = isSearchClicked ? filteredData : data;
 
   /* useEffect(() => {
-    fetch('https://ypbooking.chost.com.ua/api/acsess-to-admin/get-objects')
+    fetch('${HEROKU_BACKEND_URL}/acsess-to-admin/get-objects')
       .then(response => response.json())
       .then((date: { code: number; objects: DataProp[] }) => {
         if (date.code === 200 && date.objects && Array.isArray(date.objects)) {

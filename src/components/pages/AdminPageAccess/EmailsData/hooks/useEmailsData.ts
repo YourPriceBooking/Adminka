@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useAppSelector } from 'App';
 import type { RootState } from 'App/store';
+import { HEROKU_BACKEND_URL } from 'features/api/contants';
 
 type ResponseData = {
   status: string;
@@ -37,7 +38,7 @@ export const useEmailsData = () => {
   const fetchEmailsData = async () => {
     try {
       const response: AxiosResponse<ResponseData[]> = await axios.get(
-        'https://ypbooking.chost.com.ua/api/acsess-to-admin/get-all-admin',
+        `${HEROKU_BACKEND_URL}/acsess-to-admin/get-all-admin`,
         {
           headers: {
             'Content-Type': 'application/json',

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { HEROKU_BACKEND_URL } from 'features/api/contants';
 import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { Button } from '../Button/Button';
@@ -45,7 +46,7 @@ export const InputEmail: React.FC<{ component: React.FC }> = ({ component: Compo
     } else {
       try {
         const response: AxiosResponse<{ status: string; messageData: string }> = await axios.post(
-          'https://ypbooking.chost.com.ua/api/acsess-to-admin/check-admin/',
+          `${HEROKU_BACKEND_URL}/acsess-to-admin/check-admin/`,
           {
             email: `${email}`,
           }

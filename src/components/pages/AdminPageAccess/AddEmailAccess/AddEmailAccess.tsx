@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { HEROKU_BACKEND_URL } from 'features/api/contants';
 import type { AxiosResponse } from 'axios';
 import axios from 'axios';
 import { useAppSelector } from 'App';
@@ -14,6 +15,7 @@ import {
 } from './AddEmailAccess.styled';
 import { CloseButton } from '../CloseButton';
 import { EmailCheckbox } from '../EmailCheckbox';
+
 
 type Props = {
   onClick?: () => void;
@@ -57,7 +59,7 @@ export const AddEmailAccess = ({ onClick }: Props) => {
   const addNewEmailAccess = async () => {
     try {
       const response: AxiosResponse<ResponseData> = await axios.post(
-        'https://ypbooking.chost.com.ua/api/acsess-to-admin/add-email',
+        `${HEROKU_BACKEND_URL}/acsess-to-admin/add-email`,
         {
           email,
           access: [

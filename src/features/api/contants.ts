@@ -1,0 +1,1 @@
+export const HEROKU_BACKEND_URL = 'https://ypbooking.chost.com.ua/api';
