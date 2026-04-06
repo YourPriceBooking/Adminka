@@ -6,7 +6,7 @@ on:
             - main
 
 env:
-    PROJECT_SUBDIR: adminka
+    PROJECT_SUBDIR: .
     APP_DIR: /var/www/Adminka
     RELEASES_DIR: /var/www/Adminka/releases
     CURRENT_LINK: /var/www/Adminka/current
