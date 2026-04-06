@@ -20,7 +20,7 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
-          <BrowserRouter>
+          <BrowserRouter basename='/adminka'>
             <AppRouter />
           </BrowserRouter>
         </PersistGate>
