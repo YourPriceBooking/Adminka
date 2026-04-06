@@ -70,14 +70,16 @@ jobs:
                       echo "🧠 Clearing Next.js cache..."
                       rm -rf .next/cache || true
 
-                      echo "📦 Installing Yarn if not exists..."
-                      if ! command -v yarn &> /dev/null
-                      then
-                        npm install -g yarn
-                      fi
+                      echo "📦 Enabling Corepack..."
+                      corepack enable
+
+                      echo "📦 Preparing correct Yarn version..."
+                      corepack prepare yarn@4.11.0 --activate
+
+                      export NODE_OPTIONS="--max-old-space-size=2048"
 
                       echo "📦 Installing dependencies..."
-                      yarn install --frozen-lockfile
+                      yarn install --immutable
 
                       echo "🏗 Building project..."
                       yarn build
