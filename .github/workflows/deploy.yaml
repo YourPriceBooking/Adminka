@@ -71,10 +71,13 @@ jobs:
                       rm -rf .next/cache || true
 
                       echo "📦 Installing dependencies..."
-                      npm ci --production=false
+                      yarn install --frozen-lockfile
 
                       echo "🏗 Building project..."
-                      npm run build
+                      yarn build
+
+                      echo "🧹 Cleaning node_modules cache..."
+                      yarn cache clean || true
 
                       echo "💾 Saving previous release..."
                       PREVIOUS_RELEASE=$(readlink -f "$CURRENT_LINK" || echo "")
