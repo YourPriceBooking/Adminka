@@ -137,13 +137,17 @@ const ImageUploadModal: React.FC<ImageUploadModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className={styles.overlay} onClick={handleOverlayClick}>
+    <div className={styles.overlay} onClick={handleOverlayClick} role="button"
+  tabIndex={0}
+  onKeyDown={(e) => {
+    if (e.key === 'Escape') handleClose();
+  }}>
       <div className={styles.wrapper}>
         <div className={styles.header}>
           <h2 className={styles.title}>
             {mode === 'main' ? 'Upload Article Image' : 'Insert Image'}
           </h2>
-          <button
+          <button type="button"
             className={styles.closeButton}
             onClick={handleClose}
             aria-label="Close modal"
@@ -153,7 +157,7 @@ const ImageUploadModal: React.FC<ImageUploadModalProps> = ({
         </div>
 
         <div className={styles.formGroup}>
-          <label className={styles.label}>Select Image</label>
+          <label htmlFor="image-upload" className={styles.label}>Select Image</label>
           <div className={styles.fileInputWrapper}>
             <label htmlFor="image-upload" className={styles.fileInputLabel}>
               Choose File
@@ -181,8 +185,9 @@ const ImageUploadModal: React.FC<ImageUploadModalProps> = ({
         )}
 
         <div className={styles.formGroup}>
-          <label className={styles.label}>Alt Text (Required) *</label>
+          <label htmlFor="alt-input" className={styles.label}>Alt Text (Required) *</label>
           <input
+            id="alt-input"
             type="text"
             placeholder="Describe the image for accessibility"
             value={alt}
@@ -192,8 +197,9 @@ const ImageUploadModal: React.FC<ImageUploadModalProps> = ({
         </div>
 
         <div className={styles.formGroup}>
-          <label className={styles.label}>Caption (Optional)</label>
+          <label htmlFor="caption-input" className={styles.label}>Caption (Optional)</label>
           <input
+            id="caption-input"
             type="text"
             placeholder="Add a caption for the image"
             value={caption}
@@ -203,10 +209,10 @@ const ImageUploadModal: React.FC<ImageUploadModalProps> = ({
         </div>
 
         <div className={styles.buttonGroup}>
-          <button className={styles.buttonSecondary} onClick={handleClose}>
+          <button type="button" className={styles.buttonSecondary} onClick={handleClose}>
             Cancel
           </button>
-          <button
+          <button type="button"
             className={styles.buttonPrimary}
             onClick={handleSubmit}
             disabled={!selectedFile || !alt.trim()}

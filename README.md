@@ -1,5 +1,7 @@
 # Create React App - bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## The application is not allowed to run through npm!!!!!
+
 ## Available Scripts - In the project directory, you can run:
 
 - `yarn` installs all packages to node_modules from package.json and yarn.lock.
