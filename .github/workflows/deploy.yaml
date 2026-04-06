@@ -94,6 +94,7 @@ jobs:
                       PREVIOUS_RELEASE=$(readlink -f "$CURRENT_LINK" || echo "")
 
                       echo "🔁 Switching current symlink..."
+                      rm -rf "$CURRENT_LINK"
                       ln -sfn "$NEW_RELEASE/$PROJECT_SUBDIR" "$CURRENT_LINK"
 
                       if [ ! -f "$CURRENT_LINK/package.json" ]; then
