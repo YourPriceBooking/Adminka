@@ -11,6 +11,7 @@ import xLogo from 'assets/icons/x-logo.svg';
 import linkedinLogo from 'assets/icons/linkedin-logo.svg';
 import pinterestLogo from 'assets/icons/pinterest-logo.svg';
 import facebookLogo from 'assets/icons/facebook-logo.svg';
+import { blogBaseUrl } from 'features/api';
 import classes from '../AuthorsPage/AuthorsPage.module.css';
 import { Button } from '../AuthorsPage/Button/Button';
 
@@ -112,7 +113,7 @@ const AuthorsAddPost: React.FC = () => {
     formData.append('image', selectFile);
 
     await axios
-      .post('https://ypbooking.chost.com.ua/blog/api/author/add-author', formData)
+      .post(`${blogBaseUrl}/author/add-author`, formData)
       .then(response => {
         if (response.status === 200) {
           console.log('added new author');

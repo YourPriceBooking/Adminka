@@ -185,7 +185,7 @@ const PostPage: React.FC = () => {
         const {
           data: { country: countryData },
         } = await axios.get<CountryResponse>(
-          'https://ypbooking.chost.com.ua/blog/api/country/get-country',
+          `${blogBaseUrl}/country/get-country`,
           {
             params: {
               langCode,
@@ -241,7 +241,7 @@ const PostPage: React.FC = () => {
     const fetchAuthors = async () => {
       try {
         const response = await axios.get<AuthorResponse>(
-          'https://ypbooking.chost.com.ua/blog/api/author/get-all-authors'
+          `${blogBaseUrl}/author/get-all-authors`
         );
 
         setAuthors(response.data.result);
