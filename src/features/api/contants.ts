@@ -1,1 +1,1 @@
-export const HEROKU_BACKEND_URL = 'https://ypbooking.chost.com.ua/api';
+export const HEROKU_BACKEND_URL = 'https://www.yourpricebooking.com/api';

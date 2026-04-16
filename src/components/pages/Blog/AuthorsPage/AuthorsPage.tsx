@@ -12,6 +12,7 @@ import facebookLogo from 'assets/icons/facebook-logo.svg';
 import 'react-quill/dist/quill.snow.css';
 import classes from './AuthorsPage.module.css';
 import { Button } from './Button/Button';
+import { blogBaseUrl } from 'features/api';
 
 type Link = Record<string, string>;
 
@@ -69,7 +70,7 @@ const AuthorsPage: React.FC = () => {
     const fetchAuthors = async () => {
       setAppState({ loading: true, repos: [] });
       const response = await axios.get(
-        'https://ypbooking.chost.com.ua/blog/api/author/get-all-authors'
+        `${blogBaseUrl}/blog/api/author/get-all-authors`
       );
       const allRepos: Repo[] = response.data.result;
 
