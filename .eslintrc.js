@@ -37,7 +37,9 @@ module.exports = {
   plugins: ['react', '@typescript-eslint'],
   rules: {
     'import/prefer-default-export': 0,
-
+    'no-console': 'warn',
+    '@typescript-eslint/no-explicit-any': 'warn',
+    '@typescript-eslint/no-non-null-assertion': 'warn',
     'no-underscore-dangle': ['error', { allow: ['_id'] }],
     'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['state'] }],
 
@@ -71,8 +73,8 @@ module.exports = {
     '@typescript-eslint/no-unsafe-member-access': 'off',
     'react-hooks/rules-of-hooks': 'off',
     '@typescript-eslint/no-unsafe-return': 'off',
-    "@typescript-eslint/restrict-template-expressions": "off",
-    "@typescript-eslint/restrict-plus-operands": "off",
+    '@typescript-eslint/restrict-template-expressions': 'off',
+    '@typescript-eslint/restrict-plus-operands': 'off',
 
     'linebreak-style': 0,
   },

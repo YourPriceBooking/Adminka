@@ -10,9 +10,9 @@ import linkedinLogo from 'assets/icons/linkedin-logo.svg';
 import pinterestLogo from 'assets/icons/pinterest-logo.svg';
 import facebookLogo from 'assets/icons/facebook-logo.svg';
 import 'react-quill/dist/quill.snow.css';
+import { blogBaseUrl } from 'features/api';
 import classes from './AuthorsPage.module.css';
 import { Button } from './Button/Button';
-import { blogBaseUrl } from 'features/api';
 
 type Link = Record<string, string>;
 
@@ -69,9 +69,7 @@ const AuthorsPage: React.FC = () => {
 
     const fetchAuthors = async () => {
       setAppState({ loading: true, repos: [] });
-      const response = await axios.get(
-        `${blogBaseUrl}/blog/api/author/get-all-authors`
-      );
+      const response = await axios.get(`${blogBaseUrl}/blog/api/author/get-all-authors`);
       const allRepos: Repo[] = response.data.result;
 
       if (!allRepos.length) {

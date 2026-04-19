@@ -2,9 +2,22 @@
 
 # dependencies
 /node_modules
-.yarn
-/.pnp
-.pnp.js
+
+# Yarn 4 cache/state (safe to ignore)
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# Keep Yarn config and plugins (IMPORTANT)
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/patches
+
+# dependencies
+node_modules
+.pnp.*
 
 # testing
 /coverage
