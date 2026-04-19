@@ -13,6 +13,7 @@ import 'react-quill/dist/quill.snow.css';
 import { blogBaseUrl } from 'features/api';
 import classes from './AuthorsPage.module.css';
 import { Button } from './Button/Button';
+import { blogBaseUrl } from 'features/api';
 
 type Link = Record<string, string>;
 
