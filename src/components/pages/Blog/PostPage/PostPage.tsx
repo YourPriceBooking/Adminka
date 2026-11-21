@@ -7,8 +7,7 @@ import { getPost } from 'features/blog/blogSelector';
 import { useFormik } from 'formik';
 import ReactQuill from 'react-quill';
 import type QuillEditor from 'quill';
-import type { RangeStatic } from 'quill';
-import Quill from "quill";
+import Quill from 'quill';
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import { blogBaseUrl } from 'features/api';
@@ -16,9 +15,14 @@ import { BlogContainer, Header } from '../BlogPage/Blog.styled';
 import { PostContent } from './PostPage.styled';
 import ModalAddLater from './ModalAddLater/ModalAddLater';
 import ImageUploadModal from './ImageUploadModal/ImageUploadModal';
+import { appendPostImages, getInlineImageInsertion, type PostImage } from './postImages';
 
-const Image = Quill.import("formats/image");
-Image.sanitize = (url: string) => url;
+const Image = Quill.import('formats/image');
+const sanitizeImage = Image.sanitize.bind(Image);
+// Keep Quill's normal validation except for object URLs used by local previews.
+Image.sanitize = (url: string) => url.startsWith('blob:') ? url : sanitizeImage(url);
+type EditorDelta = ReturnType<QuillEditor['getContents']>;
+const Delta = Quill.import('delta') as new (ops: EditorDelta['ops']) => EditorDelta;
 
 type Author = {
   _id: number;
@@ -45,10 +49,6 @@ type FormikType = {
   mainImage: File | null;
   mainImageAlt: string;
   mainImageCaption: string;
-  // Editor images only
-  editorImages: File[];
-  editorAlts: string[];
-  editorCaptions: string[];
 };
 
 type Country = {
@@ -75,15 +75,8 @@ const PostPage: React.FC = () => {
   const navigate = useNavigate();
 
   const ref = useRef<ReactQuill & { editor: QuillEditor }>(null);
-  const editorCursorRef = useRef<RangeStatic | null>(null);
-
-  // **
-  // Blob URL tracking maps for editor image synchronization
-  // WeakMap: File → blob URL (automatically garbage collected when File is removed)
-  // Map: blob URL → File (manual cleanup required)
-  // **
-  const fileToBlobUrlMap = useRef<WeakMap<File, string>>(new WeakMap());
-  const blobUrlToFileMap = useRef<Map<string, File>>(new Map());
+  const lastEditorCaret = useRef<number | null>(null);
+  const inlineByUrl = useRef(new Map<string, PostImage>());
 
   const formik = useFormik<FormikType>({
     initialValues: {
@@ -96,48 +89,26 @@ const PostPage: React.FC = () => {
       mainImage: null,
       mainImageAlt: '',
       mainImageCaption: '',
-      editorImages: [],
-      editorAlts: [],
-      editorCaptions: [],
     },
     onSubmit: async (values, { resetForm }) => {
       try {
-        let data: any;
-
         if (id === 'new') {
-          data = new FormData();
+          const data = new FormData();
           data.append('title', values.title);
           data.append('description', values.description);
           data.append('heading', values.heading);
-          data.append('markup', values.text);
+          const markup = ref.current?.editor.root.innerHTML ?? values.text;
+          data.append('markup', markup);
           data.append('author', values.author);
           data.append(
             'articleUrl',
             `https://www.thewandered.com/${values.title.toLowerCase().replace(/ /g, '-')}`
           );
 
-          // **
-          // Merge main image with editor images for submission
-          // Main image goes first, followed by editor images
-          // **
-          const allImages = values.mainImage
-            ? [values.mainImage, ...values.editorImages]
-            : values.editorImages;
-
-          const allAlts = values.mainImage
-            ? [values.mainImageAlt, ...values.editorAlts]
-            : values.editorAlts;
-
-          const allCaptions = values.mainImage
-            ? [values.mainImageCaption, ...values.editorCaptions]
-            : values.editorCaptions;
-
-          allImages.forEach((file) => {
-            data.append('image', file);
-          });
-
-          allAlts.forEach(a => data.append('alts', a));
-          allCaptions.forEach(c => data.append('captions', c));
+          const cover = values.mainImage
+            ? { file: values.mainImage, alt: values.mainImageAlt, caption: values.mainImageCaption }
+            : null;
+          appendPostImages(data, markup, cover, inlineByUrl.current);
 
           if (values.country !== 'home') {
             data.append('country', values.country);
@@ -148,7 +119,7 @@ const PostPage: React.FC = () => {
           await axios.post(`${blogBaseUrl}/post/add-post`, data);
           toast.success('Post Created');
         } else {
-          data = {
+          const data = {
             title: values.title,
             author: values.author,
             description: values.description,
@@ -177,7 +148,7 @@ const PostPage: React.FC = () => {
     },
   });
 
-  const { title, author, description, heading, country, text, mainImage, editorImages } = formik.values;
+  const { title, author, description, heading, country, text, mainImage } = formik.values;
 
   useEffect(() => {
     const getCountries = async () => {
@@ -224,9 +195,6 @@ const PostPage: React.FC = () => {
           mainImage: null,
           mainImageAlt: '',
           mainImageCaption: '',
-          editorImages: [],
-          editorAlts: [],
-          editorCaptions: [],
         });
       } catch (error: unknown) {
         navigate('/blog');
@@ -268,18 +236,14 @@ const PostPage: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, authors]);
 
-  // **
-  // Cleanup blob URLs on component unmount to prevent memory leaks
-  // **
-  useEffect(
-    () => () => {
-      blobUrlToFileMap.current.forEach((_, blobUrl) => {
-        URL.revokeObjectURL(blobUrl);
-      });
-      blobUrlToFileMap.current.clear();
-    },
-    []
-  );
+  useEffect(() => {
+    const assets = inlineByUrl.current;
+    return () => {
+      assets.forEach((_, url) => URL.revokeObjectURL(url));
+      assets.clear();
+      lastEditorCaret.current = null;
+    };
+  }, [id]);
 
   const handleClickToBackArrow = () => navigate('/blog');
 
@@ -288,146 +252,65 @@ const PostPage: React.FC = () => {
     setIsOpenImageModal(true);
   };
 
-  // **
-  // Opens image modal for editor insertion and saves current cursor position
-  // Cursor position is needed to insert image at the correct location
-  // **
   const openEditorImageModal = useCallback(() => {
-    const range = ref.current?.editor.getSelection();
-    editorCursorRef.current = range ?? null;
-
+    if (id !== 'new') return;
+    const editor = ref.current?.editor;
+    if (!editor) return;
+    const selection = editor.getSelection();
+    if (selection) lastEditorCaret.current = selection.index;
+    if (lastEditorCaret.current === null && editor.getLength() > 1) {
+      toast.info('Place the cursor where you want to insert the image.');
+      return;
+    }
     setImageModalMode('editor');
     setIsOpenImageModal(true);
-  }, []);
+  }, [id]);
 
-  // **
-  // Handles image addition for both main article image and editor images
-  // Main mode: Sets/replaces the single main article image
-  // Editor mode: Appends to editor images, creates blob URL, stores mapping, and inserts into Quill
-  // **
   const handleImageAdd = (file: File, alt: string, caption: string) => {
     if (imageModalMode === 'main') {
-      // Clean up old main image blob URL if exists
-      const oldMainImage = formik.values.mainImage;
-      if (oldMainImage) {
-        const oldBlobUrl = fileToBlobUrlMap.current.get(oldMainImage);
-        if (oldBlobUrl) {
-          URL.revokeObjectURL(oldBlobUrl);
-          blobUrlToFileMap.current.delete(oldBlobUrl);
-        }
-      }
-
-      formik.setFieldValue('mainImage', file);
-      formik.setFieldValue('mainImageAlt', alt);
-      formik.setFieldValue('mainImageCaption', caption);
-
-      toast.success(oldMainImage ? 'Article image replaced' : 'Article image added');
-    } else {
-      // Editor mode: append to editor images
-      const newImages = [...formik.values.editorImages, file];
-      const newAlts = [...formik.values.editorAlts, alt];
-      const newCaptions = [...formik.values.editorCaptions, caption];
-
-      formik.setFieldValue('editorImages', newImages);
-      formik.setFieldValue('editorAlts', newAlts);
-      formik.setFieldValue('editorCaptions', newCaptions);
-
-      const imgUrl = URL.createObjectURL(file);
-
-      // Store bidirectional mapping between File and blob URL
-      fileToBlobUrlMap.current.set(file, imgUrl);
-      blobUrlToFileMap.current.set(imgUrl, file);
-
-      setTimeout(() => {
-        const quill = ref.current?.editor;
-        const cursor = editorCursorRef.current;
-
-        if (quill) {
-          if (cursor && typeof cursor.index === "number") {
-            quill.insertEmbed(cursor.index, "image", imgUrl, "user");
-            quill.setSelection(cursor.index + 1, 0);
-          } else {
-            const length = quill.getLength();
-            quill.insertEmbed(length, "image", imgUrl, "user");
-          }
-        }
-      }, 100);
-
-      toast.success('Image inserted into editor');
-    }
-  };
-
-  // **
-  // Extracts all image blob URLs from Quill editor in document order
-  // Returns array of blob URL strings
-  // **
-  const getImagesFromEditor = (editor: any): string[] => {
-    const delta = editor.getContents();
-    return delta.ops
-      .filter((op: any) => op.insert?.image)
-      .map((op: any) => op.insert.image);
-  };
-
-  // **
-  // Handles Quill editor content changes and synchronizes editor image state
-  // When images are deleted from editor:
-  // 1. Detects deletion by comparing image counts
-  // 2. Maps remaining blob URLs back to File objects
-  // 3. Syncs editorImages, editorAlts, and editorCaptions arrays
-  // 4. Cleans up revoked blob URLs
-  // Note: Main article image is separate and not affected by editor changes
-  // **
-  const handleEditorChange = (value: string, delta: any, source: any, editor: any) => {
-    if (source !== 'user') {
-      formik.setFieldValue('text', value);
+      formik.setValues({
+        ...formik.values, mainImage: file, mainImageAlt: alt, mainImageCaption: caption,
+      });
+      toast.success(mainImage ? 'Cover image replaced' : 'Cover image added');
       return;
     }
 
-    const currentEditorBlobUrls = getImagesFromEditor(editor);
-
-    // Only process if editor images were removed
-    if (currentEditorBlobUrls.length < editorImages.length) {
-      // Map blob URLs back to File objects in editor order
-      const remainingImages = currentEditorBlobUrls
-        .map(blobUrl => blobUrlToFileMap.current.get(blobUrl))
-        .filter((file): file is File => file !== undefined);
-
-      // Find which files were removed
-      const removedIndices: number[] = [];
-      editorImages.forEach((file, index) => {
-        const fileBlobUrl = fileToBlobUrlMap.current.get(file);
-        if (!currentEditorBlobUrls.includes(fileBlobUrl || '')) {
-          removedIndices.push(index);
-        }
-      });
-
-      // Clean up blob URLs for removed files
-      removedIndices.forEach(index => {
-        const file = editorImages[index];
-        const blobUrl = fileToBlobUrlMap.current.get(file);
-        if (blobUrl) {
-          URL.revokeObjectURL(blobUrl);
-          blobUrlToFileMap.current.delete(blobUrl);
-        }
-      });
-
-      // Sync all three editor arrays (images, alts, captions) to maintain consistency
-      const remainingAlts = remainingImages.map(file => {
-        const originalIndex = editorImages.indexOf(file);
-        return formik.values.editorAlts[originalIndex];
-      });
-
-      const remainingCaptions = remainingImages.map(file => {
-        const originalIndex = editorImages.indexOf(file);
-        return formik.values.editorCaptions[originalIndex];
-      });
-
-      formik.setFieldValue('editorImages', remainingImages);
-      formik.setFieldValue('editorAlts', remainingAlts);
-      formik.setFieldValue('editorCaptions', remainingCaptions);
+    const editor = ref.current?.editor;
+    if (!editor || id !== 'new') {
+      toast.error('The article editor is not ready.');
+      return;
     }
 
-    formik.setFieldValue('text', value);
+    const lastEditableIndex = Math.max(0, editor.getLength() - 1);
+    const caret = Math.min(lastEditorCaret.current ?? lastEditableIndex, lastEditableIndex);
+    const format = editor.getFormat(caret, 0);
+    const formattedBlock = ['header', 'list', 'blockquote', 'indent', 'align', 'direction', 'code-block']
+      .some(name => Boolean(format[name]));
+    // A block format belongs to its terminating newline. Do not split a
+    // heading or list item with an unformatted newline in its middle.
+    let index = caret;
+    if (formattedBlock) {
+      const [, offset] = editor.getLine(caret);
+      index -= offset;
+      // Keep a list together so an inserted photo does not restart numbering.
+      while (format.list && index > 0 && editor.getFormat(index - 1, 0).list) {
+        const [, previousOffset] = editor.getLine(index - 1);
+        index -= previousOffset + 1;
+      }
+    }
+    const previousCharacter = index > 0 ? editor.getText(index - 1, 1) : '';
+    const url = URL.createObjectURL(file);
+    inlineByUrl.current.set(url, { file, alt, caption });
+    const insertion = getInlineImageInsertion(url, index, previousCharacter);
+
+    // Keep the insertion and both paragraph boundaries in a single undo step.
+    const history = editor.getModule('history');
+    history?.cutoff();
+    editor.updateContents(new Delta(insertion.ops), 'user');
+    history?.cutoff();
+    editor.setSelection(insertion.caret, 0, 'silent');
+    lastEditorCaret.current = insertion.caret;
+    toast.success(formattedBlock ? 'Image inserted before the formatted block' : 'Image inserted into article');
   };
 
   const modules = useMemo(
@@ -437,7 +320,7 @@ const PostPage: React.FC = () => {
           [{ header: [2, 3, 4, 5, false] }],
           ['bold', 'italic', 'underline'],
           ['blockquote'],
-          ['link', 'video', 'image'],
+          id === 'new' ? ['link', 'video', 'image'] : ['link', 'video'],
           [{ list: 'ordered' }, { list: 'bullet' }],
           ['clean'],
         ],
@@ -446,7 +329,7 @@ const PostPage: React.FC = () => {
         },
       },
     }),
-    [openEditorImageModal]
+    [id, openEditorImageModal]
   );
 
   return (
@@ -458,7 +341,7 @@ const PostPage: React.FC = () => {
       </Header>
       <PostContent>
         <form onSubmit={formik.handleSubmit}>
-          <button type="submit" className="submit">
+          <button type="submit" className="submit" disabled={formik.isSubmitting}>
             {id === 'new' ? 'Submit' : 'Update Post'}
           </button>
           {id === 'new' && (
@@ -546,7 +429,7 @@ const PostPage: React.FC = () => {
                   className="custom-file-upload"
                   style={{ cursor: 'pointer' }}
                 >
-                  {mainImage ? 'Change Article Image' : 'Select Image for Article'}
+                  {mainImage ? 'Change Cover Image' : 'Select Cover Image'}
                 </button>
 
                 {mainImage ? (
@@ -561,13 +444,24 @@ const PostPage: React.FC = () => {
           </div>
 
           <div className="text">
+            {id === 'new' && (
+              <div className="inline-image-controls">
+                <button type="button" className="inline-image-action" onClick={openEditorImageModal}>
+                  Insert Image into Article
+                </button>
+                <small>Place the cursor in the text; images go before any heading, list, or quote at the cursor. Inline images require a cover.</small>
+              </div>
+            )}
             <ReactQuill
               modules={modules}
               ref={ref}
               id="text"
               className="textarea"
               placeholder="Enter your text here..."
-              onChange={handleEditorChange}
+              onChange={(value) => formik.setFieldValue('text', value)}
+              onChangeSelection={(range) => {
+                if (range) lastEditorCaret.current = range.index;
+              }}
               value={text}
             />
           </div>
