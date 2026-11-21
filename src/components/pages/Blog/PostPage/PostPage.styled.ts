@@ -142,6 +142,29 @@ export const PostContent = styled.div`
     margin-bottom: 1rem;
   }
 
+  & .inline-image-controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    small {
+      color: #444;
+    }
+  }
+
+  & .inline-image-action {
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    padding: 6px 12px;
+    background-color: #f0f0f0;
+    color: #222;
+
+    &:hover {
+      background-color: #e4e4e4;
+    }
+  }
+
   & .textarea {
     padding-top: 1rem;
     height: calc(100% - 4rem);
