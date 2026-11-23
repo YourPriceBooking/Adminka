@@ -17,6 +17,8 @@ import ModalAddLater from './ModalAddLater/ModalAddLater';
 import ImageUploadModal from './ImageUploadModal/ImageUploadModal';
 import { appendPostImages, getInlineImageInsertion, type PostImage } from './postImages';
 
+import { ARTICLE_SLUG_MAX_LENGTH, appendArticleSlug, articleSlugError, customArticleUrl, supportsCustomArticleSlug } from './articleSlug';
+
 const Image = Quill.import('formats/image');
 const sanitizeImage = Image.sanitize.bind(Image);
 // Keep Quill's normal validation except for object URLs used by local previews.
@@ -40,6 +42,7 @@ type AuthorResponse = {
 
 type FormikType = {
   title: string;
+  slug: string;
   author: string;
   description: string;
   heading: string;
@@ -64,6 +67,7 @@ type CountryResponse = {
 };
 
 const PostPage: React.FC = () => {
+  const [canUseCustomSlug, setCanUseCustomSlug] = useState(false);
   const [authors, setAuthors] = useState<Author[]>([]);
   const [isOpenAddLaterModal, setIsOpenAddLaterModal] = useState(false);
   const [isOpenImageModal, setIsOpenImageModal] = useState(false);
@@ -81,6 +85,7 @@ const PostPage: React.FC = () => {
   const formik = useFormik<FormikType>({
     initialValues: {
       title: '',
+      slug: '',
       author: '',
       description: '',
       heading: '',
@@ -94,6 +99,10 @@ const PostPage: React.FC = () => {
       try {
         if (id === 'new') {
           const data = new FormData();
+          const supported = values.slug
+            ? canUseCustomSlug && await supportsCustomArticleSlug(blogBaseUrl)
+            : false;
+          const expectedUrl = appendArticleSlug(data, values.slug, values.country, supported);
           data.append('title', values.title);
           data.append('description', values.description);
           data.append('heading', values.heading);
@@ -116,7 +125,10 @@ const PostPage: React.FC = () => {
             data.append('country', '');
           }
 
-          await axios.post(`${blogBaseUrl}/post/add-post`, data);
+          const response = await axios.post(`${blogBaseUrl}/post/add-post`, data);
+          if (expectedUrl && response.data?.data?.articleUrl !== expectedUrl) {
+            throw new Error('The server did not confirm the requested link. Check the article list before retrying; your draft was kept.');
+          }
           toast.success('Post Created');
         } else {
           const data = {
@@ -130,7 +142,15 @@ const PostPage: React.FC = () => {
           toast.success('Post Updated');
         }
       } catch (err: unknown) {
-        if (axios.isAxiosError(err)) {
+        if (axios.isAxiosError(err) && id === 'new' && values.slug) {
+          const code = err.response?.data?.code;
+          const status = err.response?.status;
+          toast.error(status === 409 || code === 'ARTICLE_SLUG_TAKEN'
+            ? 'This article link is already in use. Try a different link.'
+            : status === 400 || status === 422
+              ? 'The article was not published. Check the link, category and required fields.'
+              : 'The server did not confirm publication. Check the article list before retrying.');
+        } else if (axios.isAxiosError(err)) {
           console.error('Response:', err.response?.data);
           toast.error(
             `Error ${err.response?.status} (${err.response?.statusText}): ${err.response?.data.message} `
@@ -148,7 +168,20 @@ const PostPage: React.FC = () => {
     },
   });
 
-  const { title, author, description, heading, country, text, mainImage } = formik.values;
+  const { title, slug, author, description, heading, country, text, mainImage } = formik.values;
+
+  const slugError = articleSlugError(slug);
+  const slugPreview = customArticleUrl(country, slug);
+
+  useEffect(() => {
+    setCanUseCustomSlug(false);
+    if (id !== 'new') return undefined;
+    const controller = new AbortController();
+    supportsCustomArticleSlug(blogBaseUrl, controller.signal).then((supported) => {
+      if (!controller.signal.aborted) setCanUseCustomSlug(supported);
+    });
+    return () => controller.abort();
+  }, [id]);
 
   useEffect(() => {
     const getCountries = async () => {
@@ -187,6 +220,7 @@ const PostPage: React.FC = () => {
 
         formik.setValues({
           title: data.result.title,
+          slug: '',
           author: data.result.author,
           text: data.result.markup,
           description: data.result.description,
@@ -417,6 +451,32 @@ const PostPage: React.FC = () => {
               </select>
             </div>
           </div>
+
+          {id === 'new' && canUseCustomSlug && (
+            <div className="title">
+              <div className="input-group prefix">
+                <label htmlFor="slug" className="input-group-addon">Custom article link</label>
+                <input
+                  id="slug"
+                  type="text"
+                  placeholder="kyiv-theatres-guide"
+                  autoComplete="off"
+                  autoCapitalize="none"
+                  spellCheck={false}
+                  maxLength={ARTICLE_SLUG_MAX_LENGTH}
+                  aria-invalid={Boolean(slugError)}
+                  aria-describedby="article-slug-help"
+                  onChange={formik.handleChange}
+                  value={slug}
+                />
+              </div>
+              <p id="article-slug-help" aria-live="polite" style={{ overflowWrap: 'anywhere' }}>
+                {slugError || slugPreview || (slug
+                  ? 'Choose a category to preview your link.'
+                  : 'Optional. Leave blank to generate the link from the article heading as usual.')}
+              </p>
+            </div>
+          )}
 
           <div className="articleImage">
             {id !== 'new' ? (
