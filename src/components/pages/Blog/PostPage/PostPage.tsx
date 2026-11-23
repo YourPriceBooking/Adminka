@@ -145,11 +145,13 @@ const PostPage: React.FC = () => {
         if (axios.isAxiosError(err) && id === 'new' && values.slug) {
           const code = err.response?.data?.code;
           const status = err.response?.status;
-          toast.error(status === 409 || code === 'ARTICLE_SLUG_TAKEN'
-            ? 'This article link is already in use. Try a different link.'
-            : status === 400 || status === 422
-              ? 'The article was not published. Check the link, category and required fields.'
-              : 'The server did not confirm publication. Check the article list before retrying.');
+          if (status === 409 || code === 'ARTICLE_SLUG_TAKEN') {
+            toast.error('This article link is already in use. Try a different link.');
+          } else if (status === 400 || status === 422) {
+            toast.error('The article was not published. Check the link, category and required fields.');
+          } else {
+            toast.error('The server did not confirm publication. Check the article list before retrying.');
+          }
         } else if (axios.isAxiosError(err)) {
           console.error('Response:', err.response?.data);
           toast.error(
