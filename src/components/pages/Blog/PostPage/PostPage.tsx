@@ -3,6 +3,7 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import backArrow from 'assets/icons/backarrow.svg';
 import { useAppSelector } from 'App';
+import { selectEmailSlice } from 'features/access/tokenSlice';
 import { getPost } from 'features/blog/blogSelector';
 import { useFormik } from 'formik';
 import ReactQuill from 'react-quill';
@@ -14,6 +15,9 @@ import { blogBaseUrl } from 'features/api';
 import { BlogContainer, Header } from '../BlogPage/Blog.styled';
 import { PostContent } from './PostPage.styled';
 import ModalAddLater from './ModalAddLater/ModalAddLater';
+import {
+  existingCover, hydrateArticleMedia, prepareArticleMedia, supportsExistingArticleMedia, type ExistingMedia,
+} from './existingArticleMedia';
 import ImageUploadModal from './ImageUploadModal/ImageUploadModal';
 import { appendPostImages, getInlineImageInsertion, type PostImage } from './postImages';
 
@@ -60,6 +64,17 @@ type Country = {
   langCode: string;
 };
 
+type EditablePost = {
+  title: string;
+  author: string;
+  description: string;
+  heading: string;
+  country?: string;
+  markup: string;
+  imageUrl?: unknown;
+  updatedAt?: unknown;
+};
+
 type CountryResponse = {
   code: number;
   status: string;
@@ -68,6 +83,9 @@ type CountryResponse = {
 
 const PostPage: React.FC = () => {
   const [canUseCustomSlug, setCanUseCustomSlug] = useState(false);
+  const [savedMedia, setSavedMedia] = useState<ExistingMedia | null>(null);
+  const [coverPreview, setCoverPreview] = useState<ReturnType<typeof existingCover>>(null);
+  const [isLoadingPost, setIsLoadingPost] = useState(false);
   const [authors, setAuthors] = useState<Author[]>([]);
   const [isOpenAddLaterModal, setIsOpenAddLaterModal] = useState(false);
   const [isOpenImageModal, setIsOpenImageModal] = useState(false);
@@ -77,6 +95,9 @@ const PostPage: React.FC = () => {
 
   const { id } = useParams();
   const navigate = useNavigate();
+  const adminToken = useAppSelector(selectEmailSlice);
+  const canEditMedia = Boolean(adminToken && savedMedia);
+  const canInsertImage = id === 'new' || canEditMedia;
 
   const ref = useRef<ReactQuill & { editor: QuillEditor }>(null);
   const lastEditorCaret = useRef<number | null>(null);
@@ -138,7 +159,26 @@ const PostPage: React.FC = () => {
             heading: values.heading,
             markup: values.text,
           };
-          await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, data);
+          if (isLoadingPost) return;
+          const prepared = savedMedia
+            ? prepareArticleMedia(
+              values.text,
+              savedMedia,
+              { alt: values.mainImageAlt, caption: values.mainImageCaption },
+              inlineByUrl.current,
+            )
+            : { markup: values.text };
+          if (prepared.data) {
+            if (!adminToken) throw new Error('Sign in again before saving article photos. Your draft is still here.');
+            prepared.data.append('title', data.title);
+            prepared.data.append('author', data.author);
+            prepared.data.append('description', data.description);
+            await axios.patch(`${blogBaseUrl}/post/update-post-media/${id}`, prepared.data, {
+              headers: { Authorization: `Bearer ${adminToken}` },
+            });
+          } else {
+            await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, { ...data, markup: prepared.markup });
+          }
           toast.success('Post Updated');
         }
       } catch (err: unknown) {
@@ -154,9 +194,12 @@ const PostPage: React.FC = () => {
           }
         } else if (axios.isAxiosError(err)) {
           console.error('Response:', err.response?.data);
-          toast.error(
-            `Error ${err.response?.status} (${err.response?.statusText}): ${err.response?.data.message} `
-          );
+          if (id !== 'new' && savedMedia && err.response?.status === 409) {
+            toast.error('This article changed on the server. Your draft is still here. Copy your changes before reloading.');
+          } else {
+            const message: unknown = err.response?.data?.message;
+            toast.error(typeof message === 'string' ? message : 'The server could not confirm the save. Your draft is still here.');
+          }
         } else if (err instanceof Error) {
           toast.error(`Error: ${err.message}`);
         } else {
@@ -214,31 +257,43 @@ const PostPage: React.FC = () => {
   if (!post) return <Navigate to="/blog" replace />;
 
   useEffect(() => {
+    const controller = new AbortController();
     const fetchBlog = async () => {
+      setIsLoadingPost(true);
       try {
-        const { data } = await axios.get(
-          `${blogBaseUrl}/post/get-by-url/?articleUrl=${post?.articleUrl}`
-        );
-
+        const [{ data }, mediaAvailable] = await Promise.all([
+          axios.get<{ result: EditablePost }>(`${blogBaseUrl}/post/get-by-url/?articleUrl=${post?.articleUrl}`, { signal: controller.signal }),
+          adminToken ? supportsExistingArticleMedia(blogBaseUrl, controller.signal) : false,
+        ]);
+        if (controller.signal.aborted) return;
+        const cover = existingCover(data.result.imageUrl);
+        const media = mediaAvailable
+          ? hydrateArticleMedia(data.result.markup, data.result.imageUrl, data.result.updatedAt)
+          : null;
+        setSavedMedia(media);
+        setCoverPreview(cover);
         formik.setValues({
           title: data.result.title,
           slug: '',
           author: data.result.author,
-          text: data.result.markup,
+          text: media?.markup ?? data.result.markup,
           description: data.result.description,
           heading: data.result.heading,
           country: data.result.country || '',
           mainImage: null,
-          mainImageAlt: '',
-          mainImageCaption: '',
+          mainImageAlt: cover?.alt ?? '',
+          mainImageCaption: cover?.caption ?? '',
         });
       } catch (error: unknown) {
+        if (controller.signal.aborted) return;
         navigate('/blog');
         if (axios.isAxiosError(error)) {
           toast.error(String(error.response?.data?.message || 'Failed to fetch blog'));
         } else {
           toast.error('Failed to fetch blog');
         }
+      } finally {
+        if (!controller.signal.aborted) setIsLoadingPost(false);
       }
     };
 
@@ -255,10 +310,15 @@ const PostPage: React.FC = () => {
       }
     };
 
+    setSavedMedia(null);
+    setCoverPreview(null);
     if (id !== 'new') {
       fetchBlog();
+    } else {
+      setIsLoadingPost(false);
     }
     fetchAuthors();
+    return () => controller.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -289,7 +349,7 @@ const PostPage: React.FC = () => {
   };
 
   const openEditorImageModal = useCallback(() => {
-    if (id !== 'new') return;
+    if (!canInsertImage) return;
     const editor = ref.current?.editor;
     if (!editor) return;
     const selection = editor.getSelection();
@@ -300,7 +360,7 @@ const PostPage: React.FC = () => {
     }
     setImageModalMode('editor');
     setIsOpenImageModal(true);
-  }, [id]);
+  }, [canInsertImage]);
 
   const handleImageAdd = (file: File, alt: string, caption: string) => {
     if (imageModalMode === 'main') {
@@ -312,7 +372,7 @@ const PostPage: React.FC = () => {
     }
 
     const editor = ref.current?.editor;
-    if (!editor || id !== 'new') {
+    if (!editor || !canInsertImage) {
       toast.error('The article editor is not ready.');
       return;
     }
@@ -360,9 +420,7 @@ const PostPage: React.FC = () => {
           [{ list: 'ordered' }, { list: 'bullet' }],
           ['clean'],
         ],
-        handlers: {
-          image: openEditorImageModal,
-        },
+        handlers: id === 'new' ? { image: openEditorImageModal } : {},
       },
     }),
     [id, openEditorImageModal]
@@ -377,7 +435,7 @@ const PostPage: React.FC = () => {
       </Header>
       <PostContent>
         <form onSubmit={formik.handleSubmit}>
-          <button type="submit" className="submit" disabled={formik.isSubmitting}>
+          <button type="submit" className="submit" disabled={formik.isSubmitting || isLoadingPost}>
             {id === 'new' ? 'Submit' : 'Update Post'}
           </button>
           {id === 'new' && (
@@ -482,7 +540,17 @@ const PostPage: React.FC = () => {
 
           <div className="articleImage">
             {id !== 'new' ? (
-              <img id="article-img" src={String(formik.values.mainImage)} alt="article" />
+              <div>
+                {coverPreview && <img id="article-img" src={coverPreview.url} alt={formik.values.mainImageAlt} />}
+                {canEditMedia && (
+                  <div className="cover-image-details">
+                    <label htmlFor="mainImageAlt">Cover image alt text</label>
+                    <input id="mainImageAlt" name="mainImageAlt" value={formik.values.mainImageAlt} onChange={formik.handleChange} maxLength={300} />
+                    <label htmlFor="mainImageCaption">Cover image caption</label>
+                    <input id="mainImageCaption" name="mainImageCaption" value={formik.values.mainImageCaption} onChange={formik.handleChange} maxLength={1000} />
+                  </div>
+                )}
+              </div>
             ) : (
               <div>
                 <button
@@ -506,12 +574,14 @@ const PostPage: React.FC = () => {
           </div>
 
           <div className="text">
-            {id === 'new' && (
+            {canInsertImage && (
               <div className="inline-image-controls">
                 <button type="button" className="inline-image-action" onClick={openEditorImageModal}>
                   Insert Image into Article
                 </button>
-                <small>Place the cursor in the text; images go before any heading, list, or quote at the cursor. Inline images require a cover.</small>
+                <small>Place the cursor in the text. Images go before any heading, list, or quote at the cursor.{' '}
+                  {id === 'new' ? 'Inline images require a cover.' : 'New photos are saved when you update the article.'}
+                </small>
               </div>
             )}
             <ReactQuill

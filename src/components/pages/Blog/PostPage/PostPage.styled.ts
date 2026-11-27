@@ -128,6 +128,18 @@ export const PostContent = styled.div`
       text-decoration: underline;
     }
 
+    #article-img {
+      display: block;
+      max-width: min(100%, 320px);
+      height: auto;
+    }
+
+    .cover-image-details {
+      display: grid;
+      gap: 0.375rem;
+      margin-block: 0.5rem;
+    }
+
     .file-name {
       margin-top: 10px;
       font-size: 14px;
