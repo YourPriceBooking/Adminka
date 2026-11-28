@@ -1,5 +1,7 @@
 import { resolveArticleMediaGatewayPath } from './articleMediaGateway';
 
+jest.mock('axios', () => ({ patch: jest.fn() }));
+
 test('normalizes a configured same-origin route prefix', () => {
   expect(resolveArticleMediaGatewayPath(' /admin-gateway/post/update-post-media/ ')).toBe('/admin-gateway/post/update-post-media');
 });
