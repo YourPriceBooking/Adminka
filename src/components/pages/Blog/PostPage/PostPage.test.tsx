@@ -10,11 +10,19 @@ jest.mock('features/api', () => ({ blogBaseUrl: 'https://blog.example.test' }));
 jest.mock('axios', () => ({ get: jest.fn(), post: jest.fn(), patch: jest.fn(), isAxiosError: () => false }));
 
 const http = axios as jest.Mocked<typeof axios>;
+const gatewayPath = '/admin-gateway/post/update-post-media';
+const originalGatewayPath = process.env.REACT_APP_BLOG_MEDIA_GATEWAY_PATH;
+
+afterEach(() => {
+  if (originalGatewayPath === undefined) delete process.env.REACT_APP_BLOG_MEDIA_GATEWAY_PATH;
+  else process.env.REACT_APP_BLOG_MEDIA_GATEWAY_PATH = originalGatewayPath;
+});
 
 beforeEach(() => {
+  process.env.REACT_APP_BLOG_MEDIA_GATEWAY_PATH = gatewayPath;
   http.get.mockResolvedValue({ data: { country: [], result: [] } });
   http.patch.mockReset();
-  http.patch.mockResolvedValue({ data: {} });
+  http.patch.mockResolvedValue({ data: { status: 'success', code: 200 } });
   http.post.mockReset();
   http.post.mockRejectedValueOnce(new Error('Request did not reach server'));
   http.post.mockResolvedValue({ data: {} });
@@ -198,7 +206,7 @@ test('published article hydrates its inline image, stages a file at caret, and r
 
   const [route, body, options] = http.patch.mock.calls[0] as [string, FormData, { headers: { Authorization: string } }];
   expect(options.headers.Authorization).toBe('Bearer admin-fixture');
-  expect(route).toBe('https://blog.example.test/post/update-post-media/existing');
+  expect(route).toBe(`${gatewayPath}/existing`);
   expect(body.get('revision')).toBe(revision);
   expect(body.get('title')).toBe('Published title');
   expect(body.get('author')).toBe('Writer');
@@ -245,7 +253,7 @@ test('cover-only update is multipart without any new photos', async () => {
   await screen.findByText('Blog posts');
 
   const [route, body] = http.patch.mock.calls[0] as [string, FormData];
-  expect(route).toBe('https://blog.example.test/post/update-post-media/existing');
+  expect(route).toBe(`${gatewayPath}/existing`);
   expect(body.getAll('image')).toHaveLength(0);
   expect(JSON.parse(String(body.get('media'))).cover).toEqual({ alt: 'Toronto skyline', caption: 'Old caption' });
 });
@@ -259,4 +267,29 @@ test('saving cannot drop a previously published inline photo', async () => {
     expect((screen.getByRole('button', { name: 'Update Post' }) as HTMLButtonElement).disabled).toBe(false)
   );
   expect(http.patch).not.toHaveBeenCalled();
+});
+
+test('without a configured gateway, published photo controls stay hidden and normal save still works', async () => {
+  delete process.env.REACT_APP_BLOG_MEDIA_GATEWAY_PATH;
+  await renderPublishedPost(true);
+  expect(screen.queryByRole('button', { name: 'Insert Image into Article' })).toBeNull();
+  expect(screen.queryByLabelText('Cover image caption')).toBeNull();
+  fireEvent.click(screen.getByRole('button', { name: 'Update Post' }));
+  await screen.findByText('Blog posts');
+  expect(http.patch).toHaveBeenCalledTimes(1);
+  expect(http.patch.mock.calls[0][0]).toBe('https://blog.example.test/post/update-post/existing');
+});
+
+test('an HTML response from the gateway does not confirm the save or clear the draft', async () => {
+  await renderPublishedPost(true);
+  http.patch.mockResolvedValueOnce({ data: '<!doctype html><title>Adminka</title>' });
+  const alt = screen.getByLabelText('Cover image alt text') as HTMLInputElement;
+  fireEvent.change(alt, { target: { value: 'Retained alt text' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Update Post' }));
+  await waitFor(() => {
+    expect(http.patch).toHaveBeenCalledTimes(1);
+    expect((screen.getByRole('button', { name: 'Update Post' }) as HTMLButtonElement).disabled).toBe(false);
+  });
+  expect(alt.value).toBe('Retained alt text');
+  expect(screen.queryByText('Blog posts')).toBeNull();
 });

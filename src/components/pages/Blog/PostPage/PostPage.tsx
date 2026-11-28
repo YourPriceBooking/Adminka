@@ -18,6 +18,7 @@ import ModalAddLater from './ModalAddLater/ModalAddLater';
 import {
   existingCover, hydrateArticleMedia, prepareArticleMedia, supportsExistingArticleMedia, type ExistingMedia,
 } from './existingArticleMedia';
+import { getArticleMediaGatewayPath, saveArticleMedia } from './articleMediaGateway';
 import ImageUploadModal from './ImageUploadModal/ImageUploadModal';
 import { appendPostImages, getInlineImageInsertion, type PostImage } from './postImages';
 
@@ -118,6 +119,7 @@ const PostPage: React.FC = () => {
     },
     onSubmit: async (values, { resetForm }) => {
       try {
+        if (!id) return;
         if (id === 'new') {
           const data = new FormData();
           const supported = values.slug
@@ -173,9 +175,7 @@ const PostPage: React.FC = () => {
             prepared.data.append('title', data.title);
             prepared.data.append('author', data.author);
             prepared.data.append('description', data.description);
-            await axios.patch(`${blogBaseUrl}/post/update-post-media/${id}`, prepared.data, {
-              headers: { Authorization: `Bearer ${adminToken}` },
-            });
+            await saveArticleMedia(id, prepared.data, adminToken);
           } else {
             await axios.patch(`${blogBaseUrl}/post/update-post/${id}`, { ...data, markup: prepared.markup });
           }
@@ -263,7 +263,9 @@ const PostPage: React.FC = () => {
       try {
         const [{ data }, mediaAvailable] = await Promise.all([
           axios.get<{ result: EditablePost }>(`${blogBaseUrl}/post/get-by-url/?articleUrl=${post?.articleUrl}`, { signal: controller.signal }),
-          adminToken ? supportsExistingArticleMedia(blogBaseUrl, controller.signal) : false,
+          adminToken && getArticleMediaGatewayPath()
+            ? supportsExistingArticleMedia(blogBaseUrl, controller.signal)
+            : false,
         ]);
         if (controller.signal.aborted) return;
         const cover = existingCover(data.result.imageUrl);
