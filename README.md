@@ -59,3 +59,24 @@ version 0.1.1
 ```
 
 ```
+
+## Editing media on published blog articles
+
+Set `REACT_APP_BLOG_MEDIA_GATEWAY_PATH` in the production build environment
+(the deployment links the shared `.env.production`). Use the verified,
+same-origin PATCH route prefix without the article ID or `/:id`.
+For example, if the deployed route is `/admin-gateway/post/update-post-media/:id`,
+set the variable to `/admin-gateway/post/update-post-media`. This is an example,
+not an installed route. Without a valid path, published media controls stay off.
+
+The gateway must verify the Adminka bearer token and blog edit permission
+before forwarding multipart data to Blog API. It must discard any inbound
+`X-Blog-Media-Gateway` value and add the trusted header server-side only.
+Never place the gateway secret in a React environment variable. Keep the
+Blog API response status and JSON body intact; the editor expects
+`{ "status": "success", "code": 200, ... }` after a committed save.
+Ordinary article saves, new posts, and public reads are unchanged.
+
+Deploy and verify the gateway before merging the frontend (merging to
+`main` triggers deployment). Confirm in staging that an authorized save
+persists after reload and an unauthorized save is rejected.
